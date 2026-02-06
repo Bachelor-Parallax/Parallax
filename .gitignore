@@ -26,6 +26,14 @@
 ## Play Mode Test auto-generated scenes
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
 
 ### Csharp ###
 ## Ignore Visual Studio temporary files, build results, and
