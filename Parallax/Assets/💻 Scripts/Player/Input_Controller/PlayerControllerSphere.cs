@@ -5,13 +5,12 @@ using UnityEngine.InputSystem;
 public class PlayerControllerSphere : MonoBehaviour
 {
 
-    public float speed = 0;
+    public float speed = 0f;
     
     private Rigidbody rb;
     private float movementX;
     private float movementY;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -30,12 +29,5 @@ public class PlayerControllerSphere : MonoBehaviour
         rb.AddForce(movement * speed);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("PickUp"))
-        {
-            other.gameObject.SetActive(false);
-        }
-    }
 
 }
