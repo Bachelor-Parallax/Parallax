@@ -3,36 +3,27 @@ using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour
 {
-    public PlayerController CharacterController;
-    private InputAction _moveAction, _lookAction, _jumpAction;
+    private ILocomotion locomotion;
+    private IJump jump;
+    private ISprint sprint;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        _moveAction = InputSystem.actions.FindAction("Move");
-        _lookAction = InputSystem.actions.FindAction("Look");
-        _jumpAction = InputSystem.actions.FindAction("Jump");
-
-        _jumpAction.performed += onJumpPerformed;
-
-        Cursor.visible = false;
-        
+        locomotion = GetComponent<ILocomotion>();
+        jump = GetComponent<IJump>();
+        sprint = GetComponent<ISprint>();  
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        Vector2 movemntVector = _moveAction.ReadValue<Vector2>();
-        CharacterController.Move(movemntVector);
+    public void OnMove(InputValue value) => locomotion?.Move(value.Get<Vector2>());
+    public void OnLook(InputValue value) => locomotion?.Rotate(value.Get<Vector2>());
 
-        Vector2 lookVector = _lookAction.ReadValue<Vector2>();
-        CharacterController.Rotate(lookVector);
-        
+    public void OnJump(InputValue _)
+    {
+        jump?.Jump();
     }
 
-    void onJumpPerformed(InputAction.CallbackContext context)
+    public void OnSprint(InputValue value)
     {
-        CharacterController.Jump();
+        sprint?.SetSprinting(value.isPressed);
     }
 }
