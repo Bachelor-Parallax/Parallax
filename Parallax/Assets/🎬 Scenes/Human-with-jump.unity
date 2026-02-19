@@ -793,12 +793,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1056865566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30d35e1536f48d14891c2eb1a04bd660, type: 3}
+  m_Script: {fileID: 11500000, guid: 0eb7e8d6ab27d3041b9fa450a5d6d3ec, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  FollowTarget: {fileID: 5222218515996641576}
-  LookTarget: {fileID: 5052413677852677287}
-  FollowSpeed: 10
+  m_EditorClassIdentifier: Assembly-CSharp::FollowCam
+  target: {fileID: 5052413677852677287}
+  distance: 6
+  sensitivity: 30
+  minY: -20
+  maxY: 60
 --- !u!1 &1611629256
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,6 +925,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FollowCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 2831857631788291595, guid: 8c90eba382c2b0148b560f8118262850, type: 3}
+      propertyPath: followCam
+      value: 
+      objectReference: {fileID: 1056865570}
     - target: {fileID: 8677070909867392000, guid: 8c90eba382c2b0148b560f8118262850, type: 3}
       propertyPath: m_Name
       value: Human
@@ -968,18 +974,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1697634409082561968, guid: 8c90eba382c2b0148b560f8118262850, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c90eba382c2b0148b560f8118262850, type: 3}
 --- !u!4 &5052413677852677287 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9159154712173273874, guid: 8c90eba382c2b0148b560f8118262850, type: 3}
-  m_PrefabInstance: {fileID: 2906468551411100038}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5222218515996641576 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4636980119115152010, guid: 8c90eba382c2b0148b560f8118262850, type: 3}
   m_PrefabInstance: {fileID: 2906468551411100038}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

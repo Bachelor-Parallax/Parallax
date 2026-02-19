@@ -16,6 +16,9 @@ public class BaseLocomotion : MonoBehaviour, ILocomotion
     [SerializeField] [Range(-50f, 0f)] private float gravity = -20f;
     [SerializeField] [Range(-10f, 0f)] private float groundStick = -2f;
 
+    [Header("Camera Relative Movement")]
+    [SerializeField] private FollowCam followCam;
+
     private CharacterController cc;
     private float yaw;
     private float verticalVelocity;
@@ -28,8 +31,6 @@ public class BaseLocomotion : MonoBehaviour, ILocomotion
     {
         cc = GetComponent<CharacterController>();
         yaw = transform.eulerAngles.y;
-
-        Cursor.visible = false;
     }
 
     void Update()
@@ -38,35 +39,42 @@ public class BaseLocomotion : MonoBehaviour, ILocomotion
         HandleMovement();
     }
 
-    private void HandleMovement()
+private void HandleMovement()
+{
+    float camYaw = followCam ? followCam.Yaw : transform.eulerAngles.y;
+    Quaternion yawRot = Quaternion.Euler(0f, camYaw, 0f);
+
+    Vector3 camForward = yawRot * Vector3.forward;
+    Vector3 camRight   = yawRot * Vector3.right;
+
+    Vector3 wishDirection = camForward * moveInput.y + camRight * moveInput.x;
+    wishDirection = Vector3.ClampMagnitude(wishDirection, 1f);
+
+    if (wishDirection.sqrMagnitude > 0.0001f)
     {
-                Vector3 wishDirection =
-            transform.forward * moveInput.y +
-            transform.right * moveInput.x;
-
-        wishDirection = Vector3.ClampMagnitude(wishDirection, 1f);
-
-        float control = cc.isGrounded ? 1f : airControl;
-
-        Vector3 targetVelocity =
-            wishDirection * moveSpeed * speedMultiplier * control;
-
-        float accelRate =
-            (wishDirection.sqrMagnitude > 0.01f) ? acceleration : deceleration;
-
-        currentHorizontalVelocity =
-            Vector3.MoveTowards(
-                currentHorizontalVelocity,
-                targetVelocity,
-                accelRate * Time.deltaTime
-            );
-
-        Vector3 motion =
-            currentHorizontalVelocity +
-            Vector3.up * verticalVelocity;
-
-        cc.Move(motion * Time.deltaTime);
+        Quaternion targetRot = Quaternion.LookRotation(wishDirection, Vector3.up);
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRot,
+            rotationSpeed * Time.deltaTime
+        );
     }
+
+    float control = cc.isGrounded ? 1f : airControl;
+
+    Vector3 targetVelocity = wishDirection * moveSpeed * speedMultiplier * control;
+
+    float accelRate = (wishDirection.sqrMagnitude > 0.01f) ? acceleration : deceleration;
+
+    currentHorizontalVelocity = Vector3.MoveTowards(
+        currentHorizontalVelocity,
+        targetVelocity,
+        accelRate * Time.deltaTime
+    );
+
+    Vector3 motion = currentHorizontalVelocity + Vector3.up * verticalVelocity;
+    cc.Move(motion * Time.deltaTime);
+}
 
     private void HandleGravity()
     {
@@ -83,8 +91,7 @@ public class BaseLocomotion : MonoBehaviour, ILocomotion
 
     public void Rotate(Vector2 look)
     {
-        yaw += look.x * rotationSpeed * Time.deltaTime;
-        transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+        // Rotation is handled in HandleMovement based on camera direction, so we ignore look input here.
     }
 
     public void AddVerticalImpulse(float impulse)

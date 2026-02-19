@@ -793,12 +793,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1056865566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30d35e1536f48d14891c2eb1a04bd660, type: 3}
+  m_Script: {fileID: 11500000, guid: 0eb7e8d6ab27d3041b9fa450a5d6d3ec, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  FollowTarget: {fileID: 1768933257}
-  LookTarget: {fileID: 5657799936409978996}
-  FollowSpeed: 10
+  m_EditorClassIdentifier: Assembly-CSharp::FollowCam
+  target: {fileID: 5657799936409978996}
+  distance: 10
+  sensitivity: 50
+  minY: -20
+  maxY: 60
 --- !u!1 &1611629256
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,11 +913,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1768933257 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4162770739473055909, guid: 9d31f01c83087124baba9c0915225629, type: 3}
-  m_PrefabInstance: {fileID: 7418546944343606297}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5657799936409978996 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6633278329854684459, guid: 9d31f01c83087124baba9c0915225629, type: 3}
@@ -933,6 +930,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3867818760978939080, guid: 9d31f01c83087124baba9c0915225629, type: 3}
+      propertyPath: followCam
+      value: 
+      objectReference: {fileID: 1056865570}
     - target: {fileID: 3867818760978939080, guid: 9d31f01c83087124baba9c0915225629, type: 3}
       propertyPath: airControl
       value: 0.7
@@ -998,7 +999,8 @@ PrefabInstance:
       value: Cat
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8806881432909088949, guid: 9d31f01c83087124baba9c0915225629, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d31f01c83087124baba9c0915225629, type: 3}
