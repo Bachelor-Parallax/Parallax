@@ -1,19 +1,19 @@
 using UnityEngine;
 
-[RequireComponent(typeof(BaseLocomotion))]
+[RequireComponent(typeof(BaseController))]
 public class HumanAbilities : MonoBehaviour, ISprint
 {
     [SerializeField] private float sprintMultiplier = 1.6f;
 
-    private BaseLocomotion locomotion;
+    private BaseController movement;
 
     void Awake()
     {
-        locomotion = GetComponent<BaseLocomotion>();
+        movement = GetComponent<BaseController>();
     }
 
     public void SetSprinting(bool sprinting)
     {
-        locomotion.SetSpeedMultiplier(sprinting ? sprintMultiplier : 1f);
+        movement.SetSpeedMultiplier(sprinting ? sprintMultiplier : 1f);
     }
 }
