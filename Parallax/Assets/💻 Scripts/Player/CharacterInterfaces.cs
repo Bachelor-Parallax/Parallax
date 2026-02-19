@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface ILocomotion
+public interface IMovement
 {
     void Move(Vector2 move);
     void Rotate(Vector2 look);

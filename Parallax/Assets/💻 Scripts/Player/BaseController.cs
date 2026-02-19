@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class BaseLocomotion : MonoBehaviour, ILocomotion
+public class BaseController : MonoBehaviour, IMovement
 {
     [Header("Movement")]
     [SerializeField] [Range(0f, 20f)] public float moveSpeed = 5f;
