@@ -17,9 +17,14 @@ public class InputHandler : MonoBehaviour
     public void OnMove(InputValue value) => movement?.Move(value.Get<Vector2>());
     public void OnLook(InputValue value) => movement?.Rotate(value.Get<Vector2>());
 
-    public void OnJump(InputValue _)
+    public void OnJump(InputValue value)
     {
-        jump?.Jump();
+        bool held = value.isPressed;
+
+        var bc = GetComponent<BaseController>();
+        if (bc) bc.SetJumpHeld(held);
+
+        if (held) jump?.Jump();
     }
 
     public void OnSprint(InputValue value)

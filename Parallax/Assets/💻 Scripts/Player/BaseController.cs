@@ -8,8 +8,8 @@ public class BaseController : MonoBehaviour, IMovement
     [SerializeField] [Range(0f, 36f)] private float rotationSpeed = 18f;
 
     [Header("Acceleration")]
-    [SerializeField] [Range(0f, 10f)] private float acceleration = 5f;
-    [SerializeField] [Range(0f, 10f)] private float deceleration = 5f;
+    [SerializeField] [Range(0f, 50f)] private float acceleration = 15f;
+    [SerializeField] [Range(0f, 50f)] private float deceleration = 15f;
     [SerializeField] [Range(0f, 10f)] private float airControl = 0.5f;
 
     [Header("Gravity")]
@@ -19,6 +19,11 @@ public class BaseController : MonoBehaviour, IMovement
     [Header("Camera Relative Movement")]
     [SerializeField] private FollowCam followCam;
 
+    [Header("Jump Feel")]
+    [SerializeField] private float fallMultiplier = 2.3f;
+    [SerializeField] private float lowJumpMultiplier = 2.0f;
+
+    private bool jumpHeld;
     private CharacterController cc;
     private float yaw;
     private float verticalVelocity;
@@ -79,9 +84,23 @@ private void HandleMovement()
     private void HandleGravity()
     {
         if (cc.isGrounded && verticalVelocity < 0f)
+        {
             verticalVelocity = groundStick;
+            return;
+        }
 
-        verticalVelocity += gravity * Time.deltaTime;
+        float g = gravity;
+
+        if (!cc.isGrounded)
+        {
+            if (verticalVelocity < 0f)
+                g *= fallMultiplier;
+
+            else if (verticalVelocity > 0f && !jumpHeld)
+                g *= lowJumpMultiplier;
+        }
+
+        verticalVelocity += g * Time.deltaTime;
     }
 
     public void Move(Vector2 move)
@@ -103,4 +122,9 @@ private void HandleMovement()
     {
         speedMultiplier = Mathf.Max(0f, multiplier);
     }
+
+    public void SetJumpHeld(bool held)
+{
+    jumpHeld = held;
+}
 }

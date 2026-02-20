@@ -53,4 +53,15 @@ public class FollowCam : MonoBehaviour
         transform.position = target.position + direction;
         transform.LookAt(target.position + Vector3.up * 1.5f);
     }
+
+        public void SetTarget(Transform newTarget, bool snapToDefaultAngles = false)
+    {
+        target = newTarget;
+
+        if (snapToDefaultAngles)
+        {
+            currentX = 0f;
+            currentY = 20f;
+        }
+    }
 }
