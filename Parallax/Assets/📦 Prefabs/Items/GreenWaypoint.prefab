@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7264464810475509662}
   - component: {fileID: 5212118896420168934}
   m_Layer: 0
-  m_Name: BoxWaypoint
+  m_Name: GreenWaypoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a730ebaa976ca3944aa87390439ce350, type: 2}
+  - {fileID: 2100000, guid: 025b69ab0eaa8a746b078b31968f62a1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,8 +111,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0000002, y: 49.655907, z: 1.0000002}
-  m_Center: {x: 0.00000007947286, y: 23.827957, z: -0.00000007947286}
+  m_Size: {x: 1.0000002, y: 49.44755, z: 1.0000002}
+  m_Center: {x: 0.00000007947286, y: 23.723772, z: -0.00000007947286}
 --- !u!114 &5212118896420168934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,4 +125,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4817e50d3872d04990c130d47bb63ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  allowedCollector: 2
+  allowedCollector: 1
