@@ -21,7 +21,6 @@ public class BaseController : MonoBehaviour, IMovement
 
     [Header("Jump Feel")]
     [SerializeField] private float fallMultiplier = 2.3f;
-    [SerializeField] private float lowJumpMultiplier = 2.0f;
 
     private bool jumpHeld;
     private CharacterController cc;
@@ -95,9 +94,6 @@ private void HandleMovement()
         {
             if (verticalVelocity < 0f)
                 g *= fallMultiplier;
-
-            else if (verticalVelocity > 0f && !jumpHeld)
-                g *= lowJumpMultiplier;
         }
 
         verticalVelocity += g * Time.deltaTime;

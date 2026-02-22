@@ -27,24 +27,47 @@ public class ObjectiveManager : MonoBehaviour
 
     private void Start()
     {
-        totalCheckpoints = Object.FindObjectsByType<Checkpoint>(FindObjectsSortMode.None).Length;
         collectedCheckpoints = 0;
-        StatusUI.Instance.Show($"Collect {totalCheckpoints} checkpoints");
 
-        if (logProgress)
-            Debug.Log($"Objective: Collect {totalCheckpoints} checkpoints");
+        if (CheckpointManager.Instance == null)
+        {
+            Debug.LogError("ObjectiveManager: No CheckpointManager in scene!");
+            totalCheckpoints = 0;
+            return;
+        }
+
+        totalCheckpoints = CheckpointManager.Instance.Total;
+
+        Debug.Log($"ObjectiveManager Start: totalCheckpoints={totalCheckpoints}");
+
+        StatusUI.Instance.Show("Try and collect the checkpoints! Start by pushing the box onto the brown platform to help the Green jump onto the block.");
     }
 
     public void CheckpointCollected()
     {
         collectedCheckpoints++;
 
+        switch (collectedCheckpoints)
+        {
+            case 1:
+                StatusUI.Instance.Show("Push the box onto the brown platform");
+                break;
+            case 2:
+                StatusUI.Instance.Show("Now the Green can jump onto the block! and get its checkpoint Press \"R\" to take control of Green.");
+                break;
+            case 3:
+                StatusUI.Instance.Show("Great job! Now help the Green get to the next checkpoint! Press \"R\" to take control of the Blue again.");
+                break;
+            case 4:
+                StatusUI.Instance.Show("Almost there! Just one more checkpoint to go!");
+                break;
+            case 5:
+                StatusUI.Instance.Show("Last checkpoint! You can do it!");
+                break;
+        }
+
         if (logProgress)
-            Debug.Log($"Progress: {collectedCheckpoints}/{totalCheckpoints}");
-            
-
-        StatusUI.Instance.Show("Push the box onto the brown platform");
-
+            Debug.Log($"CheckpointCollected: {collectedCheckpoints}/{totalCheckpoints}");
 
         if (collectedCheckpoints >= totalCheckpoints)
         {
@@ -60,10 +83,10 @@ public class ObjectiveManager : MonoBehaviour
 
     private void QuitGame()
     {
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-    #else
+#else
         Application.Quit();
-    #endif
+#endif
     }
 }

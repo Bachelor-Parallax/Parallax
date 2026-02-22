@@ -25,8 +25,6 @@ public class FollowCam : MonoBehaviour
             Debug.LogError("No target assigned to follow camera!");
             return;
         }
-        
-        Debug.Log("Follow camera found target!");
 
         HandleMouseInput();
         UpdateCameraPosition();

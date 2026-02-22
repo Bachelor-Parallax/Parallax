@@ -2,34 +2,40 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    [SerializeField] private CollectorType allowedCollector;
-    private bool collected = false;
+    [Header("Who can collect this checkpoint?")]
+    [SerializeField] private CollectorType requiredType;
 
-   private void OnTriggerEnter(Collider other)
-{
-    if (collected) return;
+    public CollectorType RequiredType => requiredType;
 
-    var identity = other.GetComponentInParent<CollectorIdentity>();
+    public bool IsCollected { get; private set; }
 
-    if (identity == null) return;
+    public bool IsActive => !IsCollected;
 
-    if (identity.collectorType != allowedCollector)
+    private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("This checkpoint is not for you!");
-        return;
+        if (IsCollected) return;
+
+        var identity = other.transform.root.GetComponent<CollectorIdentity>();
+        if (identity == null) return;
+
+        if (identity.collectorType != requiredType) return;
+
+        // ✅ Tell the manager to collect this checkpoint.
+        if (CheckpointManager.Instance != null)
+        {
+            CheckpointManager.Instance.CollectCheckpoint(this);
+        }
     }
 
-    Collect();
-}
-
-    private void Collect()
+    public void MarkCollected()
     {
-        collected = true;
-
-        Debug.Log("Checkpoint collected by " + allowedCollector);
-
-        ObjectiveManager.Instance.CheckpointCollected();
-
+        IsCollected = true;
         gameObject.SetActive(false);
+    }
+
+    // This is called by the manager to show/hide checkpoints based on progress
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active && !IsCollected);
     }
 }
