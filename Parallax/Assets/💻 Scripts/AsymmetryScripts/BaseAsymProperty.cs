@@ -6,7 +6,19 @@ public enum PerspectiveProfile
     B
 }
 
-public abstract class BaseAsymProperty<T> : MonoBehaviour where T : Component
+/// <summary>
+/// Class that exposes the common method to apply a perspective
+/// </summary>
+public abstract class BaseAsymProperty : MonoBehaviour
+{
+    /// <summary>
+    /// Configures this Asymmetrical Game Object to a given profile
+    /// </summary>
+    /// <param name="profile"></param>
+    public abstract void ApplyPerspectiveProfile(PerspectiveProfile profile);
+}
+
+public abstract class BaseAsymProperty<T> : BaseAsymProperty where T : Component
 {
     protected T AsymComponent;
 
@@ -19,10 +31,4 @@ public abstract class BaseAsymProperty<T> : MonoBehaviour where T : Component
             enabled = false;
         }
     }
-
-    /// <summary>
-    /// Configures this Asymmetrical Game Object to a given profile
-    /// </summary>
-    /// <param name="profile"></param>
-    public abstract void ApplyPerspectiveProfile(PerspectiveProfile profile);
 }
