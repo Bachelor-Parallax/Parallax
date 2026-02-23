@@ -1515,6 +1515,7 @@ Transform:
   - {fileID: 1022793762}
   - {fileID: 192789533}
   - {fileID: 624737066}
+  - {fileID: 1463912110}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &946991358
@@ -1691,6 +1692,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4817e50d3872d04990c130d47bb63ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
+--- !u!1001 &1025682473
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 944667939}
+    m_Modifications:
+    - target: {fileID: 5419670472268710208, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -45.03328
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419670472268710208, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -14.249187
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419670472268710208, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.0042553
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419670472268710208, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419670472268710208, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419670472268710208, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419670472268710208, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419670472268710208, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419670472268710208, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5419670472268710208, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5848232081220519115, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+      propertyPath: m_Name
+      value: GreenWaypoint10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
 --- !u!1 &1056210332 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8677070909867392000, guid: b41979ee9901dfb49b810a4f5c523c57, type: 3}
@@ -2589,6 +2647,22 @@ RectTransform:
   m_AnchoredPosition: {x: 400, y: -50}
   m_SizeDelta: {x: 800, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!4 &1463912110 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5419670472268710208, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+  m_PrefabInstance: {fileID: 1025682473}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1463912111 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5212118896420168934, guid: d131d3c39fb6b4d4fa89ad0a1d257fb1, type: 3}
+  m_PrefabInstance: {fileID: 1025682473}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4817e50d3872d04990c130d47bb63ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
 --- !u!1 &1470354441 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7877887795871466539, guid: 6ad348da3d90b274c91738f560877ab1, type: 3}
@@ -3093,8 +3167,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   inputRouter: {fileID: 1886021929}
   followCam: {fileID: 1066609206}
-  PlayerA: {fileID: 1056210332}
-  PlayerB: {fileID: 1470354441}
+  PlayerA: {fileID: 1470354441}
+  PlayerB: {fileID: 1056210332}
 --- !u!114 &1886021932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3108,6 +3182,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectiveManager
   logProgress: 1
+  checkpoints:
+  - {fileID: 1463912111}
+  - {fileID: 1204344852}
+  - {fileID: 1353694131}
+  - {fileID: 898680907}
+  - {fileID: 82537080}
+  - {fileID: 2021515710}
+  - {fileID: 1239779302}
+  - {fileID: 1022793763}
+  - {fileID: 192789534}
+  - {fileID: 624737067}
+  showNextCount: 1
 --- !u!114 &1886021933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3131,6 +3217,7 @@ MonoBehaviour:
   - {fileID: 192789534}
   - {fileID: 624737067}
   showNextCount: 1
+  currentIndex: 0
 --- !u!4 &1897764608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1509815045951163037, guid: 53a5c23cb9d960c40bcb5f8ba9ba8fb4, type: 3}

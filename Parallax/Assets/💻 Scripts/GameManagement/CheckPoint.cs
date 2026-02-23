@@ -20,10 +20,9 @@ public class Checkpoint : MonoBehaviour
 
         if (identity.collectorType != requiredType) return;
 
-        // ✅ Tell the manager to collect this checkpoint.
-        if (CheckpointManager.Instance != null)
+        if (ObjectiveManager.Instance != null)
         {
-            CheckpointManager.Instance.CollectCheckpoint(this);
+            ObjectiveManager.Instance.CollectCheckpoint(this);
         }
     }
 
