@@ -8,9 +8,6 @@ public enum PerspectiveProfile
 
 public abstract class BaseAsymProperty<T> : MonoBehaviour where T : Component
 {
-    [Tooltip("Which profile this component is enabled for")]
-    [SerializeField] protected PerspectiveProfile Profile;
-
     protected T AsymComponent;
 
     private void Awake()
