@@ -13,6 +13,7 @@ using UnityEngine;
 ///
 public class SplitScreenTool : MonoBehaviour
 {
+    public PerspectiveProfile Profile;
     private PerspectiveProfile _current;
 
     private bool _isSplitScreen;
@@ -28,23 +29,23 @@ public class SplitScreenTool : MonoBehaviour
         _camA = SpawnCamera(PerspectiveProfile.A);
         _camB = SpawnCamera(PerspectiveProfile.B);
 
-        _current = _manager.Profile;
-        _manager.ApplyPerspective(_manager.Profile);
+        _current = Profile;
+        _manager.ApplyPerspective(Profile);
     }
 
     private void Update()
     {
-        if (!_isSplitScreen && _current != _manager.Profile)
+        if (!_isSplitScreen && _current != Profile)
         {
-            _manager.ApplyPerspective(_manager.Profile);
-            _current = _manager.Profile;
+            _manager.ApplyPerspective(Profile);
+            _current = Profile;
         }
 
         if (Input.GetKeyDown(KeyCode.F1))
         {
             if (_isSplitScreen)
             {
-                _manager.ApplyPerspective(_manager.Profile);
+                _manager.ApplyPerspective(Profile);
                 _mainCamera.SetActive(true);
                 _camA.SetActive(false);
                 _camB.SetActive(false);

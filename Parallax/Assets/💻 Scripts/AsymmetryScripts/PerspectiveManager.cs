@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PerspectiveManager : MonoBehaviour
 {
-    public PerspectiveProfile Profile;
-
     private List<MonoBehaviour> _asymComponents = new();
     private readonly Dictionary<System.Type, MethodInfo> _applyMethodCache = new();
 
@@ -23,9 +21,7 @@ public class PerspectiveManager : MonoBehaviour
                 _asymComponents.Add(mb);
             }
         }
-        Debug.Log($"SplitScreenManager found {_asymComponents.Count} asym components.");
-
-        ApplyPerspective(Profile);
+        Debug.Log($"{nameof(PerspectiveManager)} found {_asymComponents.Count} asym components.");
     }
 
     /// <summary>
