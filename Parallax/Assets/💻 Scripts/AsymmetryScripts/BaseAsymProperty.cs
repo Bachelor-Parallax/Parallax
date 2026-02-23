@@ -6,7 +6,7 @@ public enum PerspectiveProfile
     B
 }
 
-public abstract class BaseAsymmetricalComponent<T> : MonoBehaviour where T : Component
+public abstract class BaseAsymProperty<T> : MonoBehaviour where T : Component
 {
     [Tooltip("Which profile this component is enabled for")]
     [SerializeField] protected PerspectiveProfile Profile;
@@ -18,7 +18,8 @@ public abstract class BaseAsymmetricalComponent<T> : MonoBehaviour where T : Com
         AsymComponent = GetComponent<T>();
         if (AsymComponent == null)
         {
-            Debug.LogWarning($"{gameObject.name} is missing {nameof(T)} component. Asymmetry will be ignored.");
+            Debug.LogError($"{gameObject.name} is missing {nameof(T)} component! Disabling script...");
+            enabled = false;
         }
     }
 

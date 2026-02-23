@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public class AsymmetricalLight : BaseAsymmetricalComponent<Light>
+public class AsymRenderer : BaseAsymProperty<Renderer>
 {
     public override void ApplyPerspectiveProfile(PerspectiveProfile profile)
     {
-        if (AsymComponent == null) return;
         AsymComponent.enabled = Profile == profile;
     }
 }
