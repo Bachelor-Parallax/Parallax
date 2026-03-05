@@ -3,12 +3,15 @@ using UnityEngine;
 
 /// <summary>
 /// Debug-only tool that simulates split screen by forcing
-/// BaseAsymComponent instances to apply a perspective each render.
+/// BaseAsymProperty instances to apply a perspective each render.
 /// Does NOT affect runtime architecture.
 ///
 /// Tool spawns two new cameras, taking up half the screen each.
 /// Adding this script to the scene is all you need to enable
 /// split screen features.
+///
+/// NOTE: This is very inefficient an WILL affect the frame-rate
+/// negatively.
 /// </summary>
 ///
 public class SplitScreenTool : MonoBehaviour
