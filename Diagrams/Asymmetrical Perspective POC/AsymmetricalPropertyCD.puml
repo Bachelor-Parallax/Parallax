@@ -21,8 +21,8 @@ package "Asymmetrical Properties" {
 
     class AsymGeometry 
     {
-        - Mesh _meshA
-        - Mesh _meshB
+        - Mesh _humanMesh
+        - Mesh _catMesh
         + override void ApplyPerspectiveProfile(PerspectiveProfile profile)
     }
 
@@ -34,8 +34,8 @@ package "Asymmetrical Properties" {
 
     class AsymMaterial
     {
-        - Material _materialA
-        - Material _materialB
+        - Material _humanMaterial
+        - Material _catMaterial
         + override void ApplyPerspectiveProfile(PerspectiveProfile profile)
     }
 

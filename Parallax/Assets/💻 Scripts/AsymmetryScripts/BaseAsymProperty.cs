@@ -1,11 +1,5 @@
 using UnityEngine;
 
-public enum PerspectiveProfile
-{
-    Human,
-    Cat
-}
-
 /// <summary>
 /// Class that exposes the common method to apply a perspective
 /// </summary>

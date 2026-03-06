@@ -6,8 +6,8 @@ package "Asymmetrical Perspective" {
     ' Enum usedd to deine the target perspective
     enum PerspectiveProfile
     {
-        A
-        B
+        Human
+        Cat
     }
 
     class PerspectiveManager<MonoBehaviour>

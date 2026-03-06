@@ -1,5 +1,11 @@
 using UnityEngine;
 
+public enum PerspectiveProfile
+{
+    Human,
+    Cat
+}
+
 public class PerspectiveManager : MonoBehaviour
 {
     private BaseAsymProperty[] _asymProperties;
