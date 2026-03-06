@@ -540,8 +540,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70bcd9bfba2058b49966274172ea4717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalGeometry
-  _meshA: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-  _meshB: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  _humanMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  _catMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &275697562
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,8 +556,8 @@ GameObject:
   - component: {fileID: 275697563}
   - component: {fileID: 275697567}
   m_Layer: 0
-  m_Name: Player A
-  m_TagString: A
+  m_Name: Human
+  m_TagString: Human
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1113,8 +1113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d052e1cbfab91348b76fc757b337572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymMaterial
-  _materialA: {fileID: 2100000, guid: 35b12b14394f6e8498597f009eeb28a0, type: 2}
-  _materialB: {fileID: 2100000, guid: d33872143a82bc245a8c47078c929d53, type: 2}
+  _humanMaterial: {fileID: 2100000, guid: d33872143a82bc245a8c47078c929d53, type: 2}
+  _catMaterial: {fileID: 2100000, guid: 35b12b14394f6e8498597f009eeb28a0, type: 2}
 --- !u!1 &961641989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1686,7 +1686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aad4ec7575a24048974c67c5511fc28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SplitScreenManager
-  Profile: 0
+  _mainProfile: 0
 --- !u!4 &1992547533
 Transform:
   m_ObjectHideFlags: 0
@@ -1752,8 +1752,8 @@ GameObject:
   - component: {fileID: 2085444192}
   - component: {fileID: 2085444191}
   m_Layer: 0
-  m_Name: Player B
-  m_TagString: B
+  m_Name: Cat
+  m_TagString: Cat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

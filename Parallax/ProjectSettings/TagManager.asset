@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - A
-  - B
+  - Human
+  - Cat
   layers:
   - Default
   - TransparentFX

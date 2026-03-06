@@ -2,8 +2,8 @@ using UnityEngine;
 
 public enum PerspectiveProfile
 {
-    A,
-    B
+    Human,
+    Cat
 }
 
 /// <summary>
@@ -27,7 +27,7 @@ public abstract class BaseAsymProperty<T> : BaseAsymProperty where T : Component
         AsymComponent = GetComponent<T>();
         if (AsymComponent == null)
         {
-            Debug.LogError($"{gameObject.name} is missing {nameof(T)} component! Disabling script...");
+            Debug.LogError($"{gameObject.name} is missing {nameof(T)} component. AsymProperty will be disabled.");
             enabled = false;
         }
     }

@@ -10,55 +10,64 @@ using UnityEngine;
 /// Adding this script to the scene is all you need to enable
 /// split screen features.
 ///
-/// NOTE: This is very inefficient an WILL affect the frame-rate
+/// NOTE: This is very inefficient and WILL impact the frame-rate
 /// negatively.
 /// </summary>
-///
 public class SplitScreenTool : MonoBehaviour
 {
-    public PerspectiveProfile Profile;
+    #region Inspector Values
+
+    [Tooltip("Manually switch the main camera's perspective profile")]
+    [SerializeField] private PerspectiveProfile _mainProfile;
+
+    #endregion Inspector Values
+
+    // a value used to compare to main profile so changes
+    // to the main profile made through the inspector are
+    // discovered and applied
     private PerspectiveProfile _current;
 
     private bool _isSplitScreen;
-    private GameObject _mainCamera, _camA, _camB;
+    private GameObject _mainCamera, _humanCam, _catCam;
     private PerspectiveManager _manager;
 
     private void Start()
     {
         _manager = FindObjectsByType<PerspectiveManager>(FindObjectsSortMode.None).First();
-
-        // find the main camera
         _mainCamera = FindObjectsByType<Camera>(FindObjectsSortMode.None).First().gameObject;
-        _camA = SpawnCamera(PerspectiveProfile.A);
-        _camB = SpawnCamera(PerspectiveProfile.B);
 
-        _current = Profile;
-        _manager.ApplyPerspective(Profile);
+        // create cameras for split screen
+        _humanCam = SpawnCamera(PerspectiveProfile.Human);
+        _catCam = SpawnCamera(PerspectiveProfile.Cat);
+
+        // apply selected perspective
+        _current = _mainProfile;
+        _manager.ApplyPerspective(_mainProfile);
     }
 
     private void Update()
     {
-        if (!_isSplitScreen && _current != Profile)
+        if (!_isSplitScreen && _current != _mainProfile)
         {
-            _manager.ApplyPerspective(Profile);
-            _current = Profile;
+            _manager.ApplyPerspective(_mainProfile);
+            _current = _mainProfile;
         }
 
         if (Input.GetKeyDown(KeyCode.F1))
         {
             if (_isSplitScreen)
             {
-                _manager.ApplyPerspective(Profile);
+                _manager.ApplyPerspective(_mainProfile);
                 _mainCamera.SetActive(true);
-                _camA.SetActive(false);
-                _camB.SetActive(false);
+                _humanCam.SetActive(false);
+                _catCam.SetActive(false);
                 _isSplitScreen = false;
             }
             else
             {
                 _mainCamera.SetActive(false);
-                _camA.SetActive(true);
-                _camB.SetActive(true);
+                _humanCam.SetActive(true);
+                _catCam.SetActive(true);
                 _isSplitScreen = true;
             }
         }
@@ -69,7 +78,8 @@ public class SplitScreenTool : MonoBehaviour
     /// </summary>
     private GameObject SpawnCamera(PerspectiveProfile p)
     {
-        GameObject camObj = new GameObject("Split Screen Camera");
+        string profileName = p == PerspectiveProfile.Human ? "Human" : "Cat";
+        GameObject camObj = new GameObject($"Split Screen Camera ({profileName})");
 
         // TODO: positioning logic should be changed when cameras attach to moving players
         camObj.transform.position = _mainCamera.gameObject.transform.position;
@@ -77,9 +87,9 @@ public class SplitScreenTool : MonoBehaviour
 
         SplitScreenCam splitCam = camObj.AddComponent<SplitScreenCam>();
         splitCam.Profile = p;
-        splitCam.Man = _manager;
+        splitCam.Manager = _manager;
 
-        float x = p == PerspectiveProfile.A ? 0 : 0.5f;
+        float x = p == PerspectiveProfile.Human ? 0 : 0.5f;
         Camera cam = camObj.AddComponent<Camera>();
         cam.rect = new Rect(x, 0f, 0.5f, 1f);
 
@@ -93,11 +103,11 @@ public class SplitScreenTool : MonoBehaviour
     public class SplitScreenCam : MonoBehaviour
     {
         public PerspectiveProfile Profile;
-        public PerspectiveManager Man;
+        public PerspectiveManager Manager;
 
         private void OnPreCull()
         {
-            Man.ApplyPerspective(Profile);
+            Manager.ApplyPerspective(Profile);
         }
     }
 }

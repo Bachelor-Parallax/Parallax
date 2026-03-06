@@ -1,12 +1,18 @@
+using System;
 using UnityEngine;
 
 public class AsymGeometry : BaseAsymProperty<MeshFilter>
 {
-    [SerializeField] private Mesh _meshA;
-    [SerializeField] private Mesh _meshB;
+    [SerializeField] private Mesh _humanMesh;
+    [SerializeField] private Mesh _catMesh;
 
     public override void ApplyPerspectiveProfile(PerspectiveProfile profile)
     {
-        AsymComponent.mesh = profile == PerspectiveProfile.A ? _meshA : _meshB;
+        AsymComponent.mesh = profile switch
+        {
+            PerspectiveProfile.Human => _humanMesh,
+            PerspectiveProfile.Cat => _catMesh,
+            _ => throw new ArgumentException("Unexpected perspective profile")
+        };
     }
 }

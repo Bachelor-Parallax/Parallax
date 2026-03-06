@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AsymCollider : BaseAsymProperty<Collider>
@@ -6,9 +7,14 @@ public class AsymCollider : BaseAsymProperty<Collider>
 
     public override void ApplyPerspectiveProfile(PerspectiveProfile profile)
     {
-        string targetTag = _profile == PerspectiveProfile.A ? "B" : "A";
-        GameObject[] objs = GameObject.FindGameObjectsWithTag(targetTag);
+        string targetTag = _profile switch
+        {
+            PerspectiveProfile.Human => "Human",
+            PerspectiveProfile.Cat => "Cat",
+            _ => throw new ArgumentException("Unexpected perspective profile")
+        };
 
+        GameObject[] objs = GameObject.FindGameObjectsWithTag(targetTag);
         foreach (GameObject obj in objs)
         {
             Collider c = obj.GetComponent<Collider>();

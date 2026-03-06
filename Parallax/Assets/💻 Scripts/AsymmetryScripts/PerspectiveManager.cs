@@ -4,7 +4,7 @@ public class PerspectiveManager : MonoBehaviour
 {
     private BaseAsymProperty[] _asymProperties;
 
-    private void Start()
+    private void Awake()
     {
         _asymProperties = FindObjectsByType<BaseAsymProperty>(FindObjectsSortMode.None);
     }
