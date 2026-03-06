@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -21,8 +22,7 @@ public abstract class BaseAsymProperty<T> : BaseAsymProperty where T : Component
         AsymComponent = GetComponent<T>();
         if (AsymComponent == null)
         {
-            Debug.LogError($"{gameObject.name} is missing {nameof(T)} component. AsymProperty will be disabled.");
-            enabled = false;
+            throw new NullReferenceException($"'{gameObject.name}' is trying to access a '{typeof(T)}' component, but gameobject has no such component attached");
         }
     }
 }
