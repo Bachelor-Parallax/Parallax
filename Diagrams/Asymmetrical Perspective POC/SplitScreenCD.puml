@@ -1,0 +1,26 @@
+@startuml split screen CD
+
+class SplitScreenTool<MonoBehaviour>
+{
+    + PerspectiveProfile Profile
+    - PerspectiveProfile _current
+    - bool _isSplitScreen
+    - GameObject _mainCamera
+    - GameObject _humanCam
+    - GameObject _catCam
+    - PerspectiveManager _manager
+    - GameObject SpawnCamera(PerspectiveProfile p)
+}
+
+class SplitScreenCam<MonoBehaviour>
+{
+    + PerspectiveProfile Profile
+    + PerspectiveManager Man
+}
+
+!include AsymmetricalPerspectiveCD.puml
+
+SplitScreenTool -> SplitScreenCam 
+SplitScreenTool --> PerspectiveManager
+
+@enduml
