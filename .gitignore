@@ -48,6 +48,12 @@
 *.userosscache
 *.sln.docstates
 
+# Rider specific files
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+**/.idea/projectSettingsUpdater.xml
+**/.idea/indexLayout.xml
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
