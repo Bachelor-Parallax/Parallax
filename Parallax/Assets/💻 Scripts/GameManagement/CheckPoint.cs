@@ -9,7 +9,7 @@ public class Checkpoint : MonoBehaviour
 
     public bool IsCollected { get; private set; }
 
-    public bool IsActive => !IsCollected;
+    public bool IsActive => gameObject.activeSelf && !IsCollected;
 
     private void OnTriggerEnter(Collider other)
     {

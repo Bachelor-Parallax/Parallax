@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 6113790190893564714}
   - component: {fileID: 4080730179905387603}
   - component: {fileID: 3875371197753655462}
+  - component: {fileID: 4458219356739770413}
   m_Layer: 0
   m_Name: Blue
   m_TagString: Player
@@ -331,3 +332,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HumanAbilities
   sprintMultiplier: 1.6
+--- !u!114 &4458219356739770413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8677070909867392000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f9327cc5b36a24ba9a57f4de0bcace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollectorIdentity
+  collectorType: 0
