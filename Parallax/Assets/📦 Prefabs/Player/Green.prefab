@@ -101,9 +101,6 @@ GameObject:
   - component: {fileID: 6633278329854684459}
   - component: {fileID: 7052887866892290222}
   - component: {fileID: 576411630016550707}
-  - component: {fileID: 337833700003828992}
-  - component: {fileID: 4475309311144039763}
-  - component: {fileID: 2429805114869097612}
   m_Layer: 0
   m_Name: Green
   m_TagString: Player
@@ -175,50 +172,3 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: -0.5, z: 0}
---- !u!114 &337833700003828992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7877887795871466539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a828c3dfa965ec458bfc2abd351ce75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BaseController
-  moveSpeed: 5
-  rotationSpeed: 18
-  acceleration: 5
-  deceleration: 5
-  airControl: 0.5
-  gravity: -20
-  groundStick: -2
-  followCam: {fileID: 0}
-  fallMultiplier: 2.3
---- !u!114 &4475309311144039763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7877887795871466539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7376643ffc03cff4bb9e5104417fb328, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CatAbilities
-  jumpImpulse: 8
---- !u!114 &2429805114869097612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7877887795871466539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1f9327cc5b36a24ba9a57f4de0bcace, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CollectorIdentity
-  collectorType: 1

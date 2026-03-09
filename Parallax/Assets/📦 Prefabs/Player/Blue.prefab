@@ -224,10 +224,6 @@ GameObject:
   - component: {fileID: 9159154712173273874}
   - component: {fileID: 6058644065868821331}
   - component: {fileID: 6113790190893564714}
-  - component: {fileID: 4080730179905387603}
-  - component: {fileID: 3875371197753655462}
-  - component: {fileID: 4458219356739770413}
-  - component: {fileID: 5851815712844320056}
   m_Layer: 0
   m_Name: Blue
   m_TagString: Player
@@ -300,72 +296,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4080730179905387603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8677070909867392000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a828c3dfa965ec458bfc2abd351ce75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BaseController
-  moveSpeed: 5
-  rotationSpeed: 18
-  acceleration: 5
-  deceleration: 5
-  airControl: 0.5
-  gravity: -20
-  groundStick: -2
-  followCam: {fileID: 0}
-  fallMultiplier: 2.3
---- !u!114 &3875371197753655462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8677070909867392000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 489377eec769aee4f8d2aa38d5d2dc97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HumanAbilities
-  sprintMultiplier: 1.6
---- !u!114 &4458219356739770413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8677070909867392000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1f9327cc5b36a24ba9a57f4de0bcace, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CollectorIdentity
-  collectorType: 0
---- !u!114 &5851815712844320056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8677070909867392000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db6f0829422f3b744b975f26dd6f3d1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BoxInteraction
-  interactRange: 2
-  boxLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  holdPoint: {fileID: 0}
-  moveToHoldSpeed: 12
-  attachDistance: 1.2
 --- !u!1 &9135328462076866331
 GameObject:
   m_ObjectHideFlags: 0
