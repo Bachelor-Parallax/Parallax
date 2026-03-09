@@ -1,2 +1,11 @@
 fileFormatVersion: 2
-guid: 7a9c0288d9c1f554896015861b48c4e1
+guid: e8538afcddc14efbb5d9e94b7ae50197
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - TheFont: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

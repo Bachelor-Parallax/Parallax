@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: bee76c509498d3e47a34d463588e8875
+guid: 38853cf8afb8df84eaab880cc1feeb74
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,13 +37,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,9 +52,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -95,12 +95,1921 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_0
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 947
+        width: 52
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d49464917dee89e40b93f8324790c08f
+      internalID: 90443370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_1
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 947
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fda492eeba7c9f0419bd80f0b1a52b11
+      internalID: -692439186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_2
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 947
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a702141cc70955d4581db65eff5d0db0
+      internalID: -563054680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_3
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 947
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16ee4d41beb7de14c8ea9ac221c00e5b
+      internalID: 325641800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_4
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 947
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c2f1e74339e86d438836dadccfe8892
+      internalID: 27554656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_5
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 947
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3704ebfea867584aad52d8ffe862c02
+      internalID: 785007285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_6
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 947
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 740ee86811f6e0a4a8def0c6fb2cd801
+      internalID: -1557566505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_7
+      rect:
+        serializedVersion: 2
+        x: 742
+        y: 947
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da2da7128629b70429317f29d4c953d8
+      internalID: 1713221758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_8
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 947
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70f4abd75016f21458f7f84174346fd8
+      internalID: 213818912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_9
+      rect:
+        serializedVersion: 2
+        x: 947
+        y: 947
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ecf5a2bb8a47394daa197f20e4de794
+      internalID: -1365717287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_10
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 845
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3aa54d5ddfb4f6d4c87b6063d4e51da1
+      internalID: -2064477653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_11
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 845
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83511d59298c64a4f9bfa12ee2cc99e6
+      internalID: -496915945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_12
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 845
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3ea4ce20cdd6504883521d8a9578302
+      internalID: 3441459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_13
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 845
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 908095d71adf6364999df63a40f68f25
+      internalID: -1615101251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_14
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 845
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5b504463cb6e12409a86aa385b49eed
+      internalID: -115882270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_15
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 845
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71361373936b114489496300ee469d41
+      internalID: 1862921636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_16
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 845
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18ff0414bf042d3478ad06e2eb41cb82
+      internalID: -1880611685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_17
+      rect:
+        serializedVersion: 2
+        x: 742
+        y: 845
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b1f385dce87cd34797f5aee547bcd62
+      internalID: 242117055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_18
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 845
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bba2106027f40f498ffca013cc52803
+      internalID: -999955285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_19
+      rect:
+        serializedVersion: 2
+        x: 947
+        y: 845
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 856ef38345b8be24eb36a7c5759f4af4
+      internalID: 1703548621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_20
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 742
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9738e8f48e74a1a4c9f5045ac78de5e9
+      internalID: -708735347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_21
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 742
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b41543a470bf784b89c71d9a2bb1d49
+      internalID: -857219530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_22
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 742
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99cdda488eccc3647b61bf0ab391941b
+      internalID: 1065599453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_23
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 742
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d78a19921914a4c4b9e80645e9599743
+      internalID: -2137538167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_24
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 742
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 455092f5863d9d044a185d39d67a2b6d
+      internalID: -60957739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_25
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 742
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a101c38deaf7594aa8719ecf9d86559
+      internalID: 754555669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_26
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 742
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7dab1b8e4e79f3438f948b6f8b3248b
+      internalID: 867907840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_27
+      rect:
+        serializedVersion: 2
+        x: 742
+        y: 742
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30e98958064ba2f4cb14dc389f89978a
+      internalID: 1443496834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_28
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 742
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fe28c851904cb841ba4b18d0f9577bc
+      internalID: -1723947667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_29
+      rect:
+        serializedVersion: 2
+        x: 947
+        y: 742
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41298c72080bd7145802d96d871362fc
+      internalID: 261724549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_30
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 639
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a36ba51dd476a45429aed53e99cae658
+      internalID: 1410707252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_31
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 639
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b4fa3b4402854a498a730900e5f5c70
+      internalID: 1976078163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_32
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 639
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e87a07261d46ce349b950806a28ab8ea
+      internalID: 1608496560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_33
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 639
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2edb6a1f411d9004192edc2feea42079
+      internalID: -1144785355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_34
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 639
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03d1165e02fe7cb4d824c9b2dccc5bd0
+      internalID: 1073998260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_35
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 639
+        width: 53
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1873fecb2b55f51448dd0db09e917320
+      internalID: -964619486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_36
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 640
+        width: 65
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6da43a7d652c40b45bdea518ddaf59e2
+      internalID: 951620324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_37
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 641
+        width: 80
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e1fa433395e5c64290af6403d446e45
+      internalID: 1255241345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_38
+      rect:
+        serializedVersion: 2
+        x: 838
+        y: 641
+        width: 64
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba3f2fa1e21689a40a443ec27983a822
+      internalID: 288178014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_39
+      rect:
+        serializedVersion: 2
+        x: 941
+        y: 641
+        width: 64
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdc26175faf417743b0fba87f8655ea9
+      internalID: 2139362300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_40
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 540
+        width: 79
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62d23f017ec1d3646b693abfe54c9f9c
+      internalID: -1081581127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_41
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 538
+        width: 52
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea280a508ebc6b646ad26aeba5b6368c
+      internalID: -1056642854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_42
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 540
+        width: 80
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bd4f74d7f1ccfc4e93b64fc6890f247
+      internalID: -1643305443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_43
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 565
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6437c7bba5c839349a0029801b03f1b4
+      internalID: -1220130632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_44
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 535
+        width: 58
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f66bf6b766b7e36419f17c9f4ffa5846
+      internalID: -1517328988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_45
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 535
+        width: 58
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a39ff02db845b424aba8ab474ef75abf
+      internalID: -1110088457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_46
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 535
+        width: 58
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bff48cd0c3cbe940a9d359d0013ddae
+      internalID: -166075740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_47
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 535
+        width: 59
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75f57f02e771c2546913d478a997f6fa
+      internalID: 82588865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_48
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 534
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5a7450e8ce37a2498eb3470c043b497
+      internalID: -658979393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_49
+      rect:
+        serializedVersion: 2
+        x: 944
+        y: 534
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec6abebe9bda7004fa21875a807adb5c
+      internalID: 1767990964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_50
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 534
+        width: 93
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a153a06f512bd1d438c7f9996d5e82e0
+      internalID: 159939950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_51
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 433
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ad81957a78908d43a53d2531e239c1a
+      internalID: -653410074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_52
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 433
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bc63587509196e4c9f5e7525fbb60b8
+      internalID: -1233006712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_53
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 440
+        width: 58
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f41857bb398c7d4390a8097d74ca0f6
+      internalID: 1680997655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_54
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 440
+        width: 58
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a62da2e8abadbb42a56a60fc43530ae
+      internalID: 1935567758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_55
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 440
+        width: 58
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6337e48c26992e4ea965e10f0b52868
+      internalID: 685230010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_56
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 440
+        width: 58
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e9d774c44b5774499ee91da21deef04
+      internalID: -52389362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_66
+      rect:
+        serializedVersion: 2
+        x: 841
+        y: 441
+        width: 59
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 812a5fff263eff44795903f6c43527c3
+      internalID: -7671155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_67
+      rect:
+        serializedVersion: 2
+        x: 943
+        y: 435
+        width: 59
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4d6a27377f0e374caf1e76a0c88a5d1
+      internalID: -1062880455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_68
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 432
+        width: 29
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 071bb49c342851c4187c1fdfb0a5f7ea
+      internalID: 1181383253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_69
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 431
+        width: 28
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38594ee1cf29f974b95f768134724a1e
+      internalID: -1117997705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_70
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 333
+        width: 60
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9080387a5b7b7cc4e9d002be63f32e4d
+      internalID: 1680537456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_71
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 330
+        width: 66
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 690946c9235370040b981b433c1aee55
+      internalID: 1505174879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_72
+      rect:
+        serializedVersion: 2
+        x: 222
+        y: 330
+        width: 66
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 005fa32875dfdca47a8e6d105be0e44a
+      internalID: 571783529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_73
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 325
+        width: 66
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61413efa090a1db4fa3e32f57f78b267
+      internalID: 790734258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_74
+      rect:
+        serializedVersion: 2
+        x: 428
+        y: 326
+        width: 65
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef91e8134a7e7ab40ba07e7cd30071be
+      internalID: -1273255969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_75
+      rect:
+        serializedVersion: 2
+        x: 531
+        y: 326
+        width: 65
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8bdb73df7c6a114891d81643cb78d86
+      internalID: -334262646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_76
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 326
+        width: 65
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a43b6953e9ae25c449fba3ee0cc8e93d
+      internalID: -1585712104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_77
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 331
+        width: 57
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b331b825d830664cb26f41ea15c85b3
+      internalID: 132414359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_78
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 331
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8b840700bc9a4c42aa1974a5bef2c37
+      internalID: 1401154884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_79
+      rect:
+        serializedVersion: 2
+        x: 944
+        y: 331
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16c8a7a530a30ea49a67f3e00e4106ad
+      internalID: -1705320109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_80
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 228
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22f2904409d891f499da4fe26be80a66
+      internalID: 948783433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_81
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 235
+        width: 65
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0c4aee049f0bd943acf146bd5ee66b5
+      internalID: -1172764348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_82
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 235
+        width: 64
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3515be159323cbb49950d9c428e0dcbf
+      internalID: -449998879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_83
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 225
+        width: 56
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3d3f235c57ae024fb2053f4bcfd7fe5
+      internalID: 2054068461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_84
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 225
+        width: 55
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44b83e64741855e4b8a91fec2ae0036d
+      internalID: 916097358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_85
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 228
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adc00a3d032a2d842911b5ed5e0d729c
+      internalID: -1375855635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_86
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 228
+        width: 56
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfe985b1a50340a459634bd09c7a460e
+      internalID: -1793573267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_87
+      rect:
+        serializedVersion: 2
+        x: 741
+        y: 234
+        width: 54
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f20468a89ffd02945b8423739c304112
+      internalID: 1668843250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_88
+      rect:
+        serializedVersion: 2
+        x: 843
+        y: 234
+        width: 54
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a36d0dd0ddbaa743b6f1f1f400cb586
+      internalID: -47903339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_89
+      rect:
+        serializedVersion: 2
+        x: 945
+        y: 234
+        width: 54
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 275c799bf75805d449b55120cabddbd6
+      internalID: -211931187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_90
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 131
+        width: 54
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b9b7c03a5b32864eb73a287e7a4b905
+      internalID: -393975418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard
+        Keys_91
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 131
+        width: 54
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26b429ede2ae7f947a501a84c20ca79f
+      internalID: 1512588971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1a2860bc6cccbd546865f0a7f8640d84
     internalID: 0
     vertices: []
     indices: 
@@ -108,8 +2017,102 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_0: 90443370
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_1: -692439186
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_10: -2064477653
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_11: -496915945
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_12: 3441459
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_13: -1615101251
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_14: -115882270
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_15: 1862921636
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_16: -1880611685
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_17: 242117055
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_18: -999955285
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_19: 1703548621
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_2: -563054680
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_20: -708735347
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_21: -857219530
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_22: 1065599453
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_23: -2137538167
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_24: -60957739
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_25: 754555669
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_26: 867907840
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_27: 1443496834
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_28: -1723947667
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_29: 261724549
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_3: 325641800
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_30: 1410707252
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_31: 1976078163
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_32: 1608496560
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_33: -1144785355
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_34: 1073998260
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_35: -964619486
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_36: 951620324
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_37: 1255241345
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_38: 288178014
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_39: 2139362300
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_4: 27554656
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_40: -1081581127
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_41: -1056642854
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_42: -1643305443
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_43: -1220130632
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_44: -1517328988
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_45: -1110088457
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_46: -166075740
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_47: 82588865
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_48: -658979393
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_49: 1767990964
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_5: 785007285
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_50: 159939950
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_51: -653410074
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_52: -1233006712
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_53: 1680997655
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_54: 1935567758
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_55: 685230010
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_56: -52389362
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_57: 279201742
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_58: 1949056405
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_59: -1919538154
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_6: -1557566505
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_60: 1951328437
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_61: 1173031374
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_62: 143665412
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_63: -642767135
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_64: -887837496
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_65: 2059835451
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_66: -7671155
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_67: -1062880455
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_68: 1181383253
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_69: -1117997705
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_7: 1713221758
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_70: 1680537456
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_71: 1505174879
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_72: 571783529
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_73: 790734258
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_74: -1273255969
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_75: -334262646
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_76: -1585712104
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_77: 132414359
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_78: 1401154884
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_79: -1705320109
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_8: 213818912
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_80: 948783433
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_81: -1172764348
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_82: -449998879
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_83: 2054068461
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_84: 916097358
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_85: -1375855635
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_86: -1793573267
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_87: 1668843250
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_88: -47903339
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_89: -211931187
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_9: -1365717287
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_90: -393975418
+      PC _ Computer - Rec Room - Miscellaneous - Controller Buttons & Keyboard Keys_91: 1512588971
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
