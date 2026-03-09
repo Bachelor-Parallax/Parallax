@@ -241,7 +241,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 337833700003828992, guid: 6ad348da3d90b274c91738f560877ab1, type: 3}
       propertyPath: gravity
-      value: -8.1
+      value: -41.9
       objectReference: {fileID: 0}
     - target: {fileID: 337833700003828992, guid: 6ad348da3d90b274c91738f560877ab1, type: 3}
       propertyPath: followCam
@@ -3135,7 +3135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: 92f61076576a0fd4cb6124b1e59b2132, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 0f6b9803f9cc8e2458df528f754bc4ff, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -3148,7 +3148,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
@@ -3206,18 +3206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d293a562828c1ea4c96322cd2c12c7e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckpointManager
-  checkpoints:
-  - {fileID: 1204344852}
-  - {fileID: 1353694131}
-  - {fileID: 898680907}
-  - {fileID: 82537080}
-  - {fileID: 2021515710}
-  - {fileID: 1239779302}
-  - {fileID: 1022793763}
-  - {fileID: 192789534}
-  - {fileID: 624737067}
-  showNextCount: 1
-  currentIndex: 0
 --- !u!4 &1897764608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1509815045951163037, guid: 53a5c23cb9d960c40bcb5f8ba9ba8fb4, type: 3}
