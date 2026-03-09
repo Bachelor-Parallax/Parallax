@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 025b69ab0eaa8a746b078b31968f62a1, type: 2}
+  - {fileID: 2100000, guid: 3aae5b64479cf184897be8edb3fee392, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5848232081220519115}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4817e50d3872d04990c130d47bb63ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 68aff0c7b5f6b6148be4b11644a6d7e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
   requiredType: 1
@@ -193,7 +193,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3eae2a139af61824082ed78740de8e4c, type: 2}
+  - {fileID: 2100000, guid: cd118be6493e25942abcc29fa48a9f6b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
