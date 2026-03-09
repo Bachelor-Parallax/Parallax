@@ -278,7 +278,7 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 0}
     Prefabs:
       NetworkPrefabsLists:
-      - {fileID: 11400000, guid: d06dfc2d56fc8b348b452b361d512268, type: 2}
+      - {fileID: 0}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -446,6 +446,8 @@ MonoBehaviour:
   lobbyName: Lobby
   maxPlayers: 2
   dtlsSecureMode: 0
+  <PlayerId>k__BackingField: 
+  <PlayerName>k__BackingField: 
 --- !u!4 &2054910966
 Transform:
   m_ObjectHideFlags: 0
