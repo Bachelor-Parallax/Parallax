@@ -1273,7 +1273,8 @@ GameObject:
   - component: {fileID: 827171317}
   - component: {fileID: 827171321}
   - component: {fileID: 827171322}
-  m_Layer: 0
+  - component: {fileID: 827171323}
+  m_Layer: 6
   m_Name: Box
   m_TagString: Box
   m_Icon: {fileID: 0}
@@ -1413,6 +1414,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectorIdentity
   collectorType: 2
+--- !u!114 &827171323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827171314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9635cd6c75a779b458c64f64e129c828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoxInteractable
+  boxSize: 0
+  carryPointOverride: {fileID: 0}
+  holdOffset: {x: 0, y: 1.2, z: 0.8}
 --- !u!1001 &848814522
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2042,6 +2058,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8677070909867392000, guid: 01bea78bb637f89459be046d05997378, type: 3}
   m_PrefabInstance: {fileID: 1396859621}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1062473650 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8735868215643174592, guid: 01bea78bb637f89459be046d05997378, type: 3}
+  m_PrefabInstance: {fileID: 1396859621}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1064055887
 GameObject:
   m_ObjectHideFlags: 0
@@ -2241,7 +2262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FollowCam
   target: {fileID: 70384430}
   distance: 10
-  sensitivity: 200
+  sensitivity: 50
   minY: -20
   maxY: 60
 --- !u!1001 &1125369434
@@ -2621,6 +2642,30 @@ PrefabInstance:
       propertyPath: followCam
       value: 
       objectReference: {fileID: 1066609206}
+    - target: {fileID: 4080730179905387603, guid: 01bea78bb637f89459be046d05997378, type: 3}
+      propertyPath: moveSpeed
+      value: 8.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080730179905387603, guid: 01bea78bb637f89459be046d05997378, type: 3}
+      propertyPath: acceleration
+      value: 32.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080730179905387603, guid: 01bea78bb637f89459be046d05997378, type: 3}
+      propertyPath: deceleration
+      value: 32.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4080730179905387603, guid: 01bea78bb637f89459be046d05997378, type: 3}
+      propertyPath: rotationSpeed
+      value: 9.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851815712844320056, guid: 01bea78bb637f89459be046d05997378, type: 3}
+      propertyPath: holdPoint
+      value: 
+      objectReference: {fileID: 1062473650}
+    - target: {fileID: 5851815712844320056, guid: 01bea78bb637f89459be046d05997378, type: 3}
+      propertyPath: boxLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 8677070909867392000, guid: 01bea78bb637f89459be046d05997378, type: 3}
       propertyPath: m_Name
       value: Blue
@@ -3526,7 +3571,8 @@ GameObject:
   - component: {fileID: 2097457845}
   - component: {fileID: 2097457844}
   - component: {fileID: 2097457849}
-  m_Layer: 0
+  - component: {fileID: 2097457850}
+  m_Layer: 6
   m_Name: Box (1)
   m_TagString: Waypoint
   m_Icon: {fileID: 0}
@@ -3666,6 +3712,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectorIdentity
   collectorType: 2
+--- !u!114 &2097457850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097457843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9635cd6c75a779b458c64f64e129c828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BoxInteractable
+  boxSize: 1
+  carryPointOverride: {fileID: 0}
+  holdOffset: {x: 0, y: 1.2, z: 0.8}
 --- !u!1001 &3264970808361386195
 PrefabInstance:
   m_ObjectHideFlags: 0

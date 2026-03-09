@@ -27,6 +27,17 @@ public class GameManager : MonoBehaviour
         else
             SetActive(PlayerA);
     }
+      
+    public void OnInteract(InputValue value)
+    {
+        if (!value.isPressed || active == null) return;
+
+        var interact = active.GetComponent<IInteract>();
+        if (interact != null)
+        {
+            interact.Interact();
+        }
+    }
 
     private void SetActive(GameObject player)
     {

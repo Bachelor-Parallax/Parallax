@@ -15,3 +15,8 @@ public interface ISprint
 {
     void SetSprinting(bool sprinting);
 }
+
+public interface IInteract
+{
+    void Interact();
+}
