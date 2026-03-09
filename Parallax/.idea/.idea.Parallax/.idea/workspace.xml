@@ -13,18 +13,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Djengiss"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Djengiss&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Bachelor-Parallax/Parallax.git",
-    "accountId": "3279be57-e746-4821-beac-ea4b8f6963b2"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Bachelor-Parallax/Parallax.git&quot;,
+    &quot;accountId&quot;: &quot;3279be57-e746-4821-beac-ea4b8f6963b2&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/💻 Scripts/Multiplayer/Multiplayer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/💻 Scripts/Utilities/Timer.cs" root0="FORCE_HIGHLIGHTING" />
@@ -44,7 +44,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "feat/multiplayer",
+    "git-widget-placeholder": "staging",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -107,6 +107,7 @@
       <updated>1773066799862</updated>
       <workItem from="1773066802585" duration="364000" />
       <workItem from="1773067202639" duration="932000" />
+      <workItem from="1773071032374" duration="40000" />
     </task>
     <servers />
   </component>
