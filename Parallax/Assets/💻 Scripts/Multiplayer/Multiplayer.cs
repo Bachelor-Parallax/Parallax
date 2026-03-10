@@ -306,7 +306,7 @@ public class Multiplayer : MonoBehaviour
         Debug.Log("Host fully started, loading scene...");
 
         NetworkManager.Singleton.SceneManager.LoadScene(
-            "SampleScene",
+            "Stecher",
             LoadSceneMode.Single
         );
 

@@ -8,9 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: "Assets/\U0001F3AC Scenes/Bentsen.unity"
     guid: 6503587a514075f4db9f895b7e13eb28
+  - enabled: 1
+    path: "Assets/\U0001F3AC Scenes/Lobby.unity"
+    guid: 49dfe0ba6a291f64a9401891d64eefbe
+  - enabled: 1
+    path: "Assets/\U0001F3AC Scenes/Stecher.unity"
+    guid: 1e50b3811a2ea3a4493cce3d14082cc9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: cbced1aec47fb5b49be3d06671431c14, type: 3}
   m_UseUCBPForAssetBundles: 0
