@@ -6,14 +6,6 @@ public class TemporaryMovement : NetworkBehaviour
 {
     public float speed = 5f;
 
-    void Start()
-    {
-        if (IsOwner)
-        {
-            GetComponent<Renderer>().material.color = Color.red;
-        }
-    }
-
     public override void OnNetworkSpawn()
     {
         var cam = GetComponentInChildren<Camera>(true);
