@@ -1,7 +1,9 @@
 using UnityEngine;
+using Unity.Netcode;
+using System.Linq;
 
 [RequireComponent(typeof(CharacterController))]
-public class BaseController : MonoBehaviour, IMovement
+public class BaseController : NetworkBehaviour, IMovement
 {
     [Header("Movement")]
     [SerializeField] [Range(0f, 20f)] public float moveSpeed = 5f;
@@ -15,9 +17,6 @@ public class BaseController : MonoBehaviour, IMovement
     [Header("Gravity")]
     [SerializeField] [Range(-50f, 0f)] private float gravity = -20f;
     [SerializeField] [Range(-10f, 0f)] private float groundStick = -2f;
-
-    [Header("Camera Relative Movement")]
-    [SerializeField] private FollowCam followCam;
 
     private CharacterController cc;
     private float yaw;
@@ -39,42 +38,69 @@ public class BaseController : MonoBehaviour, IMovement
         HandleMovement();
     }
 
-private void HandleMovement()
-{
-    float camYaw = followCam ? followCam.Yaw : transform.eulerAngles.y;
-    Quaternion yawRot = Quaternion.Euler(0f, camYaw, 0f);
-
-    Vector3 camForward = yawRot * Vector3.forward;
-    Vector3 camRight   = yawRot * Vector3.right;
-
-    Vector3 wishDirection = camForward * moveInput.y + camRight * moveInput.x;
-    wishDirection = Vector3.ClampMagnitude(wishDirection, 1f);
-
-    if (wishDirection.sqrMagnitude > 0.0001f)
+    public override void OnNetworkSpawn()
     {
-        Quaternion targetRot = Quaternion.LookRotation(wishDirection, Vector3.up);
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            targetRot,
-            rotationSpeed * Time.deltaTime
-        );
+        var cam = FindObjectsByType<Camera>(FindObjectsSortMode.None).First();
+
+        if (cam == null)
+        {
+            Debug.LogError("Camera not found in player prefab!");
+            return;
+        }
+
+
+        if (!IsOwner)
+        {
+            cam.gameObject.SetActive(false);
+        }
+        else
+        {
+            cam.gameObject.SetActive(true);
+
+            // Assign target for FollowCam
+            var follow = cam.GetComponent<FollowCam>();
+            follow.target = transform;
+        }
+
     }
 
-    float control = cc.isGrounded ? 1f : airControl;
+    private void HandleMovement()
+    {
+        var followCam = FindObjectsByType<FollowCam>(FindObjectsSortMode.None).First();
+        float camYaw = followCam ? followCam.Yaw : transform.eulerAngles.y;
+        Quaternion yawRot = Quaternion.Euler(0f, camYaw, 0f);
 
-    Vector3 targetVelocity = wishDirection * moveSpeed * speedMultiplier * control;
+        Vector3 camForward = yawRot * Vector3.forward;
+        Vector3 camRight   = yawRot * Vector3.right;
 
-    float accelRate = (wishDirection.sqrMagnitude > 0.01f) ? acceleration : deceleration;
+        Vector3 wishDirection = camForward * moveInput.y + camRight * moveInput.x;
+        wishDirection = Vector3.ClampMagnitude(wishDirection, 1f);
 
-    currentHorizontalVelocity = Vector3.MoveTowards(
-        currentHorizontalVelocity,
-        targetVelocity,
-        accelRate * Time.deltaTime
-    );
+        if (wishDirection.sqrMagnitude > 0.0001f)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(wishDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRot,
+                rotationSpeed * Time.deltaTime
+            );
+        }
 
-    Vector3 motion = currentHorizontalVelocity + Vector3.up * verticalVelocity;
-    cc.Move(motion * Time.deltaTime);
-}
+        float control = cc.isGrounded ? 1f : airControl;
+
+        Vector3 targetVelocity = wishDirection * moveSpeed * speedMultiplier * control;
+
+        float accelRate = (wishDirection.sqrMagnitude > 0.01f) ? acceleration : deceleration;
+
+        currentHorizontalVelocity = Vector3.MoveTowards(
+            currentHorizontalVelocity,
+            targetVelocity,
+            accelRate * Time.deltaTime
+        );
+
+        Vector3 motion = currentHorizontalVelocity + Vector3.up * verticalVelocity;
+        cc.Move(motion * Time.deltaTime);
+    }
 
     private void HandleGravity()
     {
