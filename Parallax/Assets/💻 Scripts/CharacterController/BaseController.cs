@@ -40,14 +40,13 @@ public class BaseController : NetworkBehaviour, IMovement
 
     public override void OnNetworkSpawn()
     {
-        var cam = FindObjectsByType<Camera>(FindObjectsSortMode.None).First();
+        var cam = GetComponentInChildren<Camera>(true);
 
         if (cam == null)
         {
             Debug.LogError("Camera not found in player prefab!");
             return;
         }
-
 
         if (!IsOwner)
         {
@@ -61,7 +60,6 @@ public class BaseController : NetworkBehaviour, IMovement
             var follow = cam.GetComponent<FollowCam>();
             follow.target = transform;
         }
-
     }
 
     private void HandleMovement()
