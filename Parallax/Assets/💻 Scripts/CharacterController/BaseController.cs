@@ -64,6 +64,8 @@ public class BaseController : NetworkBehaviour, IMovement
 
     private void HandleMovement()
     {
+        if (!IsOwner) return;
+
         var followCam = FindObjectsByType<FollowCam>(FindObjectsSortMode.None).First();
         float camYaw = followCam ? followCam.Yaw : transform.eulerAngles.y;
         Quaternion yawRot = Quaternion.Euler(0f, camYaw, 0f);
