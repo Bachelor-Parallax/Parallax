@@ -1,12 +1,11 @@
 using UnityEngine;
 using Unity.Netcode;
-using System.Linq;
 
 [RequireComponent(typeof(CharacterController))]
 public class BaseController : NetworkBehaviour, IMovement
 {
     [Header("Movement")]
-    [SerializeField] [Range(0f, 20f)] public float moveSpeed = 5f;
+    [SerializeField] [Range(0f, 20f)] private float moveSpeed = 5f;
     [SerializeField] [Range(0f, 36f)] private float rotationSpeed = 18f;
 
     [Header("Acceleration")]
@@ -19,23 +18,16 @@ public class BaseController : NetworkBehaviour, IMovement
     [SerializeField] [Range(-10f, 0f)] private float groundStick = -2f;
 
     private CharacterController cc;
-    private float yaw;
     private float verticalVelocity;
     private float speedMultiplier = 1f;
 
     private Vector2 moveInput;
     private Vector3 currentHorizontalVelocity;
+    private FollowCam followCam;
 
     void Awake()
     {
         cc = GetComponent<CharacterController>();
-        yaw = transform.eulerAngles.y;
-    }
-
-    void Update()
-    {
-        HandleGravity();
-        HandleMovement();
     }
 
     public override void OnNetworkSpawn()
@@ -51,27 +43,38 @@ public class BaseController : NetworkBehaviour, IMovement
         if (!IsOwner)
         {
             cam.gameObject.SetActive(false);
+            enabled = false; // meget vigtigt
+            return;
+        }
+
+        cam.gameObject.SetActive(true);
+
+        followCam = cam.GetComponent<FollowCam>();
+        if (followCam != null)
+        {
+            followCam.SetTarget(transform);
         }
         else
         {
-            cam.gameObject.SetActive(true);
-
-            // Assign target for FollowCam
-            var follow = cam.GetComponent<FollowCam>();
-            follow.target = transform;
+            Debug.LogWarning("FollowCam not found on local player camera.");
         }
+    }
+
+    void Update()
+    {
+        if (!IsOwner) return;
+
+        HandleGravity();
+        HandleMovement();
     }
 
     private void HandleMovement()
     {
-        if (!IsOwner) return;
-
-        var followCam = FindObjectsByType<FollowCam>(FindObjectsSortMode.None).First();
-        float camYaw = followCam ? followCam.Yaw : transform.eulerAngles.y;
+        float camYaw = followCam != null ? followCam.Yaw : transform.eulerAngles.y;
         Quaternion yawRot = Quaternion.Euler(0f, camYaw, 0f);
 
         Vector3 camForward = yawRot * Vector3.forward;
-        Vector3 camRight   = yawRot * Vector3.right;
+        Vector3 camRight = yawRot * Vector3.right;
 
         Vector3 wishDirection = camForward * moveInput.y + camRight * moveInput.x;
         wishDirection = Vector3.ClampMagnitude(wishDirection, 1f);
@@ -88,9 +91,10 @@ public class BaseController : NetworkBehaviour, IMovement
 
         float control = cc.isGrounded ? 1f : airControl;
 
-        Vector3 targetVelocity = wishDirection * moveSpeed * speedMultiplier * control;
+        Vector3 targetVelocity = wishDirection * moveSpeed * speedMultiplier;
+        targetVelocity *= control;
 
-        float accelRate = (wishDirection.sqrMagnitude > 0.01f) ? acceleration : deceleration;
+        float accelRate = wishDirection.sqrMagnitude > 0.01f ? acceleration : deceleration;
 
         currentHorizontalVelocity = Vector3.MoveTowards(
             currentHorizontalVelocity,
@@ -98,14 +102,18 @@ public class BaseController : NetworkBehaviour, IMovement
             accelRate * Time.deltaTime
         );
 
-        Vector3 motion = currentHorizontalVelocity + Vector3.up * verticalVelocity;
+        Vector3 motion = currentHorizontalVelocity;
+        motion.y = verticalVelocity;
+
         cc.Move(motion * Time.deltaTime);
     }
 
     private void HandleGravity()
     {
         if (cc.isGrounded && verticalVelocity < 0f)
+        {
             verticalVelocity = groundStick;
+        }
 
         verticalVelocity += gravity * Time.deltaTime;
     }
@@ -117,7 +125,6 @@ public class BaseController : NetworkBehaviour, IMovement
 
     public void Rotate(Vector2 look)
     {
-        // Rotation is handled in HandleMovement based on camera direction, so we ignore look input here.
     }
 
     public void AddVerticalImpulse(float impulse)
