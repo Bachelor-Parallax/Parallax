@@ -224,6 +224,9 @@ GameObject:
   - component: {fileID: 9159154712173273874}
   - component: {fileID: 6058644065868821331}
   - component: {fileID: 6113790190893564714}
+  - component: {fileID: 8445821581987789088}
+  - component: {fileID: 8723283944840906907}
+  - component: {fileID: 1483901463600195646}
   m_Layer: 0
   m_Name: Blue
   m_TagString: Player
@@ -296,6 +299,51 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8445821581987789088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8677070909867392000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1109b1a719f652142b112ffbb7d6d18d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BaseController
+  moveSpeed: 5
+  rotationSpeed: 18
+  acceleration: 5
+  deceleration: 5
+  airControl: 0.5
+  gravity: -20
+  groundStick: -2
+  followCam: {fileID: 0}
+--- !u!114 &8723283944840906907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8677070909867392000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373d1f2b0c188054585c4fc16872f5db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputHandler
+--- !u!114 &1483901463600195646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8677070909867392000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8d770f56a1cd1544927957591038b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HumanAbilities
+  sprintMultiplier: 1.6
 --- !u!1 &9135328462076866331
 GameObject:
   m_ObjectHideFlags: 0

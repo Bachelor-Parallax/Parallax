@@ -2371,8 +2371,9 @@ GameObject:
   - component: {fileID: 6633278329854684459}
   - component: {fileID: 7052887866892290222}
   - component: {fileID: 576411630016550707}
-  - component: {fileID: 337833700003828992}
-  - component: {fileID: 4475309311144039763}
+  - component: {fileID: 4570313001590414364}
+  - component: {fileID: 2501020055986736801}
+  - component: {fileID: 4221665988093227051}
   m_Layer: 0
   m_Name: Cat
   m_TagString: Player
@@ -2444,7 +2445,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: -0.5, z: 0}
---- !u!114 &337833700003828992
+--- !u!114 &4570313001590414364
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2453,7 +2454,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7877887795871466539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a828c3dfa965ec458bfc2abd351ce75, type: 3}
+  m_Script: {fileID: 11500000, guid: 1109b1a719f652142b112ffbb7d6d18d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BaseController
   moveSpeed: 5
@@ -2464,8 +2465,7 @@ MonoBehaviour:
   gravity: -20
   groundStick: -2
   followCam: {fileID: 0}
-  fallMultiplier: 2.3
---- !u!114 &4475309311144039763
+--- !u!114 &2501020055986736801
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2474,7 +2474,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 7877887795871466539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7376643ffc03cff4bb9e5104417fb328, type: 3}
+  m_Script: {fileID: 11500000, guid: 373d1f2b0c188054585c4fc16872f5db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputHandler
+--- !u!114 &4221665988093227051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7877887795871466539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adfcb4b101245c5438aa6f83d5d67c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CatAbilities
   jumpImpulse: 8
