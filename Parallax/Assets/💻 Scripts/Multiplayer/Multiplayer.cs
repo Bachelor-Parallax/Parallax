@@ -21,32 +21,31 @@ public class Multiplayer : MonoBehaviour
     [SerializeField] private string lobbyName = "Lobby";
     [SerializeField] private int maxPlayers = 2;
     [SerializeField] private bool dtlsSecureMode = true;
-    
+
     public static Multiplayer Instance { get; private set; }
-    
+
     public string PlayerId { get; private set; }
     public string PlayerName { get; private set; }
     public string CurrentLobbyCode =>
         currentLobby != null ? currentLobby.LobbyCode : "";
 
-
     private Lobby currentLobby;
-    
-    const float k_lobbyHeartbeatInterval = 20f;
-    const float k_lobbyPollInterval = 65f;
-    private const string k_keyJoinCode = "RelayJoinCode";
-    
-    // Instantiate timers
-    CountdownTimer heartbeatTimer = new(k_lobbyHeartbeatInterval);
-    CountdownTimer pollTimer = new(k_lobbyPollInterval);
 
-    async void Start()
+    private const float k_lobbyHeartbeatInterval = 20f;
+    private const float k_lobbyPollInterval = 65f;
+    private const string k_keyJoinCode = "RelayJoinCode";
+
+    // Instantiate timers
+    private CountdownTimer heartbeatTimer = new(k_lobbyHeartbeatInterval);
+    private CountdownTimer pollTimer = new(k_lobbyPollInterval);
+
+    private async void Start()
     {
         Instance = this;
         DontDestroyOnLoad(this);
 
         await Authenticate();
-        
+
         // Define timer restarts
         heartbeatTimer.OnTimerStop += () =>
         {
@@ -59,28 +58,27 @@ public class Multiplayer : MonoBehaviour
             _ = HandlePollingAsync();
             pollTimer.Start();
         };
-        
+
         NetworkManager.Singleton.OnTransportFailure += () =>
         {
             Debug.LogError("TRANSPORT FAILED - RELAY DEAD");
         };
 
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
-
     }
 
-    async Task Authenticate()
+    private async Task Authenticate()
     {
         await Authenticate("Player" + Random.Range(0, 1000));
     }
 
-    async Task Authenticate(string playerName)
+    private async Task Authenticate(string playerName)
     {
         if (UnityServices.State == ServicesInitializationState.Uninitialized)
         {
             InitializationOptions options = new InitializationOptions();
             options.SetProfile(playerName);
-            
+
             await UnityServices.InitializeAsync(options);
         }
 
@@ -108,10 +106,10 @@ public class Multiplayer : MonoBehaviour
             {
                 IsPrivate = isPrivate
             };
-            
+
             currentLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
             Debug.Log("Created lobby: " + currentLobby.Name + " with code " + currentLobby.LobbyCode);
-            
+
             heartbeatTimer.Start();
             pollTimer.Start();
 
@@ -134,9 +132,8 @@ public class Multiplayer : MonoBehaviour
             );
 
             NetworkManager.Singleton.OnServerStarted += OnHostStarted;
-            
-            NetworkManager.Singleton.StartHost();
 
+            NetworkManager.Singleton.StartHost();
         }
         catch (LobbyServiceException e)
         {
@@ -153,7 +150,7 @@ public class Multiplayer : MonoBehaviour
 
             string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
             JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
-            
+
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(
                 joinAllocation.RelayServer.IpV4,
                 (ushort)joinAllocation.RelayServer.Port,
@@ -164,14 +161,13 @@ public class Multiplayer : MonoBehaviour
                 dtlsSecureMode));
 
             NetworkManager.Singleton.StartClient();
-
         }
         catch (LobbyServiceException e)
         {
             Debug.LogError("Failed to quick join lobby: " + e.Message);
         }
     }
-    
+
     public async Task JoinLobbyByCode(string lobbyCode)
     {
         try
@@ -199,7 +195,7 @@ public class Multiplayer : MonoBehaviour
             Debug.LogError("Failed to join lobby by code: " + e.Message);
         }
     }
-    
+
     public async void Disconnect()
     {
         if (currentLobby != null)
@@ -231,8 +227,8 @@ public class Multiplayer : MonoBehaviour
         NetworkManager.Singleton.Shutdown();
         SceneManager.LoadScene("Lobby");
     }
-    
-    async Task<Allocation> AllocateRelay()
+
+    private async Task<Allocation> AllocateRelay()
     {
         try
         {
@@ -247,7 +243,7 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
-    async Task<string> GetRelayJoinCode(Allocation allocation)
+    private async Task<string> GetRelayJoinCode(Allocation allocation)
     {
         try
         {
@@ -261,7 +257,7 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
-    async Task<JoinAllocation> JoinRelay(string relayJoinCode)
+    private async Task<JoinAllocation> JoinRelay(string relayJoinCode)
     {
         try
         {
@@ -274,8 +270,8 @@ public class Multiplayer : MonoBehaviour
             return default;
         }
     }
-    
-    async Task HandleHeartbeatAsync()
+
+    private async Task HandleHeartbeatAsync()
     {
         try
         {
@@ -287,8 +283,8 @@ public class Multiplayer : MonoBehaviour
             Debug.LogError("Failed to heartbeat lobby: " + e.Message);
         }
     }
-    
-    async Task HandlePollingAsync()
+
+    private async Task HandlePollingAsync()
     {
         try
         {
@@ -300,13 +296,13 @@ public class Multiplayer : MonoBehaviour
             Debug.LogError("Failed to poll for updates on lobby: " + e.Message);
         }
     }
-    
+
     private void OnHostStarted()
     {
         Debug.Log("Host fully started, loading scene...");
 
         NetworkManager.Singleton.SceneManager.LoadScene(
-            "Stecher",
+            "Thea",
             LoadSceneMode.Single
         );
 
@@ -338,11 +334,10 @@ public class Multiplayer : MonoBehaviour
             Debug.LogWarning("Failed to remove disconnected player: " + e.Message);
         }
     }
-    
+
     private IEnumerator LogSceneAfterDelay()
     {
         yield return new WaitForSeconds(1f);
         Debug.Log("Scene after 1 second: " + SceneManager.GetActiveScene().name);
     }
-
 }
