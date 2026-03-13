@@ -2,7 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
 
-public class TemporaryMovement : NetworkBehaviour
+public class TemporaryMovement : NetworkBehaviour, IMovement
 {
     public float speed = 5f;
 
@@ -78,4 +78,13 @@ public class TemporaryMovement : NetworkBehaviour
         return input;
     }
 
+    public void Move(Vector2 move)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Rotate(Vector2 look)
+    {
+        throw new System.NotImplementedException();
+    }
 }
