@@ -25,6 +25,7 @@ public class BaseControllerTest : NetworkBehaviour, IMovement
     private Vector2 moveInput;
     private Vector3 currentHorizontalVelocity;
     private FollowCam followCam;
+    private Camera playerCam;
 
     void Awake()
     {
@@ -33,9 +34,9 @@ public class BaseControllerTest : NetworkBehaviour, IMovement
 
     public override void OnNetworkSpawn()
     {
-        var cam = GetComponentInChildren<Camera>(true);
+        playerCam = GetComponentInChildren<Camera>(true);
 
-        if (cam == null)
+        if (playerCam == null)
         {
             Debug.LogError("Camera not found in player prefab!");
             return;
@@ -43,14 +44,14 @@ public class BaseControllerTest : NetworkBehaviour, IMovement
 
         if (!IsOwner)
         {
-            cam.gameObject.SetActive(false);
-            enabled = false; // meget vigtigt
+            playerCam.gameObject.SetActive(false);
+            enabled = false;
             return;
         }
 
-        cam.gameObject.SetActive(true);
+        playerCam.gameObject.SetActive(true);
 
-        followCam = cam.GetComponent<FollowCam>();
+        followCam = playerCam.GetComponent<FollowCam>();
         if (followCam != null)
         {
             followCam.SetTarget(transform);
@@ -61,42 +62,40 @@ public class BaseControllerTest : NetworkBehaviour, IMovement
         }
     }
 
-   void Update()
-{
-    if (!IsOwner) return;
+    void Update()
+    {
+        if (!IsOwner) return;
 
-    moveInput = GetMovementInput();
+        moveInput = GetMovementInput();
 
-    HandleGravity();
-    HandleMovement();
-}
+        HandleGravity();
+        HandleMovement();
+    }
 
-private Vector2 GetMovementInput()
-{
-    Vector2 input = Vector2.zero;
+    private Vector2 GetMovementInput()
+    {
+        Vector2 input = Vector2.zero;
 
-    if (Keyboard.current.wKey.isPressed)
-        input.y += 1;
+        if (Keyboard.current.wKey.isPressed) input.y += 1;
+        if (Keyboard.current.sKey.isPressed) input.y -= 1;
+        if (Keyboard.current.aKey.isPressed) input.x -= 1;
+        if (Keyboard.current.dKey.isPressed) input.x += 1;
 
-    if (Keyboard.current.sKey.isPressed)
-        input.y -= 1;
-
-    if (Keyboard.current.aKey.isPressed)
-        input.x -= 1;
-
-    if (Keyboard.current.dKey.isPressed)
-        input.x += 1;
-
-    return Vector2.ClampMagnitude(input, 1f);
-}
+        return Vector2.ClampMagnitude(input, 1f);
+    }
 
     private void HandleMovement()
     {
-        float camYaw = followCam != null ? followCam.Yaw : transform.eulerAngles.y;
-        Quaternion yawRot = Quaternion.Euler(0f, camYaw, 0f);
+        if (playerCam == null) return;
 
-        Vector3 camForward = yawRot * Vector3.forward;
-        Vector3 camRight = yawRot * Vector3.right;
+        Vector3 camForward = playerCam.transform.forward;
+        Vector3 camRight = playerCam.transform.right;
+
+        camForward.y = 0f;
+        camRight.y = 0f;
+
+        camForward.Normalize();
+        camRight.Normalize();
 
         Vector3 wishDirection = camForward * moveInput.y + camRight * moveInput.x;
         wishDirection = Vector3.ClampMagnitude(wishDirection, 1f);
