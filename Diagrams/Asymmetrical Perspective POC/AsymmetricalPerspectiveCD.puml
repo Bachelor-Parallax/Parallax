@@ -10,16 +10,20 @@ package "Asymmetrical Perspective" {
         Cat
     }
 
-    class PerspectiveManager<MonoBehaviour>
+    interface IPerspectiveManager
+    {
+        + void ApplyPerspective(PerspectiveProfile profile)
+    }
+
+    class PerspectiveManager<MonoBehaviour> implements IPerspectiveManager
     {
         - BaseAsymProperty[] _asymProperties
-        + void ApplyPerspective(PerspectiveProfile profile)
     }
 
     !include AsymmetricalPropertyCD.puml
 
     PerspectiveProfile <- PerspectiveManager 
-    PerspectiveManager -> base
+    PerspectiveManager --> base
     PerspectiveProfile <-- base
 }
 @enduml
