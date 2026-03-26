@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -11,6 +12,18 @@ public class LevelManager : MonoBehaviour
     #endregion Inspector Values
 
     private GameObject _human, _cat;
+    private IPerspectiveManager _perspectiveManager;
+
+    private void Awake()
+    {
+        _perspectiveManager = UnityExtensions.FindObjectsAssignableTo<IPerspectiveManager>(FindObjectsSortMode.None)
+            .FirstOrDefault();
+
+        if (_perspectiveManager == null)
+        {
+            Debug.LogError("No perspective manager could be found in the scene.");
+        }
+    }
 
     private void Start()
     {

@@ -1,0 +1,10 @@
+@startuml Level Logic CD
+
+package "Level Logic" {
+
+    class LevelManager<MonoBehaviour>
+    {
+    }
+
+}
+@enduml

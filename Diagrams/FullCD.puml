@@ -1,0 +1,11 @@
+@startuml FullCD
+
+package "Parallax CD" 
+{
+    !include Level Logic/LevelLogicCD.puml
+    !include Asymmetrical Perspective/AsymmetricalPerspectiveCD.puml
+
+    LevelManager --> IPerspectiveManager
+}
+
+@enduml
