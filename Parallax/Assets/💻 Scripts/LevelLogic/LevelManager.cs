@@ -27,6 +27,8 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        _perspectiveManager.ApplyPerspective();
+
         FetchPlayers();
         PositionPlayers();
     }

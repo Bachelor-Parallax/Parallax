@@ -12,18 +12,19 @@ package "Asymmetrical Perspective" {
 
     interface IPerspectiveManager
     {
-        + void ApplyPerspectiveProfile(PerspectiveProfile profile)
+        + void ApplyPerspectiveProfile()
     }
 
     class PerspectiveManager<MonoBehaviour>
     {
         - BaseAsymProperty[] _asymProperties
+        - INetworkManager _networkManager
     }
 
     !include AsymmetricalPropertyCD.puml
 
-    PerspectiveProfile <-up- IPerspectiveManager 
     IPerspectiveManager <|.. PerspectiveManager
+    PerspectiveManager -> PerspectiveProfile
     PerspectiveManager --> base
     PerspectiveProfile <-- base
 }
