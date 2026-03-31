@@ -18,7 +18,7 @@ class SplitScreenCam<MonoBehaviour>
     + PerspectiveManager Man
 }
 
-!include AsymmetricalPerspectiveCD.puml
+!include Asymmetrical Perspective/AsymmetricalPerspectiveCD.puml
 
 SplitScreenTool -> SplitScreenCam 
 SplitScreenTool --> PerspectiveManager
