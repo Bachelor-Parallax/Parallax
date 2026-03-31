@@ -62,7 +62,6 @@ public class UIMultiplayer : MonoBehaviour
         {
             _ = HandleHeartbeatAsync();
             heartbeatTimer.Start();
-            updateCurrentLobbyAsync();
         };
 
         pollTimer.OnTimerStop += () =>
