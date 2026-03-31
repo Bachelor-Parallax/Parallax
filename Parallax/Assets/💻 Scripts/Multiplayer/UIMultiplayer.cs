@@ -34,8 +34,8 @@ public class UIMultiplayer : MonoBehaviour
     public string PlayerName { get; private set; }
     public string CurrentLobbyCode => currentLobby != null ? currentLobby.LobbyCode : "";
 
-    private Lobby currentLobby;
-    
+    private Lobby currentLobby;// { get; set; }
+
     private const float k_lobbyHeartbeatInterval = 20f;
     private const float k_lobbyPollInterval = 65f;
     private const string k_keyJoinCode = "RelayJoinCode";
@@ -377,20 +377,29 @@ public class UIMultiplayer : MonoBehaviour
     }
 
 
+    
+    public async Task<Lobby> getCurrentLobbyAsync()
+    {
+        return await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
+    }
 
 
     public void LoadeGameSceen(string sceneName)
     {
+        getCurrentLobbyAsync();
+        
         Debug.Log("Player Count: " + currentLobby.Players.Count);
-        if (currentLobby.Players.Count >= 1)
+        if (currentLobby.Players.Count >= maxPlayers)
         {
             NetworkManager.Singleton.SceneManager.LoadScene("sceneName", LoadSceneMode.Single);
             
             //StartCoroutine(LogSceneAfterDelay());
             NetworkManager.Singleton.OnServerStarted -= OnHostStarted;
         }
-        
+        else
+        {
         Debug.Log("Your alone and cant load a sceen");
+        }
     }
     
     private void OnHostStarted()
