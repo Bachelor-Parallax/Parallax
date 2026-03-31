@@ -8,20 +8,17 @@ public class TeleCat : MonoBehaviour
         StartCoroutine(TeleportAfterDelay());
     }
 
-    IEnumerator TeleportAfterDelay()
-    {
-        // Wait for scene to fully initialize
-        yield return null;
-
-        // Extra delay (seconds)
-        yield return new WaitForSeconds(2f);
-
-        TeleportAllPlayers();
-    }
-
-    void TeleportAllPlayers()
+    private IEnumerator TeleportAfterDelay()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        while (players.Length < 2)
+        {
+            yield return null;
+            players = GameObject.FindGameObjectsWithTag("Player");
+        }
+
+        yield return new WaitForSeconds(2f);
 
         foreach (GameObject player in players)
         {
