@@ -38,7 +38,7 @@ public class UINetworkStart : MonoBehaviour
     //TODO:FIXME Need some text feed back if you acctualy joined a lobby.
     private void JoinPublicLobby()
     {
-        Multiplayer.Instance.QuickJoinLobby();
+        Multiplayer.Instance.JoinLobby();
         //TODO:FIXME Need some validation check here for the text
         displayText.SetText("Joined Random Lobby");
     }
@@ -62,6 +62,6 @@ public class UINetworkStart : MonoBehaviour
             return;
         }
 
-        Multiplayer.Instance.JoinLobbyByCode(code);
+        Multiplayer.Instance.JoinLobby(code);
     }
 }
