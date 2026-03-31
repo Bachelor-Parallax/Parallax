@@ -381,7 +381,8 @@ public class UIMultiplayer : MonoBehaviour
 
     public void LoadeGameSceen(string sceneName)
     {
-        if (currentLobby.Players.Count >= maxPlayers)
+        Debug.Log("Player Count: " + currentLobby.Players.Count);
+        if (currentLobby.Players.Count >= 1)
         {
             NetworkManager.Singleton.SceneManager.LoadScene("sceneName", LoadSceneMode.Single);
             
