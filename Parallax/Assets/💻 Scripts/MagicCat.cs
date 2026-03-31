@@ -10,8 +10,6 @@ public class MagicCat : MonoBehaviour
 
     IEnumerator ActivatePlayersAfterDelay()
     {
-        yield return new WaitForSeconds(1f);
-
         GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
 
         foreach (GameObject obj in allObjects)
