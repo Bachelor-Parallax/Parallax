@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
@@ -17,20 +16,25 @@ using UnityEngine.SceneManagement;
 using Utilities;
 using Random = UnityEngine.Random;
 
-public class Multiplayer : MonoBehaviour
+public class UIMultiplayer : MonoBehaviour
 {
-    [SerializeField] private string lobbyName = "Lobby";
+    [SerializeField] private TMPro.TMP_Text lobbyInfoText;
+    [SerializeField] private TMPro.TMP_Text displayLobbyCode;
+    [SerializeField] private TMPro.TMP_InputField lobbyCodeInput;
+    [SerializeField] private GameObject levelSelectMenu;
+    
+    
+    //[SerializeField] private string lobbyName = "Lobby";
     [SerializeField] private int maxPlayers = 2;
     [SerializeField] private bool dtlsSecureMode = true;
 
-    public static Multiplayer Instance { get; private set; }
+    public static UIMultiplayer Instance { get; private set; }
 
     public string PlayerId { get; private set; }
     public string PlayerName { get; private set; }
-    public string CurrentLobbyCode =>
-        currentLobby != null ? currentLobby.LobbyCode : "";
+    public string CurrentLobbyCode => currentLobby != null ? currentLobby.LobbyCode : "";
 
-    private Lobby currentLobby;
+    private Lobby currentLobby;// { get; set; }
 
     private const float k_lobbyHeartbeatInterval = 20f;
     private const float k_lobbyPollInterval = 65f;
@@ -40,6 +44,12 @@ public class Multiplayer : MonoBehaviour
     private CountdownTimer heartbeatTimer = new(k_lobbyHeartbeatInterval);
     private CountdownTimer pollTimer = new(k_lobbyPollInterval);
 
+    
+    
+    
+    
+    // ReSharper disable Unity.PerformanceAnalysis
+    // ReSharper disable Unity.PerformanceAnalysis
     private async void Start()
     {
         Instance = this;
@@ -68,6 +78,11 @@ public class Multiplayer : MonoBehaviour
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
     }
 
+    
+    
+    
+    
+    
     private async Task Authenticate()
     {
         await Authenticate("Player" + Random.Range(0, 1000));
@@ -96,7 +111,17 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
-    public async Task CreateLobby(bool isPrivate)
+
+
+
+
+
+    public void CreateLobbyFunction(bool isPrivate)
+    {
+        _ = CreateLobby(isPrivate);
+    }
+    
+    private async Task CreateLobby(bool isPrivate)
     {
         try
         {
@@ -108,7 +133,13 @@ public class Multiplayer : MonoBehaviour
                 IsPrivate = isPrivate
             };
 
-            currentLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
+            currentLobby = await LobbyService.Instance.CreateLobbyAsync("Lobby", maxPlayers, options);
+            displayLobbyCode.SetText("Lobby code: " + currentLobby.LobbyCode);
+            
+            //TODO:REMOVE
+            //test.SetText("Lobby code: " + currentLobby.LobbyCode);
+            
+            //TODO:FIXME remove commented out if it works 
             Debug.Log("Created lobby: " + currentLobby.Name + " with code " + currentLobby.LobbyCode);
 
             heartbeatTimer.Start();
@@ -142,70 +173,60 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
-    // public async Task QuickJoinLobby()
-    // {
-    //     try
-    //     {
-    //         currentLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
-    //         pollTimer.Start();
-    //
-    //         string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
-    //         JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
-    //
-    //         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(
-    //             joinAllocation.RelayServer.IpV4,
-    //             (ushort)joinAllocation.RelayServer.Port,
-    //             joinAllocation.AllocationIdBytes,
-    //             joinAllocation.ConnectionData,
-    //             joinAllocation.HostConnectionData,
-    //             joinAllocation.Key,
-    //             dtlsSecureMode));
-    //
-    //         NetworkManager.Singleton.StartClient();
-    //     }
-    //     catch (LobbyServiceException e)
-    //     {
-    //         Debug.LogError("Failed to quick join lobby: " + e.Message);
-    //     }
-    // }
-    //
-    // public async Task JoinLobbyByCode(string lobbyCode)
-    // {
-    //     try
-    //     {
-    //         currentLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
-    //         pollTimer.Start();
-    //
-    //         string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
-    //         JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
-    //
-    //         NetworkManager.Singleton.GetComponent<UnityTransport>()
-    //             .SetRelayServerData(new RelayServerData(
-    //                 joinAllocation.RelayServer.IpV4,
-    //                 (ushort)joinAllocation.RelayServer.Port,
-    //                 joinAllocation.AllocationIdBytes,
-    //                 joinAllocation.ConnectionData,
-    //                 joinAllocation.HostConnectionData,
-    //                 joinAllocation.Key,
-    //                 dtlsSecureMode));
-    //
-    //         NetworkManager.Singleton.StartClient();
-    //     }
-    //     catch (LobbyServiceException e)
-    //     {
-    //         Debug.LogError("Failed to join lobby by code: " + e.Message);
-    //     }
-    // }
     
-    public async Task JoinLobby(string lobbyCode = null)
+    
+    
+    
+    
+    
+    public void QuickJoinLobbyFunction()
+    {
+        _ = QuickJoinLobby();
+    }
+    
+    //TODO:FIXME better naming ()
+    private async Task QuickJoinLobby()
     {
         try
         {
-            if ( lobbyCode == null )
-                currentLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
-            else 
-                currentLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
-            
+            currentLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+            pollTimer.Start();
+
+            string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
+            JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(
+                joinAllocation.RelayServer.IpV4,
+                (ushort)joinAllocation.RelayServer.Port,
+                joinAllocation.AllocationIdBytes,
+                joinAllocation.ConnectionData,
+                joinAllocation.HostConnectionData,
+                joinAllocation.Key,
+                dtlsSecureMode));
+
+            NetworkManager.Singleton.StartClient();
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.LogError("Failed to quick join lobby: " + e.Message);
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    public void JoinLobbyByCodeFunction()
+    {
+        _ = JoinLobbyByCode(lobbyCodeInput.text.ToUpper());
+    }
+    private async Task JoinLobbyByCode(string lobbyCode)
+    {
+        try
+        {
+            currentLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
             pollTimer.Start();
 
             string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
@@ -229,6 +250,12 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
+    
+    
+    
+    
+    
+    
     public async void Disconnect()
     {
         if (currentLobby != null)
@@ -239,16 +266,20 @@ public class Multiplayer : MonoBehaviour
                 {
                     // If host leaves → delete entire lobby
                     await LobbyService.Instance.DeleteLobbyAsync(currentLobby.Id);
+                    lobbyInfoText.SetText("Host left - Lobby has been deleted");
                 }
                 else
                 {
                     // Normal client leaves
                     await LobbyService.Instance.RemovePlayerAsync(currentLobby.Id, PlayerId);
+                    lobbyInfoText.SetText("Client left - Lobby has been deleted");
                 }
             }
             catch (Exception e)
             {
+                //TODO:FIXME maby remove the debug
                 Debug.LogWarning("Lobby cleanup failed: " + e.Message);
+                lobbyInfoText.SetText("Lobby cleanup failed: " + e.Message);
             }
 
             currentLobby = null;
@@ -276,6 +307,9 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
+    
+    
+    
     private async Task<string> GetRelayJoinCode(Allocation allocation)
     {
         try
@@ -290,6 +324,12 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
+    
+    
+    
+    
+    
+    
     private async Task<JoinAllocation> JoinRelay(string relayJoinCode)
     {
         try
@@ -304,6 +344,9 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
+    
+    
+    
     private async Task HandleHeartbeatAsync()
     {
         try
@@ -317,6 +360,9 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
+    
+    
+    
     private async Task HandlePollingAsync()
     {
         try
@@ -330,19 +376,53 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
-    private void OnHostStarted()
+
+    
+    public async void updateCurrentLobbyAsync()
     {
-        Debug.Log("Host fully started, loading scene...");
+        currentLobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
 
-        NetworkManager.Singleton.SceneManager.LoadScene(
-            "Thea",
-            LoadSceneMode.Single
-        );
-
-        StartCoroutine(LogSceneAfterDelay());
-        NetworkManager.Singleton.OnServerStarted -= OnHostStarted;
     }
 
+
+    public void LoadeGameSceen(string sceneName)
+    {
+        updateCurrentLobbyAsync();
+        
+        Debug.Log("Player Count: " + currentLobby.Players.Count);
+        if (currentLobby.Players.Count >= 2)
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+            
+            //StartCoroutine(LogSceneAfterDelay());
+            NetworkManager.Singleton.OnServerStarted -= OnHostStarted;
+        }
+        else
+        {
+        Debug.Log("Your alone and cant load a sceen");
+        }
+    }
+    
+    private void OnHostStarted()
+    {
+        // Debug.Log("Host fully started, loading scene...");
+        //
+        //
+        // //TODO:FIXME change this load thing 
+        //
+        // // NetworkManager.Singleton.SceneManager.LoadScene(
+        // //     "Thea",
+        // //     LoadSceneMode.Single
+        // // );
+        //
+        // StartCoroutine(LogSceneAfterDelay());
+        NetworkManager.Singleton.OnServerStarted -= OnHostStarted;
+    }
+    
+
+    
+    
+    
     private async void OnClientDisconnected(ulong clientId)
     {
         if (currentLobby == null) return;
@@ -368,6 +448,9 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
+    
+    
+    
     private IEnumerator LogSceneAfterDelay()
     {
         yield return new WaitForSeconds(1f);

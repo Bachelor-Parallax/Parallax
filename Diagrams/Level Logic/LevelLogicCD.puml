@@ -1,0 +1,17 @@
+@startuml Level Logic CD
+
+package "Level Logic" {
+
+    class LevelManager<MonoBehaviour>
+    {
+        - Vector3 _humanSpawnPos
+        - Vector3 _catSpawnPos
+        - GameObject _human
+        - GameObject _cat
+        - IPerspectiveManager _perspectiveManager
+
+        - void FetchPlayers()
+        - void PositionPlayers()
+    }
+}
+@enduml

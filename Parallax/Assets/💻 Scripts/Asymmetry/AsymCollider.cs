@@ -9,8 +9,8 @@ public class AsymCollider : BaseAsymProperty<Collider>
     {
         string targetTag = _profile switch
         {
-            PerspectiveProfile.Human => "Human",
-            PerspectiveProfile.Cat => "Cat",
+            PerspectiveProfile.Human => GameConstants.HUMAN_TAG,
+            PerspectiveProfile.Cat => GameConstants.CAT_TAG,
             _ => throw new ArgumentException("Unexpected perspective profile")
         };
 

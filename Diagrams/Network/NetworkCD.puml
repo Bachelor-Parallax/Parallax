@@ -1,0 +1,11 @@
+@startuml Network CD
+
+package "Network" {
+
+    interface INetworkManager
+    {
+        + GameObject GetLocalPlayerGameObject()
+    }
+}
+
+@enduml

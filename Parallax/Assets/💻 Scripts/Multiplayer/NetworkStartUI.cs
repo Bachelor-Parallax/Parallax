@@ -45,7 +45,7 @@ public class NetworkStartUI : MonoBehaviour
 
     private void OnJoinQuick()
     {
-        Multiplayer.Instance.QuickJoinLobby();
+        Multiplayer.Instance.JoinLobby(null);
     }
 
     private void OnJoinWithCode(string code)
@@ -58,6 +58,6 @@ public class NetworkStartUI : MonoBehaviour
             return;
         }
 
-        Multiplayer.Instance.JoinLobbyByCode(code);
+        Multiplayer.Instance.JoinLobby(code);
     }
 }
