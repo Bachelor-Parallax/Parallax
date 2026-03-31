@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
+//TODO:FIXME THIS IS NOT USED BUT WAS FOR A TEST 
+
 public class TeleCat : MonoBehaviour
 {
     private void Start()

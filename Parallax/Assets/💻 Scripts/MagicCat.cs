@@ -1,9 +1,10 @@
-using System.Collections;
 using UnityEngine;
+
+//TODO:FIXME DONT USE THIS, this is for at test ONLY 
 
 public class MagicCat : MonoBehaviour
 {
-    private void Start()
+    private void LateUpdate()
     {
         GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
 
