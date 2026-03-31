@@ -7,7 +7,7 @@ public class LevelManager : MonoBehaviour
 {
     #region Inspector Values
 
-    [Header("Spawn Settings")]
+    [Header("Spawn Positions")]
     [SerializeField] private Vector3 humanSpawnPos;
 
     [SerializeField] private Vector3 catSpawnPos;
