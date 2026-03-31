@@ -380,13 +380,16 @@ public class UIMultiplayer : MonoBehaviour
     
     public async Task<Lobby> getCurrentLobbyAsync()
     {
-        return await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
+        Lobby temp  = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
+        Debug.Log("Lobby test: " + temp.Players.Count);
+        return temp;
     }
 
 
     public void LoadeGameSceen(string sceneName)
     {
-        getCurrentLobbyAsync();
+        
+        
         
         Debug.Log("Player Count: " + currentLobby.Players.Count);
         if (currentLobby.Players.Count >= maxPlayers)
