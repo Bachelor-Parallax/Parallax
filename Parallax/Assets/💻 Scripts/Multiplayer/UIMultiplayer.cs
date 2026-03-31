@@ -24,7 +24,6 @@ public class UIMultiplayer : MonoBehaviour
     [SerializeField] private GameObject levelSelectMenu;
     
     
-    
     //[SerializeField] private string lobbyName = "Lobby";
     [SerializeField] private int maxPlayers = 2;
     [SerializeField] private bool dtlsSecureMode = true;
@@ -137,8 +136,11 @@ public class UIMultiplayer : MonoBehaviour
             currentLobby = await LobbyService.Instance.CreateLobbyAsync("Lobby", maxPlayers, options);
             displayLobbyCode.SetText("Lobby code: " + currentLobby.LobbyCode);
             
+            //TODO:REMOVE
+            //test.SetText("Lobby code: " + currentLobby.LobbyCode);
+            
             //TODO:FIXME remove commented out if it works 
-            //Debug.Log("Created lobby: " + currentLobby.Name + " with code " + currentLobby.LobbyCode);
+            Debug.Log("Created lobby: " + currentLobby.Name + " with code " + currentLobby.LobbyCode);
 
             heartbeatTimer.Start();
             pollTimer.Start();
@@ -308,8 +310,6 @@ public class UIMultiplayer : MonoBehaviour
     
     
     
-    
-    
     private async Task<string> GetRelayJoinCode(Allocation allocation)
     {
         try
@@ -376,21 +376,38 @@ public class UIMultiplayer : MonoBehaviour
         }
     }
 
-    
-    
+
+
+
+    public void LoadeGameSceen(string sceneName)
+    {
+        if (currentLobby.Players.Count >= maxPlayers)
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("sceneName", LoadSceneMode.Single);
+            
+            //StartCoroutine(LogSceneAfterDelay());
+            NetworkManager.Singleton.OnServerStarted -= OnHostStarted;
+        }
+        
+        Debug.Log("Your alone and cant load a sceen");
+    }
     
     private void OnHostStarted()
     {
         Debug.Log("Host fully started, loading scene...");
 
-        NetworkManager.Singleton.SceneManager.LoadScene(
-            "Thea",
-            LoadSceneMode.Single
-        );
+        
+        //TODO:FIXME change this load thing 
+        
+        // NetworkManager.Singleton.SceneManager.LoadScene(
+        //     "Thea",
+        //     LoadSceneMode.Single
+        // );
 
         StartCoroutine(LogSceneAfterDelay());
         NetworkManager.Singleton.OnServerStarted -= OnHostStarted;
     }
+    
 
     
     
