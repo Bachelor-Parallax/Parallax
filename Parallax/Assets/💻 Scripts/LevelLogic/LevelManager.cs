@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -6,31 +8,44 @@ public class LevelManager : MonoBehaviour
     #region Inspector Values
 
     [Header("Spawn Settings")]
-    [SerializeField] private Vector3 _humanSpawnPos;
-    [SerializeField] private Vector3 _catSpawnPos;
+    [SerializeField] private Vector3 humanSpawnPos;
+
+    [SerializeField] private Vector3 catSpawnPos;
+
+    [Header("Stopwatch")]
+    [SerializeField] private string elapsedTime;
 
     #endregion Inspector Values
 
+    private Stopwatch _stopWatch;
     private GameObject _human, _cat;
     private IPerspectiveManager _perspectiveManager;
 
-    private void Awake()
-    {
-        _perspectiveManager = UnityExtensions.FindObjectsAssignableTo<IPerspectiveManager>(FindObjectsSortMode.None)
-            .FirstOrDefault();
-
-        if (_perspectiveManager == null)
-        {
-            Debug.LogError("No perspective manager could be found in the scene.");
-        }
-    }
-
     private void Start()
     {
-        _perspectiveManager.ApplyPerspective();
+        _stopWatch = new Stopwatch();
 
+        // Find the perspective manager in the scene
+        _perspectiveManager = UnityExtensions.FindObjectsAssignableTo<IPerspectiveManager>(FindObjectsSortMode.None).FirstOrDefault();
+        if (_perspectiveManager == null)
+        {
+            UnityEngine.Debug.LogError("No perspective manager could be found in the scene.");
+            return;
+        }
+
+        // Perform initial level setup
+        _perspectiveManager.ApplyPerspective();
         FetchPlayers();
         PositionPlayers();
+
+        // As the very last thing, start the stopwatch
+        _stopWatch.Start();
+    }
+
+    private void FixedUpdate()
+    {
+        TimeSpan ts = _stopWatch.Elapsed;
+        elapsedTime = $"{(int)ts.TotalHours}:{ts.Minutes}:{ts.Seconds},{ts.Milliseconds}";
     }
 
     /// <summary>
@@ -39,10 +54,10 @@ public class LevelManager : MonoBehaviour
     private void FetchPlayers()
     {
         _human = GameObject.FindGameObjectWithTag("Human");
-        if (_human == null) Debug.LogError("No GameObject with tag 'Human'");
+        if (_human == null) UnityEngine.Debug.LogError("No GameObject with tag 'Human'");
 
         _cat = GameObject.FindGameObjectWithTag("Cat");
-        if (_cat == null) Debug.LogError("No GameObject with tag 'Cat'");
+        if (_cat == null) UnityEngine.Debug.LogError("No GameObject with tag 'Cat'");
     }
 
     /// <summary>
@@ -50,7 +65,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private void PositionPlayers()
     {
-        _human.transform.position = _humanSpawnPos;
-        _cat.transform.position = _catSpawnPos;
+        _human.transform.position = humanSpawnPos;
+        _cat.transform.position = catSpawnPos;
     }
 }
