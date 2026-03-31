@@ -18,6 +18,7 @@ public class FollowCam : MonoBehaviour
     public float Yaw => currentX;
     public float Pitch => currentY;
 
+    
     private void LateUpdate()
     {
         if (!target)
