@@ -392,7 +392,7 @@ public class UIMultiplayer : MonoBehaviour
         Debug.Log("Player Count: " + currentLobby.Players.Count);
         if (currentLobby.Players.Count >= 2)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene("sceneName", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
             
             //StartCoroutine(LogSceneAfterDelay());
             NetworkManager.Singleton.OnServerStarted -= OnHostStarted;
