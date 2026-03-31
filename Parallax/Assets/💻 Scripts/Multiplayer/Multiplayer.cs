@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
@@ -141,38 +142,70 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
-    public async Task QuickJoinLobby()
+    // public async Task QuickJoinLobby()
+    // {
+    //     try
+    //     {
+    //         currentLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+    //         pollTimer.Start();
+    //
+    //         string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
+    //         JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+    //
+    //         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(
+    //             joinAllocation.RelayServer.IpV4,
+    //             (ushort)joinAllocation.RelayServer.Port,
+    //             joinAllocation.AllocationIdBytes,
+    //             joinAllocation.ConnectionData,
+    //             joinAllocation.HostConnectionData,
+    //             joinAllocation.Key,
+    //             dtlsSecureMode));
+    //
+    //         NetworkManager.Singleton.StartClient();
+    //     }
+    //     catch (LobbyServiceException e)
+    //     {
+    //         Debug.LogError("Failed to quick join lobby: " + e.Message);
+    //     }
+    // }
+    //
+    // public async Task JoinLobbyByCode(string lobbyCode)
+    // {
+    //     try
+    //     {
+    //         currentLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+    //         pollTimer.Start();
+    //
+    //         string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
+    //         JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+    //
+    //         NetworkManager.Singleton.GetComponent<UnityTransport>()
+    //             .SetRelayServerData(new RelayServerData(
+    //                 joinAllocation.RelayServer.IpV4,
+    //                 (ushort)joinAllocation.RelayServer.Port,
+    //                 joinAllocation.AllocationIdBytes,
+    //                 joinAllocation.ConnectionData,
+    //                 joinAllocation.HostConnectionData,
+    //                 joinAllocation.Key,
+    //                 dtlsSecureMode));
+    //
+    //         NetworkManager.Singleton.StartClient();
+    //     }
+    //     catch (LobbyServiceException e)
+    //     {
+    //         Debug.LogError("Failed to join lobby by code: " + e.Message);
+    //     }
+    // }
+    
+    public async Task JoinLobby(string lobbyCode = null)
     {
         try
         {
-            currentLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
-            pollTimer.Start();
-
-            string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
-            JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
-
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(new RelayServerData(
-                joinAllocation.RelayServer.IpV4,
-                (ushort)joinAllocation.RelayServer.Port,
-                joinAllocation.AllocationIdBytes,
-                joinAllocation.ConnectionData,
-                joinAllocation.HostConnectionData,
-                joinAllocation.Key,
-                dtlsSecureMode));
-
-            NetworkManager.Singleton.StartClient();
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.LogError("Failed to quick join lobby: " + e.Message);
-        }
-    }
-
-    public async Task JoinLobbyByCode(string lobbyCode)
-    {
-        try
-        {
-            currentLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            if ( lobbyCode == null )
+                currentLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+            else 
+                currentLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            
             pollTimer.Start();
 
             string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
