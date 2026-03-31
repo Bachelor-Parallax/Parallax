@@ -62,6 +62,7 @@ public class UIMultiplayer : MonoBehaviour
         {
             _ = HandleHeartbeatAsync();
             heartbeatTimer.Start();
+            updateCurrentLobbyAsync();
         };
 
         pollTimer.OnTimerStop += () =>
@@ -378,21 +379,19 @@ public class UIMultiplayer : MonoBehaviour
 
 
     
-    public async Task<Lobby> getCurrentLobbyAsync()
+    public async void updateCurrentLobbyAsync()
     {
-        Lobby temp  = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
-        Debug.Log("Lobby test: " + temp.Players.Count);
-        return temp;
+        currentLobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
+
     }
 
 
     public void LoadeGameSceen(string sceneName)
     {
-
-        getCurrentLobbyAsync();
+        
         
         Debug.Log("Player Count: " + currentLobby.Players.Count);
-        if (currentLobby.Players.Count >= maxPlayers)
+        if (currentLobby.Players.Count >= 2)
         {
             NetworkManager.Singleton.SceneManager.LoadScene("sceneName", LoadSceneMode.Single);
             
@@ -407,17 +406,17 @@ public class UIMultiplayer : MonoBehaviour
     
     private void OnHostStarted()
     {
-        Debug.Log("Host fully started, loading scene...");
-
-        
-        //TODO:FIXME change this load thing 
-        
-        // NetworkManager.Singleton.SceneManager.LoadScene(
-        //     "Thea",
-        //     LoadSceneMode.Single
-        // );
-
-        StartCoroutine(LogSceneAfterDelay());
+        // Debug.Log("Host fully started, loading scene...");
+        //
+        //
+        // //TODO:FIXME change this load thing 
+        //
+        // // NetworkManager.Singleton.SceneManager.LoadScene(
+        // //     "Thea",
+        // //     LoadSceneMode.Single
+        // // );
+        //
+        // StartCoroutine(LogSceneAfterDelay());
         NetworkManager.Singleton.OnServerStarted -= OnHostStarted;
     }
     
