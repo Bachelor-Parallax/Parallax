@@ -12,8 +12,8 @@ public class MagicCat : MonoBehaviour
         {
             if (obj.CompareTag("Player"))
             {
-                obj.SetActive(true);
-                obj.transform.position = new Vector3(1f, 3f, 1f);
+                Rigidbody rb = obj.GetComponent<Rigidbody>();
+                rb.isKinematic = false;
             }
         }
     }
