@@ -54,10 +54,10 @@ public class LevelManager : MonoBehaviour
     private void FetchPlayers()
     {
         _human = GameObject.FindGameObjectWithTag(GameConstants.HUMAN_TAG);
-        if (_human == null) UnityEngine.Debug.LogError("No GameObject with tag 'Human'");
+        if (_human == null) UnityEngine.Debug.LogError($"No GameObject with tag {GameConstants.HUMAN_TAG}");
 
         _cat = GameObject.FindGameObjectWithTag(GameConstants.CAT_TAG);
-        if (_cat == null) UnityEngine.Debug.LogError("No GameObject with tag 'Cat'");
+        if (_cat == null) UnityEngine.Debug.LogError($"No GameObject with tag {GameConstants.CAT_TAG}");
     }
 
     /// <summary>
