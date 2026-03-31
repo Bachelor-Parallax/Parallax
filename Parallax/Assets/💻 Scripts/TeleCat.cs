@@ -1,12 +1,24 @@
-using System;
+using System.Collections;
 using UnityEngine;
 
 public class TeleCat : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
+        StartCoroutine(TeleportAfterDelay());
+    }
+
+    IEnumerator TeleportAfterDelay()
+    {
+        // Wait for scene to fully initialize
+        yield return null;
+
+        // Extra delay (seconds)
+        yield return new WaitForSeconds(2f);
+
         TeleportAllPlayers();
     }
+
     void TeleportAllPlayers()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
