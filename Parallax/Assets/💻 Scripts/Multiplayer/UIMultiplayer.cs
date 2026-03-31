@@ -388,7 +388,7 @@ public class UIMultiplayer : MonoBehaviour
 
     public void LoadeGameSceen(string sceneName)
     {
-        
+        updateCurrentLobbyAsync();
         
         Debug.Log("Player Count: " + currentLobby.Players.Count);
         if (currentLobby.Players.Count >= 2)
