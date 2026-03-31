@@ -18,29 +18,8 @@ public class FollowCam : MonoBehaviour
     public float Yaw => currentX;
     public float Pitch => currentY;
 
-    
-    //TODO:FIXME Temporary solution to make players active and fix position
-    private void SetPlayerActive()
-    {
-        GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
-
-        foreach (GameObject obj in allObjects)
-        {
-            if (obj.CompareTag("Player"))
-            {
-                obj.SetActive(true);
-                obj.transform.position = (new Vector3(1f, 3f, 1f));
-            }
-        }
-    }
-    
-    
-    
     private void LateUpdate()
     {
-        // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-        SetPlayerActive(); //TODO:FIXME calls a temporary fix to make the players be at the right pos.
-        
         if (!target)
         {
             Debug.LogError("No target assigned to follow camera!");
