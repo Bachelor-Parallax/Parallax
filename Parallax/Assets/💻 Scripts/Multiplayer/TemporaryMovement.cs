@@ -6,42 +6,37 @@ public class TemporaryMovement : NetworkBehaviour
 {
     public float speed = 5f;
 
+    private FollowCam followCam;
+
     public override void OnNetworkSpawn()
     {
-        var cam = GetComponentInParent<Camera>(true);
+        followCam = GetComponentInChildren<FollowCam>(true);
 
-        if (cam == null)
+        if (followCam == null)
         {
-            Debug.LogError("Camera not found in player prefab!");
+            Debug.LogError("FollowCam not found in player prefab!");
             return;
         }
 
         if (!IsOwner)
         {
-            cam.gameObject.SetActive(false);
+            followCam.gameObject.SetActive(false);
         }
         else
         {
-            cam.gameObject.SetActive(true);
-
-            // Assign target for FollowCam
-            var follow = cam.GetComponent<FollowCam>();
-            follow.target = transform;
+            followCam.gameObject.SetActive(true);
+            followCam.SetTarget(transform, true);
         }
     }
 
-
     void Update()
     {
-        if (!IsOwner) return;
-
-        var cam = GetComponentInParent<Camera>();
-        if (cam == null) return;
+        if (!IsOwner || followCam == null) return;
 
         Vector2 input = GetMovementInput();
 
-        Vector3 camForward = cam.transform.forward;
-        Vector3 camRight = cam.transform.right;
+        Vector3 camForward = followCam.transform.forward;
+        Vector3 camRight = followCam.transform.right;
 
         camForward.y = 0;
         camRight.y = 0;
@@ -58,24 +53,16 @@ public class TemporaryMovement : NetworkBehaviour
             transform.rotation = Quaternion.LookRotation(direction);
         }
     }
-    
+
     Vector2 GetMovementInput()
     {
         Vector2 input = Vector2.zero;
 
-        if (Keyboard.current.wKey.isPressed)
-            input.y += 1;
-
-        if (Keyboard.current.sKey.isPressed)
-            input.y -= 1;
-
-        if (Keyboard.current.aKey.isPressed)
-            input.x -= 1;
-
-        if (Keyboard.current.dKey.isPressed)
-            input.x += 1;
+        if (Keyboard.current.wKey.isPressed) input.y += 1;
+        if (Keyboard.current.sKey.isPressed) input.y -= 1;
+        if (Keyboard.current.aKey.isPressed) input.x -= 1;
+        if (Keyboard.current.dKey.isPressed) input.x += 1;
 
         return input;
     }
-
 }
