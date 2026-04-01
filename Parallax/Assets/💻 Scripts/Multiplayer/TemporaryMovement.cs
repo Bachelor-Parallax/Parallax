@@ -8,7 +8,7 @@ public class TemporaryMovement : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        var cam = GetComponentInChildren<Camera>(true);
+        var cam = GetComponentInParent<Camera>(true);
 
         if (cam == null)
         {
@@ -35,7 +35,7 @@ public class TemporaryMovement : NetworkBehaviour
     {
         if (!IsOwner) return;
 
-        var cam = GetComponentInChildren<Camera>();
+        var cam = GetComponentInParent<Camera>();
         if (cam == null) return;
 
         Vector2 input = GetMovementInput();
