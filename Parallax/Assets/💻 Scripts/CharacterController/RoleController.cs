@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -32,6 +33,12 @@ public class RoleController : NetworkBehaviour
                 : CharacterRole.Cat;
         }
 
+        StartCoroutine(ApplyRoleNextFrame());
+    }
+    
+    IEnumerator ApplyRoleNextFrame()
+    {
+        yield return null;
         UpdateRole(role.Value);
     }
 
@@ -44,5 +51,6 @@ public class RoleController : NetworkBehaviour
     {
         human.SetActive(r == CharacterRole.Human);
         cat.SetActive(r == CharacterRole.Cat);
+        Debug.Log($"Role {r} | Human active: {human.activeSelf} | Cat active: {cat.activeSelf}");
     }
 }
