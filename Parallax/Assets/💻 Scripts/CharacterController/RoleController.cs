@@ -12,6 +12,9 @@ public class RoleController : NetworkBehaviour
 {
     public GameObject human;
     public GameObject cat;
+    
+    Renderer[] humanRenderers;
+    Renderer[] catRenderers;
 
     public NetworkVariable<CharacterRole> role = new(
         writePerm: NetworkVariableWritePermission.Server);
@@ -20,6 +23,9 @@ public class RoleController : NetworkBehaviour
     {
         human.SetActive(false);
         cat.SetActive(false);
+        
+        humanRenderers = human.GetComponentsInChildren<Renderer>(true);
+        catRenderers = cat.GetComponentsInChildren<Renderer>(true);
     }
 
     public override void OnNetworkSpawn()
@@ -52,5 +58,11 @@ public class RoleController : NetworkBehaviour
         human.SetActive(r == CharacterRole.Human);
         cat.SetActive(r == CharacterRole.Cat);
         Debug.Log($"Role {r} | Human active: {human.activeSelf} | Cat active: {cat.activeSelf}");
+        
+        foreach (var r1 in humanRenderers)
+            r1.enabled = r == CharacterRole.Human;
+
+        foreach (var r2 in catRenderers)
+            r2.enabled = r == CharacterRole.Cat;
     }
 }
