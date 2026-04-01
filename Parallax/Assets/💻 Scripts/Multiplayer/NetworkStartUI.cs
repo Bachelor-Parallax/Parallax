@@ -33,22 +33,22 @@ public class NetworkStartUI : MonoBehaviour
         }
     }
 
-    private void OnHostPublic()
+    private async void OnHostPublic()
     {
-        Multiplayer.Instance.CreateLobby(false);
+        await Multiplayer.Instance.CreateLobby(false);
     }
 
-    private void OnHostPrivate()
+    private async void OnHostPrivate()
     {
-        Multiplayer.Instance.CreateLobby(true);
+        await Multiplayer.Instance.CreateLobby(true);
     }
 
-    private void OnJoinQuick()
+    private async void OnJoinQuick()
     {
-        Multiplayer.Instance.JoinLobby(null);
+        await Multiplayer.Instance.JoinLobby(null);
     }
 
-    private void OnJoinWithCode(string code)
+    private async void OnJoinWithCode(string code)
     {
         code = code.Trim().ToUpper();
 
@@ -58,6 +58,6 @@ public class NetworkStartUI : MonoBehaviour
             return;
         }
 
-        Multiplayer.Instance.JoinLobby(code);
+        await Multiplayer.Instance.JoinLobby(code);
     }
 }

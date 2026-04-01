@@ -7,7 +7,7 @@ public class UINetworkStart : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text displayText;
     [SerializeField] private TMPro.TMP_InputField lobbyCodeInput;
 
-    private void LobbyHelper(bool isPublic, string infoText)
+    private async void LobbyHelper(bool isPublic, string infoText)
     {
         if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
         {
@@ -20,7 +20,7 @@ public class UINetworkStart : MonoBehaviour
             return;
         }
         
-        Multiplayer.Instance.CreateLobby(isPublic);
+        await Multiplayer.Instance.CreateLobby(isPublic);
         displayText.SetText(infoText);
     }
     
@@ -36,9 +36,9 @@ public class UINetworkStart : MonoBehaviour
     
     //TODO:FIXME Hookup to helper for multiplayer check
     //TODO:FIXME Need some text feed back if you acctualy joined a lobby.
-    private void JoinPublicLobby()
+    private async void JoinPublicLobby()
     {
-        Multiplayer.Instance.JoinLobby();
+        await Multiplayer.Instance.JoinLobby();
         //TODO:FIXME Need some validation check here for the text
         displayText.SetText("Joined Random Lobby");
     }
@@ -47,7 +47,7 @@ public class UINetworkStart : MonoBehaviour
     
     //TODO:FIXME Hookup to helper for multiplayer check
     
-    private void JoinPrivateLobby()
+    private async void JoinPrivateLobby()
     {
         //"Join With Code"
         //OnJoinWithCode(lobbyCodeInput);
@@ -62,6 +62,6 @@ public class UINetworkStart : MonoBehaviour
             return;
         }
 
-        Multiplayer.Instance.JoinLobby(code);
+        await Multiplayer.Instance.JoinLobby(code);
     }
 }

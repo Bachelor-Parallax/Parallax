@@ -9,7 +9,7 @@ public class LobbyCodeDisplay : MonoBehaviour
         
         float w = 220f, h = 40f;
         float x = 10f, y = 10f;
-        float spacing = 10f;
+        //float spacing = 10f;
 
         string code = Multiplayer.Instance.CurrentLobbyCode;
 

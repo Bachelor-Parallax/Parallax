@@ -6,7 +6,7 @@ public class MagicCat : MonoBehaviour
 {
     private void Start()
     {
-        GameObject[] allObjects = FindObjectsOfType<GameObject>(true);
+        GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
 
         foreach (GameObject obj in allObjects)
         {
