@@ -15,10 +15,10 @@ public class RoleController : NetworkBehaviour
     public NetworkVariable<CharacterRole> role = new(
         writePerm: NetworkVariableWritePermission.Server);
 
-    void UpdateRole(CharacterRole r)
+    void Awake()
     {
-        cat.SetActive(r == CharacterRole.Cat);
-        human.SetActive(r == CharacterRole.Human);
+        human.SetActive(false);
+        cat.SetActive(false);
     }
 
     public override void OnNetworkSpawn()
@@ -27,15 +27,22 @@ public class RoleController : NetworkBehaviour
 
         if (IsServer)
         {
-            if (OwnerClientId == NetworkManager.Singleton.LocalClientId)
-                role.Value = CharacterRole.Human;
-            else
-                role.Value = CharacterRole.Cat;
+            role.Value = (OwnerClientId == NetworkManager.ServerClientId)
+                ? CharacterRole.Human
+                : CharacterRole.Cat;
         }
+
+        UpdateRole(role.Value);
     }
 
     void OnRoleChanged(CharacterRole previous, CharacterRole current)
     {
         UpdateRole(current);
+    }
+
+    void UpdateRole(CharacterRole r)
+    {
+        human.SetActive(r == CharacterRole.Human);
+        cat.SetActive(r == CharacterRole.Cat);
     }
 }
