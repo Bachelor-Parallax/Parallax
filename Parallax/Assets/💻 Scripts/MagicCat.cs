@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class MagicCat : MonoBehaviour
 {
-    private void LateUpdate()
+    private void Start()
     {
-        GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+        GameObject[] allObjects = FindObjectsOfType<GameObject>(true);
 
         foreach (GameObject obj in allObjects)
         {
             if (obj.CompareTag("Player"))
             {
-                obj.SetActive(true);
+                Rigidbody rb = obj.GetComponent<Rigidbody>();
+                rb.isKinematic = false;
             }
         }
     }
