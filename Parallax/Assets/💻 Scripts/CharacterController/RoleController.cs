@@ -12,7 +12,8 @@ public class RoleController : NetworkBehaviour
     public GameObject human;
     public GameObject cat;
 
-    public NetworkVariable<CharacterRole> role = new();
+    public NetworkVariable<CharacterRole> role = new(
+        writePerm: NetworkVariableWritePermission.Server);
 
     void UpdateRole(CharacterRole r)
     {
@@ -22,10 +23,21 @@ public class RoleController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
-        if (NetworkManager.Singleton.IsHost)
-            UpdateRole(CharacterRole.Human);
-        else if (NetworkManager.Singleton.IsClient)
-            UpdateRole(CharacterRole.Cat);
+        role.OnValueChanged += OnRoleChanged;
+
+        if (IsServer)
+        {
+            if (OwnerClientId == NetworkManager.Singleton.LocalClientId)
+                role.Value = CharacterRole.Human;
+            else
+                role.Value = CharacterRole.Cat;
+        }
+        
+        UpdateRole(role.Value);
+    }
+
+    void OnRoleChanged(CharacterRole previous, CharacterRole current)
+    {
+        UpdateRole(current);
     }
 }
