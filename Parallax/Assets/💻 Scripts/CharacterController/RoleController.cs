@@ -32,8 +32,6 @@ public class RoleController : NetworkBehaviour
             else
                 role.Value = CharacterRole.Cat;
         }
-        
-        UpdateRole(role.Value);
     }
 
     void OnRoleChanged(CharacterRole previous, CharacterRole current)
