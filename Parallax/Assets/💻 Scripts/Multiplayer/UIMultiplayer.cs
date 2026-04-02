@@ -76,13 +76,12 @@ public class UIMultiplayer : MonoBehaviour
         };
 
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
     }
 
-    
-    
-    
-    
-    
+
+
+
     private async Task Authenticate()
     {
         await Authenticate("Player" + Random.Range(0, 1000));
@@ -367,8 +366,7 @@ public class UIMultiplayer : MonoBehaviour
     {
         try
         {
-            //Lobby lobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
-            updateCurrentLobbyAsync();
+            currentLobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
             Debug.Log("Polled for updates on lobby: " + currentLobby.Name);
         }
         catch (LobbyServiceException e)
@@ -418,8 +416,12 @@ public class UIMultiplayer : MonoBehaviour
         // StartCoroutine(LogSceneAfterDelay());
         NetworkManager.Singleton.OnServerStarted -= OnHostStarted;
     }
-    
 
+    
+    private void OnClientConnected(ulong obj)
+    {
+        updateCurrentLobbyAsync();
+    }
     
     
     
