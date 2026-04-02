@@ -6,6 +6,7 @@ public class TemporaryMovement : NetworkBehaviour
 {
     public float speed = 5f;
     public float gravity = -9.81f;
+    public float jumpHeight = 3f;
 
     private CharacterController controller;
     private float verticalVelocity;
@@ -99,5 +100,27 @@ public class TemporaryMovement : NetworkBehaviour
         if (controller) controller.enabled = false;
         transform.position = pos;
         if (controller) controller.enabled = true; 
+    }
+
+    public void ApplyRole(CharacterRole role)
+    {
+        switch (role)
+        {
+            case CharacterRole.Cat:
+                speed = 8;
+                gravity = -9.81f;
+                jumpHeight = 3f;
+                break;
+            case CharacterRole.Human:
+                speed = 5;
+                gravity = -9.81f;
+                jumpHeight = 1f;
+                break;
+            default:
+                speed = 5;
+                gravity = -9.81f;
+                jumpHeight = 1f;
+                break;
+        }
     }
 }
