@@ -37,74 +37,57 @@ public class TemporaryMovement : NetworkBehaviour
             followCam.SetTarget(transform, true);
         }
     }
-    
+
     void Update()
     {
-        if (!IsOwner) return;
-
-        Vector3 move = GetMovementDirection();
-
-        // Ground check
+        if (!IsOwner || followCam == null) return;
+    
+        Vector2 input = GetMovementInput();
+    
+        Vector3 camForward = followCam.transform.forward;
+        Vector3 camRight = followCam.transform.right;
+    
+        camForward.y = 0;
+        camRight.y = 0;
+    
+        camForward.Normalize();
+        camRight.Normalize();
+    
+        Vector3 direction = (camForward * input.y + camRight * input.x).normalized;
+    
+        // transform.Translate(direction * speed * Time.deltaTime, Space.World);
+        //
+        // if (direction != Vector3.zero)
+        // {
+        //     transform.rotation = Quaternion.LookRotation(direction);
+        // }
+        
+        // Gravity
         if (controller.isGrounded && verticalVelocity < 0)
         {
             verticalVelocity = -2f;
         }
 
-        // Apply gravity
         verticalVelocity += gravity * Time.deltaTime;
+        direction.y = verticalVelocity;
 
-        move.y = verticalVelocity;
+        controller.Move(direction * speed * Time.deltaTime);
 
-        controller.Move(move * speed * Time.deltaTime);
+        if (direction.x != 0 || direction.z != 0)
+        {
+            transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        }
     }
-
-    Vector3 GetMovementDirection()
+    
+    Vector2 GetMovementInput()
     {
-        float x = 0;
-        float z = 0;
-
-        if (Input.GetKey(KeyCode.W)) z += 1;
-        if (Input.GetKey(KeyCode.S)) z -= 1;
-        if (Input.GetKey(KeyCode.A)) x -= 1;
-        if (Input.GetKey(KeyCode.D)) x += 1;
-
-        return new Vector3(x, 0, z).normalized;
+        Vector2 input = Vector2.zero;
+    
+        if (Keyboard.current.wKey.isPressed) input.y += 1;
+        if (Keyboard.current.sKey.isPressed) input.y -= 1;
+        if (Keyboard.current.aKey.isPressed) input.x -= 1;
+        if (Keyboard.current.dKey.isPressed) input.x += 1;
+    
+        return input;
     }
-
-    // void Update()
-    // {
-    //     if (!IsOwner || followCam == null) return;
-    //
-    //     Vector2 input = GetMovementInput();
-    //
-    //     Vector3 camForward = followCam.transform.forward;
-    //     Vector3 camRight = followCam.transform.right;
-    //
-    //     camForward.y = 0;
-    //     camRight.y = 0;
-    //
-    //     camForward.Normalize();
-    //     camRight.Normalize();
-    //
-    //     Vector3 direction = (camForward * input.y + camRight * input.x).normalized;
-    //
-    //     transform.Translate(direction * speed * Time.deltaTime, Space.World);
-    //
-    //     if (direction != Vector3.zero)
-    //     {
-    //         transform.rotation = Quaternion.LookRotation(direction);
-    //     }
-    // }
-    //
-    // Vector2 GetMovementInput()
-    // {
-    //     Vector2 input = Vector2.zero;
-    //
-    //     if (Keyboard.current.wKey.isPressed) input.y += 1;
-    //     if (Keyboard.current.sKey.isPressed) input.y -= 1;
-    //     if (Keyboard.current.aKey.isPressed) input.x -= 1;
-    //     if (Keyboard.current.dKey.isPressed) input.x += 1;
-    //
-    //     return input;
-    // }
 }
