@@ -256,7 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TemporaryMovement
   ShowTopMostFoldoutHeaderGroup: 1
   speed: 5
-  gravity: 0
+  gravity: -9.81
 --- !u!114 &2648225779118268963
 MonoBehaviour:
   m_ObjectHideFlags: 0
