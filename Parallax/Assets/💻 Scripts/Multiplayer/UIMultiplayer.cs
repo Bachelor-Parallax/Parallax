@@ -367,7 +367,8 @@ public class UIMultiplayer : MonoBehaviour
     {
         try
         {
-            Lobby lobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
+            //Lobby lobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
+            updateCurrentLobbyAsync();
             Debug.Log("Polled for updates on lobby: " + currentLobby.Name);
         }
         catch (LobbyServiceException e)
@@ -381,13 +382,12 @@ public class UIMultiplayer : MonoBehaviour
     public async void updateCurrentLobbyAsync()
     {
         currentLobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
-
     }
 
 
     public void LoadeGameSceen(string sceneName)
     {
-        updateCurrentLobbyAsync();
+        //updateCurrentLobbyAsync();
         
         Debug.Log("Player Count: " + currentLobby.Players.Count);
         if (currentLobby.Players.Count >= 2)
