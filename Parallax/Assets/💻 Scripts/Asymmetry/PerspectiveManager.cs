@@ -12,8 +12,6 @@ public class PerspectiveManager : MonoBehaviour, IPerspectiveManager
     private void Awake()
     {
         _asymProperties = FindObjectsByType<BaseAsymProperty>(FindObjectsSortMode.None);
-        // _networkManager = UnityExtensions.FindObjectsAssignableTo<INetworkManager>(FindObjectsSortMode.None)
-        //     .FirstOrDefault();
         _networkManager = FindFirstObjectByType<NetworkManager>();
 
         if (_networkManager == null)
@@ -33,13 +31,6 @@ public class PerspectiveManager : MonoBehaviour, IPerspectiveManager
         }
         
         GameObject localPlayer = _networkManager.LocalClient.PlayerObject.gameObject;
-        
-        // PerspectiveProfile profile = localPlayer.tag switch
-        // {
-        //     GameConstants.CAT_TAG => PerspectiveProfile.Cat,
-        //     GameConstants.HUMAN_TAG => PerspectiveProfile.Human,
-        //     _ => throw new NotSupportedException($"Tag not supported: {localPlayer.tag}")
-        // };
 
         PerspectiveProfile profile = localPlayer.GetComponent<RoleController>().role.Value switch
         {

@@ -54,13 +54,6 @@ public class TemporaryMovement : NetworkBehaviour
         camRight.Normalize();
     
         Vector3 direction = (camForward * input.y + camRight * input.x).normalized;
-    
-        // transform.Translate(direction * speed * Time.deltaTime, Space.World);
-        //
-        // if (direction != Vector3.zero)
-        // {
-        //     transform.rotation = Quaternion.LookRotation(direction);
-        // }
         
         // Gravity
         if (controller.isGrounded && verticalVelocity < 0)
