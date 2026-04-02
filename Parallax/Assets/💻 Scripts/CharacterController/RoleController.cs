@@ -79,14 +79,14 @@ public class RoleController : NetworkBehaviour
         switch (role.Value)
         {
             case CharacterRole.Human:
-                controller.height = 1.8f;
-                controller.center = new Vector3(0, 0.9f, 0);
+                controller.height = 2f;
+                controller.center = new Vector3(0, 0f, 0);
                 controller.stepOffset = 0.4f;
                 controller.slopeLimit = 45f;
                 break;
             case CharacterRole.Cat:
-                controller.height = 0.6f;
-                controller.center = new Vector3(0, 0.3f, 0);
+                controller.height = 1f;
+                controller.center = new Vector3(0, -0.5f, 0);
                 controller.stepOffset = 0.2f;
                 controller.slopeLimit = 60f;
                 break;

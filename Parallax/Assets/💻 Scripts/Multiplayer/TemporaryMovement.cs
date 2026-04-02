@@ -106,15 +106,15 @@ public class TemporaryMovement : NetworkBehaviour
     {
         switch (role)
         {
-            case CharacterRole.Cat:
-                speed = 8;
-                gravity = -9.81f;
-                jumpHeight = 3f;
-                break;
             case CharacterRole.Human:
                 speed = 5;
                 gravity = -9.81f;
                 jumpHeight = 1f;
+                break;
+            case CharacterRole.Cat:
+                speed = 8;
+                gravity = -9.81f;
+                jumpHeight = 3f;
                 break;
             default:
                 speed = 5;
