@@ -64,8 +64,5 @@ public class RoleController : NetworkBehaviour
 
         foreach (var r2 in catRenderers)
             r2.enabled = r == CharacterRole.Cat;
-
-        human.tag = GameConstants.HUMAN_TAG;
-        cat.tag = GameConstants.CAT_TAG;
     }
 }

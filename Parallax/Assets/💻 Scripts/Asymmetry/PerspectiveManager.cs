@@ -34,11 +34,19 @@ public class PerspectiveManager : MonoBehaviour, IPerspectiveManager
         
         GameObject localPlayer = _networkManager.LocalClient.PlayerObject.gameObject;
         
-        PerspectiveProfile profile = localPlayer.tag switch
+        // PerspectiveProfile profile = localPlayer.tag switch
+        // {
+        //     GameConstants.CAT_TAG => PerspectiveProfile.Cat,
+        //     GameConstants.HUMAN_TAG => PerspectiveProfile.Human,
+        //     _ => throw new NotSupportedException($"Tag not supported: {localPlayer.tag}")
+        // };
+
+        PerspectiveProfile profile = localPlayer.GetComponent<RoleController>().role.Value switch
         {
-            GameConstants.CAT_TAG => PerspectiveProfile.Cat,
-            GameConstants.HUMAN_TAG => PerspectiveProfile.Human,
-            _ => throw new NotSupportedException($"Tag not supported: {localPlayer.tag}")
+            CharacterRole.Cat => PerspectiveProfile.Cat,
+            CharacterRole.Human => PerspectiveProfile.Human,
+            _ => throw new NotSupportedException(
+                $"Role not supported: {localPlayer.GetComponent<RoleController>().role}")
         };
 
         // apply perspective settings to every asymmetrical object in the scene
