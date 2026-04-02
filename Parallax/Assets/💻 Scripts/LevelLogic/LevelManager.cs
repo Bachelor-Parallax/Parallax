@@ -60,12 +60,27 @@ public class LevelManager : MonoBehaviour
         // if (_cat == null) UnityEngine.Debug.LogError($"No GameObject with tag {GameConstants.CAT_TAG}");
         
         GameObject[] players = GameObject.FindGameObjectsWithTag(GameConstants.PLAYER_TAG);
+        foreach (var p in players)
+        {
+            UnityEngine.Debug.Log($"Player candidate: {p.name}");
+        }
         
-        _human = players.FirstOrDefault(p => p.GetComponent<RoleController>().role.Value == CharacterRole.Human);
-        if (_human == null) UnityEngine.Debug.LogError($"Human not found");
+        // _human = players.FirstOrDefault(p => p.GetComponent<RoleController>().role.Value == CharacterRole.Human);
+        // if (_human == null) UnityEngine.Debug.LogError($"Human not found");
+        //
+        // _cat = players.FirstOrDefault(p => p.GetComponent<RoleController>().role.Value == CharacterRole.Cat);
+        // if (_cat == null) UnityEngine.Debug.LogError($"Cat not found");
         
-        _cat = players.FirstOrDefault(p => p.GetComponent<RoleController>().role.Value == CharacterRole.Cat);
-        if (_cat == null) UnityEngine.Debug.LogError($"Cat not found");
+        foreach (var p in players)
+        {
+            if (!p.TryGetComponent<RoleController>(out var rc))
+                continue;
+
+            if (rc.role.Value == CharacterRole.Human)
+                _human = p;
+            else if (rc.role.Value == CharacterRole.Cat)
+                _cat = p;
+        }
     }
 
     /// <summary>
