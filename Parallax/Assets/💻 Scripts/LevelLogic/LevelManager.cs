@@ -86,7 +86,7 @@ public class LevelManager : MonoBehaviour
 
     private void SetPlayerPosition(GameObject player, Vector3 pos)
     {
-        player.transform.position = pos;
+        player.GetComponent<TemporaryMovement>().Teleport(pos);
 
         if (player.TryGetComponent<TemporaryMovement>(out var movement))
         {

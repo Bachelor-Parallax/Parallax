@@ -93,4 +93,11 @@ public class TemporaryMovement : NetworkBehaviour
     {
         verticalVelocity = 0f;
     }
+
+    public void Teleport(Vector3 pos)
+    {
+        if (controller) controller.enabled = false;
+        transform.position = pos;
+        if (controller) controller.enabled = true; 
+    }
 }
