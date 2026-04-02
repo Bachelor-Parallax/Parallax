@@ -2240,8 +2240,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 297dfd64825e3eb438fab796962c0284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  humanSpawnPos: {x: -3, y: 5, z: 3}
-  catSpawnPos: {x: 3, y: 5, z: -3}
+  humanSpawnPos: {x: -1.5, y: 1, z: 1.5}
+  catSpawnPos: {x: 1.5, y: 1, z: -1.5}
   elapsedTime: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
