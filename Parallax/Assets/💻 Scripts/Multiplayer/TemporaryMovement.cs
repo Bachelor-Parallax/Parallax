@@ -62,9 +62,14 @@ public class TemporaryMovement : NetworkBehaviour
         }
 
         verticalVelocity += gravity * Time.deltaTime;
-        direction.y = verticalVelocity;
+        
+        // direction.y = verticalVelocity;
+        // controller.Move(direction * speed * Time.deltaTime);
+        
+        Vector3 move = direction * speed;
+        move.y = verticalVelocity;
 
-        controller.Move(direction * speed * Time.deltaTime);
+        controller.Move(move * Time.deltaTime);
 
         if (direction.x != 0 || direction.z != 0)
         {
