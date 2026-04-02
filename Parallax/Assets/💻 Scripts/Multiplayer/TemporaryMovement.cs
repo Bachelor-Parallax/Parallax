@@ -12,6 +12,7 @@ public class TemporaryMovement : NetworkBehaviour
     private float verticalVelocity;
 
     private FollowCam followCam;
+    private bool canJump;
 
     void Awake()
     {
@@ -55,17 +56,15 @@ public class TemporaryMovement : NetworkBehaviour
         camRight.Normalize();
     
         Vector3 direction = (camForward * input.y + camRight * input.x).normalized;
-        
-        // Gravity
+
         if (controller.isGrounded && verticalVelocity < 0)
         {
             verticalVelocity = -2f;
         }
 
+        HandleJump();
+
         verticalVelocity += gravity * Time.deltaTime;
-        
-        // direction.y = verticalVelocity;
-        // controller.Move(direction * speed * Time.deltaTime);
         
         Vector3 move = direction * speed;
         move.y = verticalVelocity;
@@ -75,6 +74,18 @@ public class TemporaryMovement : NetworkBehaviour
         if (direction.x != 0 || direction.z != 0)
         {
             transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        }
+    }
+
+    void HandleJump()
+    {
+        if (!canJump) return;
+        if (Keyboard.current == null) return;
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && controller.isGrounded)
+        {
+            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            Debug.Log("Jump!");
         }
     }
     
@@ -107,20 +118,27 @@ public class TemporaryMovement : NetworkBehaviour
         switch (role)
         {
             case CharacterRole.Human:
-                speed = 5;
+                speed = 5f;
                 gravity = -9.81f;
                 jumpHeight = 1f;
+                canJump = false; // hvis kun katten må hoppe
                 break;
+
             case CharacterRole.Cat:
-                speed = 8;
+                speed = 8f;
                 gravity = -9.81f;
                 jumpHeight = 3f;
+                canJump = true;
                 break;
+
             default:
-                speed = 5;
+                speed = 5f;
                 gravity = -9.81f;
                 jumpHeight = 1f;
+                canJump = false;
                 break;
         }
+
+        Debug.Log($"Role applied: {role}, canJump: {canJump}, jumpHeight: {jumpHeight}");
     }
 }
