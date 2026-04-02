@@ -73,6 +73,8 @@ public class LevelManager : MonoBehaviour
     private void PositionPlayers()
     {
         _human.transform.position = humanSpawnPos;
+        UnityEngine.Debug.Log("Human spawned on coords: " + _human.transform.position);
         _cat.transform.position = catSpawnPos;
+        UnityEngine.Debug.Log("Cat spawned on coords: " + _cat.transform.position);
     }
 }
