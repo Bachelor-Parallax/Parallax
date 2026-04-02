@@ -76,11 +76,7 @@ public class UIMultiplayer : MonoBehaviour
         };
 
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
     }
-
-
-
 
     private async Task Authenticate()
     {
@@ -109,11 +105,6 @@ public class UIMultiplayer : MonoBehaviour
             PlayerName = playerName;
         }
     }
-
-
-
-
-
 
     public void CreateLobbyFunction(bool isPrivate)
     {
@@ -172,12 +163,6 @@ public class UIMultiplayer : MonoBehaviour
         }
     }
 
-    
-    
-    
-    
-    
-    
     public void QuickJoinLobbyFunction()
     {
         _ = QuickJoinLobby();
@@ -210,13 +195,7 @@ public class UIMultiplayer : MonoBehaviour
             Debug.LogError("Failed to quick join lobby: " + e.Message);
         }
     }
-    
-    
-    
-    
-    
-    
-    
+
     public void JoinLobbyByCodeFunction()
     {
         _ = JoinLobbyByCode(lobbyCodeInput.text.ToUpper());
@@ -249,12 +228,6 @@ public class UIMultiplayer : MonoBehaviour
         }
     }
 
-    
-    
-    
-    
-    
-    
     public async void Disconnect()
     {
         if (currentLobby != null)
@@ -306,9 +279,6 @@ public class UIMultiplayer : MonoBehaviour
         }
     }
 
-    
-    
-    
     private async Task<string> GetRelayJoinCode(Allocation allocation)
     {
         try
@@ -323,12 +293,6 @@ public class UIMultiplayer : MonoBehaviour
         }
     }
 
-    
-    
-    
-    
-    
-    
     private async Task<JoinAllocation> JoinRelay(string relayJoinCode)
     {
         try
@@ -343,9 +307,6 @@ public class UIMultiplayer : MonoBehaviour
         }
     }
 
-    
-    
-    
     private async Task HandleHeartbeatAsync()
     {
         try
@@ -359,9 +320,6 @@ public class UIMultiplayer : MonoBehaviour
         }
     }
 
-    
-    
-    
     private async Task HandlePollingAsync()
     {
         try
@@ -374,14 +332,6 @@ public class UIMultiplayer : MonoBehaviour
             Debug.LogError("Failed to poll for updates on lobby: " + e.Message);
         }
     }
-
-
-    
-    public async void updateCurrentLobbyAsync()
-    {
-        currentLobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
-    }
-
 
     public void LoadeGameSceen(string sceneName)
     {
@@ -417,14 +367,6 @@ public class UIMultiplayer : MonoBehaviour
         NetworkManager.Singleton.OnServerStarted -= OnHostStarted;
     }
 
-    
-    private void OnClientConnected(ulong obj)
-    {
-        updateCurrentLobbyAsync();
-    }
-    
-    
-    
     private async void OnClientDisconnected(ulong clientId)
     {
         if (currentLobby == null) return;
@@ -450,9 +392,6 @@ public class UIMultiplayer : MonoBehaviour
         }
     }
 
-    
-    
-    
     private IEnumerator LogSceneAfterDelay()
     {
         yield return new WaitForSeconds(1f);
