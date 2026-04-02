@@ -88,4 +88,9 @@ public class TemporaryMovement : NetworkBehaviour
     
         return input;
     }
+    
+    public void ResetVerticalVelocity()
+    {
+        verticalVelocity = 0f;
+    }
 }

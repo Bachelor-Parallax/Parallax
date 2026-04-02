@@ -70,11 +70,27 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Place players in spawn locations
     /// </summary>
+    // private void PositionPlayers()
+    // {
+    //     _human.transform.position = humanSpawnPos;
+    //     UnityEngine.Debug.Log("Human spawned on coords: " + _human.transform.position);
+    //     _cat.transform.position = catSpawnPos;
+    //     UnityEngine.Debug.Log("Cat spawned on coords: " + _cat.transform.position);
+    // }
+    
     private void PositionPlayers()
     {
-        _human.transform.position = humanSpawnPos;
-        UnityEngine.Debug.Log("Human spawned on coords: " + _human.transform.position);
-        _cat.transform.position = catSpawnPos;
-        UnityEngine.Debug.Log("Cat spawned on coords: " + _cat.transform.position);
+        SetPlayerPosition(_human, humanSpawnPos);
+        SetPlayerPosition(_cat, catSpawnPos);
+    }
+
+    private void SetPlayerPosition(GameObject player, Vector3 pos)
+    {
+        player.transform.position = pos;
+
+        if (player.TryGetComponent<TemporaryMovement>(out var movement))
+        {
+            movement.ResetVerticalVelocity();
+        }
     }
 }
