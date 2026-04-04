@@ -43,6 +43,8 @@ public class TemporaryMovement : NetworkBehaviour
     void Update()
     {
         if (!IsOwner || followCam == null) return;
+        
+        handleInteraction();
     
         Vector2 input = GetMovementInput();
     
@@ -86,6 +88,26 @@ public class TemporaryMovement : NetworkBehaviour
         {
             verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
             Debug.Log("Jump!");
+        }
+    }
+
+    void handleInteraction()
+    {
+        if (Keyboard.current == null) return;
+
+        if (Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            Debug.Log("Interact pressed");
+
+            var interaction = GetComponent<BoxInteraction>();
+            if (interaction != null)
+            {
+                interaction.Interact();
+            }
+            else
+            {
+                Debug.LogWarning("BoxInteraction not found on player!");
+            }
         }
     }
     
