@@ -19,6 +19,14 @@ public class BoxInteractable : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
+        // For large boxes, we want to prevent them from tipping over when pushed or pulled
+        if (boxSize == BoxSize.Large)
+        {
+            rb.constraints |= RigidbodyConstraints.FreezeRotationX;
+            rb.constraints |= RigidbodyConstraints.FreezeRotationZ;
+            rb.linearDamping = 4f;
+        }
     }
 
     public void SetHeld(bool held)

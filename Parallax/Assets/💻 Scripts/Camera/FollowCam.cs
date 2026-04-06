@@ -8,7 +8,7 @@ public class FollowCam : MonoBehaviour
     [CanBeNull] public Transform target;
 
     public float distance = 4f;
-    public float sensitivity = 200f;
+    public float sensitivity = 100f;
     public float minY = -20f;
     public float maxY = 60f;
 

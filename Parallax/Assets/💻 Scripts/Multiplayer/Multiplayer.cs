@@ -286,7 +286,7 @@ public class Multiplayer : MonoBehaviour
     public void LoadGameScene(string sceneName)
     {
         Debug.Log("Player Count: " + currentLobby.Players.Count);
-        if (currentLobby.Players.Count > 1)
+        if (currentLobby.Players.Count > 0)
         {
             NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
             //NetworkManager.Singleton.OnServerStarted -= OnHostStarted;

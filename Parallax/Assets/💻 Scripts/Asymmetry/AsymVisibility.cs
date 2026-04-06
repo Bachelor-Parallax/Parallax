@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class AsymVisibility : BaseAsymProperty<Renderer>
 {
-    [SerializeField] private PerspectiveProfile _profile;
+    [SerializeField] private CharacterRole visibleForRole;
+
+    public void ApplyRole(CharacterRole currentRole)
+    {
+        AsymComponent.enabled = currentRole == visibleForRole;
+    }
 
     public override void ApplyPerspectiveProfile(PerspectiveProfile profile)
     {
-        AsymComponent.enabled = _profile == profile;
+        // Old system no longer used
     }
 }

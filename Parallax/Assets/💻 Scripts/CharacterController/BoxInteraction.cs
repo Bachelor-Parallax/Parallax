@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BoxInteraction : MonoBehaviour
 {
@@ -16,6 +17,25 @@ public class BoxInteraction : MonoBehaviour
     private BoxInteractable nearbyBox;
     private BoxInteractable heldBox;
     private BoxInteractable attachedBox;
+    public bool IsDraggingLargeBox => attachedBox != null;
+
+    private RoleController roleController;
+
+    [SerializeField] private float dragDistance = 1.2f;
+    [SerializeField] private float dragSpeed = 2.5f;
+    [SerializeField] private float dragTurnSpeed = 40f;
+    [SerializeField] private float snapSpeed = 10f;
+
+    private Vector3 dragDirection;
+    private TemporaryMovement movement;
+    private CharacterController playerController;
+
+    private void Awake()
+    {
+        movement = GetComponent<TemporaryMovement>();
+        playerController = GetComponent<CharacterController>();
+        roleController = GetComponent<RoleController>();
+    }
 
     private void Update()
     {
@@ -25,6 +45,17 @@ public class BoxInteraction : MonoBehaviour
     public void Interact()
     {
         Debug.Log("Interact called");
+        if (roleController == null)
+        {
+            Debug.LogWarning("RoleController missing");
+            return;
+        }
+        if (!roleController.CanMoveBoxes)
+        {
+            Debug.Log("Cannot interact - not in human form");
+            return;
+        }
+
 
         if (heldBox != null)
         {
@@ -76,15 +107,50 @@ public class BoxInteraction : MonoBehaviour
 
         if (attachedBox != null)
         {
-            Vector3 targetPos = transform.position + transform.forward * attachDistance;
-            targetPos.y = attachedBox.transform.position.y;
+            HandleAttachedBoxMovement();
+        }
+    }
 
-            Rigidbody rb = attachedBox.GetComponent<Rigidbody>();
-            if (rb != null && !rb.isKinematic)
-            {
-                Vector3 dir = targetPos - attachedBox.transform.position;
-                rb.linearVelocity = new Vector3(dir.x * 5f, rb.linearVelocity.y, dir.z * 5f);
-            }
+    private void HandleAttachedBoxMovement()
+    {
+        Rigidbody rb = attachedBox.GetComponent<Rigidbody>();
+        if (rb == null) return;
+
+        float forwardInput = 0f;
+        float turnInput = 0f;
+
+        if (Keyboard.current != null)
+        {
+            if (Keyboard.current.wKey.isPressed) forwardInput += 1f;
+            if (Keyboard.current.sKey.isPressed) forwardInput -= 1f;
+            if (Keyboard.current.aKey.isPressed) turnInput -= 1f;
+            if (Keyboard.current.dKey.isPressed) turnInput += 1f;
+        }
+
+        // Slow turning around Y axis
+        if (Mathf.Abs(turnInput) > 0.01f)
+        {
+            float angle = turnInput * dragTurnSpeed * Time.deltaTime;
+            dragDirection = Quaternion.Euler(0f, angle, 0f) * dragDirection;
+            dragDirection.Normalize();
+        }
+
+        // Move box forward/backward based on player's relation to it
+        Vector3 moveDir = -dragDirection * forwardInput;
+        rb.linearVelocity = new Vector3(moveDir.x * dragSpeed, rb.linearVelocity.y, moveDir.z * dragSpeed);
+
+        // Keep player snapped to the box
+        Vector3 targetPlayerPos = attachedBox.transform.position + dragDirection * dragDistance;
+        targetPlayerPos.y = transform.position.y;
+        transform.position = Vector3.Lerp(transform.position, targetPlayerPos, Time.deltaTime * snapSpeed);
+
+        // Player faces the box
+        Vector3 lookDir = attachedBox.transform.position - transform.position;
+        lookDir.y = 0f;
+        if (lookDir.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * snapSpeed);
         }
     }
 
@@ -127,6 +193,26 @@ public class BoxInteraction : MonoBehaviour
     {
         attachedBox = box;
         heldBox = null;
+
+        Rigidbody rb = box.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.constraints |= RigidbodyConstraints.FreezeRotationX;
+            rb.constraints |= RigidbodyConstraints.FreezeRotationZ;
+        }
+
+        dragDirection = (transform.position - box.transform.position);
+        dragDirection.y = 0f;
+        dragDirection = dragDirection.normalized;
+
+        if (dragDirection.sqrMagnitude < 0.01f)
+            dragDirection = -transform.forward;
+
+        Vector3 targetPlayerPos = box.transform.position + dragDirection * dragDistance;
+        targetPlayerPos.y = transform.position.y;
+        transform.position = targetPlayerPos;
+
+        transform.rotation = Quaternion.LookRotation(-dragDirection);
     }
 
     private void DetachBox()

@@ -19,6 +19,9 @@ public class RoleController : NetworkBehaviour
     public NetworkVariable<CharacterRole> role = new(
         writePerm: NetworkVariableWritePermission.Server);
 
+    public bool CanMoveBoxes => role.Value == CharacterRole.Human;
+    public CharacterRole CurrentRole => role.Value;
+
     void Awake()
     {
         human.SetActive(false);
@@ -67,6 +70,12 @@ public class RoleController : NetworkBehaviour
         
         ApplyRoleSpecificPhysics(r);
         GetComponent<TemporaryMovement>().ApplyRole(r);
+
+        var asymObjects = FindObjectsOfType<AsymVisibility>(true);
+        foreach (var asym in asymObjects)
+        {
+            asym.ApplyRole(r);
+        }
     }
 
     void ApplyRoleSpecificPhysics(CharacterRole r)
@@ -76,7 +85,7 @@ public class RoleController : NetworkBehaviour
         if (controller == null)
             return;
 
-        switch (role.Value)
+        switch (r)
         {
             case CharacterRole.Human:
                 controller.height = 2f;
@@ -86,7 +95,7 @@ public class RoleController : NetworkBehaviour
                 break;
             case CharacterRole.Cat:
                 controller.height = 1f;
-                controller.center = new Vector3(0, -0.5f, 0);
+                controller.center = new Vector3(0, 0f, 0);
                 controller.stepOffset = 0.2f;
                 controller.slopeLimit = 60f;
                 break;

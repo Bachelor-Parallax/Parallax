@@ -6,7 +6,7 @@ public class TemporaryMovement : NetworkBehaviour
 {
     public float speed = 5f;
     public float gravity = -9.81f;
-    public float jumpHeight = 3f;
+    public float jumpHeight = 1.5f;
 
     private CharacterController controller;
     private float verticalVelocity;
@@ -14,7 +14,7 @@ public class TemporaryMovement : NetworkBehaviour
     private FollowCam followCam;
     private bool canJump;
 
-    [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private float rotationSpeed = 10f; 
 
     void Awake()
     {
@@ -47,6 +47,12 @@ public class TemporaryMovement : NetworkBehaviour
         if (!IsOwner || followCam == null) return;
         
         handleInteraction();
+
+        var interaction = GetComponent<BoxInteraction>();
+        if (interaction != null && interaction.IsDraggingLargeBox)
+        {
+            return;
+        }
     
         Vector2 input = GetMovementInput();
     
@@ -152,7 +158,7 @@ public class TemporaryMovement : NetworkBehaviour
             case CharacterRole.Cat:
                 speed = 8f;
                 gravity = -9.81f;
-                jumpHeight = 3f;
+                jumpHeight = 1.5f;
                 canJump = true;
                 break;
 
