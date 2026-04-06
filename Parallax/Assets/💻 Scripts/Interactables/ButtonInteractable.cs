@@ -17,7 +17,7 @@ public class ButtonInteractable : NetworkBehaviour, IHumanInteractable
         PressButtonServerRpc();
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void PressButtonServerRpc()
     {
         foreach (var target in targets)

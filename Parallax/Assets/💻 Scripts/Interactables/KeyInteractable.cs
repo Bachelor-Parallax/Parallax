@@ -21,7 +21,7 @@ public class KeyInteractable : NetworkBehaviour, ICatInteractable
         CollectKeyServerRpc(interactorNetObj.OwnerClientId);
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void CollectKeyServerRpc(ulong senderClientId)
     {
         if (keyCollected.Value) return;
@@ -30,6 +30,7 @@ public class KeyInteractable : NetworkBehaviour, ICatInteractable
         Debug.Log($"Picked up key: {keyId}");
 
         NetworkObject.Despawn(true);
+        
     }
 
     public string GetInteractText()
