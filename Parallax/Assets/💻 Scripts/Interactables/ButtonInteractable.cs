@@ -2,15 +2,19 @@ using UnityEngine;
 
 public class ButtonInteractable : MonoBehaviour, IInteractable
 {
-    [SerializeField] private GameObject targetObject;
+    [SerializeField] private MonoBehaviour[] targets;
 
     public void Interact(GameObject interactor)
     {
-        if (targetObject != null)
+        foreach (var target in targets)
         {
-            targetObject.SetActive(true);
-            Debug.Log("Button pressed, target activated.");
+            if (target is IActivatable activatable)
+            {
+                activatable.Activate();
+            }
         }
+
+        Debug.Log("Button pressed!");
     }
 
     public string GetInteractText()

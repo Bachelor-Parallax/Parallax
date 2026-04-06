@@ -40,8 +40,8 @@ public override void OnNetworkSpawn()
     if (IsServer)
     {
         role.Value = (OwnerClientId == NetworkManager.ServerClientId)
-            ? CharacterRole.Cat
-            : CharacterRole.Human;
+            ? CharacterRole.Human
+            : CharacterRole.Cat;
     }
 
     transform.position += Vector3.up * 2f;
