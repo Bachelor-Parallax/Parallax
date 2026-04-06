@@ -1,23 +1,27 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class MovingPlatform : MonoBehaviour, IActivatable
+public class MovingPlatform : NetworkBehaviour, IActivatable
 {
-    [Header("Movement")]
-    [SerializeField] private Vector3 targetPosition;
+    [SerializeField] private Vector3 moveOffset = new Vector3(0, -5, 0);
     [SerializeField] private float speed = 2f;
 
     private Vector3 startPosition;
-    private bool isMoving = false;
+    private Vector3 targetPosition;
+    private bool isMoving;
 
     private void Start()
     {
         startPosition = transform.position;
+        targetPosition = startPosition + moveOffset;
     }
 
     private void Update()
     {
+        if (!IsServer) return; 
+
         if (!isMoving) return;
-        Debug.Log("Moving platform towards " + targetPosition);
+
         transform.position = Vector3.MoveTowards(
             transform.position,
             targetPosition,
@@ -27,6 +31,13 @@ public class MovingPlatform : MonoBehaviour, IActivatable
 
     public void Activate()
     {
+        ActivateServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ActivateServerRpc()
+    {
+        Debug.Log("Platform activated on server");
         isMoving = true;
     }
 }

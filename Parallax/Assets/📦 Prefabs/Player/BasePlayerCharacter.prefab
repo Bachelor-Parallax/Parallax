@@ -375,7 +375,7 @@ MonoBehaviour:
   interactRange: 2
   boxLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   holdPoint: {fileID: 8012080598372070786}
   moveToHoldSpeed: 12
   attachDistance: 1.2
