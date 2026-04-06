@@ -1,16 +1,23 @@
 using UnityEngine;
 
-public class AsymVisibility : BaseAsymProperty<Renderer>
+public class AsymVisibility : MonoBehaviour
 {
-    [SerializeField] private CharacterRole visibleForRole;
+    [SerializeField] private PerspectiveProfile _profile;
 
-    public void ApplyRole(CharacterRole currentRole)
+    private Renderer[] _renderers;
+
+    private void Awake()
     {
-        AsymComponent.enabled = currentRole == visibleForRole;
+        _renderers = GetComponentsInChildren<Renderer>(true);
     }
 
-    public override void ApplyPerspectiveProfile(PerspectiveProfile profile)
+    public void ApplyPerspectiveProfile(PerspectiveProfile profile)
     {
-        // Old system no longer used
+        bool visible = _profile == profile;
+
+        foreach (var rend in _renderers)
+        {
+            rend.enabled = visible;
+        }
     }
 }

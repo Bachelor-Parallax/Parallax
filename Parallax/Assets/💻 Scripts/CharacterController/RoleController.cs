@@ -40,8 +40,8 @@ public override void OnNetworkSpawn()
     if (IsServer)
     {
         role.Value = (OwnerClientId == NetworkManager.ServerClientId)
-            ? CharacterRole.Human
-            : CharacterRole.Cat;
+            ? CharacterRole.Cat    
+            : CharacterRole.Human;
     }
 
     transform.position += Vector3.up * 2f;
@@ -76,11 +76,11 @@ public override void OnNetworkSpawn()
         ApplyRoleSpecificPhysics(r);
         GetComponent<TemporaryMovement>().ApplyRole(r);
 
-        var asymObjects = FindObjectsOfType<AsymVisibility>(true);
-        foreach (var asym in asymObjects)
-        {
-            asym.ApplyRole(r);
-        }
+        // var asymObjects = FindObjectsOfType<AsymVisibility>(true);
+        // foreach (var asym in asymObjects)
+        // {
+        //     asym.ApplyRole(r);
+        // }
     }
 
     void ApplyRoleSpecificPhysics(CharacterRole r)
