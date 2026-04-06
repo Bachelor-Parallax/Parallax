@@ -14,6 +14,8 @@ public class TemporaryMovement : NetworkBehaviour
     private FollowCam followCam;
     private bool canJump;
 
+    [SerializeField] private float rotationSpeed = 10f;
+
     void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -75,7 +77,8 @@ public class TemporaryMovement : NetworkBehaviour
 
         if (direction.x != 0 || direction.z != 0)
         {
-            transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
     }
 

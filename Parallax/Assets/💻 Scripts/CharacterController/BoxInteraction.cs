@@ -65,11 +65,7 @@ public class BoxInteraction : MonoBehaviour
                 ? holdPoint.position
                 : heldBox.GetCarryPosition(transform);
 
-            heldBox.transform.position = Vector3.Lerp(
-                heldBox.transform.position,
-                targetPos,
-                Time.deltaTime * moveToHoldSpeed
-            );
+            heldBox.transform.position = targetPos;
 
             heldBox.transform.rotation = Quaternion.Lerp(
                 heldBox.transform.rotation,
