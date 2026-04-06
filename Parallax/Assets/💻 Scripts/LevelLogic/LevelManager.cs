@@ -80,7 +80,10 @@ public class LevelManager : MonoBehaviour
     
     private void PositionPlayers()
     {
+    if (_human != null)
         SetPlayerPosition(_human, humanSpawnPos);
+
+    if (_cat != null)
         SetPlayerPosition(_cat, catSpawnPos);
     }
 

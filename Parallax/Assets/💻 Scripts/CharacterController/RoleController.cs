@@ -31,20 +31,25 @@ public class RoleController : NetworkBehaviour
         catRenderers = cat.GetComponentsInChildren<Renderer>(true);
     }
 
-    public override void OnNetworkSpawn()
+public override void OnNetworkSpawn()
+{
+    role.OnValueChanged += OnRoleChanged;
+
+    Debug.Log($"Before manual move: {transform.position}");
+
+    if (IsServer)
     {
-        role.OnValueChanged += OnRoleChanged;
-
-        if (IsServer)
-        {
-            role.Value = (OwnerClientId == NetworkManager.ServerClientId)
-                ? CharacterRole.Human
-                : CharacterRole.Cat;
-        }
-
-        StartCoroutine(ApplyRoleNextFrame());
+        role.Value = (OwnerClientId == NetworkManager.ServerClientId)
+            ? CharacterRole.Cat
+            : CharacterRole.Human;
     }
-    
+
+    transform.position += Vector3.up * 2f;
+
+    Debug.Log($"After manual move: {transform.position}");
+
+    StartCoroutine(ApplyRoleNextFrame());
+}
     IEnumerator ApplyRoleNextFrame()
     {
         yield return null;
@@ -81,6 +86,7 @@ public class RoleController : NetworkBehaviour
     void ApplyRoleSpecificPhysics(CharacterRole r)
     {
         CharacterController controller = GetComponent<CharacterController>();
+        Debug.Log($"Before physics apply | Role: {r} | Pos: {transform.position} | Height: {controller.height} | Center: {controller.center}");
 
         if (controller == null)
             return;
@@ -106,5 +112,6 @@ public class RoleController : NetworkBehaviour
                 controller.slopeLimit = 45f;
                 break;
         }
+        Debug.Log($"After physics apply | Role: {r} | Pos: {transform.position} | Height: {controller.height} | Center: {controller.center}");
     }
 }

@@ -10,7 +10,6 @@ public class TemporaryMovement : NetworkBehaviour
 
     private CharacterController controller;
     private float verticalVelocity;
-
     private FollowCam followCam;
     private bool canJump;
 
@@ -45,8 +44,6 @@ public class TemporaryMovement : NetworkBehaviour
     void Update()
     {
         if (!IsOwner || followCam == null) return;
-        
-        handleInteraction();
 
         var interaction = GetComponent<BoxInteraction>();
         if (interaction != null && interaction.IsDraggingLargeBox)
@@ -99,26 +96,6 @@ public class TemporaryMovement : NetworkBehaviour
             Debug.Log("Jump!");
         }
     }
-
-    void handleInteraction()
-    {
-        if (Keyboard.current == null) return;
-
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-        {
-            Debug.Log("Interact pressed");
-
-            var interaction = GetComponent<BoxInteraction>();
-            if (interaction != null)
-            {
-                interaction.Interact();
-            }
-            else
-            {
-                Debug.LogWarning("BoxInteraction not found on player!");
-            }
-        }
-    }
     
     Vector2 GetMovementInput()
     {
@@ -138,7 +115,7 @@ public class TemporaryMovement : NetworkBehaviour
     }
 
     public void Teleport(Vector3 pos)
-    {
+    { 
         if (controller) controller.enabled = false;
         transform.position = pos;
         if (controller) controller.enabled = true; 
