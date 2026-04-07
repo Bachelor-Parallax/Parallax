@@ -792,7 +792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _profile: 1
 --- !u!65 &120947983
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1625,7 +1625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _profile: 1
 --- !u!65 &175390649
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6477,7 +6477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _profile: 1
 --- !u!65 &1396097500
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6640,7 +6640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _profile: 1
 --- !u!65 &1430458781
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8109,7 +8109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _profile: 1
 --- !u!65 &1842988629
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9391,7 +9391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _profile: 1
 --- !u!65 &1989140028
 BoxCollider:
   m_ObjectHideFlags: 0
