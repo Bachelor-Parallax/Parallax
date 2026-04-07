@@ -8,13 +8,21 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        if (requiredKey == null || !requiredKey.keyCollected.Value)
+        if (requiredKey == null)
+        {
+            Debug.Log("Button pressed, but requiredKey is NULL");
+            return;
+        }
+
+        Debug.Log($"requiredKey exists, keyCollected = {requiredKey.keyCollected.Value}");
+
+        if (!requiredKey.keyCollected.Value)
         {
             Debug.Log("Button pressed, but key not collected!");
             return;
         }
-
         PressButtonServerRpc();
+
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
