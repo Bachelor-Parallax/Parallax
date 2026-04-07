@@ -1688,7 +1688,6 @@ GameObject:
   - component: {fileID: 226787036}
   - component: {fileID: 226787035}
   - component: {fileID: 226787034}
-  - component: {fileID: 226787033}
   m_Layer: 0
   m_Name: Cube / Sphere (31)
   m_TagString: Untagged
@@ -1711,19 +1710,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1842594639}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &226787033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 226787031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &226787034
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7013,7 +6999,6 @@ GameObject:
   - component: {fileID: 1540991183}
   - component: {fileID: 1540991182}
   - component: {fileID: 1540991181}
-  - component: {fileID: 1540991180}
   m_Layer: 0
   m_Name: Cube / Sphere (29)
   m_TagString: Untagged
@@ -7036,19 +7021,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1842594639}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &1540991180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540991178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &1540991181
 BoxCollider:
   m_ObjectHideFlags: 0
