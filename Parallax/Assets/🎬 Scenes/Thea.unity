@@ -645,6 +645,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Key
       objectReference: {fileID: 0}
+    - target: {fileID: 3019568617730713240, guid: 5dd5a1ab6047d4848b7668734815016f, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3667994811550271309, guid: 5dd5a1ab6047d4848b7668734815016f, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -696,6 +700,17 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &109970723 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -355946198582617117, guid: 5dd5a1ab6047d4848b7668734815016f, type: 3}
+  m_PrefabInstance: {fileID: 109970719}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109970721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eb8ecc3f132e5d4f8615583292e72ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KeyInteractable
 --- !u!1 &120947980
 GameObject:
   m_ObjectHideFlags: 0
@@ -3672,6 +3687,7 @@ GameObject:
   - component: {fileID: 666660971}
   - component: {fileID: 666660970}
   - component: {fileID: 666660973}
+  - component: {fileID: 666660974}
   m_Layer: 0
   m_Name: Lamp 2
   m_TagString: Untagged
@@ -3779,6 +3795,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
   _profile: 1
+--- !u!65 &666660974
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666660967}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7872623, y: 2, z: 0.80386084}
+  m_Center: {x: 0.016174158, y: 0, z: 0.0013215542}
 --- !u!1 &670749024
 GameObject:
   m_ObjectHideFlags: 0
@@ -5724,7 +5761,7 @@ GameObject:
   - component: {fileID: 1177506725}
   - component: {fileID: 1177506723}
   - component: {fileID: 1177506728}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5763,7 +5800,7 @@ MonoBehaviour:
   - {fileID: 358439580}
   - {fileID: 670749030}
   - {fileID: 161899595}
-  requiredKey: {fileID: 0}
+  requiredKey: {fileID: 109970723}
 --- !u!23 &1177506725
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6091,6 +6128,7 @@ GameObject:
   - component: {fileID: 1329975975}
   - component: {fileID: 1329975974}
   - component: {fileID: 1329975972}
+  - component: {fileID: 1329975977}
   m_Layer: 0
   m_Name: Lamp 1
   m_TagString: Untagged
@@ -6198,6 +6236,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
   _profile: 0
+--- !u!65 &1329975977
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329975970}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.87356794, y: 2, z: 0.8533715}
+  m_Center: {x: -0.015892029, y: 0, z: 0.0021368265}
 --- !u!1 &1376584114
 GameObject:
   m_ObjectHideFlags: 0
@@ -6821,6 +6880,7 @@ GameObject:
   - component: {fileID: 1513809673}
   - component: {fileID: 1513809672}
   - component: {fileID: 1513809675}
+  - component: {fileID: 1513809676}
   m_Layer: 0
   m_Name: Lamp 3
   m_TagString: Untagged
@@ -6928,6 +6988,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
   _profile: 1
+--- !u!65 &1513809676
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513809669}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.852033, y: 2, z: 0.75141287}
+  m_Center: {x: -0.009256363, y: 0, z: 0.03976814}
 --- !u!1 &1540723128
 GameObject:
   m_ObjectHideFlags: 0
@@ -8480,6 +8561,7 @@ GameObject:
   - component: {fileID: 1925147525}
   - component: {fileID: 1925147524}
   - component: {fileID: 1925147522}
+  - component: {fileID: 1925147527}
   m_Layer: 0
   m_Name: Lamp 4
   m_TagString: Untagged
@@ -8587,6 +8669,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
   _profile: 0
+--- !u!65 &1925147527
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925147520}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.83826035, y: 2, z: 0.7838766}
+  m_Center: {x: 0.0016207695, y: 0, z: 0.026198786}
 --- !u!1 &1938622488
 GameObject:
   m_ObjectHideFlags: 0
