@@ -11,16 +11,23 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
         NetworkVariableWritePermission.Server
     );
 
+    private Collider keyCollider;
+    private Renderer[] keyRenderers;
+
+    private void Awake()
+    {
+        keyCollider = GetComponent<Collider>();
+        keyRenderers = GetComponentsInChildren<Renderer>(true);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!IsSpawned) return;
         if (keyCollected.Value) return;
 
-        // Tjek om det er en player
         NetworkObject playerNetObj = other.GetComponentInParent<NetworkObject>();
         if (playerNetObj == null) return;
 
-        // Optional: tjek at det faktisk er en spiller
         if (!other.GetComponentInParent<PlayerInteraction>()) return;
 
         CollectKeyServerRpc(playerNetObj.OwnerClientId);
@@ -45,7 +52,20 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
         keyCollected.Value = true;
         Debug.Log($"Picked up key: {keyId} by client {senderClientId}");
 
-        NetworkObject.Despawn(true);
+        HideKeyClientRpc();
+        NetworkObject.Despawn(false);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void HideKeyClientRpc()
+    {
+        if (keyCollider != null)
+            keyCollider.enabled = false;
+
+        foreach (Renderer r in keyRenderers)
+        {
+            r.enabled = false;
+        }
     }
 
     public string GetInteractText()
