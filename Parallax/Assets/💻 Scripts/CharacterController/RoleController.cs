@@ -35,18 +35,12 @@ public override void OnNetworkSpawn()
 {
     role.OnValueChanged += OnRoleChanged;
 
-    Debug.Log($"Before manual move: {transform.position}");
-
     if (IsServer)
     {
         role.Value = (OwnerClientId == NetworkManager.ServerClientId)
             ? CharacterRole.Human       
             : CharacterRole.Cat;
     }
-
-    transform.position += Vector3.up * 2f;
-
-    Debug.Log($"After manual move: {transform.position}");
 
     StartCoroutine(ApplyRoleNextFrame());
 }
