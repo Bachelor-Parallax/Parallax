@@ -1688,7 +1688,6 @@ GameObject:
   - component: {fileID: 226787036}
   - component: {fileID: 226787035}
   - component: {fileID: 226787034}
-  - component: {fileID: 226787033}
   m_Layer: 0
   m_Name: Cube / Sphere (31)
   m_TagString: Untagged
@@ -1711,19 +1710,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1842594639}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &226787033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 226787031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &226787034
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3070,7 +3056,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 434220205}
-  - component: {fileID: 434220210}
   - component: {fileID: 434220209}
   - component: {fileID: 434220208}
   - component: {fileID: 434220207}
@@ -3176,19 +3161,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434220204}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &434220210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 434220204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!1 &477292193
 GameObject:
   m_ObjectHideFlags: 0
@@ -3661,7 +3633,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 666660968}
-  - component: {fileID: 666660972}
   - component: {fileID: 666660971}
   - component: {fileID: 666660970}
   - component: {fileID: 666660974}
@@ -3746,19 +3717,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 666660967}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &666660972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 666660967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &666660974
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6086,7 +6044,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1329975971}
-  - component: {fileID: 1329975976}
   - component: {fileID: 1329975975}
   - component: {fileID: 1329975974}
   - component: {fileID: 1329975977}
@@ -6171,19 +6128,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1329975970}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1329975976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1329975970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &1329975977
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6938,7 +6882,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1540723129}
-  - component: {fileID: 1540723134}
   - component: {fileID: 1540723133}
   - component: {fileID: 1540723132}
   - component: {fileID: 1540723131}
@@ -7044,19 +6987,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1540723128}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1540723134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540723128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!1 &1540991178
 GameObject:
   m_ObjectHideFlags: 0
@@ -7069,7 +6999,6 @@ GameObject:
   - component: {fileID: 1540991183}
   - component: {fileID: 1540991182}
   - component: {fileID: 1540991181}
-  - component: {fileID: 1540991180}
   m_Layer: 0
   m_Name: Cube / Sphere (29)
   m_TagString: Untagged
@@ -7092,19 +7021,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1842594639}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &1540991180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540991178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &1540991181
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8282,7 +8198,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1860705187}
-  - component: {fileID: 1860705191}
   - component: {fileID: 1860705190}
   - component: {fileID: 1860705189}
   - component: {fileID: 1860705188}
@@ -8388,19 +8303,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1860705186}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1860705191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1860705186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!1 &1908572499
 GameObject:
   m_ObjectHideFlags: 0
@@ -9395,7 +9297,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2057238847}
-  - component: {fileID: 2057238851}
   - component: {fileID: 2057238850}
   - component: {fileID: 2057238849}
   - component: {fileID: 2057238848}
@@ -9501,19 +9402,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2057238846}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &2057238851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2057238846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!1 &2088487222
 GameObject:
   m_ObjectHideFlags: 0
