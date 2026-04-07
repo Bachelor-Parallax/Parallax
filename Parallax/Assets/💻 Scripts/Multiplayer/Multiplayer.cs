@@ -286,7 +286,7 @@ public class Multiplayer : MonoBehaviour
     public void LoadGameScene(string sceneName)
     {
         Debug.Log("Player Count: " + currentLobby.Players.Count);
-        if (currentLobby.Players.Count > 0)
+        if (currentLobby.Players.Count > 1)
         {
             NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
             //NetworkManager.Singleton.OnServerStarted -= OnHostStarted;
@@ -295,6 +295,12 @@ public class Multiplayer : MonoBehaviour
         {
             Debug.Log("You are alone and can not load a scene");
         }
+    }
+
+    public void ReloadCurrentScene()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        LoadGameScene(sceneName);
     }
 
     private void OnHostStarted()
