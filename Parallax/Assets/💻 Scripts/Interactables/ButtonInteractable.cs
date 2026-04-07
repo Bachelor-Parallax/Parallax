@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class ButtonInteractable : NetworkBehaviour, IHumanInteractable
+public class ButtonInteractable : NetworkBehaviour, IInteractable
 {
     [SerializeField] private MonoBehaviour[] targets;
     [SerializeField] private KeyInteractable requiredKey;

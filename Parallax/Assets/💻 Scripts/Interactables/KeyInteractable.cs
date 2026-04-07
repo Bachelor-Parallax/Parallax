@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class KeyInteractable : NetworkBehaviour, ICatInteractable
+public class KeyInteractable : NetworkBehaviour, IInteractable
 {
     [SerializeField] private string keyId = "ButtonKey";
 

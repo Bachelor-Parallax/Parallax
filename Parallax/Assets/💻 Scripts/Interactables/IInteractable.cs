@@ -1,12 +1,6 @@
 using UnityEngine;
 
-public interface IHumanInteractable
-{
-    void Interact(GameObject interactor);
-    string GetInteractText();
-}
-
-public interface ICatInteractable
+public interface IInteractable
 {
     void Interact(GameObject interactor);
     string GetInteractText();

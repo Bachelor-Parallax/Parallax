@@ -34,7 +34,7 @@ public class MovingPlatform : NetworkBehaviour, IActivatable
         ActivateServerRpc();
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void ActivateServerRpc()
     {
         Debug.Log("Platform activated on server");
