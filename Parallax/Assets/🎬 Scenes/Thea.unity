@@ -341,7 +341,6 @@ GameObject:
   - component: {fileID: 38403081}
   - component: {fileID: 38403080}
   - component: {fileID: 38403079}
-  - component: {fileID: 38403078}
   m_Layer: 0
   m_Name: Ledge
   m_TagString: Untagged
@@ -364,19 +363,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1828155289}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &38403078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 38403076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &38403079
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1031,7 +1017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _profile: 1
 --- !u!65 &155827576
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1249,7 +1235,6 @@ GameObject:
   - component: {fileID: 161899594}
   - component: {fileID: 161899593}
   - component: {fileID: 161899592}
-  - component: {fileID: 161899591}
   - component: {fileID: 161899596}
   - component: {fileID: 161899597}
   m_Layer: 0
@@ -1275,19 +1260,6 @@ Transform:
   - {fileID: 803438645}
   m_Father: {fileID: 1828155289}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &161899591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 161899589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &161899592
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2325,7 +2297,6 @@ GameObject:
   - component: {fileID: 358439579}
   - component: {fileID: 358439578}
   - component: {fileID: 358439577}
-  - component: {fileID: 358439576}
   - component: {fileID: 358439582}
   m_Layer: 0
   m_Name: MovingPlatform 1
@@ -2350,19 +2321,6 @@ Transform:
   - {fileID: 2088487223}
   m_Father: {fileID: 1828155289}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &358439576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358439574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &358439577
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3116,7 +3074,6 @@ GameObject:
   - component: {fileID: 434220209}
   - component: {fileID: 434220208}
   - component: {fileID: 434220207}
-  - component: {fileID: 434220206}
   m_Layer: 0
   m_Name: Cylinder (4)
   m_TagString: Untagged
@@ -3139,19 +3096,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1925147521}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &434220206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 434220204}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!136 &434220207
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3720,7 +3664,6 @@ GameObject:
   - component: {fileID: 666660972}
   - component: {fileID: 666660971}
   - component: {fileID: 666660970}
-  - component: {fileID: 666660973}
   - component: {fileID: 666660974}
   m_Layer: 0
   m_Name: Lamp 2
@@ -3816,19 +3759,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
   _profile: 0
---- !u!114 &666660973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 666660967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!65 &666660974
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3863,7 +3793,6 @@ GameObject:
   - component: {fileID: 670749029}
   - component: {fileID: 670749028}
   - component: {fileID: 670749027}
-  - component: {fileID: 670749026}
   - component: {fileID: 670749031}
   - component: {fileID: 670749032}
   m_Layer: 0
@@ -3889,19 +3818,6 @@ Transform:
   - {fileID: 1583560058}
   m_Father: {fileID: 1828155289}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &670749026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 670749024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &670749027
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4512,7 +4428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _profile: 1
 --- !u!65 &803438647
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4603,7 +4519,6 @@ GameObject:
   - component: {fileID: 819750821}
   - component: {fileID: 819750820}
   - component: {fileID: 819750819}
-  - component: {fileID: 819750818}
   m_Layer: 0
   m_Name: Ledge
   m_TagString: Untagged
@@ -4626,19 +4541,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1828155289}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &819750818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 819750816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &819750819
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5589,7 +5491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _profile: 1
 --- !u!65 &1142082458
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6187,7 +6089,6 @@ GameObject:
   - component: {fileID: 1329975976}
   - component: {fileID: 1329975975}
   - component: {fileID: 1329975974}
-  - component: {fileID: 1329975972}
   - component: {fileID: 1329975977}
   m_Layer: 0
   m_Name: Lamp 1
@@ -6213,19 +6114,6 @@ Transform:
   - {fileID: 155827574}
   m_Father: {fileID: 1828155289}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1329975972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1329975970}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!23 &1329975974
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6936,10 +6824,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1513809670}
-  - component: {fileID: 1513809674}
   - component: {fileID: 1513809673}
   - component: {fileID: 1513809672}
-  - component: {fileID: 1513809675}
   - component: {fileID: 1513809676}
   m_Layer: 0
   m_Name: Lamp 3
@@ -7022,32 +6908,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1513809669}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1513809674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1513809669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
---- !u!114 &1513809675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1513809669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!65 &1513809676
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7082,7 +6942,6 @@ GameObject:
   - component: {fileID: 1540723133}
   - component: {fileID: 1540723132}
   - component: {fileID: 1540723131}
-  - component: {fileID: 1540723130}
   m_Layer: 0
   m_Name: Cylinder (2)
   m_TagString: Untagged
@@ -7105,19 +6964,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1329975971}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1540723130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540723128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!136 &1540723131
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7417,7 +7263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _profile: 1
 --- !u!65 &1583560060
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8440,7 +8286,6 @@ GameObject:
   - component: {fileID: 1860705190}
   - component: {fileID: 1860705189}
   - component: {fileID: 1860705188}
-  - component: {fileID: 1860705192}
   m_Layer: 0
   m_Name: Cylinder (2)
   m_TagString: Untagged
@@ -8556,19 +8401,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
   _profile: 0
---- !u!114 &1860705192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1860705186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!1 &1908572499
 GameObject:
   m_ObjectHideFlags: 0
@@ -8617,10 +8449,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1925147521}
-  - component: {fileID: 1925147526}
   - component: {fileID: 1925147525}
   - component: {fileID: 1925147524}
-  - component: {fileID: 1925147522}
   - component: {fileID: 1925147527}
   m_Layer: 0
   m_Name: Lamp 4
@@ -8646,19 +8476,6 @@ Transform:
   - {fileID: 1142082456}
   m_Father: {fileID: 1828155289}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1925147522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925147520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!23 &1925147524
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8716,19 +8533,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925147520}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1925147526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925147520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &1925147527
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9001,7 +8805,6 @@ GameObject:
   - component: {fileID: 1978070441}
   - component: {fileID: 1978070440}
   - component: {fileID: 1978070439}
-  - component: {fileID: 1978070438}
   m_Layer: 0
   m_Name: Ledge
   m_TagString: Untagged
@@ -9024,19 +8827,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1828155289}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &1978070438
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978070436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
 --- !u!65 &1978070439
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9609,7 +9399,6 @@ GameObject:
   - component: {fileID: 2057238850}
   - component: {fileID: 2057238849}
   - component: {fileID: 2057238848}
-  - component: {fileID: 2057238852}
   m_Layer: 0
   m_Name: Cylinder (4)
   m_TagString: Untagged
@@ -9725,19 +9514,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
   _profile: 0
---- !u!114 &2057238852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2057238846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!1 &2088487222
 GameObject:
   m_ObjectHideFlags: 0
@@ -9785,7 +9561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _profile: 1
 --- !u!65 &2088487225
 BoxCollider:
   m_ObjectHideFlags: 0
