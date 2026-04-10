@@ -10,6 +10,10 @@ public class Movement : NetworkBehaviour, IMovement
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
 
+    public bool MovementLocked { get; set; }
+
+    public float SpeedMultiplier { get; set; } = 1f;
+
     private CharacterController controller;
     private JumpAbility jumpAbility;
     private BoxInteraction boxInteraction;
@@ -49,6 +53,19 @@ public class Movement : NetworkBehaviour, IMovement
     void Update()
     {
         if (!IsOwner || followCam == null) return;
+
+        if (MovementLocked)
+        {
+            // Keep gravity so the player stays grounded naturally
+            if (controller.isGrounded && verticalVelocity < 0f)
+            {
+                verticalVelocity = -2f;
+            }
+
+            verticalVelocity += gravity * Time.deltaTime;
+            controller.Move(new Vector3(0f, verticalVelocity, 0f) * Time.deltaTime);
+            return;
+        }
 
         var interaction = GetComponent<BoxInteraction>();
         if (interaction != null && interaction.enabled && interaction.IsDraggingLargeBox)
@@ -102,7 +119,7 @@ public class Movement : NetworkBehaviour, IMovement
 
         verticalVelocity += gravity * Time.deltaTime;
 
-        Vector3 move = direction * speed;
+        Vector3 move = direction * (speed * SpeedMultiplier);
         move.y = verticalVelocity;
 
         controller.Move(move * Time.deltaTime);
@@ -110,6 +127,9 @@ public class Movement : NetworkBehaviour, IMovement
 
     Vector2 GetMovementInput()
     {
+        if (Keyboard.current == null)
+            return Vector2.zero;
+
         Vector2 input = Vector2.zero;
 
         if (Keyboard.current.wKey.isPressed) input.y += 1;
