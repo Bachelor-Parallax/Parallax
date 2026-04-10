@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BoxInteraction : MonoBehaviour
+public class BoxInteraction : MonoBehaviour, IInteractor 
 {
     [Header("Detection")]
     [SerializeField] private float interactRange = 2f;
@@ -25,7 +25,7 @@ public class BoxInteraction : MonoBehaviour
     private Vector3 dragDirection;
 
     private RoleController roleController;
-    private TemporaryMovement movement;
+    private Movement movement;
     private CharacterController playerController;
 
     public bool HasNearbyBox => nearbyBox != null;
@@ -35,7 +35,7 @@ public class BoxInteraction : MonoBehaviour
 
     private void Awake()
     {
-        movement = GetComponent<TemporaryMovement>();
+        movement = GetComponent<Movement>();
         playerController = GetComponent<CharacterController>();
         roleController = GetComponent<RoleController>();
     }
@@ -55,7 +55,7 @@ public class BoxInteraction : MonoBehaviour
             return;
         }
 
-        if (!roleController.CanMoveBoxes)
+        if (!roleController.IsHuman)
         {
             Debug.Log("Cannot interact with box - player is not in human form.");
             return;

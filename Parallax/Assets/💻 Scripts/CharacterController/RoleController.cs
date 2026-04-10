@@ -19,8 +19,10 @@ public class RoleController : NetworkBehaviour
     public NetworkVariable<CharacterRole> role = new(
         writePerm: NetworkVariableWritePermission.Server);
 
-    public bool CanMoveBoxes => role.Value == CharacterRole.Human;
     public CharacterRole CurrentRole => role.Value;
+
+    public bool IsHuman => role.Value == CharacterRole.Human;
+    public bool IsCat => role.Value == CharacterRole.Cat;
 
     void Awake()
     {
@@ -38,8 +40,8 @@ public override void OnNetworkSpawn()
     if (IsServer)
     {
         role.Value = (OwnerClientId == NetworkManager.ServerClientId)
-            ? CharacterRole.Human       
-            : CharacterRole.Cat;
+            ? CharacterRole.Cat       
+            : CharacterRole.Human;
     }
 
     StartCoroutine(ApplyRoleNextFrame());
@@ -68,7 +70,7 @@ public override void OnNetworkSpawn()
             r2.enabled = r == CharacterRole.Cat;
         
         ApplyRoleSpecificPhysics(r);
-        GetComponent<TemporaryMovement>().ApplyRole(r);
+        GetComponent<Movement>().ApplyRole(r);
 
         // var asymObjects = FindObjectsOfType<AsymVisibility>(true);
         // foreach (var asym in asymObjects)

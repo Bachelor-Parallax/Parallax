@@ -89,9 +89,9 @@ public class LevelManager : MonoBehaviour
 
     private void SetPlayerPosition(GameObject player, Vector3 pos)
     {
-        player.GetComponent<TemporaryMovement>().Teleport(pos);
+        player.GetComponent<Movement>().Teleport(pos);
 
-        if (player.TryGetComponent<TemporaryMovement>(out var movement))
+        if (player.TryGetComponent<Movement>(out var movement))
         {
             movement.ResetVerticalVelocity();
         }
