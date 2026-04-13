@@ -426,6 +426,7 @@ public class MultiplayerManager : MonoBehaviour
 
     private async void OnClientConnected(ulong clientId)
     {
+        Debug.Log("Client connected to server: " + clientId);
         if (currentLobby != null)
         {
             currentLobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
