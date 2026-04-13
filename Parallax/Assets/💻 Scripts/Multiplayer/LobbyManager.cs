@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -9,8 +8,6 @@ public class LobbyManager : NetworkBehaviour
     public NetworkVariable<LobbyState> CurrentLobbyState =
         new NetworkVariable<LobbyState>(LobbyState.Waiting);
 
-    private List<LobbyPlayer> players = new();
-
     private void Awake()
     {
         Instance = this;
@@ -18,57 +15,28 @@ public class LobbyManager : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (IsServer)
-        {
-            RegisterExistingPlayers();
-        }
-
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
     }
 
-    private void RegisterExistingPlayers()
-    {
-        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
-        {
-            SpawnLobbyPlayer(client.ClientId);
-        }
-    }
-
     private void OnClientConnected(ulong clientId)
     {
-        if (!IsServer) return;
-
-        SpawnLobbyPlayer(clientId);
-    }
-
-    private void SpawnLobbyPlayer(ulong clientId)
-    {
-        GameObject playerObj = Instantiate(
-            NetworkManager.Singleton.NetworkConfig.PlayerPrefab
-        );
-
-        playerObj.GetComponent<NetworkObject>()
-            .SpawnAsPlayerObject(clientId);
-
-        players.Add(playerObj.GetComponent<LobbyPlayer>());
+        Debug.Log("Client connected to lobby: " + clientId);
     }
 
     private void OnClientDisconnected(ulong clientId)
     {
-        if (!IsServer) return;
-
-        players.RemoveAll(p => p.OwnerClientId == clientId);
+        Debug.Log("Client disconnected from lobby: " + clientId);
     }
 
     public void ToggleReady(bool ready)
     {
-        NetworkObject playerObj =
-            NetworkManager.Singleton.LocalClient.PlayerObject;
+        var playerObject = NetworkManager.Singleton.LocalClient.PlayerObject;
 
-        if (playerObj == null) return;
+        if (playerObject == null) return;
 
-        playerObj.GetComponent<LobbyPlayer>()
+        playerObject
+            .GetComponent<LobbyPlayer>()
             .SetReadyServerRpc(ready);
     }
 
@@ -89,9 +57,15 @@ public class LobbyManager : NetworkBehaviour
 
     private bool AllPlayersReady()
     {
-        foreach (var player in players)
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
         {
-            if (!player.IsReady.Value)
+            var playerObj = client.PlayerObject;
+
+            if (playerObj == null) return false;
+
+            var lobbyPlayer = playerObj.GetComponent<LobbyPlayer>();
+
+            if (!lobbyPlayer.IsReady.Value)
                 return false;
         }
 
