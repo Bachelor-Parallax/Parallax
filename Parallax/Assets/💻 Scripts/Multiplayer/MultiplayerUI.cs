@@ -15,10 +15,10 @@ public class MultiplayerUI : MonoBehaviour
 
     private async Task CreateLobbyUI(bool isPrivate)
     {
-        await Multiplayer.Instance.CreateLobby(isPrivate);
+        await MultiplayerManager.Instance.CreateLobby(isPrivate);
         
         displayLobbyCode.SetText(
-            "Lobby code: " + Multiplayer.Instance.CurrentLobbyCode
+            "Lobby code: " + MultiplayerManager.Instance.CurrentLobbyCode
         );
     }
 
@@ -41,7 +41,7 @@ public class MultiplayerUI : MonoBehaviour
 
     private async Task JoinLobbyUI(string lobbyCode)
     {
-        await Multiplayer.Instance.JoinLobby(lobbyCode);
+        await MultiplayerManager.Instance.JoinLobby(lobbyCode);
     }
 
     public void OnDisconnectPressed()
@@ -51,7 +51,7 @@ public class MultiplayerUI : MonoBehaviour
 
     private async Task DisconnectUI()
     {
-        string lobbyStatusMessage = await Multiplayer.Instance.Disconnect();
+        string lobbyStatusMessage = await MultiplayerManager.Instance.Disconnect();
         lobbyInfoText.SetText(lobbyStatusMessage);
     }
 
@@ -62,6 +62,6 @@ public class MultiplayerUI : MonoBehaviour
 
     private void SelectLevelUI(string sceneName)
     {
-        Multiplayer.Instance.LoadGameScene(sceneName);
+        MultiplayerManager.Instance.LoadGameScene(sceneName);
     }
 }
