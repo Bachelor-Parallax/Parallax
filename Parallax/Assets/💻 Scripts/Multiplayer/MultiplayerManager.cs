@@ -64,6 +64,10 @@ public class MultiplayerManager : MonoBehaviour
         NetworkManager.Singleton.OnTransportFailure += OnTransportFailure;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+        NetworkManager.Singleton.OnServerStarted += () =>
+        {
+            Debug.Log("HOST STARTED");
+        };
     }
 
     private void ConfigureTimers()
@@ -192,12 +196,18 @@ public class MultiplayerManager : MonoBehaviour
                 throw new Exception("Failed to join lobby");
 
             currentLobby = joinTask.Result;
+            Debug.Log("Lobby data keys:");
+            foreach (var key in currentLobby.Data.Keys)
+            {
+                Debug.Log(key);
+            }
 
             pollTimer.Start();
 
             string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
 
             JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+            Debug.Log("Joined relay successfully");
 
             ConfigureClientRelay(joinAllocation);
 
@@ -214,6 +224,7 @@ public class MultiplayerManager : MonoBehaviour
 
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedHandler;
 
+            Debug.Log("Starting client...");
             NetworkManager.Singleton.StartClient();
 
             await tcs.Task;
