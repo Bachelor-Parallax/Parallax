@@ -56,7 +56,7 @@ public class MultiplayerManager : MonoBehaviour
     private void InitializeSingleton()
     {
         Instance = this;
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(gameObject);
     }
 
     private void RegisterNetworkCallbacks()
@@ -68,6 +68,14 @@ public class MultiplayerManager : MonoBehaviour
         {
             Debug.Log("HOST STARTED");
         };
+        NetworkManager.Singleton.ConnectionApprovalCallback =
+            (request, response) =>
+            {
+                Debug.Log("Connection request received from client");
+
+                response.Approved = true;
+                response.CreatePlayerObject = true;
+            };
     }
 
     private void ConfigureTimers()
@@ -234,7 +242,7 @@ public class MultiplayerManager : MonoBehaviour
         catch (Exception e)
         {
             loadingUI.Hide();
-            Debug.LogError("Failed to join lobby by code: " + e.Message);
+            Debug.LogError("Failed to join lobby: " + e.Message);
         }
     }
 
