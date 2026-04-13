@@ -8,6 +8,20 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
+        var interactorRoleController = interactor.GetComponent<RoleController>();
+
+        if (interactorRoleController == null)
+        {
+            Debug.Log("Interactor has no RoleController.");
+            return;
+        }
+
+        if (interactorRoleController.CurrentRole != CharacterRole.Human)
+        {
+            Debug.Log("Only humans can interact with the button.");
+            return;
+        }
+
         if (requiredKey == null)
         {
             Debug.Log("Button pressed, but requiredKey is NULL");
@@ -21,8 +35,8 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
             Debug.Log("Button pressed, but key not collected!");
             return;
         }
-        PressButtonServerRpc();
 
+        PressButtonServerRpc();
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
