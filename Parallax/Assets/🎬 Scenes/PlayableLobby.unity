@@ -583,27 +583,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5722512126876621414, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 5156574994327480839, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7294395576410944532}
   m_SourcePrefab: {fileID: 100100000, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
---- !u!1 &7294395576410944531 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5156574994327480839, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
-  m_PrefabInstance: {fileID: 7294395576410944530}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7294395576410944532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7294395576410944531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 979cc64b42d364d478cda9eeb35e2177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GlowPulse
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

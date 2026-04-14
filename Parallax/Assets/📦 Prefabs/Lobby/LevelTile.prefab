@@ -553,6 +553,7 @@ GameObject:
   - component: {fileID: 7030756073104712558}
   - component: {fileID: 565296827607655116}
   - component: {fileID: 5282519522535097616}
+  - component: {fileID: 1197761174803566870}
   m_Layer: 0
   m_Name: ZoneBounds
   m_TagString: Untagged
@@ -570,7 +571,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.006373024, y: -0.479, z: -5.15}
-  m_LocalScale: {x: 1, y: 0.0710233, z: 9.3355}
+  m_LocalScale: {x: 1, y: 0.15659928, z: 9.3355}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7773398957198258342}
@@ -666,6 +667,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoteZoneTrigger
   levelData: {fileID: 0}
+--- !u!114 &1197761174803566870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156574994327480839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 979cc64b42d364d478cda9eeb35e2177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GlowPulse
 --- !u!1 &5662524271172965663
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,7 +1163,7 @@ Transform:
   m_GameObject: {fileID: 8679935364879333516}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.231, z: 1.6}
+  m_LocalPosition: {x: 0, y: -0.189, z: 1.6}
   m_LocalScale: {x: 1, y: 0.54671, z: 3.6773028}
   m_ConstrainProportionsScale: 0
   m_Children:
