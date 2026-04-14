@@ -54,9 +54,29 @@ public class LobbyManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void VoteLevelServerRpc(string sceneName, ServerRpcParams rpcParams = default)
     {
-        Debug.Log($"Client {rpcParams.Receive.SenderClientId} voted for {sceneName}");
+        ulong clientId = rpcParams.Receive.SenderClientId;
 
-        ToggleReady(true);
+        Debug.Log($"Client {clientId} voted for {sceneName}");
+
+        var playerObject = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
+
+        if (playerObject == null)
+        {
+            Debug.LogError("PlayerObject missing");
+            return;
+        }
+
+        var lobbyPlayer = playerObject.GetComponent<LobbyPlayer>();
+
+        if (lobbyPlayer == null)
+        {
+            Debug.LogError("LobbyPlayer missing");
+            return;
+        }
+
+        // mark that player ready
+        lobbyPlayer.IsReady.Value = true;
+
         StartGame(sceneName);
     }
 

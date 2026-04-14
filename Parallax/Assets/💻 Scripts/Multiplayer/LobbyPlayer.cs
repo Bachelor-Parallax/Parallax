@@ -4,7 +4,10 @@ using Unity.Netcode;
 public class LobbyPlayer : NetworkBehaviour
 {
     public NetworkVariable<bool> IsReady =
-        new NetworkVariable<bool>(false);
+        new NetworkVariable<bool>(
+            false,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Server);
 
     public NetworkVariable<FixedString32Bytes> PlayerName =
         new NetworkVariable<FixedString32Bytes>();
@@ -28,4 +31,6 @@ public class LobbyPlayer : NetworkBehaviour
     {
         IsReady.Value = ready;
     }
+    
+    
 }

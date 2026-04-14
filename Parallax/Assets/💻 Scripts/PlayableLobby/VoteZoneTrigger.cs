@@ -14,8 +14,6 @@ public class VoteZoneTrigger : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
         
-        Debug.Log($"Player voted for {levelData.levelName}");
-        
         LobbyManager.Instance.VoteLevelServerRpc(levelData.sceneName);
     }
 
@@ -24,6 +22,5 @@ public class VoteZoneTrigger : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         
         LobbyManager.Instance.ToggleReady(false);
-        Debug.Log($"Player un-voted for {levelData.levelName}");
     }
 }
