@@ -58,7 +58,7 @@ public class LobbyManager : NetworkBehaviour
     {
         ulong clientId = rpcParams.Receive.SenderClientId;
 
-        Debug.Log($"Client {clientId} voted for {sceneName}");
+        Debug.Log($"Player {clientId} voted for {sceneName}");
 
         var playerObject = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
 

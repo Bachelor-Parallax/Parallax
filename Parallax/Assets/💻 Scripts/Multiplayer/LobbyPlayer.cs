@@ -16,7 +16,7 @@ public class LobbyPlayer : NetworkBehaviour
     {
         if (IsOwner)
         {
-            SetPlayerNameServerRpc(Multiplayer.Instance.PlayerName);
+            SetPlayerNameServerRpc(MultiplayerManager.Instance.PlayerName);
         }
     }
 
