@@ -12,6 +12,7 @@ public class VoteZoneTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("OnTriggerEnter fired");
         if (!other.CompareTag("Player"))
             return;
         
@@ -27,6 +28,7 @@ public class VoteZoneTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("OnTriggerExit fired");
         if (!other.CompareTag("Player"))
             return;
         
