@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: -556552906016252084}
   - component: {fileID: 3492118900568071967}
   - component: {fileID: 1850633733994081567}
+  - component: {fileID: 1375351597955060567}
   m_Layer: 0
   m_Name: BasePlayerCharacter
   m_TagString: Player
@@ -401,6 +402,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ac2b87a7a8bfb49870e09323169a61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpAbility
+--- !u!114 &1375351597955060567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5194365735509367560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c34046567efa5488c9d06b000808bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LobbyPlayer
+  ShowTopMostFoldoutHeaderGroup: 1
+  IsReady:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 0
+  PlayerName:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue:
+      utf8LengthInBytes: 0
+      bytes:
+        offset0000:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0016: 0
+        byte0017: 0
+        byte0018: 0
+        byte0019: 0
+        byte0020: 0
+        byte0021: 0
+        byte0022: 0
+        byte0023: 0
+        byte0024: 0
+        byte0025: 0
+        byte0026: 0
+        byte0027: 0
+        byte0028: 0
+        byte0029: 0
 --- !u!1001 &6546433385855476733
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -33,16 +33,42 @@ public class LobbyManager : NetworkBehaviour
     {
         var playerObject = NetworkManager.Singleton.LocalClient.PlayerObject;
 
-        if (playerObject == null) return;
+        if (playerObject == null)
+        {
+            Debug.LogWarning("Local PlayerObject missing");
+            return;
+        }
 
-        playerObject
-            .GetComponent<LobbyPlayer>()
-            .SetReadyServerRpc(ready);
+        var lobbyPlayer = playerObject.GetComponent<LobbyPlayer>();
+
+        if (lobbyPlayer == null)
+        {
+            Debug.LogError("LobbyPlayer component missing!");
+            return;
+        }
+
+        lobbyPlayer.SetReadyServerRpc(ready);
     }
 
-    public void StartGame()
+    // CLIENT → SERVER request to start the game
+    [ServerRpc(RequireOwnership = false)]
+    public void VoteLevelServerRpc(string sceneName, ServerRpcParams rpcParams = default)
     {
-        if (!IsServer) return;
+        Debug.Log($"Client {rpcParams.Receive.SenderClientId} voted for {sceneName}");
+
+        ToggleReady(true);
+        StartGame(sceneName);
+    }
+
+    public void StartGame(string sceneName)
+    {
+        Debug.Log($"StartGame called for {sceneName}");
+
+        if (!IsServer)
+        {
+            Debug.Log("Not server, ignoring StartGame");
+            return;
+        }
 
         if (!AllPlayersReady())
         {
@@ -52,7 +78,8 @@ public class LobbyManager : NetworkBehaviour
 
         CurrentLobbyState.Value = LobbyState.StartingGame;
 
-        Multiplayer.Instance.LoadGameScene("GameScene");
+        Debug.Log($"Multiplayer.Instance = {MultiplayerManager.Instance}");
+        MultiplayerManager.Instance.LoadGameScene(sceneName);
     }
 
     private bool AllPlayersReady()
@@ -61,12 +88,25 @@ public class LobbyManager : NetworkBehaviour
         {
             var playerObj = client.PlayerObject;
 
-            if (playerObj == null) return false;
+            if (playerObj == null)
+            {
+                Debug.LogWarning("PlayerObject is null");
+                return false;
+            }
 
             var lobbyPlayer = playerObj.GetComponent<LobbyPlayer>();
 
-            if (!lobbyPlayer.IsReady.Value)
+            if (lobbyPlayer == null)
+            {
+                Debug.LogError($"LobbyPlayer missing on {playerObj.name}");
                 return false;
+            }
+
+            if (!lobbyPlayer.IsReady.Value)
+            {
+                Debug.Log($"Player {client.ClientId} is not ready");
+                return false;
+            }
         }
 
         return true;

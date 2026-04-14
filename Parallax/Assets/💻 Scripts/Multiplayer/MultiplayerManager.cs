@@ -176,7 +176,7 @@ public class MultiplayerManager : MonoBehaviour
 
             loadingUI.Hide();
 
-            LoadGameScene("Lobby");
+            LoadGameScene("PlayableLobby");
         }
         catch (LobbyServiceException e)
         {
