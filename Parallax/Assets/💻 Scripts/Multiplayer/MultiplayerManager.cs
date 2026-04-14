@@ -55,6 +55,12 @@ public class MultiplayerManager : MonoBehaviour
 
     private void InitializeSingleton()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
@@ -68,14 +74,6 @@ public class MultiplayerManager : MonoBehaviour
         {
             Debug.Log("HOST STARTED");
         };
-        NetworkManager.Singleton.ConnectionApprovalCallback =
-            (request, response) =>
-            {
-                Debug.Log("Connection request received from client");
-
-                response.Approved = true;
-                response.CreatePlayerObject = true;
-            };
     }
 
     private void ConfigureTimers()
@@ -178,7 +176,7 @@ public class MultiplayerManager : MonoBehaviour
 
             loadingUI.Hide();
 
-            LoadGameScene("Thea");
+            LoadGameScene("Lobby");
         }
         catch (LobbyServiceException e)
         {
@@ -193,17 +191,40 @@ public class MultiplayerManager : MonoBehaviour
 
         try
         {
-            Task<Lobby> joinTask;
+            Lobby joinedLobby = null;
 
             if (lobbyCode == null)
-                joinTask = LobbyService.Instance.QuickJoinLobbyAsync();
+            {
+                // Retry QuickJoin a few times to avoid lobby propagation delay
+                for (int i = 0; i < 10; i++)
+                {
+                    try
+                    {
+                        loadingUI.Show($"Searching for lobby... ({i + 1}/10)");
+
+                        joinedLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+                        break;
+                    }
+                    catch (LobbyServiceException e) when (e.Reason == LobbyExceptionReason.NoOpenLobbies)
+                    {
+                        if (i == 9)
+                        {
+                            loadingUI.Show("No lobby found");
+                            await Task.Delay(1500);
+                            throw new LobbyServiceException(LobbyExceptionReason.NoOpenLobbies, "No open lobbies found.");
+                        }
+                        
+                        await Task.Delay(1000);
+                    }
+                }
+            }
             else
-                joinTask = LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            {
+                joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            }
 
-            if (await Task.WhenAny(joinTask, Task.Delay(10000)) != joinTask)
-                throw new Exception("Failed to join lobby");
+            currentLobby = joinedLobby;
 
-            currentLobby = joinTask.Result;
             Debug.Log("Lobby data keys:");
             foreach (var key in currentLobby.Data.Keys)
             {
@@ -239,10 +260,18 @@ public class MultiplayerManager : MonoBehaviour
 
             loadingUI.Hide();
         }
-        catch (Exception e)
+        catch (LobbyServiceException e)
         {
             loadingUI.Hide();
-            Debug.LogError("Failed to join lobby: " + e.Message);
+
+            if (e.Reason == LobbyExceptionReason.NoOpenLobbies)
+            {
+                Debug.Log("No open lobbies found.");
+            }
+            else
+            {
+                Debug.LogError("Failed to join lobby: " + e.Message);
+            }
         }
     }
 
@@ -283,7 +312,9 @@ public class MultiplayerManager : MonoBehaviour
 
         NetworkManager.Singleton.Shutdown();
 
-        SceneManager.LoadScene("Lobby");
+        await Task.Yield();
+        
+        SceneManager.LoadScene("MainMenu");
 
         return result;
     }

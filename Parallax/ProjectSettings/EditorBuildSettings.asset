@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: "Assets/\U0001F3AC Scenes/BootstrapScene.unity"
+    guid: cc2cb49865cad924da5b37f60712b259
+  - enabled: 1
     path: "Assets/\U0001F3AC Scenes/MainMenu.unity"
     guid: f2bc5c17cbe1477418831f3a16f3cc80
   - enabled: 1
@@ -13,7 +16,7 @@ EditorBuildSettings:
     guid: 49dfe0ba6a291f64a9401891d64eefbe
   - enabled: 1
     path: "Assets/\U0001F3AC Scenes/Stecher.unity"
-    guid: 1e50b3811a2ea3a4493cce3d14082cc9
+    guid: 3c51b3de0103f8041842f0dfd7bd9fe2
   - enabled: 1
     path: "Assets/\U0001F3AC Scenes/Thea.unity"
     guid: e21254a9b5200e243b91049789fa79d0

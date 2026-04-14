@@ -23,7 +23,7 @@ public class UILobbyCode : MonoBehaviour
     public void LeaveLobbyAndDisplayLeft()
     {
         MultiplayerInstanceCheck();
-        Multiplayer.Instance.Disconnect();
+        _ = Multiplayer.Instance.Disconnect();
         displayLobbyInfo.SetText("You left the lobby");
     }
 }

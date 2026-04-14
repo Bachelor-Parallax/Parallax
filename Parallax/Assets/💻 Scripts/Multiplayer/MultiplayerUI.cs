@@ -3,34 +3,31 @@ using UnityEngine;
 
 public class MultiplayerUI : MonoBehaviour
 {
-    [SerializeField] private TMPro.TMP_Text lobbyInfoText;
-    [SerializeField] private TMPro.TMP_Text displayLobbyCode;
     [SerializeField] private TMPro.TMP_InputField lobbyCodeInput;
-    [SerializeField] private GameObject levelSelectMenu;
 
     public void OnCreateLobbyPressed(bool isPrivate)
     {
-        _ = CreateLobbyUI(isPrivate);
+        Debug.Log("Create lobby button pressed");
+        // _ = CreateLobbyUI(isPrivate);
+        RunTask(CreateLobbyUI(isPrivate));
     }
 
     private async Task CreateLobbyUI(bool isPrivate)
     {
         await MultiplayerManager.Instance.CreateLobby(isPrivate);
-        
-        displayLobbyCode.SetText(
-            "Lobby code: " + MultiplayerManager.Instance.CurrentLobbyCode
-        );
     }
 
     // QUICK JOIN (no code)
     public void OnQuickJoinPressed()
     {
+        Debug.Log("Quick join button pressed");
         _ = JoinLobbyUI(null);
     }
 
     // JOIN WITH CODE
     public void OnJoinByCodePressed()
     {
+        Debug.Log("Join by code button pressed");
         string code = lobbyCodeInput.text.Trim().ToUpper();
 
         if (string.IsNullOrEmpty(code))
@@ -43,25 +40,16 @@ public class MultiplayerUI : MonoBehaviour
     {
         await MultiplayerManager.Instance.JoinLobby(lobbyCode);
     }
-
-    public void OnDisconnectPressed()
+    
+    private async void RunTask(Task task)
     {
-        _ = DisconnectUI();
-    }
-
-    private async Task DisconnectUI()
-    {
-        string lobbyStatusMessage = await MultiplayerManager.Instance.Disconnect();
-        lobbyInfoText.SetText(lobbyStatusMessage);
-    }
-
-    public void OnLevelPressed(string sceneName)
-    {
-        SelectLevelUI(sceneName);
-    }
-
-    private void SelectLevelUI(string sceneName)
-    {
-        MultiplayerManager.Instance.LoadGameScene(sceneName);
+        try
+        {
+            await task;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogException(e);
+        }
     }
 }

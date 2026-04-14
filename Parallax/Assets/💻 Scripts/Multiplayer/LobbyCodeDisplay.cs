@@ -16,7 +16,7 @@ public class LobbyCodeDisplay : MonoBehaviour
         if (!string.IsNullOrEmpty(code))
         {
             GUI.Label(new Rect(x, y, 300, h), "Lobby Code: " + code);
-            if (GUI.Button(new Rect(x, y + (h + 10), w, h), "Leave lobby")) Multiplayer.Instance.Disconnect(); 
+            if (GUI.Button(new Rect(x, y + (h + 10), w, h), "Leave lobby")) _ = Multiplayer.Instance.Disconnect(); 
         }
     }
 }
