@@ -9,6 +9,7 @@ TagManager:
   - Box
   - Human
   - Cat
+  - LobbyCodeDisplay
   layers:
   - Default
   - TransparentFX

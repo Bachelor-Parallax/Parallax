@@ -283,6 +283,12 @@ public class Multiplayer : MonoBehaviour
         }
     }
 
+    // Loads the Lobby sceen on create lobby
+    public void LoadLobbySceen()
+    {
+        SceneManager.LoadScene("Lobby");
+    }
+
     public void LoadGameScene(string sceneName)
     {
         Debug.Log("Player Count: " + currentLobby.Players.Count);
