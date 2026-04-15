@@ -1,0 +1,117 @@
+@startuml Multiplayer CD
+
+package "MultiplayerService" {
+
+    package "Interfaces" {
+        interface ILobbyService
+        {
+            + CreateLobby(bool): Task
+            + JoinLobby(string): Task
+            + Disconnect(): Task<string>
+        }
+
+        interface IRelayService
+        {
+            + AllocateRelay(): Task<Allocation>
+            + JoinRelay(string): Task<JoinAllocation>
+        }
+
+        interface IAuthService
+        {
+            + Authenticate(): Task
+        }
+
+        interface ISceneLoader
+        {
+            + LoadGameScene(string): void
+            + ReloadCurrentScene(): void
+        }
+    }
+
+    package "Implementations" {
+        class LobbyService
+        {
+            - lobbyName : string
+            - maxPlayers : int
+            - currentLobby : Lobby
+            - heartbeatTimer : CountdownTimer
+            - pollTimer : CountdownTimer
+            - relayJoinCodeKey : string
+            
+            + CreateLobby(bool): Task
+            + JoinLobby(string): Task
+            + Disconnect(): Task<string>
+            - HandleHearthBeatAsync(): void
+            - HandlePollingAsync(): void
+        }
+
+        class RelayServiceWrapper
+        {
+            - dtlsSecureMode : bool
+            - transport : UnityTransport
+
+            + AllocateRelay(): Task<Allocation>
+            + JoinRelay(string): Task<JoinAllocation>
+            - GetRelayJoinCode(Allocation): Task<string>
+            - ConfigureHostRelay(Allocation): void
+            - ConfigureClientRelay(JoinAllocation): void
+        }
+
+        class AuthenticationServiceWrapper
+        {
+            - playerId : string
+            - playerName : string
+
+            + AuthenticateAnonymous(): Task
+            + AuthenticateUser(string): Task
+        }
+
+        class SceneLoader
+        {
+            - networkManager : NetworkManager
+
+            + LoadGameScene(string): void
+            + ReloadCurrentScene(): void
+        }
+    }
+
+    class MultiplayerManager
+    {
+        - lobbyService : ILobbyService
+        - relayService : IRelayService
+        - authService : IAuthService
+        - sceneLoader : ISceneLoader
+        - loadingUI : LoadingUI
+
+        - OnTransportFailure(): void
+        - OnClientConnected(ulong): void
+        - OnClientDisconnected(ulong): void
+    }
+}
+
+interface ILoadingUI
+{
+    + Show(string): void
+    + Hide(): void
+}
+
+class LoadingUI
+{
+    + Show(string): void
+    + Hide(): void
+}
+
+MultiplayerManager ..down> ILobbyService : Depends on
+MultiplayerManager ..down> IRelayService
+MultiplayerManager ..down> IAuthService
+MultiplayerManager ..down> ISceneLoader
+
+MultiplayerManager --left> ILoadingUI : Uses
+
+LobbyService ..up|> ILobbyService : Implements
+RelayServiceWrapper ..up|> IRelayService
+AuthenticationServiceWrapper ..up|> IAuthService
+SceneLoader ..up|> ISceneLoader
+LoadingUI ..up|> ILoadingUI
+
+@enduml
