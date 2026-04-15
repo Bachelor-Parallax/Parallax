@@ -6,20 +6,20 @@ public class Movement : NetworkBehaviour, IMovement
 {
     public float speed = 5f;
     public float gravity = -9.81f;
-    public float jumpHeight = 1.5f;
+    public float jumpHeight = 2f;
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
 
     public bool MovementLocked { get; set; }
-
     public float SpeedMultiplier { get; set; } = 1f;
 
     private CharacterController controller;
     private JumpAbility jumpAbility;
     private BoxInteraction boxInteraction;
+    private PlayerInteraction playerInteraction;
+    private Transform cameraTransform;
 
     private float verticalVelocity;
-    private FollowCam followCam;
     [SerializeField] private float rotationSpeed = 10f;
 
     void Awake()
@@ -27,54 +27,53 @@ public class Movement : NetworkBehaviour, IMovement
         controller = GetComponent<CharacterController>();
         jumpAbility = GetComponent<JumpAbility>();
         boxInteraction = GetComponent<BoxInteraction>();
+        playerInteraction = GetComponent<PlayerInteraction>();
     }
 
     public override void OnNetworkSpawn()
     {
-        followCam = GetComponentInChildren<FollowCam>(true);
-
-        if (followCam == null)
-        {
-            Debug.LogError("FollowCam not found in player prefab!");
-            return;
-        }
-
-        if (!IsOwner)
-        {
-            followCam.gameObject.SetActive(false);
-        }
-        else
-        {
-            followCam.gameObject.SetActive(true);
-            followCam.SetTarget(transform, true);
-        }
+        if (!IsOwner) return;
+        TryAssignCamera();
     }
 
     void Update()
     {
-        if (!IsOwner || followCam == null) return;
+        if (!IsOwner) return;
+
+        if (cameraTransform == null)
+            TryAssignCamera();
 
         if (MovementLocked)
         {
-            // Keep gravity so the player stays grounded naturally
-            if (controller.isGrounded && verticalVelocity < 0f)
-            {
-                verticalVelocity = -2f;
-            }
-
-            verticalVelocity += gravity * Time.deltaTime;
-            controller.Move(new Vector3(0f, verticalVelocity, 0f) * Time.deltaTime);
+            ApplyGravityOnly();
             return;
         }
 
         var interaction = GetComponent<BoxInteraction>();
         if (interaction != null && interaction.enabled && interaction.IsDraggingLargeBox)
+        {
+            ApplyGravityOnly();
             return;
+        }
 
         Vector2 input = GetMovementInput();
-
         Move(input);
         Rotate();
+    }
+
+    private void TryAssignCamera()
+    {
+        if (Camera.main != null)
+            cameraTransform = Camera.main.transform;
+    }
+
+    private void ApplyGravityOnly()
+    {
+        if (controller.isGrounded && verticalVelocity < 0f)
+            verticalVelocity = -2f;
+
+        verticalVelocity += gravity * Time.deltaTime;
+        controller.Move(new Vector3(0f, verticalVelocity, 0f) * Time.deltaTime);
     }
 
     public void SetVerticalVelocity(float value)
@@ -84,8 +83,10 @@ public class Movement : NetworkBehaviour, IMovement
 
     private void Rotate()
     {
-        Vector3 camForwardFlat = followCam.transform.forward;
-        camForwardFlat.y = 0;
+        if (cameraTransform == null) return;
+
+        Vector3 camForwardFlat = cameraTransform.forward;
+        camForwardFlat.y = 0f;
         camForwardFlat.Normalize();
 
         if (camForwardFlat.sqrMagnitude > 0.01f)
@@ -101,8 +102,14 @@ public class Movement : NetworkBehaviour, IMovement
 
     public void Move(Vector2 input)
     {
-        Vector3 camForward = followCam.transform.forward;
-        Vector3 camRight = followCam.transform.right;
+        if (cameraTransform == null)
+        {
+            ApplyGravityOnly();
+            return;
+        }
+
+        Vector3 camForward = cameraTransform.forward;
+        Vector3 camRight = cameraTransform.right;
 
         camForward.y = 0;
         camRight.y = 0;
@@ -113,9 +120,7 @@ public class Movement : NetworkBehaviour, IMovement
         Vector3 direction = (camForward * input.y + camRight * input.x).normalized;
 
         if (controller.isGrounded && verticalVelocity < 0)
-        {
             verticalVelocity = -2f;
-        }
 
         verticalVelocity += gravity * Time.deltaTime;
 
@@ -159,28 +164,20 @@ public class Movement : NetworkBehaviour, IMovement
             case CharacterRole.Human:
                 speed = 5f;
                 gravity = -9.81f;
-                jumpHeight = 1f;
+                jumpHeight = 0.5f;
                 break;
 
             case CharacterRole.Cat:
                 speed = 8f;
                 gravity = -9.81f;
-                jumpHeight = 1.5f;
-                break;
-
-            default:
-                speed = 5f;
-                gravity = -9.81f;
-                jumpHeight = 1f;
-                if (jumpAbility != null) jumpAbility.enabled = false;
-                if (boxInteraction != null) boxInteraction.enabled = false;
+                jumpHeight = 2f;
                 break;
         }
-        if (jumpAbility != null)
-        jumpAbility.enabled = role == CharacterRole.Cat;
 
         if (boxInteraction != null)
-        boxInteraction.enabled = role == CharacterRole.Human;
-    }
+            boxInteraction.enabled = role == CharacterRole.Human;
+        if (playerInteraction != null)
+            playerInteraction.enabled = role == CharacterRole.Human;
 
+    }
 }

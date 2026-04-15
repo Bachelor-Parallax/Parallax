@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
+using Unity.Cinemachine;
 
 public class CatVision : NetworkBehaviour
 {
@@ -18,7 +19,9 @@ public class CatVision : NetworkBehaviour
     private RoleController roleController;
     private CatVisionRoot glowRoot;
     private Movement movement;
-    private FollowCam followCam;
+
+    private CinemachineCamera cmCamera;
+    private CinemachineThirdPersonFollow thirdPersonFollow;
 
     private bool isVisionActive;
 
@@ -48,14 +51,7 @@ public class CatVision : NetworkBehaviour
         if (!IsOwner)
             return;
 
-        followCam = GetComponentInChildren<FollowCam>(true);
-
-        if (followCam != null)
-        {
-            baseCameraDistance = followCam.GetBaseDistance();
-            followCam.SetTargetDistance(baseCameraDistance);
-        }
-
+        CacheCameraReferences();
         TryFindGlowRoot();
     }
 
@@ -64,16 +60,31 @@ public class CatVision : NetworkBehaviour
         if (!IsOwner)
             return;
 
+        CacheCameraReferences();
         TryFindGlowRoot();
+    }
 
-        if (followCam == null)
-            followCam = GetComponentInChildren<FollowCam>(true);
+    private void CacheCameraReferences()
+    {
+        cmCamera = GetComponentInChildren<CinemachineCamera>(true);
 
-        if (followCam != null)
+        if (cmCamera == null)
         {
-            baseCameraDistance = followCam.GetBaseDistance();
-            followCam.SetTargetDistance(baseCameraDistance);
+            Debug.LogWarning("CatVision: No CinemachineCamera found.");
+            thirdPersonFollow = null;
+            return;
         }
+
+        thirdPersonFollow = cmCamera.GetComponent<CinemachineThirdPersonFollow>();
+
+        if (thirdPersonFollow == null)
+        {
+            Debug.LogWarning("CatVision: No CinemachineThirdPersonFollow found on CinemachineCamera.");
+            return;
+        }
+
+        baseCameraDistance = thirdPersonFollow.CameraDistance;
+        thirdPersonFollow.CameraDistance = baseCameraDistance;
     }
 
     private void SetVisionState(bool active)
@@ -85,13 +96,13 @@ public class CatVision : NetworkBehaviour
 
         targetMoveMultiplier = active ? visionMoveMultiplier : 1f;
 
-        if (followCam != null)
+        if (thirdPersonFollow != null)
         {
             float targetDistance = active
                 ? baseCameraDistance - zoomInAmount
                 : baseCameraDistance;
 
-            followCam.SetTargetDistance(targetDistance);
+            thirdPersonFollow.CameraDistance = Mathf.Max(0.2f, targetDistance);
         }
     }
 
