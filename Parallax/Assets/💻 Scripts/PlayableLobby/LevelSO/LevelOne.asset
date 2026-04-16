@@ -14,5 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
   levelName: Level One
   levelDescription: The first level of the game
-  bestTime: 0:00
   sceneName: Thea
+  devTime: 10:00
+  levelImage: {fileID: 0}
+  bestTime: 0:00
+  catTrophy: 0
+  humanTrophy: 0
+  beatDevTrophy: 0

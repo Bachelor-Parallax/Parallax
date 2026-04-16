@@ -533,6 +533,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelTile
       objectReference: {fileID: 0}
+    - target: {fileID: 5934214311721129216, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7443534319947677913, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4
