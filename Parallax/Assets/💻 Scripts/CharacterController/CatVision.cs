@@ -15,20 +15,26 @@ public class CatVision : NetworkBehaviour
 
     [Header("Camera")]
     [SerializeField] private float zoomInAmount = 1.0f;
+    [SerializeField] private float zoomSmoothSpeed = 5f;
+
+    private float currentZoom = 0f;
+    private float targetZoom = 0f;
 
     private RoleController roleController;
     private CatVisionRoot glowRoot;
     private Movement movement;
 
     private CinemachineCamera cmCamera;
-    private CinemachineThirdPersonFollow thirdPersonFollow;
+    private CinemachineOrbitalFollow orbitalFollow;
 
     private bool isVisionActive;
 
     private float currentMoveMultiplier = 1f;
     private float targetMoveMultiplier = 1f;
 
-    private float baseCameraDistance;
+    private float baseTopRadius;
+    private float baseCenterRadius;
+    private float baseBottomRadius;
 
     private void Awake()
     {
@@ -48,8 +54,7 @@ public class CatVision : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner)
-            return;
+        if (!IsOwner) return;
 
         CacheCameraReferences();
         TryFindGlowRoot();
@@ -57,8 +62,7 @@ public class CatVision : NetworkBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (!IsOwner)
-            return;
+        if (!IsOwner) return;
 
         CacheCameraReferences();
         TryFindGlowRoot();
@@ -66,25 +70,26 @@ public class CatVision : NetworkBehaviour
 
     private void CacheCameraReferences()
     {
-        cmCamera = GetComponentInChildren<CinemachineCamera>(true);
+        cmCamera = FindAnyObjectByType<CinemachineCamera>();
 
         if (cmCamera == null)
         {
             Debug.LogWarning("CatVision: No CinemachineCamera found.");
-            thirdPersonFollow = null;
+            orbitalFollow = null;
             return;
         }
 
-        thirdPersonFollow = cmCamera.GetComponent<CinemachineThirdPersonFollow>();
+        orbitalFollow = cmCamera.GetComponent<CinemachineOrbitalFollow>();
 
-        if (thirdPersonFollow == null)
+        if (orbitalFollow == null)
         {
-            Debug.LogWarning("CatVision: No CinemachineThirdPersonFollow found on CinemachineCamera.");
+            Debug.LogWarning("CatVision: No CinemachineOrbitalFollow found.");
             return;
         }
 
-        baseCameraDistance = thirdPersonFollow.CameraDistance;
-        thirdPersonFollow.CameraDistance = baseCameraDistance;
+        baseTopRadius = orbitalFollow.Orbits.Top.Radius;
+        baseCenterRadius = orbitalFollow.Orbits.Center.Radius;
+        baseBottomRadius = orbitalFollow.Orbits.Bottom.Radius;
     }
 
     private void SetVisionState(bool active)
@@ -95,15 +100,25 @@ public class CatVision : NetworkBehaviour
             glowRoot.SetTargetVisible(active);
 
         targetMoveMultiplier = active ? visionMoveMultiplier : 1f;
+        targetZoom = active ? zoomInAmount : 0f;
 
-        if (thirdPersonFollow != null)
-        {
-            float targetDistance = active
-                ? baseCameraDistance - zoomInAmount
-                : baseCameraDistance;
+    }
 
-            thirdPersonFollow.CameraDistance = Mathf.Max(0.2f, targetDistance);
-        }
+    private void UpdateCameraZoom()
+    {
+        if (orbitalFollow == null) return;
+
+        currentZoom = Mathf.Lerp(
+            currentZoom,
+            targetZoom,
+            zoomSmoothSpeed * Time.deltaTime
+        );
+
+        var orbits = orbitalFollow.Orbits;
+        orbits.Top.Radius = Mathf.Max(0.5f, baseTopRadius - currentZoom);
+        orbits.Center.Radius = Mathf.Max(0.5f, baseCenterRadius - currentZoom);
+        orbits.Bottom.Radius = Mathf.Max(0.5f, baseBottomRadius - currentZoom);
+        orbitalFollow.Orbits = orbits;
     }
 
     private void TryFindGlowRoot()
@@ -130,11 +145,8 @@ public class CatVision : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsOwner)
-            return;
-
-        if (roleController == null)
-            return;
+        if (!IsOwner) return;
+        if (roleController == null) return;
 
         bool keyHeld = Keyboard.current != null && Keyboard.current[visionKey].isPressed;
 
@@ -147,6 +159,7 @@ public class CatVision : NetworkBehaviour
         {
             if (keyHeld != isVisionActive)
                 SetVisionState(keyHeld);
+                UpdateCameraZoom();
         }
 
         currentMoveMultiplier = Mathf.Lerp(
