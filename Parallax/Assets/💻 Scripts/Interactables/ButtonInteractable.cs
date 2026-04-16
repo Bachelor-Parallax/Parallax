@@ -5,6 +5,23 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
 {
     [SerializeField] private MonoBehaviour[] targets;
     [SerializeField] private KeyInteractable requiredKey;
+    [SerializeField] private AudioClip buttonSound;
+    private AudioSource audioSource;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    private void PlayButtonSound()
+    {
+        if (buttonSound != null && audioSource != null)
+        {
+            audioSource.pitch = Random.Range(0.9f, 1.1f);
+            audioSource.PlayOneShot(buttonSound);
+        }
+    }
+
 
     public void Interact(GameObject interactor)
     {
@@ -37,6 +54,7 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
         }
 
         PressButtonServerRpc();
+        PlayButtonSound();
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
