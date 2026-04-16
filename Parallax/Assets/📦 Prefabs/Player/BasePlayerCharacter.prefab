@@ -243,7 +243,7 @@ MonoBehaviour:
   jumpHeight: 3
   rotationSpeed: 10
   stepSound: {fileID: 8300000, guid: 1c80b60c233234e47a753bc12c8da415, type: 3}
-  stepInterval: 0.5
+  stepInterval: 0.2
 --- !u!114 &-556552906016252084
 MonoBehaviour:
   m_ObjectHideFlags: 0
