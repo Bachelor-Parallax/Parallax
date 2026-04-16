@@ -9091,6 +9091,7 @@ GameObject:
   - component: {fileID: 951617014}
   - component: {fileID: 951617013}
   - component: {fileID: 951617012}
+  - component: {fileID: 951617018}
   m_Layer: 0
   m_Name: FreeLook Camera
   m_TagString: Untagged
@@ -9165,7 +9166,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 951617011}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1164266591}
+  m_Script: {fileID: 11500000, guid: a076c17fe76165e4f8ed21498b877bf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineFreeLookModifier
   Easing: 0
@@ -9182,7 +9183,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 951617011}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1234471521}
+  m_Script: {fileID: 11500000, guid: f38bda98361e1de48a4ca2bd86ea3c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineRotationComposer
   Composition:
@@ -9274,7 +9275,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 951617011}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1445215024}
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
@@ -9323,6 +9324,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &951617018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951617011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c56845245fb80940be0dce31443ac34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneCameraBinder
 --- !u!115 &961319455
 MonoScript:
   m_ObjectHideFlags: 0
@@ -10538,21 +10551,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152826946}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!115 &1164266591
-MonoScript:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 7
-  m_DefaultReferences: {}
-  m_Icon: {fileID: 0}
-  m_Type: 0
-  m_ExecutionOrder: 0
-  m_ClassName: CinemachineFreeLookModifier
-  m_Namespace: Unity.Cinemachine
-  m_AssemblyName: Unity.Cinemachine
 --- !u!1 &1167794381
 GameObject:
   m_ObjectHideFlags: 0
@@ -11207,21 +11205,6 @@ RectTransform:
   m_AnchoredPosition: {x: 76, y: 156}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!115 &1234471521
-MonoScript:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 7
-  m_DefaultReferences: {}
-  m_Icon: {fileID: 0}
-  m_Type: 0
-  m_ExecutionOrder: 0
-  m_ClassName: CinemachineRotationComposer
-  m_Namespace: Unity.Cinemachine
-  m_AssemblyName: Unity.Cinemachine
 --- !u!1 &1260633546
 GameObject:
   m_ObjectHideFlags: 0
@@ -13163,21 +13146,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430513304}
   m_CullTransparentMesh: 1
---- !u!115 &1445215024
-MonoScript:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 7
-  m_DefaultReferences: {}
-  m_Icon: {fileID: 0}
-  m_Type: 0
-  m_ExecutionOrder: 0
-  m_ClassName: CinemachineCamera
-  m_Namespace: Unity.Cinemachine
-  m_AssemblyName: Unity.Cinemachine
 --- !u!1 &1453972041
 GameObject:
   m_ObjectHideFlags: 0
