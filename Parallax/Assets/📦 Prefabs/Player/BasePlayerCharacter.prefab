@@ -347,10 +347,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   ShowTopMostFoldoutHeaderGroup: 1
-  speed: 5
+  baseSpeed: 5
+  sprintSpeed: 9
   gravity: -9.81
   jumpHeight: 2
   rotationSpeed: 10
+  stepSound: {fileID: 8300000, guid: 9100f9bd47c68e54b941c3bbc0a22138, type: 3}
+  stepInterval: 0.3
 --- !u!114 &-556552906016252084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,6 +429,7 @@ MonoBehaviour:
   visionMoveMultiplier: 0.35
   movementBlendSpeed: 6
   zoomInAmount: 1
+  zoomSmoothSpeed: 5
 --- !u!82 &1240127851100626543
 AudioSource:
   m_ObjectHideFlags: 0

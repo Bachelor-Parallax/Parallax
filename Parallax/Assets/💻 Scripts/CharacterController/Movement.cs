@@ -2,11 +2,20 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
 
-public class Movement : NetworkBehaviour, IMovement
+public class Movement : NetworkBehaviour, IMovement, ISprint
 {
-    public float speed = 5f;
-    public float gravity = -9.81f;
-    public float jumpHeight = 2f;
+    [Header("Movement")]
+    [SerializeField] private float baseSpeed = 5f;
+    [SerializeField] private float sprintSpeed = 9f;
+    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float jumpHeight = 2f;
+    [SerializeField] private float rotationSpeed = 10f;
+
+    [SerializeField] private AudioClip stepSound;
+    private AudioSource audioSource;
+    [SerializeField] private float stepInterval = 0.5f;
+    private float stepTimer;
+
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
 
@@ -20,7 +29,7 @@ public class Movement : NetworkBehaviour, IMovement
     private Transform cameraTransform;
 
     private float verticalVelocity;
-    [SerializeField] private float rotationSpeed = 10f;
+    private bool isSprinting;
 
     void Awake()
     {
@@ -28,6 +37,7 @@ public class Movement : NetworkBehaviour, IMovement
         jumpAbility = GetComponent<JumpAbility>();
         boxInteraction = GetComponent<BoxInteraction>();
         playerInteraction = GetComponent<PlayerInteraction>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public override void OnNetworkSpawn()
@@ -49,16 +59,53 @@ public class Movement : NetworkBehaviour, IMovement
             return;
         }
 
-        var interaction = GetComponent<BoxInteraction>();
-        if (interaction != null && interaction.enabled && interaction.IsDraggingLargeBox)
+        if (boxInteraction != null && boxInteraction.enabled && boxInteraction.IsDraggingLargeBox)
         {
             ApplyGravityOnly();
             return;
         }
 
+        HandleSprintInput();
+        HandleStepSound();
+
         Vector2 input = GetMovementInput();
         Move(input);
         Rotate();
+    }
+
+    private void HandleStepSound()
+    {
+        if (controller.isGrounded && controller.velocity.magnitude > 0.1f)
+        {
+            stepTimer -= Time.deltaTime;
+
+            if (stepTimer <= 0f)
+            {
+                audioSource.pitch = Random.Range(0.9f, 1.1f);
+                audioSource.PlayOneShot(stepSound);
+
+                float speed = controller.velocity.magnitude;
+
+                stepTimer = Mathf.Lerp(0.6f, 0.3f, speed / sprintSpeed);
+            }
+        }
+        else
+        {
+            stepTimer = 0f;
+        }
+    }
+
+    private void HandleSprintInput()
+    {
+        if (Keyboard.current == null) return;
+
+        bool sprinting = Keyboard.current.leftShiftKey.isPressed;
+        SetSprinting(sprinting);
+    }
+
+    public void SetSprinting(bool sprinting)
+    {
+        isSprinting = sprinting;
     }
 
     private void TryAssignCamera()
@@ -124,7 +171,9 @@ public class Movement : NetworkBehaviour, IMovement
 
         verticalVelocity += gravity * Time.deltaTime;
 
-        Vector3 move = direction * (speed * SpeedMultiplier);
+        float currentSpeed = isSprinting ? sprintSpeed : baseSpeed;
+
+        Vector3 move = direction * (currentSpeed * SpeedMultiplier);
         move.y = verticalVelocity;
 
         controller.Move(move * Time.deltaTime);
@@ -162,13 +211,15 @@ public class Movement : NetworkBehaviour, IMovement
         switch (role)
         {
             case CharacterRole.Human:
-                speed = 5f;
+                baseSpeed = 5f;
+                sprintSpeed = 8f;
                 gravity = -9.81f;
                 jumpHeight = 0.5f;
                 break;
 
             case CharacterRole.Cat:
-                speed = 8f;
+                baseSpeed = 8f;
+                sprintSpeed = 12f;
                 gravity = -9.81f;
                 jumpHeight = 2f;
                 break;
@@ -176,8 +227,8 @@ public class Movement : NetworkBehaviour, IMovement
 
         if (boxInteraction != null)
             boxInteraction.enabled = role == CharacterRole.Human;
+
         if (playerInteraction != null)
             playerInteraction.enabled = role == CharacterRole.Human;
-
     }
 }
