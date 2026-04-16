@@ -1,34 +1,35 @@
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using Unity.Cinemachine;
 
 public class PlayerCameraRegister : NetworkBehaviour
 {
-    [SerializeField] private Transform cameraTarget;
-
-    private static bool cameraAssigned = false;
-
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
+        StartCoroutine(BindCameraAfterSpawn());
+    }
 
-        // Sikrer vi kun binder EN gang per klient
-        if (cameraAssigned) return;
+    private IEnumerator BindCameraAfterSpawn()
+    {
+        yield return null;
+        yield return null;
 
-        var cam = FindFirstObjectByType<CinemachineCamera>();
+        var cam = FindAnyObjectByType<CinemachineCamera>();
         if (cam == null)
         {
-            Debug.LogError("No CinemachineCamera found in scene.");
-            return;
+            Debug.LogError("[PCR] No CinemachineCamera found in scene.");
+            yield break;
         }
 
-        Transform targetToUse = cameraTarget != null ? cameraTarget : transform;
+        Transform target = transform.Find("CameraTarget");
+        if (target == null)
+            target = transform;
 
-        cam.Follow = targetToUse;
-        cam.LookAt = targetToUse;
+        cam.Follow = target;
+        cam.LookAt = target;
 
-        cameraAssigned = true;
-
-        Debug.Log($"Camera bound to: {targetToUse.name} (Owner: {OwnerClientId})", this);
+        Debug.Log($"[PCR] Bound camera to {target.name} on runtime player {name}", this);
     }
 }
