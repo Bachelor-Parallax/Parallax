@@ -834,6 +834,7 @@ MonoBehaviour:
   lobbyName: Lobby
   maxPlayers: 2
   loadingUI: {fileID: 1453320839}
+  LobbySceneName: PlayableLobby
   dtlsSecureMode: 0
 --- !u!4 &970749043
 Transform:

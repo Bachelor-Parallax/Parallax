@@ -23,6 +23,7 @@ public class MultiplayerManager : MonoBehaviour
     [SerializeField] private string lobbyName = "Lobby";
     [SerializeField] private int maxPlayers = 2;
     [SerializeField] private LoadingUI loadingUI;
+    [SerializeField] private string LobbySceneName = "Lobby";
 
     [Header("Relay Settings")]
     [SerializeField] private bool dtlsSecureMode = true;
@@ -176,7 +177,7 @@ public class MultiplayerManager : MonoBehaviour
 
             loadingUI.Hide();
 
-            LoadGameScene("Lobby");
+            LoadGameScene(LobbySceneName);
         }
         catch (LobbyServiceException e)
         {
