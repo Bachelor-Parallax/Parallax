@@ -1,19 +1,6 @@
 @startuml asymmetrical perspective CD
 
-
 package "Asymmetrical Perspective" {
-
-    ' Enum usedd to deine the target perspective
-    enum PerspectiveProfile
-    {
-        Human
-        Cat
-    }
-
-    interface IPerspectiveManager
-    {
-        + void ApplyPerspectiveProfile()
-    }
 
     class PerspectiveManager<MonoBehaviour>
     {
@@ -23,9 +10,6 @@ package "Asymmetrical Perspective" {
 
     !include AsymmetricalPropertyCD.puml
 
-    IPerspectiveManager <|.. PerspectiveManager
-    PerspectiveManager -> PerspectiveProfile
     PerspectiveManager --> base
-    PerspectiveProfile <-- base
 }
 @enduml

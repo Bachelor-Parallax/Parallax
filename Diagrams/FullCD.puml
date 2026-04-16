@@ -1,13 +1,19 @@
 @startuml FullCD
 
+hide members
+
 package "Parallax CD" 
 {
-    !include Level Logic/LevelLogicCD.puml
+    !include LevelLogic/LevelLogicCD.puml
     !include Asymmetrical Perspective/AsymmetricalPerspectiveCD.puml
-    !include Network/NetworkCD.puml
+    !include Multiplayer/MultiplayerCD.puml
+    !include GUI/guiCD.puml
 
-    LevelManager --> IPerspectiveManager
-    INetworkManager <--- PerspectiveManager
+    class NetworkManager #line.dashed:black
+
+    LevelManager --> PerspectiveManager
+    LevelManager --> NetworkManager
+    MultiplayerPage --> MultiplayerManager
 }
 
 @enduml
