@@ -77,6 +77,7 @@ package "MultiplayerService" {
 
     class MultiplayerManager
     {
+        + Instance : MultiplayerManager {static}
         - lobbyService : ILobbyService
         - relayService : IRelayService
         - authService : IAuthService

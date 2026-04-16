@@ -1,0 +1,52 @@
+@startuml guiCD
+
+package "GUI" {
+
+    abstract class BasePage<MonoBehaviour>
+    {
+        + void FocusElement()
+    }
+
+    class MainMenuPage
+    {
+        + void QuitGame()
+    }
+
+    class GuidePage 
+    {
+        + void NextPage()
+        + void PreviousPage()
+    }
+
+    class MultiplayerPage
+    {
+        + void HostGame()
+        + void JoinGame()
+    }
+
+    class SettingsPage
+    {
+        + void AdjustVolume()
+        + void ChangeResolution()
+        + void FlipActiveState()
+    }
+
+}
+    interface IPreferenceManager
+    {
+        + void SavePreferences()
+        + void LoadPreferences()
+    }
+
+    class PreferenceManager
+    {
+    }
+
+    BasePage <|-- MainMenuPage
+    BasePage <|-- GuidePage
+    BasePage <|-- MultiplayerPage
+    BasePage <|-- SettingsPage
+    IPreferenceManager <-- SettingsPage
+    IPreferenceManager <|.. PreferenceManager
+
+@enduml
