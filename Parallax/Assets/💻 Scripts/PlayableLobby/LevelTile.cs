@@ -8,6 +8,7 @@ public class LevelTile : MonoBehaviour
     [Header("UI")]
     public TextMeshPro levelNameText;
     public TextMeshPro bestTimeText;
+    public SpriteRenderer image;
 
     [Header("Voting")]
     public VoteZoneTrigger voteZone;
@@ -23,6 +24,7 @@ public class LevelTile : MonoBehaviour
 
         levelNameText.text = levelData.levelName;
         bestTimeText.text = levelData.bestTime;
+        image.sprite = levelData.levelImage;
 
         voteZone.SetLevel(levelData);
     }

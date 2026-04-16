@@ -9,7 +9,7 @@ public class LevelData : ScriptableObject
     public string levelDescription;
     public string sceneName;
     public string devTime;
-    public Material levelImage;
+    public Sprite levelImage;
     
     [Header("Player data")]
     public string bestTime;

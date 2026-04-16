@@ -84,28 +84,6 @@ public class LobbyManager : NetworkBehaviour
         TryStartGame();
     }
 
-    // public void StartGame(string sceneName)
-    // {
-    //     Debug.Log($"StartGame called for {sceneName}");
-    //
-    //     if (!IsServer)
-    //     {
-    //         Debug.Log("Not server, ignoring StartGame");
-    //         return;
-    //     }
-    //
-    //     if (!AllPlayersReady())
-    //     {
-    //         Debug.Log("Not all players ready");
-    //         return;
-    //     }
-    //
-    //     CurrentLobbyState.Value = LobbyState.StartingGame;
-    //
-    //     Debug.Log($"Multiplayer.Instance = {MultiplayerManager.Instance}");
-    //     MultiplayerManager.Instance.LoadGameScene(sceneName);
-    // }
-
     private void TryStartGame()
     {
         if (!IsServer) return;

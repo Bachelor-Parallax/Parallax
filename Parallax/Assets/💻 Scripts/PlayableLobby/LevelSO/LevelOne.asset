@@ -16,8 +16,8 @@ MonoBehaviour:
   levelDescription: The first level of the game
   sceneName: Thea
   devTime: 10:00
-  levelImage: {fileID: 0}
-  bestTime: 0:00
+  levelImage: {fileID: 21300000, guid: ba25bdec23a01bf43b0adf9836a418c5, type: 3}
+  bestTime: 13:37
   catTrophy: 0
   humanTrophy: 0
-  beatDevTrophy: 0
+  beatDevTrophy: 1
