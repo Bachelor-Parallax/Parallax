@@ -2,62 +2,125 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
 
-public class Movement : NetworkBehaviour, IMovement
+public class Movement : NetworkBehaviour, IMovement, ISprint
 {
-    public float speed = 5f;
-    public float gravity = -9.81f;
-    public float jumpHeight = 1.5f;
+    [Header("Movement")]
+    [SerializeField] private float baseSpeed = 5f;
+    [SerializeField] private float sprintSpeed = 9f;
+    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float jumpHeight = 2f;
+    [SerializeField] private float rotationSpeed = 10f;
+
+    [SerializeField] private AudioClip stepSound;
+    private AudioSource audioSource;
+    [SerializeField] private float stepInterval = 0.5f;
+    private float stepTimer;
+
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
+
+    public bool MovementLocked { get; set; }
+    public float SpeedMultiplier { get; set; } = 1f;
 
     private CharacterController controller;
     private JumpAbility jumpAbility;
     private BoxInteraction boxInteraction;
+    private PlayerInteraction playerInteraction;
+    private Transform cameraTransform;
 
     private float verticalVelocity;
-    private FollowCam followCam;
-    [SerializeField] private float rotationSpeed = 10f;
+    private bool isSprinting;
 
     void Awake()
     {
         controller = GetComponent<CharacterController>();
         jumpAbility = GetComponent<JumpAbility>();
         boxInteraction = GetComponent<BoxInteraction>();
+        playerInteraction = GetComponent<PlayerInteraction>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public override void OnNetworkSpawn()
     {
-        followCam = GetComponentInChildren<FollowCam>(true);
-
-        if (followCam == null)
-        {
-            Debug.LogError("FollowCam not found in player prefab!");
-            return;
-        }
-
-        if (!IsOwner)
-        {
-            followCam.gameObject.SetActive(false);
-        }
-        else
-        {
-            followCam.gameObject.SetActive(true);
-            followCam.SetTarget(transform, true);
-        }
+        if (!IsOwner) return;
+        TryAssignCamera();
     }
 
     void Update()
     {
-        if (!IsOwner || followCam == null) return;
+        if (!IsOwner) return;
 
-        var interaction = GetComponent<BoxInteraction>();
-        if (interaction != null && interaction.enabled && interaction.IsDraggingLargeBox)
+        if (cameraTransform == null)
+            TryAssignCamera();
+
+        if (MovementLocked)
+        {
+            ApplyGravityOnly();
             return;
+        }
+
+        if (boxInteraction != null && boxInteraction.enabled && boxInteraction.IsDraggingLargeBox)
+        {
+            ApplyGravityOnly();
+            return;
+        }
+
+        HandleSprintInput();
+        HandleStepSound();
 
         Vector2 input = GetMovementInput();
-
         Move(input);
         Rotate();
+    }
+
+    private void HandleStepSound()
+    {
+        if (controller.isGrounded && controller.velocity.magnitude > 0.1f)
+        {
+            stepTimer -= Time.deltaTime;
+
+            if (stepTimer <= 0f)
+            {
+                audioSource.pitch = Random.Range(0.9f, 1.1f);
+                audioSource.PlayOneShot(stepSound);
+
+                float speed = controller.velocity.magnitude;
+
+                stepTimer = Mathf.Lerp(0.6f, 0.3f, speed / sprintSpeed);
+            }
+        }
+        else
+        {
+            stepTimer = 0f;
+        }
+    }
+
+    private void HandleSprintInput()
+    {
+        if (Keyboard.current == null) return;
+
+        bool sprinting = Keyboard.current.leftShiftKey.isPressed;
+        SetSprinting(sprinting);
+    }
+
+    public void SetSprinting(bool sprinting)
+    {
+        isSprinting = sprinting;
+    }
+
+    private void TryAssignCamera()
+    {
+        if (Camera.main != null)
+            cameraTransform = Camera.main.transform;
+    }
+
+    private void ApplyGravityOnly()
+    {
+        if (controller.isGrounded && verticalVelocity < 0f)
+            verticalVelocity = -2f;
+
+        verticalVelocity += gravity * Time.deltaTime;
+        controller.Move(new Vector3(0f, verticalVelocity, 0f) * Time.deltaTime);
     }
 
     public void SetVerticalVelocity(float value)
@@ -67,8 +130,10 @@ public class Movement : NetworkBehaviour, IMovement
 
     private void Rotate()
     {
-        Vector3 camForwardFlat = followCam.transform.forward;
-        camForwardFlat.y = 0;
+        if (cameraTransform == null) return;
+
+        Vector3 camForwardFlat = cameraTransform.forward;
+        camForwardFlat.y = 0f;
         camForwardFlat.Normalize();
 
         if (camForwardFlat.sqrMagnitude > 0.01f)
@@ -84,8 +149,14 @@ public class Movement : NetworkBehaviour, IMovement
 
     public void Move(Vector2 input)
     {
-        Vector3 camForward = followCam.transform.forward;
-        Vector3 camRight = followCam.transform.right;
+        if (cameraTransform == null)
+        {
+            ApplyGravityOnly();
+            return;
+        }
+
+        Vector3 camForward = cameraTransform.forward;
+        Vector3 camRight = cameraTransform.right;
 
         camForward.y = 0;
         camRight.y = 0;
@@ -96,13 +167,13 @@ public class Movement : NetworkBehaviour, IMovement
         Vector3 direction = (camForward * input.y + camRight * input.x).normalized;
 
         if (controller.isGrounded && verticalVelocity < 0)
-        {
             verticalVelocity = -2f;
-        }
 
         verticalVelocity += gravity * Time.deltaTime;
 
-        Vector3 move = direction * speed;
+        float currentSpeed = isSprinting ? sprintSpeed : baseSpeed;
+
+        Vector3 move = direction * (currentSpeed * SpeedMultiplier);
         move.y = verticalVelocity;
 
         controller.Move(move * Time.deltaTime);
@@ -110,6 +181,9 @@ public class Movement : NetworkBehaviour, IMovement
 
     Vector2 GetMovementInput()
     {
+        if (Keyboard.current == null)
+            return Vector2.zero;
+
         Vector2 input = Vector2.zero;
 
         if (Keyboard.current.wKey.isPressed) input.y += 1;
@@ -137,30 +211,24 @@ public class Movement : NetworkBehaviour, IMovement
         switch (role)
         {
             case CharacterRole.Human:
-                speed = 5f;
+                baseSpeed = 5f;
+                sprintSpeed = 8f;
                 gravity = -9.81f;
-                jumpHeight = 1f;
+                jumpHeight = 0.5f;
                 break;
 
             case CharacterRole.Cat:
-                speed = 8f;
+                baseSpeed = 8f;
+                sprintSpeed = 12f;
                 gravity = -9.81f;
-                jumpHeight = 1.5f;
-                break;
-
-            default:
-                speed = 5f;
-                gravity = -9.81f;
-                jumpHeight = 1f;
-                if (jumpAbility != null) jumpAbility.enabled = false;
-                if (boxInteraction != null) boxInteraction.enabled = false;
+                jumpHeight = 2f;
                 break;
         }
-        if (jumpAbility != null)
-        jumpAbility.enabled = role == CharacterRole.Cat;
 
         if (boxInteraction != null)
-        boxInteraction.enabled = role == CharacterRole.Human;
-    }
+            boxInteraction.enabled = role == CharacterRole.Human;
 
+        if (playerInteraction != null)
+            playerInteraction.enabled = role == CharacterRole.Human;
+    }
 }
