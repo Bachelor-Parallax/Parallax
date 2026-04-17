@@ -237,7 +237,7 @@ public class LobbyServiceWrapper : MonoBehaviour
                 else
                 {
                     await LobbyService.Instance.RemovePlayerAsync(currentLobby.Id, playerId);
-                    result = "Client left the lobby";
+                    result = $"Client: {playerId} - left the lobby";
                 }
             }
             catch (Exception e)

@@ -98,20 +98,19 @@ public class MultiplayerManager : MonoBehaviour
 
     private async Task Authenticate()
     {
-        PlayerId = "";
-        Debug.Log(AuthenticationServiceWrapper.Instance);
+        //PlayerId = "";
         PlayerId = await AuthenticationServiceWrapper.Instance.Authenticate();
     }
 
     private async Task Authenticate(string playerName)
     {
-        PlayerId = "";
+        //PlayerId = "";
         PlayerId = await AuthenticationServiceWrapper.Instance.Authenticate(playerName);
     }
 
     #endregion
 
-    #region Lobby Creation / Join
+    #region Lobby Creation / Join / Disconnect
 
     public async Task CreateLobby(bool isPrivate)
     {
@@ -156,48 +155,9 @@ public class MultiplayerManager : MonoBehaviour
         }
     }
 
-    #endregion
-
-    #region Disconnect
-
     public async Task<string> Disconnect()
     {
-        string result = "";
-
-        if (currentLobby != null)
-        {
-            try
-            {
-                if (NetworkManager.Singleton.IsHost)
-                {
-                    await LobbyService.Instance.DeleteLobbyAsync(currentLobby.Id);
-                    result = "Host left - Lobby has been deleted";
-                }
-                else
-                {
-                    await LobbyService.Instance.RemovePlayerAsync(currentLobby.Id, PlayerId);
-                    result = "Client left the lobby";
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Lobby cleanup failed: " + e.Message);
-                result = "Lobby cleanup failed";
-            }
-
-            currentLobby = null;
-        }
-
-        heartbeatTimer.Stop();
-        pollTimer.Stop();
-
-        NetworkManager.Singleton.Shutdown();
-
-        await Task.Yield();
-        
-        SceneManager.LoadScene("MainMenu");
-
-        return result;
+        return await LobbyServiceWrapper.Instance.Disconnect(PlayerId);
     }
 
     #endregion
