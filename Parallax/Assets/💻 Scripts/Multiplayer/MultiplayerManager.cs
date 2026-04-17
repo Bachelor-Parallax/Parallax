@@ -23,7 +23,7 @@ public class MultiplayerManager : MonoBehaviour
     [SerializeField] private string lobbyName = "Lobby";
     [SerializeField] private int maxPlayers = 2;
     [SerializeField] private LoadingUI loadingUI;
-    [SerializeField] private string LobbySceneName = "Lobby";
+    [SerializeField] private string LobbySceneName = "PlayableLobby";
 
     [Header("Relay Settings")]
     [SerializeField] private bool dtlsSecureMode = true;
@@ -49,7 +49,7 @@ public class MultiplayerManager : MonoBehaviour
     {
         InitializeSingleton();
         RegisterNetworkCallbacks();
-        ConfigureTimers();
+        // ConfigureTimers();
 
         await Authenticate();
     }
@@ -77,20 +77,20 @@ public class MultiplayerManager : MonoBehaviour
         };
     }
 
-    private void ConfigureTimers()
-    {
-        heartbeatTimer.OnTimerStop += () =>
-        {
-            _ = HandleHeartbeatAsync();
-            heartbeatTimer.Start();
-        };
-
-        pollTimer.OnTimerStop += () =>
-        {
-            _ = HandlePollingAsync();
-            pollTimer.Start();
-        };
-    }
+    // private void ConfigureTimers()
+    // {
+    //     heartbeatTimer.OnTimerStop += () =>
+    //     {
+    //         _ = HandleHeartbeatAsync();
+    //         heartbeatTimer.Start();
+    //     };
+    //
+    //     pollTimer.OnTimerStop += () =>
+    //     {
+    //         _ = HandlePollingAsync();
+    //         pollTimer.Start();
+    //     };
+    // }
 
     #endregion
 
@@ -119,10 +119,12 @@ public class MultiplayerManager : MonoBehaviour
 
         try
         {
-            await LobbyServiceWrapper.Instance.CreateLobby(isPrivate, maxPlayers);
+            currentLobby = await LobbyServiceWrapper.Instance.CreateLobby(isPrivate, maxPlayers);
 
             loadingUI.Hide();
 
+            Debug.Log("MultiplayerManager - NetworkManager: " + NetworkManager.Singleton);
+            Debug.Log("MultiplayerManager - SceneManager: " + NetworkManager.Singleton.SceneManager);
             LoadGameScene(LobbySceneName);
         }
         catch (LobbyServiceException e)
@@ -270,31 +272,31 @@ public class MultiplayerManager : MonoBehaviour
 
     #region Lobby Maintenance
 
-    private async Task HandleHeartbeatAsync()
-    {
-        try
-        {
-            await LobbyService.Instance.SendHeartbeatPingAsync(currentLobby.Id);
-            Debug.Log("Sent heartbeat ping to lobby: " + currentLobby.Name);
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.LogError("Failed to heartbeat lobby: " + e.Message);
-        }
-    }
-
-    private async Task HandlePollingAsync()
-    {
-        try
-        {
-            currentLobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
-            Debug.Log("Polled for updates on lobby: " + currentLobby.Name);
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.LogError("Failed to poll for updates on lobby: " + e.Message);
-        }
-    }
+    // private async Task HandleHeartbeatAsync()
+    // {
+    //     try
+    //     {
+    //         await LobbyService.Instance.SendHeartbeatPingAsync(currentLobby.Id);
+    //         Debug.Log("Sent heartbeat ping to lobby: " + currentLobby.Name);
+    //     }
+    //     catch (LobbyServiceException e)
+    //     {
+    //         Debug.LogError("Failed to heartbeat lobby: " + e.Message);
+    //     }
+    // }
+    //
+    // private async Task HandlePollingAsync()
+    // {
+    //     try
+    //     {
+    //         currentLobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
+    //         Debug.Log("Polled for updates on lobby: " + currentLobby.Name);
+    //     }
+    //     catch (LobbyServiceException e)
+    //     {
+    //         Debug.LogError("Failed to poll for updates on lobby: " + e.Message);
+    //     }
+    // }
 
     #endregion
 

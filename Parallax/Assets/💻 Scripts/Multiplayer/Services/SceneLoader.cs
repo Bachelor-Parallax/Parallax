@@ -25,6 +25,7 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadGameScene(string sceneName)
     {
+        Debug.Log("SceneLoader - SceneManager: " + NetworkManager.Singleton.SceneManager);
         NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 

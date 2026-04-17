@@ -83,7 +83,7 @@ public class LobbyServiceWrapper : MonoBehaviour
         }
     }
 
-    public async Task CreateLobby(bool isPrivate, int maxPlayers)
+    public async Task<Lobby> CreateLobby(bool isPrivate, int maxPlayers)
     {
         try
         {
@@ -127,10 +127,13 @@ public class LobbyServiceWrapper : MonoBehaviour
             NetworkManager.Singleton.StartHost();
 
             await tcs.Task;
+            Debug.Log("LobbyServiceWrapper - NetworkManager: " + NetworkManager.Singleton);
+            return currentLobby;
         }
         catch (LobbyServiceException e)
         {
             Debug.LogError("Failed to create lobby: " + e.Message);
+            throw;
         }
     }
 
@@ -212,6 +215,8 @@ public class LobbyServiceWrapper : MonoBehaviour
             {
                 Debug.LogError("Failed to join lobby: " + e.Message);
             }
+
+            throw;
         }
     }
 
