@@ -127,7 +127,7 @@ public class LobbyServiceWrapper : MonoBehaviour
             NetworkManager.Singleton.StartHost();
 
             await tcs.Task;
-            Debug.Log("LobbyServiceWrapper - NetworkManager: " + NetworkManager.Singleton);
+            
             return currentLobby;
         }
         catch (LobbyServiceException e)
@@ -137,7 +137,7 @@ public class LobbyServiceWrapper : MonoBehaviour
         }
     }
 
-    public async Task JoinLobby(string lobbyCode)
+    public async Task<Lobby> JoinLobby(string lobbyCode)
     {
         try
         {
@@ -204,6 +204,7 @@ public class LobbyServiceWrapper : MonoBehaviour
             NetworkManager.Singleton.StartClient();
 
             await tcs.Task;
+            return currentLobby;
         }
         catch (LobbyServiceException e)
         {

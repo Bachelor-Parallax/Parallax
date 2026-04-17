@@ -123,8 +123,6 @@ public class MultiplayerManager : MonoBehaviour
 
             loadingUI.Hide();
 
-            Debug.Log("MultiplayerManager - NetworkManager: " + NetworkManager.Singleton);
-            Debug.Log("MultiplayerManager - SceneManager: " + NetworkManager.Singleton.SceneManager);
             LoadGameScene(LobbySceneName);
         }
         catch (LobbyServiceException e)
@@ -140,73 +138,7 @@ public class MultiplayerManager : MonoBehaviour
 
         try
         {
-            Lobby joinedLobby = null;
-
-            if (lobbyCode == null)
-            {
-                // Retry QuickJoin a few times to avoid lobby propagation delay
-                for (int i = 0; i < 10; i++)
-                {
-                    try
-                    {
-                        loadingUI.Show($"Searching for lobby... ({i + 1}/10)");
-
-                        joinedLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
-                        break;
-                    }
-                    catch (LobbyServiceException e) when (e.Reason == LobbyExceptionReason.NoOpenLobbies)
-                    {
-                        if (i == 9)
-                        {
-                            loadingUI.Show("No lobby found");
-                            await Task.Delay(1500);
-                            throw new LobbyServiceException(LobbyExceptionReason.NoOpenLobbies, "No open lobbies found.");
-                        }
-                        
-                        await Task.Delay(1000);
-                    }
-                }
-            }
-            else
-            {
-                joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
-            }
-
-            currentLobby = joinedLobby;
-
-            Debug.Log("Lobby data keys:");
-            foreach (var key in currentLobby.Data.Keys)
-            {
-                Debug.Log(key);
-            }
-
-            pollTimer.Start();
-
-            string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
-
-            JoinAllocation joinAllocation = await RelayServiceWrapper.Instance.JoinRelay(relayJoinCode);
-            Debug.Log("Joined relay successfully");
-
-            RelayServiceWrapper.Instance.ConfigureClientRelay(joinAllocation);
-
-            var tcs = new TaskCompletionSource<bool>();
-
-            void OnClientConnectedHandler(ulong id)
-            {
-                if (id == NetworkManager.Singleton.LocalClientId)
-                {
-                    NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnectedHandler;
-                    tcs.SetResult(true);
-                }
-            }
-
-            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedHandler;
-
-            Debug.Log("Starting client...");
-            NetworkManager.Singleton.StartClient();
-
-            await tcs.Task;
-
+            currentLobby = await LobbyServiceWrapper.Instance.JoinLobby(lobbyCode);
             loadingUI.Hide();
         }
         catch (LobbyServiceException e)
@@ -267,36 +199,6 @@ public class MultiplayerManager : MonoBehaviour
 
         return result;
     }
-
-    #endregion
-
-    #region Lobby Maintenance
-
-    // private async Task HandleHeartbeatAsync()
-    // {
-    //     try
-    //     {
-    //         await LobbyService.Instance.SendHeartbeatPingAsync(currentLobby.Id);
-    //         Debug.Log("Sent heartbeat ping to lobby: " + currentLobby.Name);
-    //     }
-    //     catch (LobbyServiceException e)
-    //     {
-    //         Debug.LogError("Failed to heartbeat lobby: " + e.Message);
-    //     }
-    // }
-    //
-    // private async Task HandlePollingAsync()
-    // {
-    //     try
-    //     {
-    //         currentLobby = await LobbyService.Instance.GetLobbyAsync(currentLobby.Id);
-    //         Debug.Log("Polled for updates on lobby: " + currentLobby.Name);
-    //     }
-    //     catch (LobbyServiceException e)
-    //     {
-    //         Debug.LogError("Failed to poll for updates on lobby: " + e.Message);
-    //     }
-    // }
 
     #endregion
 
