@@ -98,30 +98,15 @@ public class MultiplayerManager : MonoBehaviour
 
     private async Task Authenticate()
     {
-        await Authenticate("Player" + Random.Range(0, 1000));
+        PlayerId = "";
+        Debug.Log(AuthenticationServiceWrapper.Instance);
+        PlayerId = await AuthenticationServiceWrapper.Instance.Authenticate();
     }
 
     private async Task Authenticate(string playerName)
     {
-        if (UnityServices.State == ServicesInitializationState.Uninitialized)
-        {
-            InitializationOptions options = new();
-            options.SetProfile(playerName);
-            await UnityServices.InitializeAsync(options);
-        }
-
-        AuthenticationService.Instance.SignedIn += () =>
-        {
-            Debug.Log("Signed in as " + AuthenticationService.Instance.PlayerId);
-        };
-
-        if (!AuthenticationService.Instance.IsSignedIn)
-        {
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
-
-            PlayerId = AuthenticationService.Instance.PlayerId;
-            PlayerName = playerName;
-        }
+        PlayerId = "";
+        PlayerId = await AuthenticationServiceWrapper.Instance.Authenticate(playerName);
     }
 
     #endregion
@@ -134,46 +119,7 @@ public class MultiplayerManager : MonoBehaviour
 
         try
         {
-            Allocation allocation = await AllocateRelay();
-            string relayJoinCode = await GetRelayJoinCode(allocation);
-
-            CreateLobbyOptions options = new()
-            {
-                IsPrivate = isPrivate
-            };
-
-            currentLobby =
-                await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
-
-            Debug.Log("Created lobby: " + currentLobby.Name + " with code " + currentLobby.LobbyCode);
-
-            heartbeatTimer.Start();
-            pollTimer.Start();
-
-            await LobbyService.Instance.UpdateLobbyAsync(currentLobby.Id,
-                new UpdateLobbyOptions
-                {
-                    Data = new Dictionary<string, DataObject>
-                    {
-                        { k_keyJoinCode, new DataObject(DataObject.VisibilityOptions.Member, relayJoinCode) }
-                    }
-                });
-
-            ConfigureHostRelay(allocation);
-
-            var tcs = new TaskCompletionSource<bool>();
-
-            void OnServerStartedHandler()
-            {
-                NetworkManager.Singleton.OnServerStarted -= OnServerStartedHandler;
-                tcs.SetResult(true);
-            }
-
-            NetworkManager.Singleton.OnServerStarted += OnServerStartedHandler;
-
-            NetworkManager.Singleton.StartHost();
-
-            await tcs.Task;
+            await LobbyServiceWrapper.Instance.CreateLobby(isPrivate, maxPlayers);
 
             loadingUI.Hide();
 
@@ -236,10 +182,10 @@ public class MultiplayerManager : MonoBehaviour
 
             string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
 
-            JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
+            JoinAllocation joinAllocation = await RelayServiceWrapper.Instance.JoinRelay(relayJoinCode);
             Debug.Log("Joined relay successfully");
 
-            ConfigureClientRelay(joinAllocation);
+            RelayServiceWrapper.Instance.ConfigureClientRelay(joinAllocation);
 
             var tcs = new TaskCompletionSource<bool>();
 
@@ -322,75 +268,6 @@ public class MultiplayerManager : MonoBehaviour
 
     #endregion
 
-    #region Relay
-
-    private void ConfigureHostRelay(Allocation allocation)
-    {
-        NetworkManager.Singleton.GetComponent<UnityTransport>()
-            .SetRelayServerData(new RelayServerData(
-                allocation.RelayServer.IpV4,
-                (ushort)allocation.RelayServer.Port,
-                allocation.AllocationIdBytes,
-                allocation.ConnectionData,
-                allocation.ConnectionData,
-                allocation.Key,
-                dtlsSecureMode));
-    }
-
-    private void ConfigureClientRelay(JoinAllocation joinAllocation)
-    {
-        NetworkManager.Singleton.GetComponent<UnityTransport>()
-            .SetRelayServerData(new RelayServerData(
-                joinAllocation.RelayServer.IpV4,
-                (ushort)joinAllocation.RelayServer.Port,
-                joinAllocation.AllocationIdBytes,
-                joinAllocation.ConnectionData,
-                joinAllocation.HostConnectionData,
-                joinAllocation.Key,
-                dtlsSecureMode));
-    }
-
-    private async Task<Allocation> AllocateRelay()
-    {
-        try
-        {
-            return await RelayService.Instance.CreateAllocationAsync(maxPlayers - 1);
-        }
-        catch (RelayServiceException e)
-        {
-            Debug.LogError("Failed to allocate relay: " + e.Message);
-            throw;
-        }
-    }
-
-    private async Task<string> GetRelayJoinCode(Allocation allocation)
-    {
-        try
-        {
-            return await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-        }
-        catch (RelayServiceException e)
-        {
-            Debug.LogError("Failed to get relay join code: " + e.Message);
-            return default;
-        }
-    }
-
-    private async Task<JoinAllocation> JoinRelay(string relayJoinCode)
-    {
-        try
-        {
-            return await RelayService.Instance.JoinAllocationAsync(relayJoinCode);
-        }
-        catch (RelayServiceException e)
-        {
-            Debug.LogError("Failed to join relay: " + e.Message);
-            return default;
-        }
-    }
-
-    #endregion
-
     #region Lobby Maintenance
 
     private async Task HandleHeartbeatAsync()
@@ -429,7 +306,7 @@ public class MultiplayerManager : MonoBehaviour
 
         if (currentLobby.Players.Count > 0)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+            SceneLoader.Instance.LoadGameScene(sceneName);
         }
         else
         {
@@ -439,8 +316,7 @@ public class MultiplayerManager : MonoBehaviour
 
     public void ReloadCurrentScene()
     {
-        string sceneName = SceneManager.GetActiveScene().name;
-        LoadGameScene(sceneName);
+        SceneLoader.Instance.ReloadCurrentScene();
     }
 
     #endregion
