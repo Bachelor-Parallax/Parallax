@@ -20,7 +20,7 @@ public class InGameUI : MonoBehaviour
 
     public void OnRetryPressed()
     {
-        MultiplayerManager.Instance.ReloadCurrentScene();
+        SceneLoader.Instance.ReloadCurrentScene();
     }
 
     public void OnLeaveGamePressed()

@@ -20,14 +20,10 @@ public class MultiplayerManager : MonoBehaviour
     public static MultiplayerManager Instance { get; private set; }
 
     [Header("Lobby Settings")]
-    [SerializeField] private string lobbyName = "Lobby";
     [SerializeField] private int maxPlayers = 2;
     [SerializeField] private LoadingUI loadingUI;
     [SerializeField] private string LobbySceneName = "PlayableLobby";
-
-    [Header("Relay Settings")]
-    [SerializeField] private bool dtlsSecureMode = true;
-
+    
     public string PlayerId { get; private set; }
     public string PlayerName { get; private set; }
 
@@ -35,13 +31,6 @@ public class MultiplayerManager : MonoBehaviour
         currentLobby != null ? currentLobby.LobbyCode : "";
 
     private Lobby currentLobby;
-
-    private const float k_lobbyHeartbeatInterval = 20f;
-    private const float k_lobbyPollInterval = 65f;
-    private const string k_keyJoinCode = "RelayJoinCode";
-
-    private CountdownTimer heartbeatTimer = new(k_lobbyHeartbeatInterval);
-    private CountdownTimer pollTimer = new(k_lobbyPollInterval);
 
     #region Unity Lifecycle
 
@@ -77,34 +66,17 @@ public class MultiplayerManager : MonoBehaviour
         };
     }
 
-    // private void ConfigureTimers()
-    // {
-    //     heartbeatTimer.OnTimerStop += () =>
-    //     {
-    //         _ = HandleHeartbeatAsync();
-    //         heartbeatTimer.Start();
-    //     };
-    //
-    //     pollTimer.OnTimerStop += () =>
-    //     {
-    //         _ = HandlePollingAsync();
-    //         pollTimer.Start();
-    //     };
-    // }
-
     #endregion
 
     #region Authentication
 
     private async Task Authenticate()
     {
-        //PlayerId = "";
         PlayerId = await AuthenticationServiceWrapper.Instance.Authenticate();
     }
 
     private async Task Authenticate(string playerName)
     {
-        //PlayerId = "";
         PlayerId = await AuthenticationServiceWrapper.Instance.Authenticate(playerName);
     }
 
@@ -122,7 +94,7 @@ public class MultiplayerManager : MonoBehaviour
 
             loadingUI.Hide();
 
-            LoadGameScene(LobbySceneName);
+            SceneLoader.Instance.LoadGameScene(LobbySceneName);
         }
         catch (LobbyServiceException e)
         {
@@ -158,29 +130,6 @@ public class MultiplayerManager : MonoBehaviour
     public async Task<string> Disconnect()
     {
         return await LobbyServiceWrapper.Instance.Disconnect(PlayerId);
-    }
-
-    #endregion
-
-    #region Scene Control
-
-    public void LoadGameScene(string sceneName)
-    {
-        Debug.Log("Player Count: " + currentLobby.Players.Count);
-
-        if (currentLobby.Players.Count > 0)
-        {
-            SceneLoader.Instance.LoadGameScene(sceneName);
-        }
-        else
-        {
-            Debug.Log("You are alone and can not load a scene");
-        }
-    }
-
-    public void ReloadCurrentScene()
-    {
-        SceneLoader.Instance.ReloadCurrentScene();
     }
 
     #endregion
