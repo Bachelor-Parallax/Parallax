@@ -4,6 +4,8 @@ using UnityEngine;
 public class KeyInteractable : NetworkBehaviour, IInteractable
 {
     [SerializeField] private string keyId = "ButtonKey";
+    [SerializeField] private AudioClip keySound;
+    private AudioSource audioSource;
 
     public NetworkVariable<bool> keyCollected = new NetworkVariable<bool>(
         false,
@@ -18,6 +20,8 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
     {
         keyCollider = GetComponent<Collider>();
         keyRenderers = GetComponentsInChildren<Renderer>(true);
+        audioSource = GetComponent<AudioSource>();
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -48,6 +52,13 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
     private void CollectKeyServerRpc(ulong senderClientId)
     {
         if (keyCollected.Value) return;
+
+        if (keySound != null && audioSource != null)
+        {
+            audioSource.pitch = Random.Range(0.9f, 1.1f);
+
+            audioSource.PlayOneShot(keySound);
+        }
 
         keyCollected.Value = true;
         Debug.Log($"Picked up key: {keyId} by client {senderClientId}");
