@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class AsymLight : BaseAsymProperty<Light>
 {
     [InfoBox("Attached light component required!\nThe attached light component will be updated at runtime to match configured settings")]
