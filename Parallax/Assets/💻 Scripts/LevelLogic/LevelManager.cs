@@ -1,6 +1,6 @@
 using System;
 using System.Diagnostics;
-using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -12,29 +12,47 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private Vector3 catSpawnPos;
 
-    [Header("Stopwatch")]
-    [SerializeField] private string elapsedTime;
-
     #endregion Inspector Values
+
+    public TimeSpan ElapsedTime
+    {
+        get
+        {
+            if (_stopWatch is { IsRunning: true })
+            {
+                return _stopWatch.Elapsed;
+            }
+            return TimeSpan.Zero;
+        }
+    }
 
     private Stopwatch _stopWatch;
     private GameObject _human, _cat;
-    private IPerspectiveManager _perspectiveManager;
+
+    private PerspectiveManager _perspectiveManager;
+    private NetworkManager _networkManager;
+
+    private void Awake()
+    {
+        _networkManager = FindFirstObjectByType<NetworkManager>();
+        if (_networkManager == null)
+        {
+            UnityEngine.Debug.LogError($"No {nameof(NetworkManager)} found in scene.");
+        }
+
+        _perspectiveManager = FindFirstObjectByType<PerspectiveManager>();
+        if (_perspectiveManager == null)
+        {
+            UnityEngine.Debug.LogError($"No {nameof(PerspectiveManager)} found in scene.");
+        }
+    }
 
     private void Start()
     {
         _stopWatch = new Stopwatch();
 
-        // Find the perspective manager in the scene
-        _perspectiveManager = UnityExtensions.FindObjectsAssignableTo<IPerspectiveManager>(FindObjectsSortMode.None).FirstOrDefault();
-        if (_perspectiveManager == null)
-        {
-            UnityEngine.Debug.LogError("No perspective manager could be found in the scene.");
-            return;
-        }
-
         // Perform initial level setup
-        _perspectiveManager.ApplyPerspective();
+        _perspectiveManager.ApplyPerspective(DetermineLocalRole());
         FetchPlayers();
         PositionPlayers();
 
@@ -42,10 +60,22 @@ public class LevelManager : MonoBehaviour
         _stopWatch.Start();
     }
 
-    private void FixedUpdate()
+    /// <summary>
+    /// Find out which role this game instance is controlling
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="System.InvalidOperationException"></exception>
+    private CharacterRole DetermineLocalRole()
     {
-        TimeSpan ts = _stopWatch.Elapsed;
-        elapsedTime = $"{(int)ts.TotalHours}:{ts.Minutes}:{ts.Seconds},{ts.Milliseconds}";
+        var localClient = _networkManager.LocalClient;
+        if (localClient?.PlayerObject == null)
+        {
+            throw new System.InvalidOperationException(
+                "Local player is not spawned yet. This method must only be called after spawn.");
+        }
+
+        var playerObject = localClient.PlayerObject;
+        return playerObject.GetComponent<RoleController>().role.Value;
     }
 
     /// <summary>
@@ -54,7 +84,7 @@ public class LevelManager : MonoBehaviour
     private void FetchPlayers()
     {
         GameObject[] players = GameObject.FindGameObjectsWithTag(GameConstants.PLAYER_TAG);
-        
+
         foreach (var p in players)
         {
             if (!p.TryGetComponent<RoleController>(out var rc))
@@ -68,32 +98,20 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Place players in spawn locations
+    /// Position players at spawn locations
     /// </summary>
-    // private void PositionPlayers()
-    // {
-    //     _human.transform.position = humanSpawnPos;
-    //     UnityEngine.Debug.Log("Human spawned on coords: " + _human.transform.position);
-    //     _cat.transform.position = catSpawnPos;
-    //     UnityEngine.Debug.Log("Cat spawned on coords: " + _cat.transform.position);
-    // }
-    
     private void PositionPlayers()
     {
-    if (_human != null)
-        SetPlayerPosition(_human, humanSpawnPos);
-
-    if (_cat != null)
-        SetPlayerPosition(_cat, catSpawnPos);
-    }
-
-    private void SetPlayerPosition(GameObject player, Vector3 pos)
-    {
-        player.GetComponent<Movement>().Teleport(pos);
-
-        if (player.TryGetComponent<Movement>(out var movement))
+        // local helper function to position players
+        void SetPlayerPosition(GameObject player, Vector3 pos)
         {
-            movement.ResetVerticalVelocity();
+            if (player.TryGetComponent<Movement>(out var movement))
+            {
+                movement.Teleport(pos);
+                movement.ResetVerticalVelocity();
+            }
         }
+        if (_human != null) SetPlayerPosition(_human, humanSpawnPos);
+        if (_cat != null) SetPlayerPosition(_cat, catSpawnPos);
     }
 }
