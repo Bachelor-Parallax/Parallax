@@ -1,0 +1,91 @@
+@startuml Multiplayer CD
+
+package "MultiplayerService" {
+    package "Services" {
+        class LobbyServiceWrapper
+        {
+            + Instance : LobbyServiceWrapper {static}
+            - lobbyName : string
+            - maxPlayers : int
+            - currentLobby : Lobby
+            - heartbeatTimer : CountdownTimer
+            - pollTimer : CountdownTimer
+            - relayJoinCodeKey : string
+            
+            + CreateLobby(bool): Task
+            + JoinLobby(string): Task
+            + Disconnect(): Task<string>
+            - HandleHearthBeatAsync(): void
+            - HandlePollingAsync(): void
+            - InitializeSingleton(): void
+        }
+
+        class RelayServiceWrapper
+        {
+            + Instance : RelayServiceWrapper {static}
+            - dtlsSecureMode : bool
+            - transport : UnityTransport
+
+            + AllocateRelay(): Task<Allocation>
+            + JoinRelay(string): Task<JoinAllocation>
+            - GetRelayJoinCode(Allocation): Task<string>
+            - ConfigureHostRelay(Allocation): void
+            - ConfigureClientRelay(JoinAllocation): void
+            - InitializeSingleton(): void
+        }
+
+        class AuthenticationServiceWrapper
+        {
+            + Instance : AuthenticationServiceWrapper {static}
+            - _playerId : string
+            - _playerName : string
+
+            + Authenticate(): Task
+            + Authenticate(string): Task
+            - InitializeSingleton(): void
+        }
+
+        class SceneLoader
+        {
+            + Instance : SceneLoader {static}
+
+            + LoadGameScene(string): void
+            + ReloadCurrentScene(): void
+            - InitializeSingleton(): void
+        }
+    }
+
+    class MultiplayerManager
+    {
+        + Instance : MultiplayerManager {static}
+        - loadingUI : LoadingUI
+
+        - OnTransportFailure(): void
+        - OnClientConnected(ulong): void
+        - OnClientDisconnected(ulong): void
+        - InitializeSingleton(): void
+    }
+}
+
+interface ILoadingUI
+{
+    + Show(string): void
+    + Hide(): void
+}
+
+class LoadingUI
+{
+    + Show(string): void
+    + Hide(): void
+}
+
+MultiplayerManager --down> LobbyServiceWrapper
+LobbyServiceWrapper --right> RelayServiceWrapper
+MultiplayerManager --down> AuthenticationServiceWrapper
+MultiplayerManager --down> SceneLoader
+
+MultiplayerManager --left> ILoadingUI
+
+LoadingUI ..up|> ILoadingUI
+
+@enduml

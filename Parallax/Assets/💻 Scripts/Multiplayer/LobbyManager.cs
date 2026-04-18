@@ -98,7 +98,7 @@ public class LobbyManager : NetworkBehaviour
 
         CurrentLobbyState.Value = LobbyState.StartingGame;
         
-        MultiplayerManager.Instance.LoadGameScene(selectedLevel);
+        SceneLoader.Instance.LoadGameScene(selectedLevel);
     }
 
     private bool AllPlayersReady()

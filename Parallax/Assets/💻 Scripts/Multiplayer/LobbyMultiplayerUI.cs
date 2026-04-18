@@ -31,6 +31,6 @@ public class LobbyMultiplayerUI : MonoBehaviour
 
     private void SelectLevelUI(string sceneName)
     {
-        MultiplayerManager.Instance.LoadGameScene(sceneName);
+        SceneLoader.Instance.LoadGameScene(sceneName);
     }
 }

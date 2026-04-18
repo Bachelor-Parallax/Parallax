@@ -23,7 +23,7 @@ public class LobbyPlayer : NetworkBehaviour
     [ServerRpc]
     void SetPlayerNameServerRpc(string name)
     {
-        PlayerName.Value = name;
+        PlayerName.Value = new FixedString32Bytes(name ?? "Player");
     }
 
     [ServerRpc]
