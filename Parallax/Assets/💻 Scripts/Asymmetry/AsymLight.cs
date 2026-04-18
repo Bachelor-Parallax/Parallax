@@ -1,11 +1,29 @@
+﻿using System;
 using UnityEngine;
 
 public class AsymLight : BaseAsymProperty<Light>
 {
-    [SerializeField] private PerspectiveProfile _profile;
+    [InfoBox("Attached light component required!\nThe attached light component will be updated at runtime to match configured settings.")]
+    [Header("Cat Settings")]
+    [SerializeField] private Color _lightColorCat;
+    [SerializeField] private float _intensityCat;
 
-    public override void ApplyPerspectiveProfile(PerspectiveProfile profile)
+    [Header("Human Settings")]
+    [SerializeField] private Color _lightColorHuman;
+    [SerializeField] private float _intensityHuman;
+
+    public override void ApplyPerspectiveProfile(CharacterRole role)
     {
-        AsymComponent.enabled = _profile == profile;
+        if (role == CharacterRole.Human)
+        {
+            AsymComponent.color = _lightColorHuman;
+            AsymComponent.intensity = _intensityHuman;
+        }
+        else if (role == CharacterRole.Cat)
+        {
+            AsymComponent.color = _lightColorCat;
+            AsymComponent.intensity = _intensityCat;
+        }
+        else throw new ArgumentException("Unexpected CharacterRole");
     }
 }
