@@ -557,6 +557,7 @@ GameObject:
   - component: {fileID: 3854436768140196971}
   - component: {fileID: 7030756073104712558}
   - component: {fileID: 565296827607655116}
+  - component: {fileID: 5702278627082676472}
   - component: {fileID: 5282519522535097616}
   - component: {fileID: 1197761174803566870}
   m_Layer: 0
@@ -659,6 +660,31 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5702278627082676472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156574994327480839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 1809618488
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &5282519522535097616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,6 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44cccc30e8425014eae7778da3f581e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoteZoneTrigger
+  ShowTopMostFoldoutHeaderGroup: 1
   levelData: {fileID: 0}
 --- !u!114 &1197761174803566870
 MonoBehaviour:
