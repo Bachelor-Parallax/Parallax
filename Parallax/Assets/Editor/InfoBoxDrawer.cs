@@ -7,11 +7,8 @@ public class InfoBoxDrawer : DecoratorDrawer
     public override float GetHeight()
     {
         InfoBoxAttribute infoBox = (InfoBoxAttribute)attribute;
-
-        return EditorStyles.helpBox.CalcHeight(
-            new GUIContent(infoBox.Message),
-            EditorGUIUtility.currentViewWidth
-        ) + 10f;
+        int lines = infoBox.Message.Split('\n').Length;
+        return EditorGUIUtility.singleLineHeight * lines + 1.2f;
     }
 
     public override void OnGUI(Rect position)
