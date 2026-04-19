@@ -25,12 +25,8 @@ public class PlayerInteraction : NetworkBehaviour
 
         if (promptUI == null)
             promptUI = FindFirstObjectByType<InteractionPromptUI>();
-
-        if (promptUI == null)
-            Debug.LogWarning("No InteractionPromptUI found in scene!");
-        else
-            Debug.Log("Found prompt UI: " + promptUI.name);
     }
+
     private void Update()
     {
         if (!IsOwner) return;
@@ -66,8 +62,11 @@ public class PlayerInteraction : NetworkBehaviour
         boxInteraction.SetMoveInput(input);
     }
 
-        private void UpdateInteractionPrompt()
+    private void UpdateInteractionPrompt()
     {
+        if (promptUI == null)
+            promptUI = FindFirstObjectByType<InteractionPromptUI>();
+
         currentInteractable = FindInteractable();
 
         if (currentInteractable != null)
@@ -79,7 +78,7 @@ public class PlayerInteraction : NetworkBehaviour
         if (boxInteraction != null &&
             (boxInteraction.HasNearbyBox || boxInteraction.HasHeldBox || boxInteraction.HasAttachedBox))
         {
-            promptUI?.Show("Press E to interact");
+            promptUI?.Show("Press [E] to interact");
             return;
         }
 
@@ -91,6 +90,7 @@ public class PlayerInteraction : NetworkBehaviour
         if (interactOrigin == null) return null;
 
         Ray ray = GetInteractionRay();
+        Vector3 rayDirection = ray.direction;
 
         if (Physics.SphereCast(ray, interactRadius, out RaycastHit hit, interactDistance, interactLayer))
         {
@@ -116,7 +116,7 @@ public class PlayerInteraction : NetworkBehaviour
             if (interactable == null) continue;
 
             Vector3 toTarget = (col.bounds.center - interactOrigin.position).normalized;
-            float dot = Vector3.Dot(GetInteractionRay().direction, toTarget);
+            float dot = Vector3.Dot(rayDirection, toTarget);
 
             if (dot > bestScore)
             {
@@ -130,12 +130,14 @@ public class PlayerInteraction : NetworkBehaviour
 
     private Ray GetInteractionRay()
     {
-        Vector3 origin = interactOrigin.position;
         Vector3 direction = interactOrigin.forward;
 
         if (Camera.main != null)
             direction = Camera.main.transform.forward;
 
+        direction.Normalize();
+
+        Vector3 origin = interactOrigin.position + direction * 0.1f;
         return new Ray(origin, direction);
     }
 
@@ -145,8 +147,6 @@ public class PlayerInteraction : NetworkBehaviour
 
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
-            Debug.Log("Interact pressed");
-
             if (TryInteractWithWorldObject())
                 return;
 
@@ -155,7 +155,6 @@ public class PlayerInteraction : NetworkBehaviour
                  boxInteraction.HasAttachedBox ||
                  boxInteraction.HasNearbyBox))
             {
-                Debug.Log("Falling back to box interaction");
                 boxInteraction.Interact();
             }
         }
@@ -163,34 +162,12 @@ public class PlayerInteraction : NetworkBehaviour
 
     private bool TryInteractWithWorldObject()
     {
-        if (interactOrigin == null)
+        IInteractable interactable = FindInteractable();
+
+        if (interactable != null)
         {
-            Debug.LogWarning("Interact origin is missing.");
-            return false;
-        }
-
-        Vector3 origin = interactOrigin.position;
-        Vector3 direction = interactOrigin.forward;
-
-        if (Camera.main != null)
-        {
-            direction = Camera.main.transform.forward;
-        }
-
-        Ray ray = new Ray(origin, direction);
-
-        if (Physics.SphereCast(ray, interactRadius, out RaycastHit hit, interactDistance, interactLayer))
-        {
-            IInteractable interactable =
-                hit.collider.GetComponent<IInteractable>() ??
-                hit.collider.GetComponentInParent<IInteractable>();
-
-            if (interactable != null)
-            {
-                Debug.Log($"Interacting with: {hit.collider.name}");
-                interactable.Interact(gameObject);
-                return true;
-            }
+            interactable.Interact(gameObject);
+            return true;
         }
 
         return false;

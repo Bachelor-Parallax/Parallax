@@ -14,20 +14,25 @@ public class InteractionPromptUI : MonoBehaviour
         if (promptText == null)
             promptText = GetComponent<TMP_Text>();
 
-        canvasGroup.alpha = 1f;
-        promptText.text = "PROMPT TEST";
+        if (canvasGroup == null || promptText == null)
+        {
+            Debug.LogError("InteractionPromptUI is missing references.", this);
+            enabled = false;
+            return;
+        }
+
+        canvasGroup.alpha = 0f;
+        promptText.text = "";
     }
 
     public void Show(string message = "Press [E] to interact")
     {
-        Debug.Log("SHOW PROMPT: " + message);
         promptText.text = message;
         canvasGroup.alpha = 1f;
     }
 
     public void Hide()
     {
-        Debug.Log("HIDE PROMPT");
         canvasGroup.alpha = 0f;
     }
 }
