@@ -260,6 +260,4 @@ public class LobbyServiceWrapper : MonoBehaviour
 
         return result;
     }
-    
-    
 }

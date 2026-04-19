@@ -553,11 +553,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf4cf305b790564fb064631083695cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiplayerManager
-  lobbyName: Lobby
   maxPlayers: 2
   loadingUI: {fileID: 1453320839}
   LobbySceneName: PlayableLobby
-  dtlsSecureMode: 0
 --- !u!4 &371449380
 Transform:
   m_ObjectHideFlags: 0
