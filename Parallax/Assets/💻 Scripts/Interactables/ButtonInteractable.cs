@@ -73,6 +73,6 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
 
     public string GetInteractText()
     {
-        return "Press button";
+        return "Press [E] to push the button";
     }
 }
