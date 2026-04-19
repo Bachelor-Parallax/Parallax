@@ -11,9 +11,15 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private float rotationSpeed = 10f;
 
+    [Header("Audio")]
     [SerializeField] private AudioClip stepSound;
-    private AudioSource audioSource;
     [SerializeField] private float stepInterval = 0.5f;
+
+    [Header("Strafe Turning")]
+    [SerializeField] private float strafeTurnSpeed = 10f;
+    [SerializeField] private float strafeTurnAngle = 18f;
+
+    private AudioSource audioSource;
     private float stepTimer;
 
     public float Gravity => gravity;
@@ -30,6 +36,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
     private float verticalVelocity;
     private bool isSprinting;
+    private float freeLookYaw;
 
     void Awake()
     {
@@ -43,7 +50,9 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
+        CursorManager.Lock();
         TryAssignCamera();
+        freeLookYaw = transform.eulerAngles.y;
     }
 
     void Update()
@@ -66,15 +75,19 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         }
 
         HandleSprintInput();
-        HandleStepSound();
 
         Vector2 input = GetMovementInput();
-        Move(input);
-        Rotate();
-    }
 
+        Move(input);
+        Rotate(input);
+
+        HandleStepSound();
+    }
+#region Sound
     private void HandleStepSound()
     {
+        if (audioSource == null || stepSound == null) return;
+
         if (controller.isGrounded && controller.velocity.magnitude > 0.1f)
         {
             stepTimer -= Time.deltaTime;
@@ -85,7 +98,6 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
                 audioSource.PlayOneShot(stepSound);
 
                 float speed = controller.velocity.magnitude;
-
                 stepTimer = Mathf.Lerp(0.6f, 0.3f, speed / sprintSpeed);
             }
         }
@@ -94,7 +106,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
             stepTimer = 0f;
         }
     }
-
+#endregion
     private void HandleSprintInput()
     {
         if (Keyboard.current == null) return;
@@ -127,49 +139,89 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     {
         verticalVelocity = value;
     }
-
-    private void Rotate()
+#region Rotation
+    private void Rotate(Vector2 input)
     {
         if (cameraTransform == null) return;
 
-        Vector3 camForwardFlat = cameraTransform.forward;
-        camForwardFlat.y = 0f;
-        camForwardFlat.Normalize();
-
-        if (camForwardFlat.sqrMagnitude > 0.01f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(camForwardFlat);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                rotationSpeed * Time.deltaTime
-            );
-        }
-    }
-
-    public void Move(Vector2 input)
-    {
-        if (cameraTransform == null)
-        {
-            ApplyGravityOnly();
-            return;
-        }
+        bool rightMouseHeld = Mouse.current != null && Mouse.current.rightButton.isPressed;
 
         Vector3 camForward = cameraTransform.forward;
         Vector3 camRight = cameraTransform.right;
 
-        camForward.y = 0;
-        camRight.y = 0;
+        camForward.y = 0f;
+        camRight.y = 0f;
 
         camForward.Normalize();
         camRight.Normalize();
 
-        Vector3 direction = (camForward * input.y + camRight * input.x).normalized;
+        Quaternion targetRotation = transform.rotation;
 
-        if (controller.isGrounded && verticalVelocity < 0)
+        if (rightMouseHeld)
+        {
+            Vector3 targetDirection = Vector3.zero;
+
+            if (input.sqrMagnitude > 0.01f)
+                targetDirection = (camForward * input.y + camRight * input.x).normalized;
+            else
+                targetDirection = camForward;
+
+            if (targetDirection.sqrMagnitude > 0.01f)
+            {
+                targetRotation = Quaternion.LookRotation(targetDirection);
+                freeLookYaw = targetRotation.eulerAngles.y;
+            }
+        }
+        else
+        {
+            float sideAngle = 0f;
+
+            // Kun lidt body turn når man straf’er
+            if (Mathf.Abs(input.x) > 0.01f)
+                sideAngle = input.x * strafeTurnAngle;
+
+            targetRotation = Quaternion.Euler(0f, freeLookYaw + sideAngle, 0f);
+        }
+
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRotation,
+            strafeTurnSpeed * Time.deltaTime
+        );
+    }
+
+#endregion
+#region Movement
+    public void Move(Vector2 input)
+    {
+        if (controller.isGrounded && verticalVelocity < 0f)
             verticalVelocity = -2f;
 
         verticalVelocity += gravity * Time.deltaTime;
+
+        bool rightMouseHeld = Mouse.current != null && Mouse.current.rightButton.isPressed;
+
+        Vector3 forward;
+        Vector3 right;
+
+        if (rightMouseHeld && cameraTransform != null)
+        {
+            forward = cameraTransform.forward;
+            right = cameraTransform.right;
+        }
+        else
+        {
+            forward = transform.forward;
+            right = transform.right;
+        }
+
+        forward.y = 0f;
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 direction = (forward * input.y + right * input.x).normalized;
 
         float currentSpeed = isSprinting ? sprintSpeed : baseSpeed;
 
@@ -186,14 +238,15 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
         Vector2 input = Vector2.zero;
 
-        if (Keyboard.current.wKey.isPressed) input.y += 1;
-        if (Keyboard.current.sKey.isPressed) input.y -= 1;
-        if (Keyboard.current.aKey.isPressed) input.x -= 1;
-        if (Keyboard.current.dKey.isPressed) input.x += 1;
+        if (Keyboard.current.wKey.isPressed) input.y += 1f;
+        if (Keyboard.current.sKey.isPressed) input.y -= 1f;
+        if (Keyboard.current.aKey.isPressed) input.x -= 1f;
+        if (Keyboard.current.dKey.isPressed) input.x += 1f;
 
+        input = Vector2.ClampMagnitude(input, 1f);
         return input;
     }
-
+#endregion
     public void ResetVerticalVelocity()
     {
         verticalVelocity = 0f;
