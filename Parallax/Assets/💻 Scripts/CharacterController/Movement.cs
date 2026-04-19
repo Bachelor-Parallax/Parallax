@@ -18,7 +18,6 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
     [Header("Audio")]
     [SerializeField] private AudioClip stepSound;
-    [SerializeField] private float stepInterval = 0.5f;
 
     [Header("Strafe Turning")]
     [SerializeField] private float strafeTurnSpeed = 10f;
