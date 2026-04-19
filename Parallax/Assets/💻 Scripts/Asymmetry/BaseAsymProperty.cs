@@ -1,16 +1,13 @@
 using System;
 using UnityEngine;
 
-/// <summary>
-/// Class that exposes the common method to apply a perspective
-/// </summary>
 public abstract class BaseAsymProperty : MonoBehaviour
 {
     /// <summary>
-    /// Configures this Asymmetrical Game Object to a given profile
+    /// Configures this Asymmetrical Game Object to a given role
     /// </summary>
-    /// <param name="profile"></param>
-    public abstract void ApplyPerspectiveProfile(PerspectiveProfile profile);
+    /// <param name="role"></param>
+    public abstract void ApplyPerspectiveProfile(CharacterRole role);
 }
 
 public abstract class BaseAsymProperty<T> : BaseAsymProperty where T : Component
@@ -22,7 +19,7 @@ public abstract class BaseAsymProperty<T> : BaseAsymProperty where T : Component
         AsymComponent = GetComponent<T>();
         if (AsymComponent == null)
         {
-            throw new NullReferenceException($"'{gameObject.name}' is trying to access a '{typeof(T)}' component, but gameobject has no such component attached");
+            throw new NullReferenceException($"'{gameObject.name}' is trying to access a '{typeof(T)}' component, but GameObject has no such component attached");
         }
     }
 }
