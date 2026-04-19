@@ -1,11 +1,13 @@
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class AsymVisibility : BaseAsymProperty<Renderer>
 {
-    [SerializeField] private PerspectiveProfile _profile;
+    [InfoBox("Attached Renderer component required!\nRenderer will be enabled only for the selected role")]
+    [SerializeField] private CharacterRole _activeRole;
 
-    public override void ApplyPerspectiveProfile(PerspectiveProfile profile)
+    public override void ApplyPerspectiveProfile(CharacterRole role)
     {
-        AsymComponent.enabled = _profile == profile;
+        AsymComponent.enabled = _activeRole == role;
     }
 }
