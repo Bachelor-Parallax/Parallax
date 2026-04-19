@@ -10046,7 +10046,6 @@ GameObject:
   - component: {fileID: 2131379470}
   - component: {fileID: 2131379469}
   - component: {fileID: 2131379471}
-  - component: {fileID: 2131379472}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -10096,14 +10095,6 @@ MonoBehaviour:
   humanSpawnPos: {x: -3, y: 5, z: 3}
   catSpawnPos: {x: 3, y: 5, z: -3}
   elapsedTime: 
---- !u!81 &2131379472
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2131379468}
-  m_Enabled: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
