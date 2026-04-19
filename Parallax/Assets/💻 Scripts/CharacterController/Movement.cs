@@ -2,6 +2,12 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
 
+public enum CameraMode
+{
+    AutoFollow,
+    FreeLook
+}
+
 public class Movement : NetworkBehaviour, IMovement, ISprint
 {
     [Header("Movement")]
@@ -22,6 +28,9 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     [SerializeField] private float dragMoveSpeed = 2.5f;
     [SerializeField] private float dragTurnSpeed = 120f;
     [SerializeField] private float dragSnapSpeed = 10f;
+
+    [Header("Camera")]
+    [SerializeField] private CameraMode cameraMode = CameraMode.AutoFollow;
 
     private AudioSource audioSource;
     private float stepTimer;
@@ -167,29 +176,43 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
         Quaternion targetRotation = transform.rotation;
 
-        if (rightMouseHeld)
+        // AUTO FOLLOW MODE
+        if (cameraMode == CameraMode.AutoFollow)
         {
-            Vector3 targetDirection = Vector3.zero;
-
-            if (input.sqrMagnitude > 0.01f)
-                targetDirection = (camForward * input.y + camRight * input.x).normalized;
-            else
-                targetDirection = camForward;
-
-            if (targetDirection.sqrMagnitude > 0.01f)
+            if (input.y > 0.1f) // kun fremad
             {
-                targetRotation = Quaternion.LookRotation(targetDirection);
+                Vector3 moveDir = (camForward * input.y + camRight * input.x).normalized;
+                targetRotation = Quaternion.LookRotation(moveDir);
                 freeLookYaw = targetRotation.eulerAngles.y;
             }
         }
+        // FREE LOOK MODE
         else
         {
-            float sideAngle = 0f;
+            if (rightMouseHeld)
+            {
+                Vector3 targetDirection = Vector3.zero;
 
-            if (Mathf.Abs(input.x) > 0.01f)
-                sideAngle = input.x * strafeTurnAngle;
+                if (input.sqrMagnitude > 0.01f)
+                    targetDirection = (camForward * input.y + camRight * input.x).normalized;
+                else
+                    targetDirection = camForward;
 
-            targetRotation = Quaternion.Euler(0f, freeLookYaw + sideAngle, 0f);
+                if (targetDirection.sqrMagnitude > 0.01f)
+                {
+                    targetRotation = Quaternion.LookRotation(targetDirection);
+                    freeLookYaw = targetRotation.eulerAngles.y;
+                }
+            }
+            else
+            {
+                float sideAngle = 0f;
+
+                if (Mathf.Abs(input.x) > 0.01f)
+                    sideAngle = input.x * strafeTurnAngle;
+
+                targetRotation = Quaternion.Euler(0f, freeLookYaw + sideAngle, 0f);
+            }
         }
 
         transform.rotation = Quaternion.Slerp(
@@ -197,6 +220,16 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
             targetRotation,
             strafeTurnSpeed * Time.deltaTime
         );
+    }
+
+    public void SetCameraMode(CameraMode mode)
+    {
+        cameraMode = mode;
+
+        Debug.Log("Camera mode set to: " + mode);
+
+        if (cameraTransform != null)
+            freeLookYaw = transform.eulerAngles.y;
     }
     #endregion
 
@@ -213,7 +246,8 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         Vector3 forward;
         Vector3 right;
 
-        if (rightMouseHeld && cameraTransform != null)
+        if ((cameraMode == CameraMode.AutoFollow && cameraTransform != null) ||
+            (rightMouseHeld && cameraTransform != null))
         {
             forward = cameraTransform.forward;
             right = cameraTransform.right;
