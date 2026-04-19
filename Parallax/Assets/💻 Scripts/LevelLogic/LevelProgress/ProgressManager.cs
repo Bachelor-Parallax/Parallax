@@ -75,41 +75,6 @@ public static class ProgressManager
         
         return level;
     }
-
-    public static void SetBestTime(string levelName, float time)
-    {
-        LevelProgress level = GetLevel(levelName);
-
-        if (level.bestTime <= 0 || time <= level.bestTime)
-        {
-            level.bestTime = time;
-            Save();
-        }
-    }
-
-    public static void UnlockCatTrophy(string levelName)
-    {
-        LevelProgress level = GetLevel(levelName);
-        level.catTrophyAcquired = true;
-    
-        Save();
-    }
-
-    public static void UnlockHumanTrophy(string levelName)
-    {
-        LevelProgress level = GetLevel(levelName);
-        level.humanTrophyAcquired = true;
-    
-        Save();
-    }
-
-    public static void UnlockDevTimeTrophy(string levelName)
-    {
-        LevelProgress level = GetLevel(levelName);
-        level.devTimeTrophyAcquired = true;
-    
-        Save();
-    }
     
     public static void RegisterLevelCompletion(
         string levelName,
