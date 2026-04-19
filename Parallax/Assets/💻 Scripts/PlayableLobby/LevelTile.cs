@@ -48,9 +48,9 @@ public class LevelTile : MonoBehaviour
             return "--:--";
         
         int minutes = Mathf.FloorToInt(time / 60);
-        int seconds = Mathf.FloorToInt(time - minutes * 60);
-        int milliseconds = Mathf.FloorToInt(time % 1000);
+        int seconds = Mathf.FloorToInt(time % 60f);
+        int centiseconds = Mathf.FloorToInt((time * 100f) % 100f);
         
-        return $"{minutes:00}:{seconds:00}.{milliseconds:00}";
+        return $"{minutes:00}:{seconds:00}.{centiseconds:00}";
     }
 }
