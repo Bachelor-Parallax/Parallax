@@ -1090,10 +1090,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelTile
       objectReference: {fileID: 0}
-    - target: {fileID: 5702278627082676472, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
-      propertyPath: GlobalObjectIdHash
-      value: 1222338897
-      objectReference: {fileID: 0}
     - target: {fileID: 7443534319947677913, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4
@@ -1133,6 +1129,10 @@ PrefabInstance:
     - target: {fileID: 7443534319947677913, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8670484303846980329, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2162791231
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
