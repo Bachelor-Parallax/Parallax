@@ -27,14 +27,30 @@ public class LevelTile : MonoBehaviour
         if (levelData == null) return;
 
         levelNameText.text = levelData.levelName;
-        bestTimeText.text = levelData.bestTime;
-        devTimeText.text = levelData.devTime;
+
+        LevelProgress progress = ProgressManager.GetLevel(levelData.levelName);
+        
+        bestTimeText.text = FormatTime(progress.bestTime);
+        devTimeText.text = FormatTime(levelData.devTime);
+        
         image.sprite = levelData.levelImage;
         
-        catTrophyObject.SetActive(levelData.catTrophy);
-        humanTrophyObject.SetActive(levelData.humanTrophy);
-        devTimeTrophyObject.SetActive(levelData.devTimeTrophy);
+        catTrophyObject.SetActive(progress.catTrophyAcquired);
+        humanTrophyObject.SetActive(progress.humanTrophyAcquired);
+        devTimeTrophyObject.SetActive(progress.devTimeTrophyAcquired);
 
         voteZone.SetLevel(levelData);
+    }
+
+    string FormatTime(float time)
+    {
+        if (time == float.MaxValue)
+            return "--:--";
+        
+        int minutes = Mathf.FloorToInt(time / 60);
+        int seconds = Mathf.FloorToInt(time - minutes * 60);
+        int milliseconds = Mathf.FloorToInt(time % 1000);
+        
+        return $"{minutes:00}:{seconds:00}.{milliseconds:00}";
     }
 }
