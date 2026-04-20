@@ -13,6 +13,7 @@ public class PlayerInteraction : NetworkBehaviour
     
     [Header("Input Action References")]
     [SerializeField] private InputActionReference interactAction;
+    [SerializeField] private InputActionReference moveAction;
 
     private BoxInteraction boxInteraction;
     private IInteractable currentInteractable;
@@ -28,6 +29,18 @@ public class PlayerInteraction : NetworkBehaviour
 
         if (promptUI == null)
             promptUI = FindFirstObjectByType<InteractionPromptUI>();
+    }
+    
+    void OnEnable()
+    {
+        interactAction?.action.Enable();
+        moveAction?.action.Enable();
+    }
+
+    void OnDisable()
+    {
+        interactAction?.action.Disable();
+        moveAction?.action.Disable();
     }
 
     private void Update()
@@ -48,20 +61,30 @@ public class PlayerInteraction : NetworkBehaviour
         HandleInteraction();
     }
 
+    // OLD VERSION
+    // private void HandleBoxInput()
+    // {
+    //     if (boxInteraction == null) return;
+    //
+    //     Vector2 input = Vector2.zero;
+    //
+    //     if (Keyboard.current != null)
+    //     {
+    //         if (Keyboard.current.aKey.isPressed) input.x -= 1f;
+    //         if (Keyboard.current.dKey.isPressed) input.x += 1f;
+    //         if (Keyboard.current.wKey.isPressed) input.y += 1f;
+    //         if (Keyboard.current.sKey.isPressed) input.y -= 1f;
+    //     }
+    //
+    //     boxInteraction.SetMoveInput(input);
+    // }
+    
     private void HandleBoxInput()
     {
         if (boxInteraction == null) return;
+        if (moveAction == null) return;
 
-        Vector2 input = Vector2.zero;
-
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.aKey.isPressed) input.x -= 1f;
-            if (Keyboard.current.dKey.isPressed) input.x += 1f;
-            if (Keyboard.current.wKey.isPressed) input.y += 1f;
-            if (Keyboard.current.sKey.isPressed) input.y -= 1f;
-        }
-
+        Vector2 input = moveAction.action.ReadValue<Vector2>();
         boxInteraction.SetMoveInput(input);
     }
 
@@ -148,7 +171,9 @@ public class PlayerInteraction : NetworkBehaviour
     {
         if (Keyboard.current == null) return;
 
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        // OLD VERSION
+        // if (Keyboard.current.eKey.wasPressedThisFrame)
+        if (interactAction.action.WasPressedThisFrame())
         {
             if (TryInteractWithWorldObject())
                 return;
