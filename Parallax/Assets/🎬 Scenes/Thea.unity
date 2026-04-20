@@ -666,7 +666,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: aae4d65e21c34b146bfdfed4c579ad10, type: 2}
     - target: {fileID: 4507963156007544426, guid: 5dd5a1ab6047d4848b7668734815016f, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7043,10 +7043,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
-  _intensityCat: 0
-  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
-  _intensityHuman: 0
+  _lightColorCat: {r: 1, g: 1, b: 1, a: 0}
+  _intensityCat: 1
+  _lightColorHuman: {r: 1, g: 1, b: 1, a: 0}
+  _intensityHuman: 1
 --- !u!1 &1480584268
 GameObject:
   m_ObjectHideFlags: 0

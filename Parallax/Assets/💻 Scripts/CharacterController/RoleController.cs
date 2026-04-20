@@ -33,19 +33,20 @@ public class RoleController : NetworkBehaviour
         catRenderers = cat.GetComponentsInChildren<Renderer>(true);
     }
 
-public override void OnNetworkSpawn()
-{
-    role.OnValueChanged += OnRoleChanged;
-
-    if (IsServer)
+    public override void OnNetworkSpawn()
     {
-        role.Value = (OwnerClientId == NetworkManager.ServerClientId)
-            ? CharacterRole.Human          
-            : CharacterRole.Cat;
-    }
+        role.OnValueChanged += OnRoleChanged;
 
-    StartCoroutine(ApplyRoleNextFrame());
-}
+        if (IsServer)
+        {
+            role.Value = (OwnerClientId == NetworkManager.ServerClientId)
+                ? CharacterRole.Cat          
+                : CharacterRole.Human;
+        }
+
+        StartCoroutine(ApplyRoleNextFrame());
+    }
+    
     IEnumerator ApplyRoleNextFrame()
     {
         yield return null;

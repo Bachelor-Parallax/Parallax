@@ -22,6 +22,11 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
         }
     }
 
+    public bool CanInteract(GameObject interactor)
+    {
+        RoleController role = interactor.GetComponent<RoleController>();
+        return role != null && role.IsHuman;
+    }
 
     public void Interact(GameObject interactor)
     {
