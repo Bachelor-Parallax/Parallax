@@ -41,50 +41,89 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
-    public Vector2 CurrentMoveInput { get; private set; }
-
+    
     public bool MovementLocked { get; set; }
     public float SpeedMultiplier { get; set; } = 1f;
+    
+    public Vector2 CurrentMoveInput { get; private set; }
 
     private CharacterController controller;
-    private JumpAbility jumpAbility;
+    //private JumpAbility jumpAbility;
     private BoxInteraction boxInteraction;
     private PlayerInteraction playerInteraction;
     private Transform cameraTransform;
 
     private float verticalVelocity;
-    private bool isSprinting;
     private float freeLookYaw;
+    
+    private bool isSprinting;
+    private bool cameraRotateHeld;
+    private Vector2 moveInput;
     private bool isBoxDragMode;
 
     void Awake()
     {
         controller = GetComponent<CharacterController>();
-        jumpAbility = GetComponent<JumpAbility>();
+        //jumpAbility = GetComponent<JumpAbility>();
         boxInteraction = GetComponent<BoxInteraction>();
         playerInteraction = GetComponent<PlayerInteraction>();
         audioSource = GetComponent<AudioSource>();
     }
-
+    
+    #region Network Events
     public override void OnNetworkSpawn()
     {
-        if (IsOwner)
-        {
-            CursorManager.Lock();
-            TryAssignCamera();
-            freeLookYaw = transform.eulerAngles.y;
-        
-            moveAction?.action.Enable();
-            sprintAction?.action.Enable();
-            cameraRotateAction?.action.Enable();
-        }
-        else
-        {
-            moveAction?.action.Disable();
-            sprintAction?.action.Disable();
-            cameraRotateAction?.action.Disable();
-        }
+        if (!IsOwner) return;
+
+        CursorManager.Lock();
+        TryAssignCamera();
+        freeLookYaw = transform.eulerAngles.y;
+
+        moveAction.action.Enable();
+        sprintAction.action.Enable();
+        cameraRotateAction.action.Enable();
+
+        moveAction.action.performed += OnMove;
+        moveAction.action.canceled += OnMove;
+
+        sprintAction.action.performed += OnSprint;
+        sprintAction.action.canceled += OnSprint;
+
+        cameraRotateAction.action.performed += OnCameraRotate;
+        cameraRotateAction.action.canceled += OnCameraRotate;
     }
+    
+    public override void OnNetworkDespawn()
+    {
+        if (!IsOwner) return;
+
+        moveAction.action.performed -= OnMove;
+        moveAction.action.canceled -= OnMove;
+
+        sprintAction.action.performed -= OnSprint;
+        sprintAction.action.canceled -= OnSprint;
+
+        cameraRotateAction.action.performed -= OnCameraRotate;
+        cameraRotateAction.action.canceled -= OnCameraRotate;
+    }
+    #endregion
+    
+    #region Event Handlers
+    private void OnMove(InputAction.CallbackContext ctx)
+    {
+        moveInput = Vector2.ClampMagnitude(ctx.ReadValue<Vector2>(), 1f);
+    }
+
+    private void OnSprint(InputAction.CallbackContext ctx)
+    {
+        isSprinting = ctx.ReadValueAsButton();
+    }
+
+    private void OnCameraRotate(InputAction.CallbackContext ctx)
+    {
+        cameraRotateHeld = ctx.ReadValueAsButton();
+    }
+    #endregion
 
     void Update()
     {
@@ -108,11 +147,10 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
             return;
         }
 
-        Vector2 input = GetMovementInput();
-        CurrentMoveInput = input;
+        CurrentMoveInput = moveInput;
 
-        Move(input);
-        Rotate(input);
+        Move(moveInput);
+        Rotate(moveInput);
 
         HandleStepSound();
     }
@@ -179,10 +217,6 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     {
         if (cameraTransform == null) return;
 
-        // OLD VERSION
-        // bool rightMouseHeld = Mouse.current != null && Mouse.current.rightButton.isPressed;
-        bool rightMouseHeld = cameraRotateAction != null && cameraRotateAction.action.IsPressed();
-
         Vector3 camForward = cameraTransform.forward;
         Vector3 camRight = cameraTransform.right;
 
@@ -207,7 +241,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         // FREE LOOK MODE
         else
         {
-            if (rightMouseHeld)
+            if (cameraRotateHeld)
             {
                 Vector3 targetDirection = Vector3.zero;
 
@@ -254,22 +288,16 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     #region Movement
     public void Move(Vector2 input)
     {
-        if (!IsOwner) return;
-        
         if (controller.isGrounded && verticalVelocity < 0f)
             verticalVelocity = -2f;
 
         verticalVelocity += gravity * Time.deltaTime;
 
-        // OLD VERSION
-        // bool rightMouseHeld = Mouse.current != null && Mouse.current.rightButton.isPressed;
-        bool rightMouseHeld = cameraRotateAction != null && cameraRotateAction.action.IsPressed();
-
         Vector3 forward;
         Vector3 right;
 
         if ((cameraMode == CameraMode.AutoFollow && cameraTransform != null) ||
-            (rightMouseHeld && cameraTransform != null))
+            (cameraRotateHeld && cameraTransform != null))
         {
             forward = cameraTransform.forward;
             right = cameraTransform.right;
