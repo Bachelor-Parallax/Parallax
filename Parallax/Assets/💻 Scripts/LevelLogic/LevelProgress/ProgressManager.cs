@@ -89,6 +89,7 @@ public static class ProgressManager
         // BEST TIME
         if (completionTime < level.bestTime)
         {
+            Debug.Log($"Saving best time {completionTime} for {levelName}");
             level.bestTime = completionTime;
             changed = true;
         }

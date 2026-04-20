@@ -4792,7 +4792,7 @@ Light:
   serializedVersion: 12
   m_Type: 1
   m_Color: {r: 0.19233175, g: 0.29446027, b: 0.4490565, a: 1}
-  m_Intensity: 0.1
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -7169,8 +7169,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 1
-  m_Color: {r: 1, g: 0.7150943, b: 0.84615093, a: 1}
-  m_Intensity: 0.1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -7236,8 +7236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
-  _intensityCat: 0
+  _lightColorCat: {r: 0.98735714, g: 1, b: 0.6556604, a: 1}
+  _intensityCat: 1
   _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
   _intensityHuman: 0
 --- !u!1 &1480584268
@@ -7998,7 +7998,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1674882697}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &1677670448
 GameObject:
   m_ObjectHideFlags: 0

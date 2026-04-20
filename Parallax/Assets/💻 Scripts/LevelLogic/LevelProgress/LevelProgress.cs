@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class LevelProgress
 {
     public string levelName;
-    public float bestTime;
+    public float bestTime = float.MaxValue;
     public bool catTrophyAcquired;
     public bool humanTrophyAcquired;
     public bool devTimeTrophyAcquired;
