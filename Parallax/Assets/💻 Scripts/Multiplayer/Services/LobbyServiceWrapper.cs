@@ -21,7 +21,7 @@ public class LobbyServiceWrapper : MonoBehaviour
     private const string k_keyJoinCode = "RelayJoinCode";
 
     private const float k_lobbyHeartbeatInterval = 20f;
-    private const float k_lobbyPollInterval = 65f;
+    private const float k_lobbyPollInterval = 10f;
     private string relayJoinCode;
     
     private void Awake()
