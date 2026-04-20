@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ButtonInteractable : NetworkBehaviour, IInteractable
 {
-    [SerializeField] private MonoBehaviour[] targets;
+    [SerializeField] private GameObject[] targets;
     [SerializeField] private KeyInteractable requiredKey;
     [SerializeField] private AudioClip buttonSound;
     private AudioSource audioSource;
@@ -62,9 +62,10 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
     {
         foreach (var target in targets)
         {
-            if (target is IActivatable activatable)
+            if (target.TryGetComponent<IActivatable>(out var activatable))
             {
                 activatable.Activate();
+                Debug.Log($"Activated {target.name} from button press.");
             }
         }
 
