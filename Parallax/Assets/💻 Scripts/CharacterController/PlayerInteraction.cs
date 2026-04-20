@@ -6,16 +6,25 @@ public class PlayerInteraction : NetworkBehaviour
 {
     [Header("General Interaction")]
     [SerializeField] private Transform interactOrigin;
-    [SerializeField] private float interactDistance = 3f;
+    [SerializeField] private float interactDistance = 1f;
+    [SerializeField] private float interactRadius = 1f;
     [SerializeField] private LayerMask interactLayer;
+    [SerializeField] private InteractionPromptUI promptUI;
 
-    private RoleController roleController;
     private BoxInteraction boxInteraction;
+    private IInteractable currentInteractable;
 
     private void Awake()
     {
-        roleController = GetComponent<RoleController>();
         boxInteraction = GetComponent<BoxInteraction>();
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner) return;
+
+        if (promptUI == null)
+            promptUI = FindFirstObjectByType<InteractionPromptUI>();
     }
 
     private void Update()
@@ -24,13 +33,112 @@ public class PlayerInteraction : NetworkBehaviour
 
         if (interactOrigin != null)
         {
-            Debug.DrawRay(
-                interactOrigin.position,
-                interactOrigin.forward * interactDistance,
-                Color.red
-            );
+            Debug.DrawRay(interactOrigin.position, interactOrigin.forward * interactDistance, Color.red);
+
+            Vector3 end = interactOrigin.position + interactOrigin.forward * interactDistance;
+            Debug.DrawLine(interactOrigin.position + Vector3.up * interactRadius, end + Vector3.up * interactRadius, Color.yellow);
+            Debug.DrawLine(interactOrigin.position - Vector3.up * interactRadius, end - Vector3.up * interactRadius, Color.yellow);
         }
+
+        UpdateInteractionPrompt();
+        HandleBoxInput();
         HandleInteraction();
+    }
+
+    private void HandleBoxInput()
+    {
+        if (boxInteraction == null) return;
+
+        Vector2 input = Vector2.zero;
+
+        if (Keyboard.current != null)
+        {
+            if (Keyboard.current.aKey.isPressed) input.x -= 1f;
+            if (Keyboard.current.dKey.isPressed) input.x += 1f;
+            if (Keyboard.current.wKey.isPressed) input.y += 1f;
+            if (Keyboard.current.sKey.isPressed) input.y -= 1f;
+        }
+
+        boxInteraction.SetMoveInput(input);
+    }
+
+    private void UpdateInteractionPrompt()
+    {
+        if (promptUI == null)
+            promptUI = FindFirstObjectByType<InteractionPromptUI>();
+
+        currentInteractable = FindInteractable();
+
+        if (currentInteractable != null)
+        {
+            promptUI?.Show(currentInteractable.GetInteractText());
+            return;
+        }
+
+        if (boxInteraction != null &&
+            (boxInteraction.HasNearbyBox || boxInteraction.HasHeldBox || boxInteraction.HasAttachedBox))
+        {
+            promptUI?.Show("Press [E] to interact");
+            return;
+        }
+
+        promptUI?.Hide();
+    }
+
+    private IInteractable FindInteractable()
+    {
+        if (interactOrigin == null) return null;
+
+        Ray ray = GetInteractionRay();
+        Vector3 rayDirection = ray.direction;
+
+        if (Physics.SphereCast(ray, interactRadius, out RaycastHit hit, interactDistance, interactLayer))
+        {
+            IInteractable interactable =
+                hit.collider.GetComponent<IInteractable>() ??
+                hit.collider.GetComponentInParent<IInteractable>();
+
+            if (interactable != null)
+                return interactable;
+        }
+
+        Collider[] nearby = Physics.OverlapSphere(interactOrigin.position, interactRadius, interactLayer);
+
+        IInteractable closestInteractable = null;
+        float bestScore = -999f;
+
+        foreach (Collider col in nearby)
+        {
+            IInteractable interactable =
+                col.GetComponent<IInteractable>() ??
+                col.GetComponentInParent<IInteractable>();
+
+            if (interactable == null) continue;
+
+            Vector3 toTarget = (col.bounds.center - interactOrigin.position).normalized;
+            float dot = Vector3.Dot(rayDirection, toTarget);
+
+            if (dot > bestScore)
+            {
+                bestScore = dot;
+                closestInteractable = interactable;
+            }
+        }
+
+        return closestInteractable;
+    }
+
+    private Ray GetInteractionRay()
+    {
+        Vector3 direction = interactOrigin.forward;
+
+        if (Camera.main != null)
+            direction = Camera.main.transform.forward;
+
+        direction.Normalize();
+
+        Vector3 origin = interactOrigin.position + direction * 0.1f;
+        return new Ray(origin, direction);
     }
 
     private void HandleInteraction()
@@ -39,8 +147,6 @@ public class PlayerInteraction : NetworkBehaviour
 
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
-            Debug.Log("Interact pressed");
-
             if (TryInteractWithWorldObject())
                 return;
 
@@ -49,7 +155,6 @@ public class PlayerInteraction : NetworkBehaviour
                  boxInteraction.HasAttachedBox ||
                  boxInteraction.HasNearbyBox))
             {
-                Debug.Log("Falling back to box interaction");
                 boxInteraction.Interact();
             }
         }
@@ -57,52 +162,28 @@ public class PlayerInteraction : NetworkBehaviour
 
     private bool TryInteractWithWorldObject()
     {
-        if (interactOrigin == null)
+        IInteractable interactable = FindInteractable();
+
+        if (interactable != null)
         {
-            Debug.LogWarning("Interact origin is missing.");
-            return false;
-        }
-
-        Debug.Log($"Interact origin position: {interactOrigin.position}");
-        Debug.Log($"Interact origin forward: {interactOrigin.forward}");
-        Debug.Log($"Interact distance: {interactDistance}");
-        Debug.Log($"Interact layer mask value: {interactLayer.value}");
-
-        Ray ray = new Ray(interactOrigin.position, interactOrigin.forward);
-
-        RaycastHit[] hits = Physics.RaycastAll(ray, interactDistance);
-        Debug.Log($"Total hits without layer mask: {hits.Length}");
-
-        foreach (RaycastHit h in hits)
-        {
-            Debug.Log(
-                $"Raw hit: {h.collider.name} | Layer: {LayerMask.LayerToName(h.collider.gameObject.layer)}"
-            );
-        }
-
-        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, interactLayer))
-        {
-            Debug.Log($"Masked hit: {hit.collider.name}");
-            Debug.Log($"Masked hit layer: {LayerMask.LayerToName(hit.collider.gameObject.layer)}");
-
-            IInteractable interactable =
-                hit.collider.GetComponent<IInteractable>() ??
-                hit.collider.GetComponentInParent<IInteractable>();
-
-            if (interactable != null)
-            {
-                Debug.Log($"Interacting with: {hit.collider.name}");
-                interactable.Interact(gameObject);
-                return true;
-            }
-
-            Debug.Log("Hit object has no IInteractable.");
-        }
-        else
-        {
-            Debug.Log("Nothing interactable hit with current layer mask.");
+            interactable.Interact(gameObject);
+            return true;
         }
 
         return false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (interactOrigin == null) return;
+
+        Gizmos.color = Color.red;
+
+        Vector3 start = interactOrigin.position;
+        Vector3 end = interactOrigin.position + interactOrigin.forward * interactDistance;
+
+        Gizmos.DrawWireSphere(start, interactRadius);
+        Gizmos.DrawWireSphere(end, interactRadius);
+        Gizmos.DrawLine(start, end);
     }
 }

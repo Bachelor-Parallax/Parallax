@@ -1,7 +1,6 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class BoxInteraction : MonoBehaviour, IInteractor 
+public class BoxInteraction : MonoBehaviour, IInteractor
 {
     [Header("Detection")]
     [SerializeField] private float interactRange = 2f;
@@ -11,38 +10,49 @@ public class BoxInteraction : MonoBehaviour, IInteractor
     [SerializeField] private Transform holdPoint;
     [SerializeField] private float moveToHoldSpeed = 12f;
 
-    [Header("Pull / Push")]
-    [SerializeField] private float attachDistance = 1.2f;
+    [Header("Drag")]
     [SerializeField] private float dragDistance = 1.2f;
-    [SerializeField] private float dragSpeed = 2.5f;
-    [SerializeField] private float dragTurnSpeed = 40f;
-    [SerializeField] private float snapSpeed = 10f;
 
     private BoxInteractable nearbyBox;
     private BoxInteractable heldBox;
     private BoxInteractable attachedBox;
 
     private Vector3 dragDirection;
+    private Vector2 moveInput;
 
     private RoleController roleController;
     private Movement movement;
-    private CharacterController playerController;
 
     public bool HasNearbyBox => nearbyBox != null;
     public bool HasHeldBox => heldBox != null;
     public bool HasAttachedBox => attachedBox != null;
     public bool IsDraggingLargeBox => attachedBox != null;
 
+    public BoxInteractable HeldBox => heldBox;
+    public BoxInteractable AttachedBox => attachedBox;
+    public Vector3 DragDirection => dragDirection;
+    public Vector2 MoveInput => moveInput;
+    public float DragDistance => dragDistance;
+
     private void Awake()
     {
         movement = GetComponent<Movement>();
-        playerController = GetComponent<CharacterController>();
         roleController = GetComponent<RoleController>();
     }
 
     private void Update()
     {
         FindNearbyBox();
+    }
+
+    private void LateUpdate()
+    {
+        HandleHeldBox();
+    }
+
+    public void SetMoveInput(Vector2 input)
+    {
+        moveInput = input;
     }
 
     public void Interact()
@@ -96,12 +106,6 @@ public class BoxInteraction : MonoBehaviour, IInteractor
         Debug.Log("Box found, but it cannot be lifted or pushed/pulled.");
     }
 
-    private void LateUpdate()
-    {
-        HandleHeldBox();
-        HandleAttachedBox();
-    }
-
     private void HandleHeldBox()
     {
         if (heldBox == null) return;
@@ -110,68 +114,17 @@ public class BoxInteraction : MonoBehaviour, IInteractor
             ? holdPoint.position
             : heldBox.GetCarryPosition(transform);
 
-        heldBox.transform.position = targetPos;
+        heldBox.transform.position = Vector3.Lerp(
+            heldBox.transform.position,
+            targetPos,
+            Time.deltaTime * moveToHoldSpeed
+        );
 
         heldBox.transform.rotation = Quaternion.Lerp(
             heldBox.transform.rotation,
             Quaternion.identity,
             Time.deltaTime * moveToHoldSpeed
         );
-    }
-
-    private void HandleAttachedBox()
-    {
-        if (attachedBox == null) return;
-
-        Rigidbody rb = attachedBox.GetComponent<Rigidbody>();
-        if (rb == null) return;
-
-        float forwardInput = 0f;
-        float turnInput = 0f;
-
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.wKey.isPressed) forwardInput += 1f;
-            if (Keyboard.current.sKey.isPressed) forwardInput -= 1f;
-            if (Keyboard.current.aKey.isPressed) turnInput -= 1f;
-            if (Keyboard.current.dKey.isPressed) turnInput += 1f;
-        }
-
-        if (Mathf.Abs(turnInput) > 0.01f)
-        {
-            float angle = turnInput * dragTurnSpeed * Time.deltaTime;
-            dragDirection = Quaternion.Euler(0f, angle, 0f) * dragDirection;
-            dragDirection.Normalize();
-        }
-
-        Vector3 moveDir = -dragDirection * forwardInput;
-        rb.linearVelocity = new Vector3(
-            moveDir.x * dragSpeed,
-            rb.linearVelocity.y,
-            moveDir.z * dragSpeed
-        );
-
-        Vector3 targetPlayerPos = attachedBox.transform.position + dragDirection * dragDistance;
-        targetPlayerPos.y = transform.position.y;
-
-        transform.position = Vector3.Lerp(
-            transform.position,
-            targetPlayerPos,
-            Time.deltaTime * snapSpeed
-        );
-
-        Vector3 lookDir = attachedBox.transform.position - transform.position;
-        lookDir.y = 0f;
-
-        if (lookDir.sqrMagnitude > 0.001f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                Time.deltaTime * snapSpeed
-            );
-        }
     }
 
     private void FindNearbyBox()
@@ -201,8 +154,10 @@ public class BoxInteraction : MonoBehaviour, IInteractor
 
         heldBox = box;
         attachedBox = null;
+        moveInput = Vector2.zero;
 
         box.SetHeld(true);
+
         Debug.Log($"Lifted box: {box.name}");
     }
 
@@ -214,6 +169,7 @@ public class BoxInteraction : MonoBehaviour, IInteractor
         Debug.Log($"Dropped box: {heldBox.name}");
 
         heldBox = null;
+        moveInput = Vector2.zero;
     }
 
     private void AttachBox(BoxInteractable box)
@@ -222,6 +178,7 @@ public class BoxInteraction : MonoBehaviour, IInteractor
 
         attachedBox = box;
         heldBox = null;
+        moveInput = Vector2.zero;
 
         Rigidbody rb = box.GetComponent<Rigidbody>();
         if (rb != null)
@@ -234,21 +191,22 @@ public class BoxInteraction : MonoBehaviour, IInteractor
         dragDirection.y = 0f;
 
         if (dragDirection.sqrMagnitude < 0.01f)
-        {
             dragDirection = -transform.forward;
-        }
         else
-        {
             dragDirection.Normalize();
-        }
 
-        Vector3 targetPlayerPos = box.transform.position + dragDirection * dragDistance;
-        targetPlayerPos.y = transform.position.y;
-        transform.position = targetPlayerPos;
-
-        transform.rotation = Quaternion.LookRotation(-dragDirection);
+        if (movement != null)
+            movement.SetBoxDragMode(true);
 
         Debug.Log($"Attached to box: {box.name}");
+    }
+
+    public void RotateDragDirection(float turnAmountDegrees)
+    {
+        if (attachedBox == null) return;
+
+        dragDirection = Quaternion.Euler(0f, turnAmountDegrees, 0f) * dragDirection;
+        dragDirection.Normalize();
     }
 
     private void DetachBox()
@@ -259,13 +217,16 @@ public class BoxInteraction : MonoBehaviour, IInteractor
         if (rb != null)
         {
             rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
-
             rb.constraints &= ~RigidbodyConstraints.FreezeRotationX;
             rb.constraints &= ~RigidbodyConstraints.FreezeRotationZ;
         }
 
         Debug.Log($"Detached from box: {attachedBox.name}");
         attachedBox = null;
+        moveInput = Vector2.zero;
+
+        if (movement != null)
+            movement.SetBoxDragMode(false);
     }
 
     private void OnDrawGizmosSelected()
