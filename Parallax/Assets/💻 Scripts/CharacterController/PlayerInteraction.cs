@@ -10,6 +10,9 @@ public class PlayerInteraction : NetworkBehaviour
     [SerializeField] private float interactRadius = 1f;
     [SerializeField] private LayerMask interactLayer;
     [SerializeField] private InteractionPromptUI promptUI;
+    
+    [Header("Input Action References")]
+    [SerializeField] private InputActionReference interactAction;
 
     private BoxInteraction boxInteraction;
     private IInteractable currentInteractable;
