@@ -22,7 +22,7 @@ public class LobbyServiceWrapper : PersistentSingleton<LobbyServiceWrapper>
     private const float k_lobbyPollInterval = 10f;
     private string relayJoinCode;
     
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
         ConfigureTimers();
