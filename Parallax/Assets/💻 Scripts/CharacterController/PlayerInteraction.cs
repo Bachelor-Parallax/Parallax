@@ -13,7 +13,6 @@ public class PlayerInteraction : NetworkBehaviour
     
     [Header("Input Action References")]
     [SerializeField] private InputActionReference interactAction;
-    [SerializeField] private InputActionReference moveAction;
 
     private BoxInteraction boxInteraction;
     private IInteractable currentInteractable;
@@ -34,13 +33,11 @@ public class PlayerInteraction : NetworkBehaviour
     void OnEnable()
     {
         interactAction?.action.Enable();
-        moveAction?.action.Enable();
     }
 
     void OnDisable()
     {
         interactAction?.action.Disable();
-        moveAction?.action.Disable();
     }
 
     private void Update()
@@ -83,10 +80,10 @@ public class PlayerInteraction : NetworkBehaviour
     {
         if (!IsOwner) return;
         if (boxInteraction == null) return;
-        if (moveAction == null) return;
-
-        Vector2 input = moveAction.action.ReadValue<Vector2>();
-        boxInteraction.SetMoveInput(input);
+        var movement = GetComponent<Movement>();
+        if (movement == null) return;
+        
+        boxInteraction.SetMoveInput(movement.CurrentMoveInput);
     }
 
     private void UpdateInteractionPrompt()

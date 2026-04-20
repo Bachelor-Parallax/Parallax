@@ -41,6 +41,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
+    public Vector2 CurrentMoveInput { get; private set; }
 
     public bool MovementLocked { get; set; }
     public float SpeedMultiplier { get; set; } = 1f;
@@ -108,6 +109,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         }
 
         Vector2 input = GetMovementInput();
+        CurrentMoveInput = input;
 
         Move(input);
         Rotate(input);
