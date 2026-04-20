@@ -65,14 +65,16 @@ public class LobbyServiceWrapper : MonoBehaviour
     
     private async Task HandleHeartbeatAsync()
     {
+        if (currentLobby == null) return;
+        
         try
         {
             await LobbyService.Instance.SendHeartbeatPingAsync(currentLobby.Id);
-            Debug.Log("Sent heartbeat ping to lobby: " + currentLobby.Name);
         }
         catch (LobbyServiceException e)
         {
             Debug.LogError("Failed to heartbeat lobby: " + e.Message);
+            heartbeatTimer.Stop();
         }
     }
 
