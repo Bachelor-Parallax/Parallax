@@ -71,6 +71,8 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
 
     public string GetInteractText()
     {
-        return "Press button [E]";
+        return requiredKey != null
+            ? "Button Locked - Missing Key"
+            : "Press button [E]";
     }
 }
