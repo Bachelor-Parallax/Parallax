@@ -544,7 +544,6 @@ MonoBehaviour:
   gravity: -9.81
   jumpHeight: 3
   stepSound: {fileID: 8300000, guid: 1c80b60c233234e47a753bc12c8da415, type: 3}
-  stepInterval: 0.2
   strafeTurnSpeed: 10
   strafeTurnAngle: 18
   dragMoveSpeed: 2.5
@@ -606,6 +605,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: aad445955b81eb24f854320abb0a2eda, type: 3}
   - {fileID: 8300000, guid: 9f040c4ffb8419549813b299dd25b7f5, type: 3}
   - {fileID: 8300000, guid: 3a81bb9a02801614fa4670c9d847779d, type: 3}
+  jumpAction: {fileID: -2099379676528639254, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
 --- !u!114 &-6443368751576764120
 MonoBehaviour:
   m_ObjectHideFlags: 0
