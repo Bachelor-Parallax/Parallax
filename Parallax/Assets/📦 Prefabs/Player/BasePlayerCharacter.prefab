@@ -484,7 +484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
   m_Actions: {fileID: -944628639613478452, guid: cbced1aec47fb5b49be3d06671431c14, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 3
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -593,7 +593,6 @@ MonoBehaviour:
     m_Bits: 8
   promptUI: {fileID: 0}
   interactAction: {fileID: 1781555164194001046, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
-  moveAction: {fileID: -1680190386980627800, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
 --- !u!114 &1850633733994081567
 MonoBehaviour:
   m_ObjectHideFlags: 0

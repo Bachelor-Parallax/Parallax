@@ -57,7 +57,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     private float freeLookYaw;
     
     private bool isSprinting;
-    private bool cameraRotateHeld;
+    private Vector2 lookInput;
     private Vector2 moveInput;
     private bool isBoxDragMode;
 
@@ -121,7 +121,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
     private void OnCameraRotate(InputAction.CallbackContext ctx)
     {
-        cameraRotateHeld = ctx.ReadValueAsButton();
+        lookInput = ctx.ReadValue<Vector2>();
     }
     #endregion
 
@@ -241,7 +241,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         // FREE LOOK MODE
         else
         {
-            if (cameraRotateHeld)
+            if (lookInput.sqrMagnitude > 0.01f)
             {
                 Vector3 targetDirection = Vector3.zero;
 
@@ -297,7 +297,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         Vector3 right;
 
         if ((cameraMode == CameraMode.AutoFollow && cameraTransform != null) ||
-            (cameraRotateHeld && cameraTransform != null))
+            (lookInput.sqrMagnitude > 0.01f && cameraTransform != null))
         {
             forward = cameraTransform.forward;
             right = cameraTransform.right;
