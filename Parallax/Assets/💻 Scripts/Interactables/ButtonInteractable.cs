@@ -45,13 +45,13 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
             return;
         }
 
-        Debug.Log($"requiredKey exists, keyCollected = {requiredKey.keyCollected.Value}");
+        //Debug.Log($"requiredKey exists, keyCollected = {requiredKey.keyCollected.Value}");
 
-        if (!requiredKey.keyCollected.Value)
-        {
-            Debug.Log("Button pressed, but key not collected!");
-            return;
-        }
+        // if (!requiredKey.keyCollected.Value)
+        // {
+        //     Debug.Log("Button pressed, but key not collected!");
+        //     return;
+        // }
 
         PressButtonServerRpc();
         PlayButtonSound();

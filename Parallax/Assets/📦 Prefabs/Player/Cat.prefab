@@ -31,7 +31,8 @@ Transform:
   m_LocalPosition: {x: -0.0297, y: 0.4984, z: 0.0253}
   m_LocalScale: {x: 0.030550988, y: -0.003457671, z: 0.07332593}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5354593851964432454}
   m_Father: {fileID: 6807228192558122795}
   m_LocalEulerAnglesHint: {x: 12.908, y: 0, z: 4.718}
 --- !u!33 &2279046508860405121
@@ -2020,6 +2021,55 @@ Transform:
   - {fileID: 8491776509967437506}
   m_Father: {fileID: 2932183943959098329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6665243781031747837
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5354593851964432454}
+  - component: {fileID: 4182699495135847537}
+  m_Layer: 0
+  m_Name: CarryPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5354593851964432454
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6665243781031747837}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2660042023135565061}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4182699495135847537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6665243781031747837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0243e808bdb4fc04e90e2a89cecf81bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MouthCarryPoint
+  mouthPoint: {fileID: 5354593851964432454}
 --- !u!1 &6882652939297481133
 GameObject:
   m_ObjectHideFlags: 0
@@ -2376,7 +2426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6633278329854684459
 Transform:
   m_ObjectHideFlags: 0
