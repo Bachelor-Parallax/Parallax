@@ -30,6 +30,12 @@ public class LobbyServiceWrapper : MonoBehaviour
         ConfigureTimers();
     }
 
+    private void Update()
+    {
+        heartbeatTimer.Tick(Time.deltaTime);
+        pollTimer.Tick(Time.deltaTime);
+    }
+
     private void InitializeSingleton()
     {
         if (Instance != null && Instance != this)
