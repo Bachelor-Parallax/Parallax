@@ -7,11 +7,17 @@ public class BootManager : MonoBehaviour
     
     void Start()
     {
+        LoadProgress();
         Invoke(nameof(LoadMenu), bootDuration);
     }
 
     void LoadMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    void LoadProgress()
+    {
+        ProgressManager.Load();
     }
 }
