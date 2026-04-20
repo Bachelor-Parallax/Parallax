@@ -2,6 +2,9 @@ using System;
 using System.Diagnostics;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Debug = UnityEngine.Debug;
+using Scene = UnityEditor.SearchService.Scene;
 
 public class LevelManager : MonoBehaviour
 {
@@ -32,8 +35,14 @@ public class LevelManager : MonoBehaviour
     private PerspectiveManager _perspectiveManager;
     private NetworkManager _networkManager;
 
+    public static LevelManager Instance => _instance;
+    private static LevelManager _instance;
+
     private void Awake()
     {
+        if (_instance != null && _instance != this) Destroy(gameObject);
+        else _instance = this;
+
         _networkManager = FindFirstObjectByType<NetworkManager>();
         if (_networkManager == null)
         {
@@ -61,10 +70,36 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Reloads the current scene, causing a complete reset of the level.
+    /// Player's will be repositioned as the level manager re-runs the setup in start
+    /// </summary>
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    /// <summary>
+    /// Saves level data and loads the lobby
+    /// </summary>
+    public void CompleteLevel()
+    {
+        // TODO: Save the completion time and handle trophies
+        ExitLevel();
+    }
+
+    /// <summary>
+    /// Exits the level by loading the lobby scene
+    /// </summary>
+    public void ExitLevel()
+    {
+        SceneManager.LoadScene(GameConstants.LOBBY_SCENE_NAME);
+    }
+
+    /// <summary>
     /// Find out which role this game instance is controlling
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
     private CharacterRole DetermineLocalRole()
     {
         var localClient = _networkManager.LocalClient;
