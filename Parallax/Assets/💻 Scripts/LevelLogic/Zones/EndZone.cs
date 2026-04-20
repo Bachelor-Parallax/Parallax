@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class EndZone : BaseZone
+public class EndZone : GroupActivationZone
 {
-    protected override void OnPlayerEnter(GameObject player)
+    protected override void OnTimerElapsed()
     {
-        // complete the level if all players are present
+        Debug.Log("Level Complete");
     }
 }

@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public abstract class BaseZone : MonoBehaviour
+public abstract class BaseZone : NetworkBehaviour
 {
     /// <summary>
     /// Called when a player enters the zone, after updating the player list
@@ -17,22 +17,22 @@ public abstract class BaseZone : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (!IsLocalPlayer(other.gameObject)) return;
+        if (!IsValidPlayer(other.gameObject)) return;
         OnPlayerEnter(other.gameObject);
     }
 
     public void OnTriggerExit(Collider other)
     {
-        if (!IsLocalPlayer(other.gameObject)) return;
+        if (!IsValidPlayer(other.gameObject)) return;
         OnPlayerExit(other.gameObject);
     }
 
-    private bool IsLocalPlayer(GameObject obj)
+    private bool IsValidPlayer(GameObject obj)
     {
         if (!obj.CompareTag(GameConstants.PLAYER_TAG)) return false;
         if (TryGetComponent(out NetworkObject netObj))
         {
-            return netObj.IsLocalPlayer;
+            return netObj.IsOwner;
         }
         return false;
     }

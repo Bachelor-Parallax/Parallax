@@ -6,7 +6,7 @@ using UnityEngine;
 public class EndZoneTrigger : NetworkBehaviour
 {
     [SerializeField] private LevelData levelData;
-    
+
     private LevelManager _levelManager;
 
     private string _levelName;
@@ -19,7 +19,7 @@ public class EndZoneTrigger : NetworkBehaviour
     {
         _levelName = levelData.levelName;
         _devTime = levelData.devTime;
-        
+
         _levelManager = FindFirstObjectByType<LevelManager>();
     }
 
@@ -31,7 +31,7 @@ public class EndZoneTrigger : NetworkBehaviour
             return;
 
         CharacterRole role = roleController.role.Value;
-        
+
         _playersInZone.Add(role);
 
         if (_playersInZone.Count == 2 && !_completed)
@@ -44,24 +44,24 @@ public class EndZoneTrigger : NetworkBehaviour
     private void CompleteLevel()
     {
         float time = (float)_levelManager.ElapsedTime.TotalSeconds;
-        
+
         LevelCompletedClientRpc(time);
-        
+
         SceneLoader.Instance.LoadGameScene("PlayableLobby");
     }
-    
+
     [ClientRpc]
     private void LevelCompletedClientRpc(float time)
     {
-        var levelManager = FindFirstObjectByType<LevelManager>();
+        //var levelManager = FindFirstObjectByType<LevelManager>();
 
-        CharacterRole myRole = levelManager.DetermineLocalRole();
+        //CharacterRole myRole = levelManager.DetermineLocalRole();
 
-        ProgressManager.RegisterLevelCompletion(
-            _levelName,
-            myRole,
-            time,
-            _devTime
-        );
+        //ProgressManager.RegisterLevelCompletion(
+        //    _levelName,
+        //    myRole,
+        //    time,
+        //    _devTime
+        //);
     }
 }
