@@ -42,8 +42,8 @@ public class VoteZoneTrigger : NetworkBehaviour
         ExitZoneServerRpc();
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void EnterZoneServerRpc(ServerRpcParams rpcParams = default)
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void EnterZoneServerRpc(RpcParams rpcParams = default)
     {
         ulong clientId = rpcParams.Receive.SenderClientId;
 
@@ -54,8 +54,8 @@ public class VoteZoneTrigger : NetworkBehaviour
         TryStartCountdown();
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void ExitZoneServerRpc(ServerRpcParams rpcParams = default)
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void ExitZoneServerRpc(RpcParams rpcParams = default)
     {
         ulong clientId = rpcParams.Receive.SenderClientId;
 

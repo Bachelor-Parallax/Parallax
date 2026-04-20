@@ -504,3 +504,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,unity
+Parallax/Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
+Parallax/Assets/UI Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss.meta

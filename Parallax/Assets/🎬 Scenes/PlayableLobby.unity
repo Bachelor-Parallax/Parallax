@@ -151,7 +151,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
   humanSpawnPos: {x: -3, y: 5, z: 3}
   catSpawnPos: {x: 3, y: 5, z: -3}
-  elapsedTime: 
 --- !u!4 &166558698
 Transform:
   m_ObjectHideFlags: 0

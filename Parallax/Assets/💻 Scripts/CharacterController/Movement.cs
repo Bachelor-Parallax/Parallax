@@ -30,36 +30,47 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
     [Header("Camera")]
     [SerializeField] private CameraMode cameraMode = CameraMode.AutoFollow;
+    
+    [Header("Input Action References")]
+    [SerializeField] private InputActionReference moveAction;
+    [SerializeField] private InputActionReference sprintAction;
+    [SerializeField] private InputActionReference cameraRotateAction;
 
     private AudioSource audioSource;
     private float stepTimer;
 
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
-
+    
     public bool MovementLocked { get; set; }
     public float SpeedMultiplier { get; set; } = 1f;
+    
+    public Vector2 CurrentMoveInput { get; private set; }
 
     private CharacterController controller;
-    private JumpAbility jumpAbility;
+    //private JumpAbility jumpAbility;
     private BoxInteraction boxInteraction;
     private PlayerInteraction playerInteraction;
     private Transform cameraTransform;
 
     private float verticalVelocity;
-    private bool isSprinting;
     private float freeLookYaw;
+    
+    private bool isSprinting;
+    private Vector2 lookInput;
+    private Vector2 moveInput;
     private bool isBoxDragMode;
 
     void Awake()
     {
         controller = GetComponent<CharacterController>();
-        jumpAbility = GetComponent<JumpAbility>();
+        //jumpAbility = GetComponent<JumpAbility>();
         boxInteraction = GetComponent<BoxInteraction>();
         playerInteraction = GetComponent<PlayerInteraction>();
         audioSource = GetComponent<AudioSource>();
     }
-
+    
+    #region Network Events
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
@@ -67,7 +78,52 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         CursorManager.Lock();
         TryAssignCamera();
         freeLookYaw = transform.eulerAngles.y;
+
+        moveAction.action.Enable();
+        sprintAction.action.Enable();
+        cameraRotateAction.action.Enable();
+
+        moveAction.action.performed += OnMove;
+        moveAction.action.canceled += OnMove;
+
+        sprintAction.action.performed += OnSprint;
+        sprintAction.action.canceled += OnSprint;
+
+        cameraRotateAction.action.performed += OnCameraRotate;
+        cameraRotateAction.action.canceled += OnCameraRotate;
     }
+    
+    public override void OnNetworkDespawn()
+    {
+        if (!IsOwner) return;
+
+        moveAction.action.performed -= OnMove;
+        moveAction.action.canceled -= OnMove;
+
+        sprintAction.action.performed -= OnSprint;
+        sprintAction.action.canceled -= OnSprint;
+
+        cameraRotateAction.action.performed -= OnCameraRotate;
+        cameraRotateAction.action.canceled -= OnCameraRotate;
+    }
+    #endregion
+    
+    #region Event Handlers
+    private void OnMove(InputAction.CallbackContext ctx)
+    {
+        moveInput = Vector2.ClampMagnitude(ctx.ReadValue<Vector2>(), 1f);
+    }
+
+    private void OnSprint(InputAction.CallbackContext ctx)
+    {
+        isSprinting = ctx.ReadValueAsButton();
+    }
+
+    private void OnCameraRotate(InputAction.CallbackContext ctx)
+    {
+        lookInput = ctx.ReadValue<Vector2>();
+    }
+    #endregion
 
     void Update()
     {
@@ -91,10 +147,10 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
             return;
         }
 
-        Vector2 input = GetMovementInput();
+        CurrentMoveInput = moveInput;
 
-        Move(input);
-        Rotate(input);
+        Move(moveInput);
+        Rotate(moveInput);
 
         HandleStepSound();
     }
@@ -126,10 +182,9 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
     private void HandleSprintInput()
     {
-        if (Keyboard.current == null) return;
+        if (sprintAction == null) return;
 
-        bool sprinting = Keyboard.current.leftShiftKey.isPressed;
-        SetSprinting(sprinting);
+        SetSprinting(sprintAction.action.IsPressed());
     }
 
     public void SetSprinting(bool sprinting)
@@ -162,8 +217,6 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     {
         if (cameraTransform == null) return;
 
-        bool rightMouseHeld = Mouse.current != null && Mouse.current.rightButton.isPressed;
-
         Vector3 camForward = cameraTransform.forward;
         Vector3 camRight = cameraTransform.right;
 
@@ -188,7 +241,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         // FREE LOOK MODE
         else
         {
-            if (rightMouseHeld)
+            if (lookInput.sqrMagnitude > 0.01f)
             {
                 Vector3 targetDirection = Vector3.zero;
 
@@ -240,13 +293,11 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
         verticalVelocity += gravity * Time.deltaTime;
 
-        bool rightMouseHeld = Mouse.current != null && Mouse.current.rightButton.isPressed;
-
         Vector3 forward;
         Vector3 right;
 
         if ((cameraMode == CameraMode.AutoFollow && cameraTransform != null) ||
-            (rightMouseHeld && cameraTransform != null))
+            (lookInput.sqrMagnitude > 0.01f && cameraTransform != null))
         {
             forward = cameraTransform.forward;
             right = cameraTransform.right;
@@ -348,20 +399,30 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         MovementLocked = enabled;
     }
 
+    // OLD VERSION
+    // Vector2 GetMovementInput()
+    // {
+    //     if (Keyboard.current == null)
+    //         return Vector2.zero;
+    //
+    //     Vector2 input = Vector2.zero;
+    //
+    //     if (Keyboard.current.wKey.isPressed) input.y += 1f;
+    //     if (Keyboard.current.sKey.isPressed) input.y -= 1f;
+    //     if (Keyboard.current.aKey.isPressed) input.x -= 1f;
+    //     if (Keyboard.current.dKey.isPressed) input.x += 1f;
+    //
+    //     input = Vector2.ClampMagnitude(input, 1f);
+    //     return input;
+    // }
+    
     Vector2 GetMovementInput()
     {
-        if (Keyboard.current == null)
+        if (!IsOwner) return Vector2.zero;
+        if (moveAction == null)
             return Vector2.zero;
 
-        Vector2 input = Vector2.zero;
-
-        if (Keyboard.current.wKey.isPressed) input.y += 1f;
-        if (Keyboard.current.sKey.isPressed) input.y -= 1f;
-        if (Keyboard.current.aKey.isPressed) input.x -= 1f;
-        if (Keyboard.current.dKey.isPressed) input.x += 1f;
-
-        input = Vector2.ClampMagnitude(input, 1f);
-        return input;
+        return Vector2.ClampMagnitude(moveAction.action.ReadValue<Vector2>(), 1f);
     }
     #endregion
 

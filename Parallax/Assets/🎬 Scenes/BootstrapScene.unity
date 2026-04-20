@@ -508,7 +508,6 @@ GameObject:
   - component: {fileID: 371449380}
   - component: {fileID: 371449379}
   - component: {fileID: 371449378}
-  - component: {fileID: 371449381}
   m_Layer: 0
   m_Name: MultiplayerManager
   m_TagString: Untagged
@@ -553,6 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf4cf305b790564fb064631083695cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiplayerManager
+  dontDestroyOnLoad: 1
   maxPlayers: 2
   loadingUI: {fileID: 1453320839}
   LobbySceneName: PlayableLobby
@@ -575,24 +575,6 @@ Transform:
   - {fileID: 411211990}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &371449381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 371449377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc51a901f4376174e8b2484934325f69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LobbyManager
-  ShowTopMostFoldoutHeaderGroup: 1
-  CurrentLobbyState:
-    UpdateTraits:
-      MinSecondsBetweenUpdates: 0
-      MaxSecondsBetweenUpdates: 0
-    m_InternalValue: 0
 --- !u!1 &378254420
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,6 +664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 359ee8d0b31e8494e9908b203f969221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyServiceWrapper
+  dontDestroyOnLoad: 1
   lobbyName: Test Lobby
 --- !u!1 &448244043
 GameObject:
@@ -727,6 +710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0967e189e74f5ae49b01e6e029c9d388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
+  dontDestroyOnLoad: 1
 --- !u!1 &722618237
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fa3430a1b073d840a30cab737bdafb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AuthenticationServiceWrapper
+  dontDestroyOnLoad: 1
 --- !u!1 &777352053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,6 +1031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 702b190941ecda5458818b24317e3f60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RelayServiceWrapper
+  dontDestroyOnLoad: 1
   dtlsSecureMode: 0
 --- !u!1 &1416238259
 GameObject:
@@ -1287,11 +1273,11 @@ MonoBehaviour:
     NetworkTopology: 0
     UseCMBService: 0
     AutoSpawnPlayerPrefabClientSide: 1
-    NetworkMessageMetrics: 1
-    NetworkProfilingMetrics: 1
+    NetworkMessageMetrics: 0
+    NetworkProfilingMetrics: 0
     OldPrefabList: []
   RunInBackground: 1
-  LogLevel: 0
+  LogLevel: 2
 --- !u!4 &2034261422
 Transform:
   m_ObjectHideFlags: 0
