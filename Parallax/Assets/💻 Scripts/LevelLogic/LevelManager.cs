@@ -65,7 +65,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     /// <exception cref="System.InvalidOperationException"></exception>
-    private CharacterRole DetermineLocalRole()
+    public CharacterRole DetermineLocalRole()
     {
         var localClient = _networkManager.LocalClient;
         if (localClient?.PlayerObject == null)
