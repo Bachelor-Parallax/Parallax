@@ -6,20 +6,12 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
     [SerializeField] private MonoBehaviour[] targets;
     [SerializeField] private KeyInteractable requiredKey;
     [SerializeField] private AudioClip buttonSound;
+
     private AudioSource audioSource;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-    }
-
-    private void PlayButtonSound()
-    {
-        if (buttonSound != null && audioSource != null)
-        {
-            audioSource.pitch = Random.Range(0.9f, 1.1f);
-            audioSource.PlayOneShot(buttonSound);
-        }
     }
 
     public bool CanInteract(GameObject interactor)
@@ -30,40 +22,33 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        var interactorRoleController = interactor.GetComponent<RoleController>();
+        NetworkObject netObj = interactor.GetComponent<NetworkObject>();
+        if (netObj == null) return;
 
-        if (interactorRoleController == null)
-        {
-            Debug.Log("Interactor has no RoleController.");
-            return;
-        }
-
-        if (interactorRoleController.CurrentRole != CharacterRole.Human)
-        {
-            Debug.Log("Only humans can interact with the button.");
-            return;
-        }
-
-        if (requiredKey == null)
-        {
-            Debug.Log("Button pressed, but requiredKey is NULL");
-            return;
-        }
-
-        //Debug.Log($"requiredKey exists, keyCollected = {requiredKey.keyCollected.Value}");
-
-        // if (!requiredKey.keyCollected.Value)
-        // {
-        //     Debug.Log("Button pressed, but key not collected!");
-        //     return;
-        // }
-
-        PressButtonServerRpc();
-        PlayButtonSound();
+        PressButtonServerRpc(netObj.OwnerClientId);
     }
 
-    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    private void PressButtonServerRpc()
+    [Rpc(SendTo.Server)]
+    private void PressButtonServerRpc(ulong senderClientId)
+    {
+        // Optional key check
+        if (requiredKey != null)
+        {
+            if (requiredKey == null)
+            {
+                Debug.Log("Button requires a key, but key is missing.");
+                return;
+            }
+        }
+
+        ActivateTargets();
+
+        PlayButtonSoundClientRpc();
+
+        Debug.Log($"Button pressed by client {senderClientId}");
+    }
+
+    private void ActivateTargets()
     {
         foreach (var target in targets)
         {
@@ -72,12 +57,20 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
                 activatable.Activate();
             }
         }
+    }
 
-        Debug.Log("Button pressed!");
+    [Rpc(SendTo.ClientsAndHost)]
+    private void PlayButtonSoundClientRpc()
+    {
+        if (buttonSound != null && audioSource != null)
+        {
+            audioSource.pitch = Random.Range(0.9f, 1.1f);
+            audioSource.PlayOneShot(buttonSound);
+        }
     }
 
     public string GetInteractText()
     {
-        return "Press [E] to push the button";
+        return "Press button [E]";
     }
 }
