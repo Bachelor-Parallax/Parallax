@@ -21,31 +21,52 @@ public class JumpAbility : MonoBehaviour
     void OnEnable()
     {
         if (jumpAction != null)
+        {
             jumpAction.action.Enable();
+            jumpAction.action.performed += HandleJump;
+        }
     }
 
     void OnDisable()
     {
         if (jumpAction != null)
+        {
+            jumpAction.action.performed -= HandleJump;
             jumpAction.action.Disable();
+        }
     }
 
-    void Update()
+    // void Update()
+    // {
+    //     if (!enabled) return;
+    //     if (movement == null || controller == null) return;
+    //     if (jumpAction == null) return;
+    //
+    //     if (jumpAction.action.WasPressedThisFrame() && controller.isGrounded)
+    //     {
+    //         movement.SetVerticalVelocity(Mathf.Sqrt(movement.JumpHeight * -2f * movement.Gravity));
+    //
+    //         if (jumpSounds.Length > 0)
+    //         {
+    //             int index = Random.Range(0, jumpSounds.Length);
+    //             audioSource.pitch = Random.Range(0.9f, 1.1f);
+    //             audioSource.PlayOneShot(jumpSounds[index]);
+    //         }
+    //     }
+    // }
+    
+    private void HandleJump(InputAction.CallbackContext ctx)
     {
-        if (!enabled) return;
-        if (movement == null || controller == null) return;
-        if (jumpAction == null) return;
+        if (!movement.IsOwner) return;
+        if (!controller.isGrounded) return;
 
-        if (jumpAction.action.WasPressedThisFrame() && controller.isGrounded)
+        movement.SetVerticalVelocity(Mathf.Sqrt(movement.JumpHeight * -2f * movement.Gravity));
+
+        if (jumpSounds.Length > 0)
         {
-            movement.SetVerticalVelocity(Mathf.Sqrt(movement.JumpHeight * -2f * movement.Gravity));
-
-            if (jumpSounds.Length > 0)
-            {
-                int index = Random.Range(0, jumpSounds.Length);
-                audioSource.pitch = Random.Range(0.9f, 1.1f);
-                audioSource.PlayOneShot(jumpSounds[index]);
-            }
+            int index = Random.Range(0, jumpSounds.Length);
+            audioSource.pitch = Random.Range(0.9f, 1.1f);
+            audioSource.PlayOneShot(jumpSounds[index]);
         }
     }
 }
