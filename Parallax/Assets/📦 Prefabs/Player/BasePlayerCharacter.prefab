@@ -592,7 +592,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   promptUI: {fileID: 0}
-  interactAction: {fileID: 0}
+  interactAction: {fileID: 1781555164194001046, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
+  moveAction: {fileID: -1680190386980627800, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
 --- !u!114 &1850633733994081567
 MonoBehaviour:
   m_ObjectHideFlags: 0
