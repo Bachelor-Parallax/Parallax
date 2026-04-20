@@ -53,7 +53,7 @@ public class LobbyManager : NetworkBehaviour
     }
 
     // CLIENT → SERVER request to start the game
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc]
     public void VoteLevelServerRpc(string sceneName, ServerRpcParams rpcParams = default)
     {
         ulong clientId = rpcParams.Receive.SenderClientId;
