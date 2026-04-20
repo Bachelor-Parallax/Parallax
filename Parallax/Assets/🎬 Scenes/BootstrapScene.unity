@@ -553,6 +553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf4cf305b790564fb064631083695cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiplayerManager
+  dontDestroyOnLoad: 1
   maxPlayers: 2
   loadingUI: {fileID: 1453320839}
   LobbySceneName: PlayableLobby
@@ -682,6 +683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 359ee8d0b31e8494e9908b203f969221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LobbyServiceWrapper
+  dontDestroyOnLoad: 1
   lobbyName: Test Lobby
 --- !u!1 &448244043
 GameObject:
@@ -727,6 +729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0967e189e74f5ae49b01e6e029c9d388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
+  dontDestroyOnLoad: 1
 --- !u!1 &722618237
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fa3430a1b073d840a30cab737bdafb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AuthenticationServiceWrapper
+  dontDestroyOnLoad: 1
 --- !u!1 &777352053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,6 +1050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 702b190941ecda5458818b24317e3f60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RelayServiceWrapper
+  dontDestroyOnLoad: 1
   dtlsSecureMode: 0
 --- !u!1 &1416238259
 GameObject:
@@ -1291,7 +1296,7 @@ MonoBehaviour:
     NetworkProfilingMetrics: 1
     OldPrefabList: []
   RunInBackground: 1
-  LogLevel: 0
+  LogLevel: 1
 --- !u!4 &2034261422
 Transform:
   m_ObjectHideFlags: 0

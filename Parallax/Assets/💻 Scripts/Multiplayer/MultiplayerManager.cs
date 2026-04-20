@@ -5,10 +5,8 @@ using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
-public class MultiplayerManager : MonoBehaviour
+public class MultiplayerManager : PersistentSingleton<MultiplayerManager>
 {
-    public static MultiplayerManager Instance { get; private set; }
-
     [Header("Lobby Settings")]
     [SerializeField] private int maxPlayers = 2;
     [SerializeField] private LoadingUI loadingUI;
@@ -26,23 +24,8 @@ public class MultiplayerManager : MonoBehaviour
 
     private async void Start()
     {
-        InitializeSingleton();
         RegisterNetworkCallbacks();
-        // ConfigureTimers();
-
         await Authenticate();
-    }
-
-    private void InitializeSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     private void RegisterNetworkCallbacks()

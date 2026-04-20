@@ -9,10 +9,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utilities;
 
-public class LobbyServiceWrapper : MonoBehaviour
+public class LobbyServiceWrapper : PersistentSingleton<LobbyServiceWrapper>
 {
-    public static LobbyServiceWrapper Instance { get; private set; }
-
     [SerializeField] private string lobbyName;
 
     public Lobby currentLobby { get; private set; }
@@ -26,7 +24,7 @@ public class LobbyServiceWrapper : MonoBehaviour
     
     private void Awake()
     {
-        InitializeSingleton();
+        base.Awake();
         ConfigureTimers();
     }
 
@@ -34,18 +32,6 @@ public class LobbyServiceWrapper : MonoBehaviour
     {
         heartbeatTimer.Tick(Time.deltaTime);
         pollTimer.Tick(Time.deltaTime);
-    }
-
-    private void InitializeSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
     
     private void ConfigureTimers()
@@ -63,6 +49,7 @@ public class LobbyServiceWrapper : MonoBehaviour
         };
     }
     
+    #region Handlers
     private async Task HandleHeartbeatAsync()
     {
         if (currentLobby == null) return;
@@ -90,7 +77,8 @@ public class LobbyServiceWrapper : MonoBehaviour
             Debug.LogError("Failed to poll for updates on lobby: " + e.Message);
         }
     }
-
+    #endregion
+    
     public async Task<Lobby> CreateLobby(bool isPrivate, int maxPlayers)
     {
         try
@@ -180,18 +168,11 @@ public class LobbyServiceWrapper : MonoBehaviour
 
             currentLobby = joinedLobby;
 
-            Debug.Log("Lobby data keys:");
-            foreach (var key in currentLobby.Data.Keys)
-            {
-                Debug.Log(key);
-            }
-
             pollTimer.Start();
 
             string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
 
             JoinAllocation joinAllocation = await RelayServiceWrapper.Instance.JoinRelay(relayJoinCode);
-            Debug.Log("Joined relay successfully");
 
             RelayServiceWrapper.Instance.ConfigureClientRelay(joinAllocation);
 

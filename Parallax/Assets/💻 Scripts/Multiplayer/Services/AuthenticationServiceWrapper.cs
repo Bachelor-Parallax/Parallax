@@ -3,35 +3,15 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
 
-public class AuthenticationServiceWrapper : MonoBehaviour
+public class AuthenticationServiceWrapper : PersistentSingleton<AuthenticationServiceWrapper>
 {
-    public static AuthenticationServiceWrapper Instance { get; private set; }
-
     private string _playerId = "";
     private string _playerName = "";
-    
-    private void Awake()
-    {
-        InitializeSingleton();
-    }
-
-    private void InitializeSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
 
     public async Task<string> Authenticate()
     {
         string playerId = "";
         playerId = await Authenticate("Player" + Random.Range(0, 1000));
-        Debug.Log("Player " + _playerName + " authenticated with id: " + playerId);
         return playerId;
     }
 
