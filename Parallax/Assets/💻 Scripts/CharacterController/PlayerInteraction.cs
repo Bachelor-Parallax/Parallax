@@ -81,6 +81,7 @@ public class PlayerInteraction : NetworkBehaviour
     
     private void HandleBoxInput()
     {
+        if (!IsOwner) return;
         if (boxInteraction == null) return;
         if (moveAction == null) return;
 
@@ -169,8 +170,9 @@ public class PlayerInteraction : NetworkBehaviour
 
     private void HandleInteraction()
     {
-        if (Keyboard.current == null) return;
-
+        if (!IsOwner) return;
+        if (interactAction == null) return;
+        
         // OLD VERSION
         // if (Keyboard.current.eKey.wasPressedThisFrame)
         if (interactAction.action.WasPressedThisFrame())

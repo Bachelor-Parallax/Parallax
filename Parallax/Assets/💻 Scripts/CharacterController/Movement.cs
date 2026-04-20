@@ -255,6 +255,8 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     #region Movement
     public void Move(Vector2 input)
     {
+        if (!IsOwner) return;
+        
         if (controller.isGrounded && verticalVelocity < 0f)
             verticalVelocity = -2f;
 
