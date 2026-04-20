@@ -72,20 +72,10 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         CursorManager.Lock();
         TryAssignCamera();
         freeLookYaw = transform.eulerAngles.y;
-    }
-    
-    void OnEnable()
-    {
+        
         moveAction?.action.Enable();
         sprintAction?.action.Enable();
         cameraRotateAction?.action.Enable();
-    }
-
-    void OnDisable()
-    {
-        moveAction?.action.Disable();
-        sprintAction?.action.Disable();
-        cameraRotateAction?.action.Disable();
     }
 
     void Update()
@@ -391,6 +381,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     
     Vector2 GetMovementInput()
     {
+        if (!IsOwner) return Vector2.zero;
         if (moveAction == null)
             return Vector2.zero;
 

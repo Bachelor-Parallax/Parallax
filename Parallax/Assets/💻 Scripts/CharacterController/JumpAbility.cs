@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 public class JumpAbility : MonoBehaviour
 {
@@ -18,14 +20,25 @@ public class JumpAbility : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    void OnEnable()
+    private void Start()
     {
+        if (!movement.IsOwner) return;
+
         if (jumpAction != null)
         {
             jumpAction.action.Enable();
             jumpAction.action.performed += HandleJump;
         }
     }
+
+    // void OnEnable()
+    // {
+    //     if (jumpAction != null)
+    //     {
+    //         jumpAction.action.Enable();
+    //         jumpAction.action.performed += HandleJump;
+    //     }
+    // }
 
     void OnDisable()
     {
