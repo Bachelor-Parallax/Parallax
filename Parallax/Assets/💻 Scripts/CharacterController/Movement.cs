@@ -67,15 +67,22 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner) return;
-
-        CursorManager.Lock();
-        TryAssignCamera();
-        freeLookYaw = transform.eulerAngles.y;
+        if (IsOwner)
+        {
+            CursorManager.Lock();
+            TryAssignCamera();
+            freeLookYaw = transform.eulerAngles.y;
         
-        moveAction?.action.Enable();
-        sprintAction?.action.Enable();
-        cameraRotateAction?.action.Enable();
+            moveAction?.action.Enable();
+            sprintAction?.action.Enable();
+            cameraRotateAction?.action.Enable();
+        }
+        else
+        {
+            moveAction?.action.Disable();
+            sprintAction?.action.Disable();
+            cameraRotateAction?.action.Disable();
+        }
     }
 
     void Update()
