@@ -25,19 +25,11 @@ public class PlayerInteraction : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
+        
+        interactAction?.action.Enable();
 
         if (promptUI == null)
             promptUI = FindFirstObjectByType<InteractionPromptUI>();
-    }
-    
-    void OnEnable()
-    {
-        interactAction?.action.Enable();
-    }
-
-    void OnDisable()
-    {
-        interactAction?.action.Disable();
     }
 
     private void Update()
