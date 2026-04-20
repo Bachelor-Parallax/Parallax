@@ -91,17 +91,17 @@ public class BoxInteraction : MonoBehaviour, IInteractor
 
         Debug.Log($"Trying to interact with {nearbyBox.name}");
 
-        if (nearbyBox.CanLift)
-        {
-            LiftBox(nearbyBox);
-            return;
-        }
+        // if (nearbyBox.CanLift)
+        // {
+        //     LiftBox(nearbyBox);
+        //     return;
+        // }
 
-        if (nearbyBox.CanPushOrPull)
-        {
-            AttachBox(nearbyBox);
-            return;
-        }
+        // if (nearbyBox.CanPushOrPull)
+        // {
+        //     AttachBox(nearbyBox);
+        //     return;
+        // }
 
         Debug.Log("Box found, but it cannot be lifted or pushed/pulled.");
     }
@@ -110,15 +110,15 @@ public class BoxInteraction : MonoBehaviour, IInteractor
     {
         if (heldBox == null) return;
 
-        Vector3 targetPos = holdPoint != null
-            ? holdPoint.position
-            : heldBox.GetCarryPosition(transform);
+        // Vector3 targetPos = holdPoint != null
+        //     ? holdPoint.position
+        //     : heldBox.GetCarryPosition(transform);
 
-        heldBox.transform.position = Vector3.Lerp(
-            heldBox.transform.position,
-            targetPos,
-            Time.deltaTime * moveToHoldSpeed
-        );
+        // heldBox.transform.position = Vector3.Lerp(
+        //     heldBox.transform.position,
+        //     targetPos,
+        //     Time.deltaTime * moveToHoldSpeed
+        // );
 
         heldBox.transform.rotation = Quaternion.Lerp(
             heldBox.transform.rotation,
@@ -156,7 +156,7 @@ public class BoxInteraction : MonoBehaviour, IInteractor
         attachedBox = null;
         moveInput = Vector2.zero;
 
-        box.SetHeld(true);
+        //box.SetHeld(true);
 
         Debug.Log($"Lifted box: {box.name}");
     }
@@ -165,7 +165,7 @@ public class BoxInteraction : MonoBehaviour, IInteractor
     {
         if (heldBox == null) return;
 
-        heldBox.SetHeld(false);
+        //heldBox.SetHeld(false);
         Debug.Log($"Dropped box: {heldBox.name}");
 
         heldBox = null;

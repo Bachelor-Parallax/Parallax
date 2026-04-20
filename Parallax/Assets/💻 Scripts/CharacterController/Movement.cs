@@ -50,9 +50,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     private CharacterController controller;
     //private JumpAbility jumpAbility;
     private BoxInteraction boxInteraction;
-    private PlayerInteraction playerInteraction;
     private Transform cameraTransform;
-    private CatInteraction catInteraction;
 
     private float verticalVelocity;
     private float freeLookYaw;
@@ -67,9 +65,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         controller = GetComponent<CharacterController>();
         //jumpAbility = GetComponent<JumpAbility>();
         boxInteraction = GetComponent<BoxInteraction>();
-        playerInteraction = GetComponent<PlayerInteraction>();
         audioSource = GetComponent<AudioSource>();
-        catInteraction = GetComponent<CatInteraction>();
     }
     
     #region Network Events
@@ -461,11 +457,5 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
         if (boxInteraction != null)
             boxInteraction.enabled = role == CharacterRole.Human;
-
-        if (playerInteraction != null)
-            playerInteraction.enabled = role == CharacterRole.Human;
-
-        if (catInteraction != null)
-            catInteraction.enabled = role == CharacterRole.Cat;
     }
 }
