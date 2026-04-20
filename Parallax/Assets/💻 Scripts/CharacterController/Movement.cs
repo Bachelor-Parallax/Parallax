@@ -52,6 +52,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     private BoxInteraction boxInteraction;
     private PlayerInteraction playerInteraction;
     private Transform cameraTransform;
+    private CatInteraction catInteraction;
 
     private float verticalVelocity;
     private float freeLookYaw;
@@ -68,6 +69,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         boxInteraction = GetComponent<BoxInteraction>();
         playerInteraction = GetComponent<PlayerInteraction>();
         audioSource = GetComponent<AudioSource>();
+        catInteraction = GetComponent<CatInteraction>();
     }
     
     #region Network Events
@@ -462,5 +464,8 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
         if (playerInteraction != null)
             playerInteraction.enabled = role == CharacterRole.Human;
+
+        if (catInteraction != null)
+            catInteraction.enabled = role == CharacterRole.Cat;
     }
 }

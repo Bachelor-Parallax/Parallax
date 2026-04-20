@@ -352,6 +352,7 @@ GameObject:
   - component: {fileID: 4655985699247998559}
   - component: {fileID: 1793408151023292504}
   - component: {fileID: 7017215318817912122}
+  - component: {fileID: -833601391610148598}
   m_Layer: 0
   m_Name: BasePlayerCharacter
   m_TagString: Player
@@ -809,6 +810,27 @@ MonoBehaviour:
   fadeDistance: 1.5
   minAlpha: 0.2
   fadeSpeed: 8
+--- !u!114 &-833601391610148598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5194365735509367560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba5c527be755202408748e3c578a9a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatInteraction
+  ShowTopMostFoldoutHeaderGroup: 1
+  interactOrigin: {fileID: 6422815343332510274}
+  interactDistance: 1.2
+  interactRadius: 0.8
+  interactLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  promptUI: {fileID: 0}
+  interactAction: {fileID: 1781555164194001046, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
 --- !u!1 &8223599332400213611
 GameObject:
   m_ObjectHideFlags: 0
