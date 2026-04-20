@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using UnityEngine;
+using Unity.Netcode;
 
-public class InGameUI : MonoBehaviour
+public class InGameUI : NetworkBehaviour
 {
     public void OnResumePressed()
     {
@@ -30,6 +30,9 @@ public class InGameUI : MonoBehaviour
 
     private async Task LeaveGame()
     {
-        await MultiplayerManager.Instance.Disconnect();
+        if (!IsServer)
+            await MultiplayerManager.Instance.Disconnect();
+        else
+            SceneLoader.Instance.LoadGameScene("PlayableLobby");
     }
 }

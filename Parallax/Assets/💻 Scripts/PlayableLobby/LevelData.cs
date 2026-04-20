@@ -15,5 +15,5 @@ public class LevelData : ScriptableObject
     public string bestTime;
     public bool catTrophy;
     public bool humanTrophy;
-    public bool beatDevTrophy;
+    public bool devTimeTrophy;
 }
