@@ -71,7 +71,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     {
         if (!IsOwner) return;
 
-        CursorManager.Lock();
+        //CursorManager.Lock();
         TryAssignCamera();
         freeLookYaw = transform.eulerAngles.y;
 

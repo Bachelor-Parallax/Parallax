@@ -79,6 +79,17 @@ public class RoleController : NetworkBehaviour
         //     asym.ApplyRole(r);
         // }
     }
+    
+    [ServerRpc]
+    public void ToggleRoleServerRpc(ServerRpcParams rpcParams = default)
+    {
+        if (rpcParams.Receive.SenderClientId != OwnerClientId)
+            return;
+
+        role.Value = role.Value == CharacterRole.Cat
+            ? CharacterRole.Human
+            : CharacterRole.Cat;
+    }
 
     void ApplyRoleSpecificPhysics(CharacterRole r)
     {

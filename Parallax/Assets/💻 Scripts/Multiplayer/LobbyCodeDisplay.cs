@@ -16,7 +16,19 @@ public class LobbyCodeDisplay : MonoBehaviour
         if (!string.IsNullOrEmpty(code))
         {
             GUI.Label(new Rect(x, y, 300, h), "Lobby Code: " + code);
-            if (GUI.Button(new Rect(x, y + (h + 10), w, h), "Leave lobby")) _ = MultiplayerManager.Instance.Disconnect(); 
+            if (GUI.Button(new Rect(x, y + (h + 10), w, h), "Leave lobby")) _ = MultiplayerManager.Instance.Disconnect();
+            if (GUI.Button(new Rect(x, y + (h + (10 + h)), w, h), "Swap Role"))
+            {
+                var localPlayer = NetworkManager.Singleton.LocalClient?.PlayerObject;
+
+                if (localPlayer == null) return;
+
+                RoleController roleController = localPlayer.GetComponent<RoleController>();
+
+                if (roleController == null) return;
+
+                roleController.ToggleRoleServerRpc();
+            }
         }
     }
 }
