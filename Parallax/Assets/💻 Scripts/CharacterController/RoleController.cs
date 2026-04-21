@@ -38,31 +38,34 @@ public class RoleController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner) return;
-        
-        roleSwapAction.action.Enable();
-        
+        // This must run on EVERY instance
         role.OnValueChanged += OnRoleChanged;
-
-        roleSwapAction.action.performed += OnRoleSwap;
 
         if (IsServer)
         {
             role.Value = (OwnerClientId == NetworkManager.ServerClientId)
-                ? CharacterRole.Human          
+                ? CharacterRole.Human
                 : CharacterRole.Cat;
         }
 
         StartCoroutine(ApplyRoleNextFrame());
+
+        // Input should ONLY run on the owner
+        if (IsOwner)
+        {
+            roleSwapAction.action.Enable();
+            roleSwapAction.action.performed += OnRoleSwap;
+        }
     }
 
     public override void OnNetworkDespawn()
     {
-        if (!IsOwner) return;
-        
-        base.OnNetworkDespawn();
-        
-        roleSwapAction.action.performed -= OnRoleSwap;
+        role.OnValueChanged -= OnRoleChanged;
+
+        if (IsOwner)
+        {
+            roleSwapAction.action.performed -= OnRoleSwap;
+        }
     }
 
     IEnumerator ApplyRoleNextFrame()
