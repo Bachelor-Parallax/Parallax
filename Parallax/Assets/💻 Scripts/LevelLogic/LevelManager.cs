@@ -2,11 +2,15 @@ using System;
 using System.Diagnostics;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
     #region Inspector Values
+
+    [Header("Level Data")]
+    [SerializeField] private LevelData levelData;
+
+    [SerializeField] private float devTime;
 
     [Header("Spawn Positions")]
     [SerializeField] private GameObject humanSpawnPos;
@@ -14,18 +18,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject catSpawnPos;
 
     #endregion Inspector Values
-
-    public TimeSpan ElapsedTime
-    {
-        get
-        {
-            if (_stopWatch is { IsRunning: true })
-            {
-                return _stopWatch.Elapsed;
-            }
-            return TimeSpan.Zero;
-        }
-    }
 
     private Stopwatch _stopWatch;
     private GameObject _human, _cat;
@@ -73,15 +65,24 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneLoader.Instance.ReloadCurrentScene();
     }
 
     /// <summary>
     /// Saves level data and loads the lobby
     /// </summary>
+    [ClientRpc]
     public void CompleteLevel()
     {
-        // TODO: Save the completion time and handle trophies
+        _stopWatch.Stop();
+        ProgressManager.RegisterLevelCompletion(
+            levelData.levelName,
+            DetermineLocalRole(),
+            (float)_stopWatch.Elapsed.TotalSeconds,
+            devTime
+        );
+
+        // TODO: Move this to GUI, open said GUI here
         ExitLevel();
     }
 
@@ -90,7 +91,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void ExitLevel()
     {
-        SceneManager.LoadScene(GameConstants.LOBBY_SCENE_NAME);
+        SceneLoader.Instance.LoadGameScene(GameConstants.LOBBY_SCENE_NAME);
     }
 
     /// <summary>

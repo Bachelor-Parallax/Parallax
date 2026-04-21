@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class EndZone : GroupActivationZone
 {
+    [SerializeField] private LevelData _levelData;
+
     protected override void OnTimerElapsed()
     {
-        SceneLoader.Instance.LoadGameScene(GameConstants.LOBBY_SCENE_NAME);
+        LevelManager.Instance.CompleteLevel();
     }
 }

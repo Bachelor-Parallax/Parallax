@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class VoteZoneTrigger : GroupActivationZone
 {
-    public LevelData levelData;
+    private LevelData _levelData;
 
     public void SetLevel(LevelData data)
     {
-        levelData = data;
+        _levelData = data;
     }
 
     protected override void OnTimerElapsed()
     {
-        SceneLoader.Instance.LoadGameScene(levelData.sceneName);
+        SceneLoader.Instance.LoadGameScene(_levelData.sceneName);
     }
 }
