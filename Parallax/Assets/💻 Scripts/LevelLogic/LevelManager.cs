@@ -9,9 +9,9 @@ public class LevelManager : MonoBehaviour
     #region Inspector Values
 
     [Header("Spawn Positions")]
-    [SerializeField] private Vector3 humanSpawnPos;
+    [SerializeField] private GameObject humanSpawnPos;
 
-    [SerializeField] private Vector3 catSpawnPos;
+    [SerializeField] private GameObject catSpawnPos;
 
     #endregion Inspector Values
 
@@ -144,7 +144,7 @@ public class LevelManager : MonoBehaviour
                 movement.ResetVerticalVelocity();
             }
         }
-        if (_human != null) SetPlayerPosition(_human, humanSpawnPos);
-        if (_cat != null) SetPlayerPosition(_cat, catSpawnPos);
+        if (_human != null) SetPlayerPosition(_human, humanSpawnPos.transform.position);
+        if (_cat != null) SetPlayerPosition(_cat, catSpawnPos.transform.position);
     }
 }
