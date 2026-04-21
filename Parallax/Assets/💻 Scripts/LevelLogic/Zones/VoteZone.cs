@@ -11,7 +11,6 @@ public class VoteZoneTrigger : GroupActivationZone
 
     protected override void OnTimerElapsed()
     {
-        Debug.Log("Countdown complete, loading: " + levelData.sceneName);
         SceneLoader.Instance.LoadGameScene(levelData.sceneName);
     }
 }

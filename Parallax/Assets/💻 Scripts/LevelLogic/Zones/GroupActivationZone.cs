@@ -2,19 +2,13 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using System.Timers;
+using System.Collections;
 
 public abstract class GroupActivationZone : BaseZone
 {
     [SerializeField] private int _countdownSeconds = 3;
-    private readonly HashSet<ulong> _players = new HashSet<ulong>();
-    private Timer _timer;
-
-    private void Awake()
-    {
-        _timer = new Timer(_countdownSeconds * 1000);
-        _timer.Elapsed += OnTimedEvent;
-        _timer.AutoReset = false;
-    }
+    private readonly HashSet<ulong> _players = new();
+    private Coroutine _countdownCoroutine = null;
 
     /// <summary>
     /// Will be invoked when all players have been in the zone for duration of the countdown
@@ -46,11 +40,11 @@ public abstract class GroupActivationZone : BaseZone
         // check if countdown may start
         if (!IsServer) return;
         if (_players.Count != GameConstants.MAX_PLAYERS) return;
-        if (_timer.Enabled) return;
+        if (_countdownCoroutine != null) return;
 
         // start the countdown
         Debug.Log("Countdown start");
-        _timer.Start();
+        _countdownCoroutine = StartCoroutine(StartCountdown());
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
@@ -61,10 +55,18 @@ public abstract class GroupActivationZone : BaseZone
 
         // check cancel conditions
         if (!IsServer) return;
-        if (!_timer.Enabled) return;
+        if (_countdownCoroutine == null) return;
 
         // cancel countdown
         Debug.Log("Countdown cancel");
-        _timer.Stop();
+        StopCoroutine(_countdownCoroutine);
+        _countdownCoroutine = null;
+    }
+
+    private IEnumerator StartCountdown()
+    {
+        yield return new WaitForSeconds(_countdownSeconds);
+        OnTimerElapsed();
+        _countdownCoroutine = null;
     }
 }
