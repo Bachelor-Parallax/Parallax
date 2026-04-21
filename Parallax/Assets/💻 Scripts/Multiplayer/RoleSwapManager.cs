@@ -12,10 +12,27 @@ public class RoleSwapManager : NetworkBehaviour
 
     public void RequestSwap(RoleController playerA, RoleController playerB)
     {
-        Debug.Log("Role Swap Request");
-        if (playerA == null || playerB == null)
+        if (playerA == null)
+            return;
+        Debug.Log("Swap Requested");
+        int playerCount = NetworkManager.Singleton.ConnectedClients.Count;
+
+        if (playerCount == 1)
+        {
+            Debug.Log("One player on server");
+            if (IsServer)
+                ToggleRole(playerA);
+            else
+                ToggleRoleServerRpc(playerA.NetworkObjectId);
+
+            return;
+        }
+
+        if (playerB == null)
             return;
 
+        Debug.Log("Multiple players on server");
+        
         if (IsServer)
             SwapRoles(playerA, playerB);
         else
@@ -29,6 +46,7 @@ public class RoleSwapManager : NetworkBehaviour
         ulong playerAId,
         ulong playerBId)
     {
+        Debug.Log("Swapping roles of clients");
         if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(playerAId, out var objA))
             return;
 
@@ -43,11 +61,34 @@ public class RoleSwapManager : NetworkBehaviour
 
         SwapRoles(a, b);
     }
+    
+    [ServerRpc]
+    private void ToggleRoleServerRpc(ulong playerId)
+    {
+        if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(playerId, out var obj))
+            return;
+
+        RoleController player = obj.GetComponent<RoleController>();
+        if (player == null)
+            return;
+
+        ToggleRole(player);
+    }
 
     private void SwapRoles(RoleController a, RoleController b)
     {
         (a.role.Value, b.role.Value) = (b.role.Value, a.role.Value);
 
         Debug.Log($"Swapped roles: {a.OwnerClientId} ↔ {b.OwnerClientId}");
+    }
+    
+    private void ToggleRole(RoleController player)
+    {
+        Debug.Log("Forcing swap");
+        player.role.Value = player.role.Value == CharacterRole.Cat
+            ? CharacterRole.Human
+            : CharacterRole.Cat;
+
+        Debug.Log($"Solo role toggle for {player.OwnerClientId}");
     }
 }
