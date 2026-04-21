@@ -6,6 +6,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
 {
     public void LoadGameScene(string sceneName)
     {
+        Debug.Log("Load scene called");
         NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
