@@ -342,7 +342,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymLight
-  _profile: 0
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!1 &38403076
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,7 +562,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!65 &75306304
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1097,7 +1099,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymLight
-  _profile: 1
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!108 &144391062
 Light:
   m_ObjectHideFlags: 0
@@ -1210,7 +1215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 1
+  _activeRole: 0
 --- !u!65 &155827576
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1393,7 +1398,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!65 &158521477
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1721,7 +1725,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!65 &161962559
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2167,7 +2170,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _profile: 1
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!1 &358439574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2753,7 +2759,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _profile: 1
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!108 &404903621
 Light:
   m_ObjectHideFlags: 0
@@ -3091,7 +3100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymLight
-  _profile: 1
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!108 &446189225
 Light:
   m_ObjectHideFlags: 0
@@ -3267,7 +3279,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _profile: 0
+  _lightColorCat: {r: 0.8490566, g: 0.81301177, b: 0.81301177, a: 0}
+  _intensityCat: 1
+  _lightColorHuman: {r: 0.8679245, g: 0.8228907, b: 0.8228907, a: 0}
+  _intensityHuman: 1
 --- !u!1 &503002990
 GameObject:
   m_ObjectHideFlags: 0
@@ -3279,8 +3294,11 @@ GameObject:
   - component: {fileID: 503002991}
   - component: {fileID: 503002994}
   - component: {fileID: 503002993}
-  - component: {fileID: 503002992}
-  m_Layer: 0
+  - component: {fileID: 503002995}
+  - component: {fileID: 503002996}
+  - component: {fileID: 503002997}
+  - component: {fileID: 503002998}
+  m_Layer: 3
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3295,35 +3313,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503002990}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -15, y: 0.5, z: 3}
-  m_LocalScale: {x: -3.9, y: 4.9, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15, y: 0.4849, z: 2.9773998}
+  m_LocalScale: {x: 0.5, y: 4.9, z: 3.9}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1607025306}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
---- !u!64 &503002992
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 503002990}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &503002993
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3381,6 +3377,113 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503002990}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &503002995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503002990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 598dc3c41d0dfee48b0ab878d033ea37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoorInteractable
+  slideDistance: 4
+  speed: 2
+  slideDirection: {x: 0, y: 0, z: 1}
+--- !u!114 &503002996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503002990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 1845307469
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &503002997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503002990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkTransform
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 0
+  AutoOwnerAuthorityTickOffset: 1
+  PositionInterpolationType: 0
+  RotationInterpolationType: 0
+  ScaleInterpolationType: 0
+  PositionLerpSmoothing: 1
+  PositionMaxInterpolationTime: 0.1
+  RotationLerpSmoothing: 1
+  RotationMaxInterpolationTime: 0.1
+  ScaleLerpSmoothing: 1
+  ScaleMaxInterpolationTime: 0.1
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!65 &503002998
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503002990}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.99999994}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &661237245
 GameObject:
   m_ObjectHideFlags: 0
@@ -4432,7 +4535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 1
+  _activeRole: 0
 --- !u!23 &803438648
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4759,7 +4862,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _profile: 1
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!108 &895059627
 Light:
   m_ObjectHideFlags: 0
@@ -5048,7 +5154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymLight
-  _profile: 0
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!1 &1031013571
 GameObject:
   m_ObjectHideFlags: 0
@@ -5410,7 +5519,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 1
+  _activeRole: 0
 --- !u!65 &1142082458
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5534,7 +5643,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymLight
-  _profile: 1
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!108 &1146840156
 Light:
   m_ObjectHideFlags: 0
@@ -5765,9 +5877,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonInteractable
   ShowTopMostFoldoutHeaderGroup: 1
   targets:
-  - {fileID: 358439580}
-  - {fileID: 670749030}
-  - {fileID: 161899595}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   requiredKey: {fileID: 109970723}
   buttonSound: {fileID: 8300000, guid: cd45b2248694b67498097b5a730967b9, type: 3}
 --- !u!23 &1177506725
@@ -5839,7 +5951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _activeRole: 0
 --- !u!65 &1177506728
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6205,7 +6317,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymLight
-  _profile: 0
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!1 &1277003773
 GameObject:
   m_ObjectHideFlags: 0
@@ -6274,7 +6389,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!23 &1277003777
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6824,7 +6938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 1
+  _activeRole: 0
 --- !u!65 &1430458781
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6943,10 +7057,10 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1467317897}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 12
   m_Type: 1
-  m_Color: {r: 1, g: 0.7150943, b: 0.84615093, a: 1}
+  m_Color: {r: 0.5754717, g: 0.34474012, b: 0.34474012, a: 1}
   m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
@@ -6989,7 +7103,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -7013,7 +7127,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _profile: 0
+  _lightColorCat: {r: 0.49056602, g: 0.46511212, b: 0.46511212, a: 0}
+  _intensityCat: 0.5
+  _lightColorHuman: {r: 0.6981132, g: 0.44455323, b: 0.44455323, a: 0}
+  _intensityHuman: 0.3
 --- !u!1 &1480584268
 GameObject:
   m_ObjectHideFlags: 0
@@ -7124,7 +7241,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymLight
-  _profile: 0
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!1 &1513809669
 GameObject:
   m_ObjectHideFlags: 0
@@ -7543,7 +7663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 1
+  _activeRole: 0
 --- !u!23 &1583560061
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8423,7 +8543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 1
+  _activeRole: 0
 --- !u!65 &1858230457
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8837,7 +8957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 1
+  _activeRole: 0
 --- !u!65 &1938622491
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9445,7 +9565,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymLight
-  _profile: 1
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!108 &1997784064
 Light:
   m_ObjectHideFlags: 0
@@ -9761,7 +9884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 1
+  _activeRole: 0
 --- !u!23 &2088487226
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10013,7 +10136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 850c9033e416a3344aa5cf08c85827da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymCollider
-  _profile: 1
 --- !u!65 &2127315834
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10094,7 +10216,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
   humanSpawnPos: {x: -3, y: 5, z: 3}
   catSpawnPos: {x: 3, y: 5, z: -3}
-  elapsedTime: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
