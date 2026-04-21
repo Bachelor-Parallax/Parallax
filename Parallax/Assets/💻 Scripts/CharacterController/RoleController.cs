@@ -95,20 +95,41 @@ public class RoleController : NetworkBehaviour
         GetComponent<Movement>().ApplyRole(r);
     }
     
+    // private void OnRoleSwap(InputAction.CallbackContext ctx)
+    // {
+    //     if (!IsOwner) return;
+    //
+    //     foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+    //     {
+    //         if (client.PlayerObject == NetworkObject) 
+    //             continue;
+    //
+    //         var other = client.PlayerObject.GetComponent<RoleController>();
+    //
+    //         RoleSwapManager.Instance.RequestSwap(this, other);
+    //         break;
+    //     }
+    // }
+    
     private void OnRoleSwap(InputAction.CallbackContext ctx)
     {
         if (!IsOwner) return;
 
+        RoleController other = null;
+
         foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
         {
-            if (client.PlayerObject == NetworkObject) 
+            if (client.PlayerObject == null)
                 continue;
 
-            var other = client.PlayerObject.GetComponent<RoleController>();
+            if (client.PlayerObject == NetworkObject)
+                continue;
 
-            RoleSwapManager.Instance.RequestSwap(this, other);
+            other = client.PlayerObject.GetComponent<RoleController>();
             break;
         }
+
+        RoleSwapManager.Instance.RequestSwap(this, other);
     }
 
     void ApplyRoleSpecificPhysics(CharacterRole r)
