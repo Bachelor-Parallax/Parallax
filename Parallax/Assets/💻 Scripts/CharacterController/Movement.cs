@@ -42,15 +42,13 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
     
-    public bool MovementLocked { get; set; }
+    //public bool MovementLocked { get; set; }
     public float SpeedMultiplier { get; set; } = 1f;
     
     public Vector2 CurrentMoveInput { get; private set; }
 
     private CharacterController controller;
     //private JumpAbility jumpAbility;
-    private BoxInteraction boxInteraction;
-    private PlayerInteraction playerInteraction;
     private Transform cameraTransform;
 
     private float verticalVelocity;
@@ -59,14 +57,12 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     private bool isSprinting;
     private Vector2 lookInput;
     private Vector2 moveInput;
-    private bool isBoxDragMode;
+    public bool IsCarryingObject;
 
     void Awake()
     {
         controller = GetComponent<CharacterController>();
         //jumpAbility = GetComponent<JumpAbility>();
-        boxInteraction = GetComponent<BoxInteraction>();
-        playerInteraction = GetComponent<PlayerInteraction>();
         audioSource = GetComponent<AudioSource>();
     }
     
@@ -134,18 +130,11 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
         HandleSprintInput();
 
-        if (boxInteraction != null && boxInteraction.enabled && boxInteraction.IsDraggingLargeBox)
-        {
-            HandleBoxDragMovement();
-            HandleStepSound();
-            return;
-        }
-
-        if (MovementLocked)
-        {
-            ApplyGravityOnly();
-            return;
-        }
+        // if (MovementLocked)
+        // {
+        //     ApplyGravityOnly();
+        //     return;
+        // }
 
         CurrentMoveInput = moveInput;
 
@@ -325,105 +314,20 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         controller.Move(move * Time.deltaTime);
     }
 
-    private void HandleBoxDragMovement()
-    {
-        if (boxInteraction == null || !boxInteraction.IsDraggingLargeBox)
-        {
-            ApplyGravityOnly();
-            return;
-        }
-
-        BoxInteractable box = boxInteraction.AttachedBox;
-        if (box == null)
-        {
-            ApplyGravityOnly();
-            return;
-        }
-
-        Rigidbody rb = box.GetComponent<Rigidbody>();
-        if (rb == null)
-        {
-            ApplyGravityOnly();
-            return;
-        }
-
-        if (controller.isGrounded && verticalVelocity < 0f)
-            verticalVelocity = -2f;
-
-        verticalVelocity += gravity * Time.deltaTime;
-
-        Vector2 dragInput = boxInteraction.MoveInput;
-        float forwardInput = dragInput.y;
-        float turnInput = dragInput.x;
-
-        if (Mathf.Abs(turnInput) > 0.01f)
-        {
-            float angle = turnInput * dragTurnSpeed * Time.deltaTime;
-            boxInteraction.RotateDragDirection(angle);
-        }
-
-        Vector3 dragDirection = boxInteraction.DragDirection;
-
-        Vector3 moveDir = -dragDirection * forwardInput;
-        rb.linearVelocity = new Vector3(
-            moveDir.x * dragMoveSpeed,
-            rb.linearVelocity.y,
-            moveDir.z * dragMoveSpeed
-        );
-
-        Vector3 targetPlayerPos = box.transform.position + dragDirection * boxInteraction.DragDistance;
-        targetPlayerPos.y = transform.position.y;
-
-        Vector3 snapDelta = targetPlayerPos - transform.position;
-        controller.Move(snapDelta * Mathf.Clamp01(Time.deltaTime * dragSnapSpeed));
-
-        controller.Move(new Vector3(0f, verticalVelocity, 0f) * Time.deltaTime);
-
-        Vector3 lookDir = box.transform.position - transform.position;
-        lookDir.y = 0f;
-
-        if (lookDir.sqrMagnitude > 0.001f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                dragSnapSpeed * Time.deltaTime
-            );
-        }
-    }
-
     public void SetBoxDragMode(bool enabled)
     {
-        isBoxDragMode = enabled;
-        MovementLocked = enabled;
+        IsCarryingObject = enabled;
+        //MovementLocked = enabled;
     }
-
-    // OLD VERSION
+    
     // Vector2 GetMovementInput()
     // {
-    //     if (Keyboard.current == null)
+    //     if (!IsOwner) return Vector2.zero;
+    //     if (moveAction == null)
     //         return Vector2.zero;
     //
-    //     Vector2 input = Vector2.zero;
-    //
-    //     if (Keyboard.current.wKey.isPressed) input.y += 1f;
-    //     if (Keyboard.current.sKey.isPressed) input.y -= 1f;
-    //     if (Keyboard.current.aKey.isPressed) input.x -= 1f;
-    //     if (Keyboard.current.dKey.isPressed) input.x += 1f;
-    //
-    //     input = Vector2.ClampMagnitude(input, 1f);
-    //     return input;
+    //     return Vector2.ClampMagnitude(moveAction.action.ReadValue<Vector2>(), 1f);
     // }
-    
-    Vector2 GetMovementInput()
-    {
-        if (!IsOwner) return Vector2.zero;
-        if (moveAction == null)
-            return Vector2.zero;
-
-        return Vector2.ClampMagnitude(moveAction.action.ReadValue<Vector2>(), 1f);
-    }
     #endregion
 
     public void ResetVerticalVelocity()
@@ -456,11 +360,5 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
                 jumpHeight = 2f;
                 break;
         }
-
-        if (boxInteraction != null)
-            boxInteraction.enabled = role == CharacterRole.Human;
-
-        if (playerInteraction != null)
-            playerInteraction.enabled = role == CharacterRole.Human;
     }
 }
