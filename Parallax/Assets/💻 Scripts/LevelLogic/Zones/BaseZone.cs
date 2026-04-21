@@ -31,7 +31,7 @@ public abstract class BaseZone : NetworkBehaviour
     {
         if (!obj.CompareTag(GameConstants.PLAYER_TAG)) return false;
         Debug.Log(obj.tag);
-        if (TryGetComponent(out NetworkObject netObj))
+        if (obj.TryGetComponent(out NetworkObject netObj))
         {
             Debug.Log("Is owner: " + netObj.IsOwner);
             return netObj.IsOwner;
