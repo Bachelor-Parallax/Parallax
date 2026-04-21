@@ -22,10 +22,9 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
         }
     }
 
-
     public void Interact(GameObject interactor)
     {
-        var interactorRoleController = interactor.GetComponent<RoleController>();
+        var interactorRoleController = interactor.GetComponentInParent<RoleController>();
 
         if (interactorRoleController == null)
         {
@@ -39,22 +38,14 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
             return;
         }
 
-        if (requiredKey == null)
-        {
-            Debug.Log("Button pressed, but requiredKey is NULL");
-            return;
-        }
-
-        Debug.Log($"requiredKey exists, keyCollected = {requiredKey.keyCollected.Value}");
-
-        if (!requiredKey.keyCollected.Value)
+        if (requiredKey != null && !requiredKey.keyCollected.Value)
         {
             Debug.Log("Button pressed, but key not collected!");
             return;
         }
 
+        Debug.Log("Button interaction accepted.");
         PressButtonServerRpc();
-        PlayButtonSound();
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
@@ -62,13 +53,20 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
     {
         foreach (var target in targets)
         {
+            if (target == null) continue;
+
             if (target.TryGetComponent<IActivatable>(out var activatable))
             {
                 activatable.Activate();
                 Debug.Log($"Activated {target.name} from button press.");
             }
+            else
+            {
+                Debug.LogWarning($"{target.name} does not implement IActivatable.");
+            }
         }
 
+        PlayButtonSound();
         Debug.Log("Button pressed!");
     }
 

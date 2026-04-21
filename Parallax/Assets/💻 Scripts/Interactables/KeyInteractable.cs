@@ -13,6 +13,8 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
         NetworkVariableWritePermission.Server
     );
 
+    public bool IsCollected => keyCollected.Value;
+
     private Collider keyCollider;
     private Renderer[] keyRenderers;
 
@@ -21,7 +23,6 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
         keyCollider = GetComponent<Collider>();
         keyRenderers = GetComponentsInChildren<Renderer>(true);
         audioSource = GetComponent<AudioSource>();
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -56,7 +57,6 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
         if (keySound != null && audioSource != null)
         {
             audioSource.pitch = Random.Range(0.9f, 1.1f);
-
             audioSource.PlayOneShot(keySound);
         }
 
