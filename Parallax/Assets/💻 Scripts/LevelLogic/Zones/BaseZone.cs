@@ -30,8 +30,10 @@ public abstract class BaseZone : NetworkBehaviour
     private bool IsValidPlayer(GameObject obj)
     {
         if (!obj.CompareTag(GameConstants.PLAYER_TAG)) return false;
+        Debug.Log(obj.tag);
         if (TryGetComponent(out NetworkObject netObj))
         {
+            Debug.Log("Is owner: " + netObj.IsOwner);
             return netObj.IsOwner;
         }
         return false;
