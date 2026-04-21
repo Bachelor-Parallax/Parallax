@@ -25,9 +25,7 @@ public class SubscriberEXAMPLES : MonoBehaviour
 
         settings.OnMasterVolumeChanged += HandleVolumeChanged;
         settings.OnMuteChanged += HandleMuteChanged;
-        settings.OnMouseSensitivityChanged += HandleSensitivityChanged;
-        //settings.OnResolutionChanged += HandleResolutionChanged;
-        settings.OnHideMouseChanged += HandleHideMouseChanged;
+        settings.OnCamaraSensitivityChanged += HandleSensitivityChanged;
         settings.OnConfineMouseChanged += HandleConfineMouseChanged;
 
         // Initial sync (important)
@@ -45,9 +43,7 @@ public class SubscriberEXAMPLES : MonoBehaviour
 
         settings.OnMasterVolumeChanged -= HandleVolumeChanged;
         settings.OnMuteChanged -= HandleMuteChanged;
-        settings.OnMouseSensitivityChanged -= HandleSensitivityChanged;
-        //settings.OnResolutionChanged -= HandleResolutionChanged;
-        settings.OnHideMouseChanged -= HandleHideMouseChanged;
+        settings.OnCamaraSensitivityChanged -= HandleSensitivityChanged;
         settings.OnConfineMouseChanged -= HandleConfineMouseChanged;
     }
 
