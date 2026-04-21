@@ -6,7 +6,7 @@ using System.Timers;
 public abstract class GroupActivationZone : BaseZone
 {
     [SerializeField] private int _countdownSeconds = 3;
-    private readonly HashSet<ulong> _players = new();
+    private readonly HashSet<ulong> _players = new HashSet<ulong>();
     private Timer _timer;
 
     private void Awake()
@@ -45,7 +45,13 @@ public abstract class GroupActivationZone : BaseZone
 
         // check if countdown may start
         if (!IsServer) return;
+        Debug.Log("1");
+
+        Debug.Log($"Players in zone: {_players.Count} of {GameConstants.MAX_PLAYERS}");
+
         if (_players.Count != GameConstants.MAX_PLAYERS) return;
+        Debug.Log("2");
+
         if (_timer.Enabled) return;
 
         // start the countdown

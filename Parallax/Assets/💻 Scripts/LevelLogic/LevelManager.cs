@@ -3,8 +3,6 @@ using System.Diagnostics;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Debug = UnityEngine.Debug;
-using Scene = UnityEditor.SearchService.Scene;
 
 public class LevelManager : MonoBehaviour
 {
