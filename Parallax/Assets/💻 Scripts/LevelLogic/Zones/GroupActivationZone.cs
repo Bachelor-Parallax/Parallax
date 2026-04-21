@@ -48,6 +48,7 @@ public abstract class GroupActivationZone : BaseZone
         Debug.Log("1");
 
         Debug.Log($"Players in zone: {_players.Count} of {GameConstants.MAX_PLAYERS}");
+        foreach (var client in _players) Debug.Log("Client in zone: " + client);
 
         if (_players.Count != GameConstants.MAX_PLAYERS) return;
         Debug.Log("2");
