@@ -40,8 +40,8 @@ public class RoleController : NetworkBehaviour
         if (IsServer)
         {
             role.Value = (OwnerClientId == NetworkManager.ServerClientId)
-                ? CharacterRole.Cat          
-                : CharacterRole.Human;
+                ? CharacterRole.Human          
+                : CharacterRole.Cat;
         }
 
         StartCoroutine(ApplyRoleNextFrame());

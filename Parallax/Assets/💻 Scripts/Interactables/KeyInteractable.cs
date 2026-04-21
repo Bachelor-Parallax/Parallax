@@ -7,22 +7,22 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
     [SerializeField] private string keyId = "ButtonKey";
     [SerializeField] private AudioClip keySound;
 
-    private AudioSource audioSource;
-    private Rigidbody rb;
+    private AudioSource _audioSource;
+    private Rigidbody _rb;
 
-    private Transform holder;
-    private Transform holdPoint;
+    private Transform _holder;
+    private Transform _holdPoint;
     
-    private Collider keyCollider;
-    private Collider[] playerColliders;
+    private Collider _keyCollider;
+    private Collider[] _playerColliders;
 
-    private bool isHeld;
+    private bool _isHeld;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
-        audioSource = GetComponent<AudioSource>();
-        keyCollider = GetComponent<Collider>();
+        _rb = GetComponent<Rigidbody>();
+        _audioSource = GetComponent<AudioSource>();
+        _keyCollider = GetComponent<Collider>();
     }
 
     public bool CanInteract(GameObject interactor)
@@ -54,7 +54,7 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
 
         if (role.IsCat)
         {
-            if (isHeld)
+            if (_isHeld)
                 Drop();
             else
                 Pickup(playerObj.gameObject);
@@ -71,45 +71,45 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
         MouthCarryPoint carry = player.GetComponentInChildren<MouthCarryPoint>();
         if (carry == null) return;
 
-        holdPoint = carry.MouthPoint;
-        isHeld = true;
+        _holdPoint = carry.MouthPoint;
+        _isHeld = true;
 
-        rb.useGravity = false;
-        rb.isKinematic = true;
+        _rb.useGravity = false;
+        _rb.isKinematic = true;
 
-        playerColliders = player.GetComponentsInChildren<Collider>();
+        _playerColliders = player.GetComponentsInChildren<Collider>();
 
-        foreach (Collider col in playerColliders)
-            Physics.IgnoreCollision(keyCollider, col, true);
+        foreach (Collider col in _playerColliders)
+            Physics.IgnoreCollision(_keyCollider, col, true);
 
-        if (keySound && audioSource)
-            audioSource.PlayOneShot(keySound);
+        if (keySound && _audioSource)
+            _audioSource.PlayOneShot(keySound);
     }
 
     private void Drop()
     {
-        isHeld = false;
+        _isHeld = false;
 
-        if (playerColliders != null)
+        if (_playerColliders != null)
         {
-            foreach (Collider col in playerColliders)
-                Physics.IgnoreCollision(keyCollider, col, false);
+            foreach (Collider col in _playerColliders)
+                Physics.IgnoreCollision(_keyCollider, col, false);
         }
         
-        holdPoint = null;
+        _holdPoint = null;
 
-        rb.useGravity = true;
-        rb.isKinematic = false;
+        _rb.useGravity = true;
+        _rb.isKinematic = false;
     }
     #endregion
     
     #region Human Interaction
     private void CollectKey(ulong senderClientId)
     {
-        if (keySound != null && audioSource != null)
+        if (keySound != null && _audioSource != null)
         {
-            audioSource.pitch = Random.Range(0.9f, 1.1f);
-            audioSource.PlayOneShot(keySound);
+            _audioSource.pitch = Random.Range(0.9f, 1.1f);
+            _audioSource.PlayOneShot(keySound);
         }
 
         Debug.Log($"Picked up key: {keyId} by client {senderClientId}");
@@ -120,14 +120,14 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
 
     private void LateUpdate()
     {
-        if (!isHeld || holdPoint == null) return;
+        if (!_isHeld || _holdPoint == null) return;
 
-        transform.position = holdPoint.position;
-        transform.rotation = holdPoint.rotation;
+        transform.position = _holdPoint.position;
+        transform.rotation = _holdPoint.rotation;
     }
 
     public string GetInteractText()
     {
-        return isHeld ? "Drop key" : "Pick up key";
+        return _isHeld ? "Drop key" : "Pick up key";
     }
 }

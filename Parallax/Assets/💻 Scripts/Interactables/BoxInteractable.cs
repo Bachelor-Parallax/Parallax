@@ -11,33 +11,40 @@ public class BoxInteractable : MonoBehaviour, IInteractable
 
     [Header("Box Type")]
     [SerializeField] private BoxSize boxSize = BoxSize.Small;
-
+    
     [Header("Carry Settings")]
     [SerializeField] private Vector3 holdOffset = new Vector3(0f, 1.2f, 0.8f);
     [SerializeField] private float carryMoveSpeed = 12f;
 
     [Header("Drag Settings")]
     [SerializeField] private float dragDistance = 1.2f;
+    [SerializeField] private float dragMoveSpeed = 4f;
+    [SerializeField] private float dragTurnSpeed = 120f;
+    [SerializeField] private float dragSnapSpeed = 10f;
+    
+    private Rigidbody _rb;
 
-    private Rigidbody rb;
+    private Transform _holder;
+    private static bool _isHeld;
+    private static bool _isDragging;
 
-    private Transform holder;
-    private bool isHeld;
-    private bool isDragging;
+    private Vector3 _dragDirection;
 
-    private Vector3 dragDirection;
-
-    private Movement holderMovement;
+    private Movement _holderMovement;
+    
+    private Collider _boxCollider;
+    private Collider[] _playerColliders;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
+        _boxCollider = GetComponent<Collider>();
 
         if (boxSize == BoxSize.Large)
         {
-            rb.constraints |= RigidbodyConstraints.FreezeRotationX;
-            rb.constraints |= RigidbodyConstraints.FreezeRotationZ;
-            rb.linearDamping = 4f;
+            _rb.constraints |= RigidbodyConstraints.FreezeRotationX;
+            _rb.constraints |= RigidbodyConstraints.FreezeRotationZ;
+            _rb.linearDamping = 4f;
         }
     }
 
@@ -49,25 +56,31 @@ public class BoxInteractable : MonoBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
-        if (isHeld)
+        // if (_isDragging && interactor.transform == _holder)
+        // {
+        //     Detach();
+        //     return;
+        // }
+        
+        if (_isHeld)
         {
             Drop();
             return;
         }
 
-        if (isDragging)
+        if (_isDragging)
         {
             Detach();
             return;
         }
 
-        if (boxSize == BoxSize.Small)
+        if (boxSize == BoxSize.Small && !_isHeld && !_isDragging)
         {
             Pickup(interactor);
             return;
         }
 
-        if (boxSize == BoxSize.Large)
+        if (boxSize == BoxSize.Large && !_isDragging && !_isHeld)
         {
             Attach(interactor);
         }
@@ -75,103 +88,174 @@ public class BoxInteractable : MonoBehaviour, IInteractable
 
     void Pickup(GameObject player)
     {
-        holder = player.transform;
-        holderMovement = player.GetComponent<Movement>();
+        _holder = player.transform;
+        _holderMovement = player.GetComponent<Movement>();
 
-        isHeld = true;
+        _isHeld = true;
+        
+        _playerColliders = player.GetComponentsInChildren<Collider>();
 
-        rb.isKinematic = true;
-        rb.useGravity = false;
+        foreach (Collider col in _playerColliders)
+            Physics.IgnoreCollision(_boxCollider, col, true);
+
+        _rb.isKinematic = true;
+        _rb.useGravity = false;
     }
 
     void Drop()
     {
-        isHeld = false;
+        _isHeld = false;
 
-        holder = null;
+        if (_playerColliders != null)
+        {
+            foreach (Collider col in _playerColliders)
+                Physics.IgnoreCollision(_boxCollider, col, false);
+        }
+        
+        _holder = null;
 
-        rb.isKinematic = false;
-        rb.useGravity = true;
+        _rb.isKinematic = false;
+        _rb.useGravity = true;
     }
 
     void Attach(GameObject player)
     {
-        holder = player.transform;
-        holderMovement = player.GetComponent<Movement>();
+        _holder = player.transform;
+        _holderMovement = player.GetComponent<Movement>();
 
-        isDragging = true;
+        _isDragging = true;
+        
+        _playerColliders = player.GetComponentsInChildren<Collider>();
 
-        dragDirection = holder.position - transform.position;
-        dragDirection.y = 0;
+        foreach (Collider col in _playerColliders)
+            Physics.IgnoreCollision(_boxCollider, col, true);
 
-        if (dragDirection.sqrMagnitude < 0.01f)
-            dragDirection = -holder.forward;
+        _dragDirection = _holder.position - transform.position;
+        _dragDirection.y = 0f;
+
+        if (_dragDirection.sqrMagnitude < 0.01f)
+            _dragDirection = -_holder.forward;
         else
-            dragDirection.Normalize();
+            _dragDirection.Normalize();
 
-        if (holderMovement != null)
-            holderMovement.SetBoxDragMode(true);
+        if (_holderMovement != null)
+            _holderMovement.SetBoxDragMode(true);
     }
 
     void Detach()
     {
-        isDragging = false;
+        _isDragging = false;
+        
+        if (_playerColliders != null)
+        {
+            foreach (Collider col in _playerColliders)
+                Physics.IgnoreCollision(_boxCollider, col, false);
+        }
 
-        if (holderMovement != null)
-            holderMovement.SetBoxDragMode(false);
+        if (_holderMovement != null)
+            _holderMovement.SetBoxDragMode(false);
 
-        holder = null;
+        _rb.linearVelocity = Vector3.zero;
+        
+        _holder = null;
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
-        if (isHeld && holder != null)
+        if (_holder == null) return;
+
+        if (_isHeld)
         {
-            Vector3 targetPos =
-                holder.position +
-                holder.forward * holdOffset.z +
-                Vector3.up * holdOffset.y +
-                holder.right * holdOffset.x;
+            HandleCarry();
+        }
 
-            transform.position = Vector3.Lerp(
-                transform.position,
-                targetPos,
-                Time.deltaTime * carryMoveSpeed
-            );
-
-            transform.rotation = Quaternion.Lerp(
-                transform.rotation,
-                Quaternion.identity,
-                Time.deltaTime * carryMoveSpeed
-            );
+        if (_isDragging)
+        {
+            HandleDragging();
         }
     }
 
     void FixedUpdate()
     {
-        if (!isDragging || holder == null || holderMovement == null)
+        if (!_isDragging || _holder == null || _holderMovement == null)
             return;
 
-        Vector2 moveInput = holderMovement.CurrentMoveInput;
+        Vector2 input = _holderMovement.CurrentMoveInput;
 
-        Vector3 move =
-            holder.forward * moveInput.y +
-            holder.right * moveInput.x;
+        float forwardInput = input.y;
+        float turnInput = input.x;
 
-        Vector3 targetPos =
-            holder.position - dragDirection * dragDistance;
+        // Rotate drag direction
+        if (Mathf.Abs(turnInput) > 0.01f)
+        {
+            float angle = turnInput * dragTurnSpeed * Time.fixedDeltaTime;
+            _dragDirection = Quaternion.Euler(0f, angle, 0f) * _dragDirection;
+            _dragDirection.Normalize();
+        }
 
-        Vector3 newPos = targetPos + move * Time.fixedDeltaTime * 4f;
+        // Move box relative to drag direction
+        Vector3 move = -_dragDirection * (forwardInput * dragMoveSpeed * Time.fixedDeltaTime);
 
-        rb.MovePosition(new Vector3(newPos.x, rb.position.y, newPos.z));
+        Vector3 targetPos = _rb.position + move;
+
+        _rb.MovePosition(new Vector3(targetPos.x, _rb.position.y, targetPos.z));
+    }
+    
+    void HandleCarry()
+    {
+        // THIS ALSO WORKS
+        // Vector3 targetPos =
+        //     _holder.position +
+        //     _holder.forward * holdOffset.z +
+        //     Vector3.up * holdOffset.y +
+        //     _holder.right * holdOffset.x;
+        //
+        // transform.SetPositionAndRotation(
+        //     Vector3.Lerp(transform.position, targetPos, Time.deltaTime * carryMoveSpeed),
+        //     Quaternion.Lerp(transform.rotation, _holder.rotation, Time.deltaTime * carryMoveSpeed)
+        // );
+
+        // THIS WORKS
+        float step = carryMoveSpeed * Time.deltaTime;
+        Transform holdPoint = _holder.GetComponentInChildren<MouthCarryPoint>().transform;
+        transform.position = Vector3.MoveTowards(transform.position, holdPoint.position + holdOffset, step);
+    }
+    
+    void HandleDragging()
+    {
+        CharacterController controller = _holder.GetComponent<CharacterController>();
+
+        if (controller != null)
+        {
+            Vector3 targetPlayerPos = transform.position + _dragDirection * dragDistance;
+            targetPlayerPos.y = _holder.position.y;
+
+            Vector3 snapDelta = targetPlayerPos - _holder.position;
+
+            controller.Move(snapDelta * Mathf.Clamp01(Time.deltaTime * dragSnapSpeed));
+        }
+
+        Vector3 lookDir = transform.position - _holder.position;
+        lookDir.y = 0f;
+
+        if (lookDir.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(lookDir);
+
+            _holder.rotation = Quaternion.Slerp(
+                _holder.rotation,
+                targetRot,
+                dragSnapSpeed * Time.deltaTime
+            );
+        }
     }
 
     public string GetInteractText()
     {
-        if (isHeld)
+        if (_isHeld)
             return "Drop box";
 
-        if (isDragging)
+        if (_isDragging)
             return "Release box";
 
         if (boxSize == BoxSize.Small)
