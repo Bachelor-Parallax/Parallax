@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum CharacterRole
 {
@@ -10,6 +11,8 @@ public enum CharacterRole
 
 public class RoleController : NetworkBehaviour
 {
+    [SerializeField] private InputActionReference roleSwapAction;
+    
     public GameObject human;
     public GameObject cat;
     
@@ -35,7 +38,13 @@ public class RoleController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        if (!IsOwner) return;
+        
+        roleSwapAction.action.Enable();
+        
         role.OnValueChanged += OnRoleChanged;
+
+        roleSwapAction.action.performed += OnRoleSwap;
 
         if (IsServer)
         {
@@ -46,7 +55,16 @@ public class RoleController : NetworkBehaviour
 
         StartCoroutine(ApplyRoleNextFrame());
     }
-    
+
+    public override void OnNetworkDespawn()
+    {
+        if (!IsOwner) return;
+        
+        base.OnNetworkDespawn();
+        
+        roleSwapAction.action.performed -= OnRoleSwap;
+    }
+
     IEnumerator ApplyRoleNextFrame()
     {
         yield return null;
@@ -72,23 +90,22 @@ public class RoleController : NetworkBehaviour
         
         ApplyRoleSpecificPhysics(r);
         GetComponent<Movement>().ApplyRole(r);
-
-        // var asymObjects = FindObjectsOfType<AsymVisibility>(true);
-        // foreach (var asym in asymObjects)
-        // {
-        //     asym.ApplyRole(r);
-        // }
     }
     
-    [ServerRpc]
-    public void ToggleRoleServerRpc(ServerRpcParams rpcParams = default)
+    private void OnRoleSwap(InputAction.CallbackContext ctx)
     {
-        if (rpcParams.Receive.SenderClientId != OwnerClientId)
-            return;
+        if (!IsOwner) return;
 
-        role.Value = role.Value == CharacterRole.Cat
-            ? CharacterRole.Human
-            : CharacterRole.Cat;
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.PlayerObject == NetworkObject) 
+                continue;
+
+            var other = client.PlayerObject.GetComponent<RoleController>();
+
+            RoleSwapManager.Instance.RequestSwap(this, other);
+            break;
+        }
     }
 
     void ApplyRoleSpecificPhysics(CharacterRole r)

@@ -42,13 +42,11 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
     
-    //public bool MovementLocked { get; set; }
     public float SpeedMultiplier { get; set; } = 1f;
     
     public Vector2 CurrentMoveInput { get; private set; }
 
     private CharacterController controller;
-    //private JumpAbility jumpAbility;
     private Transform cameraTransform;
 
     private float verticalVelocity;
@@ -62,7 +60,6 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     void Awake()
     {
         controller = GetComponent<CharacterController>();
-        //jumpAbility = GetComponent<JumpAbility>();
         audioSource = GetComponent<AudioSource>();
     }
     
@@ -71,7 +68,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     {
         if (!IsOwner) return;
 
-        //CursorManager.Lock();
+        CursorManager.Lock();
         TryAssignCamera();
         freeLookYaw = transform.eulerAngles.y;
 
@@ -129,12 +126,6 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
             TryAssignCamera();
 
         HandleSprintInput();
-
-        // if (MovementLocked)
-        // {
-        //     ApplyGravityOnly();
-        //     return;
-        // }
 
         CurrentMoveInput = moveInput;
 
@@ -317,17 +308,8 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     public void SetBoxDragMode(bool enabled)
     {
         IsCarryingObject = enabled;
-        //MovementLocked = enabled;
     }
     
-    // Vector2 GetMovementInput()
-    // {
-    //     if (!IsOwner) return Vector2.zero;
-    //     if (moveAction == null)
-    //         return Vector2.zero;
-    //
-    //     return Vector2.ClampMagnitude(moveAction.action.ReadValue<Vector2>(), 1f);
-    // }
     #endregion
 
     public void ResetVerticalVelocity()

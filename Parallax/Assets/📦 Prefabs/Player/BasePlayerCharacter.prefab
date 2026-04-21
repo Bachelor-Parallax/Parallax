@@ -391,7 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 4266244043
+  GlobalObjectIdHash: 3376695764
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -417,6 +417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoleController
   ShowTopMostFoldoutHeaderGroup: 1
+  roleSwapAction: {fileID: 7040659881675835329, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
   human: {fileID: 2500267993102622717}
   cat: {fileID: 1552940916805661148}
   role:
