@@ -38,6 +38,8 @@ public class RoleController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        if (!IsOwner) return;
+        
         roleSwapAction.action.Enable();
         
         role.OnValueChanged += OnRoleChanged;
@@ -56,6 +58,8 @@ public class RoleController : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
+        if (!IsOwner) return;
+        
         base.OnNetworkDespawn();
         
         roleSwapAction.action.performed -= OnRoleSwap;
