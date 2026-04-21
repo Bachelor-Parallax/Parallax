@@ -133,6 +133,9 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
             TryAssignCamera();
 
         HandleSprintInput();
+        
+        if (boxInteraction != null)
+            boxInteraction.SetMoveInput(moveInput);
 
         if (boxInteraction != null && boxInteraction.enabled && boxInteraction.IsDraggingLargeBox)
         {

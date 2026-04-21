@@ -11,7 +11,7 @@ public class BoxInteraction : MonoBehaviour, IInteractor
     [SerializeField] private float moveToHoldSpeed = 12f;
 
     [Header("Drag")]
-    [SerializeField] private float dragDistance = 1.2f;
+    [SerializeField] private float dragDistance = 2f;
 
     private BoxInteractable nearbyBox;
     private BoxInteractable heldBox;
