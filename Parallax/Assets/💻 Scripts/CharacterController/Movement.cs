@@ -126,9 +126,6 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
             TryAssignCamera();
 
         HandleSprintInput();
-        
-        if (boxInteraction != null)
-            boxInteraction.SetMoveInput(moveInput);
 
         CurrentMoveInput = moveInput;
 

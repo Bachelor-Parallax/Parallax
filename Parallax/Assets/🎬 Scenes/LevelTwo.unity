@@ -25,8 +25,8 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 3
-  m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SubtractiveShadowColor: {r: 0.41960785, g: 0.47843137, b: 0.627451, a: 1}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 283ea857f86a30e4fb9547c6b639686a, type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -1863,8 +1863,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoxInteractable
   boxSize: 0
-  carryPointOverride: {fileID: 0}
   holdOffset: {x: 0, y: 1.2, z: 0.8}
+  carryMoveSpeed: 12
+  dragDistance: 1.2
+  dragMoveSpeed: 4
+  dragTurnSpeed: 120
+  dragSnapSpeed: 10
 --- !u!54 &177398832
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2146,8 +2150,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoxInteractable
   boxSize: 0
-  carryPointOverride: {fileID: 0}
   holdOffset: {x: 0, y: 1.2, z: 0.8}
+  carryMoveSpeed: 12
+  dragDistance: 1.2
+  dragMoveSpeed: 4
+  dragTurnSpeed: 120
+  dragSnapSpeed: 10
 --- !u!54 &202589745
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6612,8 +6620,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoxInteractable
   boxSize: 0
-  carryPointOverride: {fileID: 0}
   holdOffset: {x: 0, y: 1.2, z: 0.8}
+  carryMoveSpeed: 12
+  dragDistance: 1.2
+  dragMoveSpeed: 4
+  dragTurnSpeed: 120
+  dragSnapSpeed: 10
 --- !u!54 &569112445
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6690,8 +6702,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoxInteractable
   boxSize: 1
-  carryPointOverride: {fileID: 0}
   holdOffset: {x: 0, y: 1.2, z: 0.8}
+  carryMoveSpeed: 12
+  dragDistance: 1.2
+  dragMoveSpeed: 4
+  dragTurnSpeed: 120
+  dragSnapSpeed: 10
 --- !u!54 &577019002
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7333,8 +7349,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoxInteractable
   boxSize: 1
-  carryPointOverride: {fileID: 0}
   holdOffset: {x: 0, y: 1.2, z: 0.8}
+  carryMoveSpeed: 12
+  dragDistance: 1.2
+  dragMoveSpeed: 4
+  dragTurnSpeed: 120
+  dragSnapSpeed: 10
 --- !u!54 &595776139
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8384,8 +8404,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoxInteractable
   boxSize: 0
-  carryPointOverride: {fileID: 0}
   holdOffset: {x: 0, y: 1.2, z: 0.8}
+  carryMoveSpeed: 12
+  dragDistance: 1.2
+  dragMoveSpeed: 4
+  dragTurnSpeed: 120
+  dragSnapSpeed: 10
 --- !u!54 &712105855
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10375,8 +10399,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoxInteractable
   boxSize: 0
-  carryPointOverride: {fileID: 0}
   holdOffset: {x: 0, y: 1.2, z: 0.8}
+  carryMoveSpeed: 12
+  dragDistance: 1.2
+  dragMoveSpeed: 4
+  dragTurnSpeed: 120
+  dragSnapSpeed: 10
 --- !u!54 &929025455
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10891,8 +10919,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoxInteractable
   boxSize: 0
-  carryPointOverride: {fileID: 0}
   holdOffset: {x: 0, y: 1.2, z: 0.8}
+  carryMoveSpeed: 12
+  dragDistance: 1.2
+  dragMoveSpeed: 4
+  dragTurnSpeed: 120
+  dragSnapSpeed: 10
 --- !u!54 &967885753
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -12772,6 +12804,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 458460, guid: b39d34f9ee12e3d4f8a61720146b7939, type: 3}
   m_PrefabInstance: {fileID: 1224483472}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1232511939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1232511940}
+  m_Layer: 0
+  m_Name: HumanCatPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1232511940
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232511939}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 505, y: 2, z: 501}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1354735302}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1234830667
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13634,6 +13697,39 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 458460, guid: b39d34f9ee12e3d4f8a61720146b7939, type: 3}
   m_PrefabInstance: {fileID: 1334826161}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1354735301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1354735302}
+  m_Layer: 0
+  m_Name: SpawnPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1354735302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354735301}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -500, y: 0, z: -500}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1682717980}
+  - {fileID: 1232511940}
+  m_Father: {fileID: 1677670449}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1361745355
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17327,7 +17423,7 @@ Camera:
   m_GameObject: {fileID: 1674882697}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -17622,6 +17718,7 @@ Transform:
   - {fileID: 1607025306}
   - {fileID: 1828155289}
   - {fileID: 1575728868}
+  - {fileID: 1354735302}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1678588621
@@ -17673,8 +17770,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoxInteractable
   boxSize: 1
-  carryPointOverride: {fileID: 0}
   holdOffset: {x: 0, y: 1.2, z: 0.8}
+  carryMoveSpeed: 12
+  dragDistance: 1.2
+  dragMoveSpeed: 4
+  dragTurnSpeed: 120
+  dragSnapSpeed: 10
 --- !u!54 &1678588624
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18090,6 +18191,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1682717979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1682717980}
+  m_Layer: 0
+  m_Name: CatSpawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1682717980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682717979}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 503, y: 2, z: 502}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1354735302}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1684086436
 GameObject:
@@ -21276,8 +21408,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoxInteractable
   boxSize: 1
-  carryPointOverride: {fileID: 0}
   holdOffset: {x: 0, y: 1.2, z: 0.8}
+  carryMoveSpeed: 12
+  dragDistance: 1.2
+  dragMoveSpeed: 4
+  dragTurnSpeed: 120
+  dragSnapSpeed: 10
 --- !u!54 &2005650781
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -22286,8 +22422,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 297dfd64825e3eb438fab796962c0284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  humanSpawnPos: {x: 500, y: 10, z: 500}
-  catSpawnPos: {x: 3, y: 5, z: -3}
+  levelData: {fileID: 11400000, guid: 025b41ca0ed3492469fcb5ec7c0565bd, type: 2}
+  devTime: 0
+  humanSpawnPos: {fileID: 1232511939}
+  catSpawnPos: {fileID: 1682717979}
 --- !u!1001 &2137639381
 PrefabInstance:
   m_ObjectHideFlags: 0
