@@ -1,86 +1,133 @@
-using Unity.Netcode;
 using UnityEngine;
+using Unity.Netcode;
 
+[RequireComponent(typeof(Rigidbody))]
 public class KeyInteractable : NetworkBehaviour, IInteractable
 {
     [SerializeField] private string keyId = "ButtonKey";
     [SerializeField] private AudioClip keySound;
-    private AudioSource audioSource;
 
-    public NetworkVariable<bool> keyCollected = new NetworkVariable<bool>(
-        false,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Server
-    );
+    private AudioSource _audioSource;
+    private Rigidbody _rb;
 
-    public bool IsCollected => keyCollected.Value;
+    private Transform _holder;
+    private Transform _holdPoint;
+    
+    private Collider _keyCollider;
+    private Collider[] _playerColliders;
 
-    private Collider keyCollider;
-    private Renderer[] keyRenderers;
+    private bool _isHeld;
 
     private void Awake()
     {
-        keyCollider = GetComponent<Collider>();
-        keyRenderers = GetComponentsInChildren<Renderer>(true);
-        audioSource = GetComponent<AudioSource>();
+        _rb = GetComponent<Rigidbody>();
+        _audioSource = GetComponent<AudioSource>();
+        _keyCollider = GetComponent<Collider>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    public bool CanInteract(GameObject interactor)
     {
-        if (!IsSpawned) return;
-        if (keyCollected.Value) return;
-
-        NetworkObject playerNetObj = other.GetComponentInParent<NetworkObject>();
-        if (playerNetObj == null) return;
-
-        if (!other.GetComponentInParent<PlayerInteraction>()) return;
-
-        CollectKeyServerRpc(playerNetObj.OwnerClientId);
+        return true;
     }
 
     public void Interact(GameObject interactor)
     {
+        Debug.Log("Key Interact called, IsSpawned: " + IsSpawned);
         if (!IsSpawned) return;
-        if (keyCollected.Value) return;
 
-        NetworkObject interactorNetObj = interactor.GetComponent<NetworkObject>();
-        if (interactorNetObj == null) return;
+        NetworkObject playerNetObj = interactor.GetComponent<NetworkObject>();
+        if (playerNetObj == null) return;
 
-        CollectKeyServerRpc(interactorNetObj.OwnerClientId);
+        InteractServerRpc(playerNetObj.OwnerClientId);
+    }
+    
+    [Rpc(SendTo.Server)]
+    private void InteractServerRpc(ulong clientId)
+    {
+        NetworkObject playerObj =
+            NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(clientId);
+
+        if (playerObj == null) return;
+
+        RoleController role = playerObj.GetComponent<RoleController>();
+        if (role == null) return;
+
+        if (role.IsCat)
+        {
+            if (_isHeld)
+                Drop();
+            else
+                Pickup(playerObj.gameObject);
+        }
+        else if (role.IsHuman)
+        {
+            CollectKey(clientId);
+        }
     }
 
-    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    private void CollectKeyServerRpc(ulong senderClientId)
+    #region Cat Interaction
+    private void Pickup(GameObject player)
     {
-        if (keyCollected.Value) return;
+        MouthCarryPoint carry = player.GetComponentInChildren<MouthCarryPoint>();
+        if (carry == null) return;
 
-        if (keySound != null && audioSource != null)
+        _holdPoint = carry.MouthPoint;
+        _isHeld = true;
+
+        _rb.useGravity = false;
+        _rb.isKinematic = true;
+
+        _playerColliders = player.GetComponentsInChildren<Collider>();
+
+        foreach (Collider col in _playerColliders)
+            Physics.IgnoreCollision(_keyCollider, col, true);
+
+        if (keySound && _audioSource)
+            _audioSource.PlayOneShot(keySound);
+    }
+
+    private void Drop()
+    {
+        _isHeld = false;
+
+        if (_playerColliders != null)
         {
-            audioSource.pitch = Random.Range(0.9f, 1.1f);
-            audioSource.PlayOneShot(keySound);
+            foreach (Collider col in _playerColliders)
+                Physics.IgnoreCollision(_keyCollider, col, false);
+        }
+        
+        _holdPoint = null;
+
+        _rb.useGravity = true;
+        _rb.isKinematic = false;
+    }
+    #endregion
+    
+    #region Human Interaction
+    private void CollectKey(ulong senderClientId)
+    {
+        if (keySound != null && _audioSource != null)
+        {
+            _audioSource.pitch = Random.Range(0.9f, 1.1f);
+            _audioSource.PlayOneShot(keySound);
         }
 
-        keyCollected.Value = true;
         Debug.Log($"Picked up key: {keyId} by client {senderClientId}");
 
-        HideKeyClientRpc();
-        NetworkObject.Despawn(false);
+        NetworkObject.Despawn(true);
     }
+    #endregion
 
-    [Rpc(SendTo.ClientsAndHost)]
-    private void HideKeyClientRpc()
+    private void LateUpdate()
     {
-        if (keyCollider != null)
-            keyCollider.enabled = false;
+        if (!_isHeld || _holdPoint == null) return;
 
-        foreach (Renderer r in keyRenderers)
-        {
-            r.enabled = false;
-        }
+        transform.position = _holdPoint.position;
+        transform.rotation = _holdPoint.rotation;
     }
 
     public string GetInteractText()
     {
-        return "Pick up key";
+        return _isHeld ? "Drop key" : "Pick up key";
     }
 }

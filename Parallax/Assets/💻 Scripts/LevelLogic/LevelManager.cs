@@ -7,24 +7,17 @@ public class LevelManager : MonoBehaviour
 {
     #region Inspector Values
 
-    [Header("Spawn Positions")]
-    [SerializeField] private Vector3 humanSpawnPos;
+    [Header("Level Data")]
+    [SerializeField] private LevelData levelData;
 
-    [SerializeField] private Vector3 catSpawnPos;
+    [SerializeField] private float devTime;
+
+    [Header("Spawn Positions")]
+    [SerializeField] private GameObject humanSpawnPos;
+
+    [SerializeField] private GameObject catSpawnPos;
 
     #endregion Inspector Values
-
-    public TimeSpan ElapsedTime
-    {
-        get
-        {
-            if (_stopWatch is { IsRunning: true })
-            {
-                return _stopWatch.Elapsed;
-            }
-            return TimeSpan.Zero;
-        }
-    }
 
     private Stopwatch _stopWatch;
     private GameObject _human, _cat;
@@ -32,8 +25,14 @@ public class LevelManager : MonoBehaviour
     private PerspectiveManager _perspectiveManager;
     private NetworkManager _networkManager;
 
+    public static LevelManager Instance => _instance;
+    private static LevelManager _instance;
+
     private void Awake()
     {
+        if (_instance != null && _instance != this) Destroy(gameObject);
+        else _instance = this;
+
         _networkManager = FindFirstObjectByType<NetworkManager>();
         if (_networkManager == null)
         {
@@ -61,11 +60,46 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Reloads the current scene, causing a complete reset of the level.
+    /// Player's will be repositioned as the level manager re-runs the setup in start
+    /// </summary>
+    public void RestartLevel()
+    {
+        SceneLoader.Instance.ReloadCurrentScene();
+    }
+
+    /// <summary>
+    /// Saves level data and loads the lobby
+    /// </summary>
+    [ClientRpc]
+    public void CompleteLevel()
+    {
+        _stopWatch.Stop();
+        ProgressManager.RegisterLevelCompletion(
+            levelData.levelName,
+            DetermineLocalRole(),
+            (float)_stopWatch.Elapsed.TotalSeconds,
+            devTime
+        );
+
+        // TODO: Move this to GUI, open said GUI here
+        ExitLevel();
+    }
+
+    /// <summary>
+    /// Exits the level by loading the lobby scene
+    /// </summary>
+    public void ExitLevel()
+    {
+        SceneLoader.Instance.LoadGameScene(GameConstants.LOBBY_SCENE_NAME);
+    }
+
+    /// <summary>
     /// Find out which role this game instance is controlling
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="System.InvalidOperationException"></exception>
-    public CharacterRole DetermineLocalRole()
+    /// <exception cref="InvalidOperationException"></exception>
+    private CharacterRole DetermineLocalRole()
     {
         var localClient = _networkManager.LocalClient;
         if (localClient?.PlayerObject == null)
@@ -111,7 +145,7 @@ public class LevelManager : MonoBehaviour
                 movement.ResetVerticalVelocity();
             }
         }
-        if (_human != null) SetPlayerPosition(_human, humanSpawnPos);
-        if (_cat != null) SetPlayerPosition(_cat, catSpawnPos);
+        if (_human != null) SetPlayerPosition(_human, humanSpawnPos.transform.position);
+        if (_cat != null) SetPlayerPosition(_cat, catSpawnPos.transform.position);
     }
 }

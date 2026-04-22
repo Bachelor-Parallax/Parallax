@@ -190,7 +190,7 @@ Transform:
   m_GameObject: {fileID: 815516160374600768}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 1.777}
+  m_LocalPosition: {x: 0, y: 0.5, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -344,14 +344,13 @@ GameObject:
   - component: {fileID: 2648225779118268963}
   - component: {fileID: 2423939394946620833}
   - component: {fileID: 8012190189554183622}
-  - component: {fileID: -556552906016252084}
-  - component: {fileID: 3492118900568071967}
   - component: {fileID: 1850633733994081567}
   - component: {fileID: -6443368751576764120}
   - component: {fileID: 1375351597955060567}
   - component: {fileID: 4655985699247998559}
   - component: {fileID: 1793408151023292504}
   - component: {fileID: 7017215318817912122}
+  - component: {fileID: 8686572077377635341}
   m_Layer: 0
   m_Name: BasePlayerCharacter
   m_TagString: Player
@@ -418,6 +417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoleController
   ShowTopMostFoldoutHeaderGroup: 1
+  roleSwapAction: {fileID: 7040659881675835329, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
   human: {fileID: 2500267993102622717}
   cat: {fileID: 1552940916805661148}
   role:
@@ -553,46 +553,7 @@ MonoBehaviour:
   moveAction: {fileID: -1680190386980627800, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
   sprintAction: {fileID: -7471211009204490832, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
   cameraRotateAction: {fileID: -5630151704836100654, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
---- !u!114 &-556552906016252084
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5194365735509367560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0179466b413db349a7bdcdf889f8bdf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BoxInteraction
-  interactRange: 2
-  boxLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  holdPoint: {fileID: 8012080598372070786}
-  moveToHoldSpeed: 12
-  dragDistance: 2
---- !u!114 &3492118900568071967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5194365735509367560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b609857b474a72947a956267fd633588, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
-  ShowTopMostFoldoutHeaderGroup: 1
-  interactOrigin: {fileID: 6422815343332510274}
-  interactDistance: 4
-  interactRadius: 2
-  interactLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  promptUI: {fileID: 0}
-  interactAction: {fileID: 1781555164194001046, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
+  IsCarryingObject: 0
 --- !u!114 &1850633733994081567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -809,6 +770,26 @@ MonoBehaviour:
   fadeDistance: 1.5
   minAlpha: 0.2
   fadeSpeed: 8
+--- !u!114 &8686572077377635341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5194365735509367560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5c5e9ddb1399949a593888c4a86d38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Interactor
+  ShowTopMostFoldoutHeaderGroup: 1
+  interactOrigin: {fileID: 6422815343332510274}
+  interactDistance: 4
+  interactRadius: 2
+  interactLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  interactAction: {fileID: 1781555164194001046, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
 --- !u!1 &8223599332400213611
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,13 +896,39 @@ PrefabInstance:
     - {fileID: 6113790190893564714, guid: 01bea78bb637f89459be046d05997378, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9135328462076866331, guid: 01bea78bb637f89459be046d05997378, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3732897608257608535}
   m_SourcePrefab: {fileID: 100100000, guid: 01bea78bb637f89459be046d05997378, type: 3}
 --- !u!1 &2500267993102622717 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8677070909867392000, guid: 01bea78bb637f89459be046d05997378, type: 3}
   m_PrefabInstance: {fileID: 6546433385855476733}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2586635882230781245 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8735868215643174592, guid: 01bea78bb637f89459be046d05997378, type: 3}
+  m_PrefabInstance: {fileID: 6546433385855476733}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2602709701530946790 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9135328462076866331, guid: 01bea78bb637f89459be046d05997378, type: 3}
+  m_PrefabInstance: {fileID: 6546433385855476733}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3732897608257608535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2602709701530946790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0243e808bdb4fc04e90e2a89cecf81bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MouthCarryPoint
+  mouthPoint: {fileID: 2586635882230781245}
 --- !u!4 &2720808404837892335 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9159154712173273874, guid: 01bea78bb637f89459be046d05997378, type: 3}

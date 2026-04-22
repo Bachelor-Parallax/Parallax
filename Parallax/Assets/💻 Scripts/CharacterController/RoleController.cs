@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum CharacterRole
 {
@@ -10,6 +11,8 @@ public enum CharacterRole
 
 public class RoleController : NetworkBehaviour
 {
+    [SerializeField] private InputActionReference roleSwapAction;
+    
     public GameObject human;
     public GameObject cat;
     
@@ -33,19 +36,38 @@ public class RoleController : NetworkBehaviour
         catRenderers = cat.GetComponentsInChildren<Renderer>(true);
     }
 
-public override void OnNetworkSpawn()
-{
-    role.OnValueChanged += OnRoleChanged;
-
-    if (IsServer)
+    public override void OnNetworkSpawn()
     {
-        role.Value = (OwnerClientId == NetworkManager.ServerClientId)
-            ? CharacterRole.Human          
-            : CharacterRole.Cat;
+        // This must run on EVERY instance
+        role.OnValueChanged += OnRoleChanged;
+
+        if (IsServer)
+        {
+            role.Value = (OwnerClientId == NetworkManager.ServerClientId)
+                ? CharacterRole.Human
+                : CharacterRole.Cat;
+        }
+
+        StartCoroutine(ApplyRoleNextFrame());
+
+        // Input should ONLY run on the owner
+        if (IsOwner)
+        {
+            roleSwapAction.action.Enable();
+            roleSwapAction.action.performed += OnRoleSwap;
+        }
     }
 
-    StartCoroutine(ApplyRoleNextFrame());
-}
+    public override void OnNetworkDespawn()
+    {
+        role.OnValueChanged -= OnRoleChanged;
+
+        if (IsOwner)
+        {
+            roleSwapAction.action.performed -= OnRoleSwap;
+        }
+    }
+
     IEnumerator ApplyRoleNextFrame()
     {
         yield return null;
@@ -71,12 +93,43 @@ public override void OnNetworkSpawn()
         
         ApplyRoleSpecificPhysics(r);
         GetComponent<Movement>().ApplyRole(r);
+    }
+    
+    // private void OnRoleSwap(InputAction.CallbackContext ctx)
+    // {
+    //     if (!IsOwner) return;
+    //
+    //     foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+    //     {
+    //         if (client.PlayerObject == NetworkObject) 
+    //             continue;
+    //
+    //         var other = client.PlayerObject.GetComponent<RoleController>();
+    //
+    //         RoleSwapManager.Instance.RequestSwap(this, other);
+    //         break;
+    //     }
+    // }
+    
+    private void OnRoleSwap(InputAction.CallbackContext ctx)
+    {
+        if (!IsOwner) return;
 
-        // var asymObjects = FindObjectsOfType<AsymVisibility>(true);
-        // foreach (var asym in asymObjects)
-        // {
-        //     asym.ApplyRole(r);
-        // }
+        RoleController other = null;
+
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.PlayerObject == null)
+                continue;
+
+            if (client.PlayerObject == NetworkObject)
+                continue;
+
+            other = client.PlayerObject.GetComponent<RoleController>();
+            break;
+        }
+
+        RoleSwapManager.Instance.RequestSwap(this, other);
     }
 
     void ApplyRoleSpecificPhysics(CharacterRole r)
