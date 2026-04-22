@@ -6,9 +6,15 @@ using System.Collections;
 
 public abstract class GroupActivationZone : BaseZone
 {
-    [SerializeField] private int _countdownSeconds = 3;
+    [SerializeField] private int countdownSeconds = 3;
+    [SerializeField] private TMPro.TMP_Text voteText;
     private readonly HashSet<ulong> _players = new();
     private Coroutine _countdownCoroutine = null;
+    
+    private void Start()
+    {
+        voteText.alpha = 0f;
+    }
 
     /// <summary>
     /// Will be invoked when all players have been in the zone for duration of the countdown
@@ -45,6 +51,8 @@ public abstract class GroupActivationZone : BaseZone
         // start the countdown
         Debug.Log("Countdown start");
         _countdownCoroutine = StartCoroutine(StartCountdown());
+        StartCountdownClientRpc(countdownSeconds);
+        UpdateUIClientRpc(_players.Count);
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
@@ -61,12 +69,51 @@ public abstract class GroupActivationZone : BaseZone
         Debug.Log("Countdown cancel");
         StopCoroutine(_countdownCoroutine);
         _countdownCoroutine = null;
+        UpdateUIClientRpc(_players.Count);
+        StopCountdownClientRpc();
+    }
+    
+    [Rpc(SendTo.ClientsAndHost)]
+    private void StartCountdownClientRpc(int seconds)
+    {
+        StartCoroutine(ClientCountdown(seconds));
+    }
+    
+    [Rpc(SendTo.ClientsAndHost)]
+    private void StopCountdownClientRpc()
+    {
+        StopAllCoroutines(); // simple and fine here
+    }
+    
+    private IEnumerator ClientCountdown(int seconds)
+    {
+        int remaining = seconds;
+
+        while (remaining > 0)
+        {
+            voteText.text = $"Starting in {remaining}";
+            yield return new WaitForSeconds(1f);
+            remaining--;
+        }
     }
 
     private IEnumerator StartCountdown()
     {
-        yield return new WaitForSeconds(_countdownSeconds);
+        yield return new WaitForSeconds(countdownSeconds);
         OnTimerElapsed();
         _countdownCoroutine = null;
+    }
+    
+    [Rpc(SendTo.ClientsAndHost)]
+    private void UpdateUIClientRpc(int count)
+    {
+        if (count == 0)
+        {
+            voteText.alpha = 0f;
+            return;
+        }
+
+        voteText.alpha = 1f;
+        voteText.text = $"{count}/{GameConstants.MAX_PLAYERS}";
     }
 }

@@ -180,6 +180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 297dfd64825e3eb438fab796962c0284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
+  levelData: {fileID: 0}
+  devTime: 0
   humanSpawnPos: {fileID: 1141549445}
   catSpawnPos: {fileID: 27987286}
 --- !u!4 &166558698
@@ -933,7 +935,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndZone
   ShowTopMostFoldoutHeaderGroup: 1
-  _countdownSeconds: 3
+  countdownSeconds: 3
+  voteText: {fileID: 0}
+  _levelData: {fileID: 0}
 --- !u!1 &1910041983
 GameObject:
   m_ObjectHideFlags: 0
@@ -1234,6 +1238,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 5722512126876621414, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 7985035156830472439, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
