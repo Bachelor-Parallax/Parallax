@@ -63,7 +63,7 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
         if (role.IsCat)
         {
             if (_isHeld)
-                Drop();
+                Drop(clientId);
             else
                 Pickup(playerObj.gameObject);
         }
@@ -74,6 +74,7 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
     }
 
     #region Cat Interaction
+    
     private void Pickup(GameObject player)
     {
         MouthCarryPoint carry = player.GetComponentInChildren<MouthCarryPoint>();
@@ -92,9 +93,11 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
 
         if (keySound && _audioSource)
             _audioSource.PlayOneShot(keySound);
+        
+        SyncPickupClientRpc(player.GetComponent<NetworkObject>().OwnerClientId);
     }
 
-    private void Drop()
+    private void Drop(ulong clientId)
     {
         _isHeld = false;
 
@@ -113,9 +116,40 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
         
         _rb.linearVelocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
+
+        SyncDropClientRpc(clientId);
         
         _playerColliders = null;
     }
+    
+    [Rpc(SendTo.ClientsAndHost)]
+    private void SyncPickupClientRpc(ulong clientId)
+    {
+        NetworkObject playerObj =
+            NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(clientId);
+
+        if (playerObj == null) return;
+
+        Collider[] cols = playerObj.GetComponentsInChildren<Collider>();
+
+        foreach (Collider col in cols)
+            Physics.IgnoreCollision(_keyCollider, col, true);
+    }
+    
+    [Rpc(SendTo.ClientsAndHost)]
+    private void SyncDropClientRpc(ulong clientId)
+    {
+        NetworkObject playerObj =
+            NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(clientId);
+
+        if (playerObj == null) return;
+
+        Collider[] cols = playerObj.GetComponentsInChildren<Collider>();
+
+        foreach (Collider col in cols)
+            Physics.IgnoreCollision(_keyCollider, col, false);
+    }
+    
     #endregion
     
     #region Human Interaction
