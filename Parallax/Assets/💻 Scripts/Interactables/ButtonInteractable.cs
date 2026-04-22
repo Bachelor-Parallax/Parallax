@@ -31,14 +31,10 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
     [Rpc(SendTo.Server)]
     private void PressButtonServerRpc(ulong senderClientId)
     {
-        // Optional key check
-        if (requiredKey != null)
+        if (requiredKey != null && !requiredKey.IsCollected)
         {
-            if (requiredKey == null)
-            {
-                Debug.Log("Button requires a key, but key is missing.");
-                return;
-            }
+            Debug.Log("Button locked - missing key.");
+            return;
         }
 
         ActivateTargets();
@@ -71,8 +67,9 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
 
     public string GetInteractText()
     {
-        return requiredKey != null
-            ? "Button Locked - Missing Key"
-            : "Press button [E]";
+        if (requiredKey != null && !requiredKey.IsCollected)
+            return "Button Locked - Missing Key";
+
+        return "Press button [E]";
     }
 }

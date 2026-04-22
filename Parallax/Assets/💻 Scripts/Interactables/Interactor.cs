@@ -9,11 +9,13 @@ public class Interactor : NetworkBehaviour
     [SerializeField] private float interactDistance = 2f;
     [SerializeField] private float interactRadius = 0.75f;
     [SerializeField] private LayerMask interactLayer;
-    
+
     [Header("Input")]
     [SerializeField] private InputActionReference interactAction;
 
     private IInteractable currentInteractable;
+    private IInteractable activeInteractable;
+
     private InteractionPromptUI promptUI;
 
     public override void OnNetworkSpawn()
@@ -22,8 +24,7 @@ public class Interactor : NetworkBehaviour
 
         interactAction?.action.Enable();
 
-        if (promptUI == null)
-            promptUI = FindFirstObjectByType<InteractionPromptUI>();
+        promptUI = FindFirstObjectByType<InteractionPromptUI>();
     }
 
     private void Update()
@@ -31,16 +32,17 @@ public class Interactor : NetworkBehaviour
         if (!IsOwner) return;
 
         currentInteractable = FindInteractable();
+
         UpdatePrompt();
         HandleInteraction();
     }
 
     private void UpdatePrompt()
     {
-        currentInteractable = FindInteractable();
-        
-        if (currentInteractable != null && currentInteractable.CanInteract(gameObject))
-            promptUI?.Show(currentInteractable.GetInteractText());
+        IInteractable target = activeInteractable ?? currentInteractable;
+
+        if (target != null && target.CanInteract(gameObject))
+            promptUI?.Show(target.GetInteractText());
         else
             promptUI?.Hide();
     }
@@ -51,9 +53,11 @@ public class Interactor : NetworkBehaviour
 
         if (interactAction.action.WasPressedThisFrame())
         {
-            if (currentInteractable != null && currentInteractable.CanInteract(gameObject))
+            IInteractable target = activeInteractable ?? currentInteractable;
+
+            if (target != null && target.CanInteract(gameObject))
             {
-                currentInteractable?.Interact(gameObject);
+                target.Interact(gameObject);
             }
         }
     }
@@ -66,12 +70,8 @@ public class Interactor : NetworkBehaviour
 
         if (Physics.SphereCast(ray, interactRadius, out RaycastHit hit, interactDistance, interactLayer))
         {
-            IInteractable interactable =
-                hit.collider.GetComponent<IInteractable>() ??
-                hit.collider.GetComponentInParent<IInteractable>();
-
-            if (interactable != null)
-                return interactable;
+            return hit.collider.GetComponent<IInteractable>()
+                   ?? hit.collider.GetComponentInParent<IInteractable>();
         }
 
         Collider[] nearby = Physics.OverlapSphere(interactOrigin.position, interactRadius, interactLayer);
@@ -87,5 +87,16 @@ public class Interactor : NetworkBehaviour
         }
 
         return null;
+    }
+
+    public void SetActiveInteractable(IInteractable interactable)
+    {
+        activeInteractable = interactable;
+    }
+
+    public void ClearActiveInteractable(IInteractable interactable)
+    {
+        if (activeInteractable == interactable)
+            activeInteractable = null;
     }
 }

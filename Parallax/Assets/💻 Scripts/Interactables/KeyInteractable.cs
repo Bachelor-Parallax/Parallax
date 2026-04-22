@@ -6,6 +6,10 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
 {
     [SerializeField] private string keyId = "ButtonKey";
     [SerializeField] private AudioClip keySound;
+    [SerializeField] private float interactCooldown = 0.2f;
+    
+    private float _nextInteractTime;
+    public bool IsCollected { get; private set; }
 
     private AudioSource _audioSource;
     private Rigidbody _rb;
@@ -23,6 +27,7 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
         _rb = GetComponent<Rigidbody>();
         _audioSource = GetComponent<AudioSource>();
         _keyCollider = GetComponent<Collider>();
+        _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
     }
 
     public bool CanInteract(GameObject interactor)
@@ -32,6 +37,9 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
 
     public void Interact(GameObject interactor)
     {
+        if (Time.time < _nextInteractTime) return;
+        _nextInteractTime = Time.time + interactCooldown;
+        
         Debug.Log("Key Interact called, IsSpawned: " + IsSpawned);
         if (!IsSpawned) return;
 
@@ -95,17 +103,26 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
             foreach (Collider col in _playerColliders)
                 Physics.IgnoreCollision(_keyCollider, col, false);
         }
-        
-        _holdPoint = null;
 
-        _rb.useGravity = true;
+        transform.position = _holdPoint.position + _holdPoint.forward * 0.2f + Vector3.up * 0.1f;
+
+        _holdPoint = null;
+        
         _rb.isKinematic = false;
+        _rb.useGravity = true;
+        
+        _rb.linearVelocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
+        
+        _playerColliders = null;
     }
     #endregion
     
     #region Human Interaction
     private void CollectKey(ulong senderClientId)
     {
+        IsCollected = true;
+        
         if (keySound != null && _audioSource != null)
         {
             _audioSource.pitch = Random.Range(0.9f, 1.1f);
@@ -114,7 +131,7 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
 
         Debug.Log($"Picked up key: {keyId} by client {senderClientId}");
 
-        NetworkObject.Despawn(true);
+        NetworkObject.Despawn();
     }
     #endregion
 
