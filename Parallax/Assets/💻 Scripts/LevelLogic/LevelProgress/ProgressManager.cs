@@ -82,6 +82,11 @@ public static class ProgressManager
         float completionTime,
         float devTime)
     {
+        Debug.Log("Registering Level completion with following data:\n" +
+                  $"- levelName: {levelName}\n" +
+                  $"- role: {role}\n" +
+                  $"- completionTime: {completionTime}\n" +
+                  $"- devTime: {devTime}");
         LevelProgress level = GetLevel(levelName);
 
         bool changed = false;

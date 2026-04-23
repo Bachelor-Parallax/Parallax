@@ -9,9 +9,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("Level Data")]
     [SerializeField] private LevelData levelData;
-
-    [SerializeField] private float devTime;
-
+    
     [Header("Spawn Positions")]
     [SerializeField] private GameObject humanSpawnPos;
 
@@ -79,7 +77,7 @@ public class LevelManager : MonoBehaviour
             levelData.levelName,
             DetermineLocalRole(),
             (float)_stopWatch.Elapsed.TotalSeconds,
-            devTime
+            levelData.devTime
         );
 
         // TODO: Move this to GUI, open said GUI here

@@ -13,7 +13,8 @@ public abstract class GroupActivationZone : BaseZone
     
     private void Start()
     {
-        voteText.alpha = 0f;
+        if (voteText != null)
+            voteText.alpha = 0f;
     }
 
     /// <summary>
@@ -52,7 +53,8 @@ public abstract class GroupActivationZone : BaseZone
         Debug.Log("Countdown start");
         _countdownCoroutine = StartCoroutine(StartCountdown());
         StartCountdownClientRpc(countdownSeconds);
-        UpdateUIClientRpc(_players.Count);
+        if (voteText != null)
+            UpdateUIClientRpc(_players.Count);
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
@@ -69,7 +71,8 @@ public abstract class GroupActivationZone : BaseZone
         Debug.Log("Countdown cancel");
         StopCoroutine(_countdownCoroutine);
         _countdownCoroutine = null;
-        UpdateUIClientRpc(_players.Count);
+        if (voteText != null)
+            UpdateUIClientRpc(_players.Count);
         StopCountdownClientRpc();
     }
     
@@ -91,7 +94,8 @@ public abstract class GroupActivationZone : BaseZone
 
         while (remaining > 0)
         {
-            voteText.text = $"Starting in {remaining}";
+            if (voteText != null)
+                voteText.text = $"Starting in {remaining}";
             yield return new WaitForSeconds(1f);
             remaining--;
         }
@@ -106,7 +110,7 @@ public abstract class GroupActivationZone : BaseZone
     
     [Rpc(SendTo.ClientsAndHost)]
     private void UpdateUIClientRpc(int count)
-    {
+    {  
         if (count == 0)
         {
             voteText.alpha = 0f;
