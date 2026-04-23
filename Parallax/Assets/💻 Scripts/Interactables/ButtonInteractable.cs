@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ButtonInteractable : NetworkBehaviour, IInteractable
 {
-    [SerializeField] private MonoBehaviour[] targets;
+    [SerializeField] private MovingPlatform[] targets;
     [SerializeField] private KeyInteractable requiredKey;
     [SerializeField] private AudioClip buttonSound;
 
