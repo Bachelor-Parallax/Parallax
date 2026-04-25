@@ -35,6 +35,10 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     [SerializeField] private InputActionReference moveAction;
     [SerializeField] private InputActionReference sprintAction;
     [SerializeField] private InputActionReference cameraRotateAction;
+    
+    [Header("Jump Tuning")]
+    [SerializeField] private float fallMultiplier = 2.5f;
+    [SerializeField] private float lowJumpMultiplier = 2f;
 
     private AudioSource audioSource;
     private float stepTimer;
@@ -47,6 +51,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     public Vector2 CurrentMoveInput { get; private set; }
 
     private CharacterController controller;
+    private JumpAbility jumpAbility;
     private Transform cameraTransform;
 
     private float verticalVelocity;
@@ -61,6 +66,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     {
         controller = GetComponent<CharacterController>();
         audioSource = GetComponent<AudioSource>();
+        jumpAbility = GetComponent<JumpAbility>();
     }
     
     #region Network Events
@@ -271,7 +277,18 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         if (controller.isGrounded && verticalVelocity < 0f)
             verticalVelocity = -2f;
 
-        verticalVelocity += gravity * Time.deltaTime;
+        if (verticalVelocity < 0)
+        {
+            verticalVelocity += gravity * fallMultiplier * Time.deltaTime;
+        }
+        else if (verticalVelocity > 0 && !jumpAbility.jumpHeld)
+        {
+            verticalVelocity += gravity * lowJumpMultiplier * Time.deltaTime;
+        }
+        else
+        {
+            verticalVelocity += gravity * Time.deltaTime;
+        }
 
         Vector3 forward;
         Vector3 right;
@@ -331,15 +348,15 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
             case CharacterRole.Human:
                 baseSpeed = 5f;
                 sprintSpeed = 8f;
-                gravity = -9.81f;
-                jumpHeight = 0.5f;
+                gravity = -18f;
+                jumpHeight = 0.8f;
                 break;
 
             case CharacterRole.Cat:
                 baseSpeed = 8f;
                 sprintSpeed = 12f;
-                gravity = -9.81f;
-                jumpHeight = 2f;
+                gravity = -14f;
+                jumpHeight = 1.8f;
                 break;
         }
     }
