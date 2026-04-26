@@ -418,7 +418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoleController
   ShowTopMostFoldoutHeaderGroup: 1
   roleSwapAction: {fileID: 7040659881675835329, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
-  human: {fileID: 8677070909867392000, guid: 01bea78bb637f89459be046d05997378, type: 3}
+  human: {fileID: 2500267993102622717}
   cat: {fileID: 1552940916805661148}
   role:
     UpdateTraits:
@@ -900,6 +900,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3732897608257608535}
   m_SourcePrefab: {fileID: 100100000, guid: 01bea78bb637f89459be046d05997378, type: 3}
+--- !u!1 &2500267993102622717 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8677070909867392000, guid: 01bea78bb637f89459be046d05997378, type: 3}
+  m_PrefabInstance: {fileID: 6546433385855476733}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2586635882230781245 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8735868215643174592, guid: 01bea78bb637f89459be046d05997378, type: 3}
