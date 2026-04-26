@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class RotateInteractable : NetworkBehaviour, IInteractable, IActivationState
+public class RotateInteractable : NetworkBehaviour, IInteractable, IActivationState, IActivatable
 {
     public enum RotationAxis
     {
@@ -145,6 +145,30 @@ public class RotateInteractable : NetworkBehaviour, IInteractable, IActivationSt
         }
 
         return "";
+    }
+
+    public void Activate()
+    {
+        if (rotateOnlyOnce && hasRotated) return;
+        if (isRotating) return;
+
+        ActivateServerRpc();
+    }
+
+    [Rpc(SendTo.Server)]
+    private void ActivateServerRpc()
+    {
+        if (rotateOnlyOnce && hasRotated) return;
+        if (isRotating) return;
+
+        if (rotateOnlyOnce)
+            hasRotated = true;
+
+        Quaternion newTargetRotation = transform.rotation * Quaternion.Euler(GetRotationVector());
+
+        RotateClientRpc(newTargetRotation);
+
+        Debug.Log("Rotated by activation pad");
     }
 
     public string GetInteractText()
