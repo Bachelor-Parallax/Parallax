@@ -6,7 +6,7 @@ using Unity.Cinemachine;
 
 public class CatVision : NetworkBehaviour
 {
-    [SerializeField] private string glowRootName = "CatViewGlow";
+    private CatVisionTarget[] visionTargets;
     [SerializeField] private Key visionKey = Key.Q;
 
     [Header("Movement")]
@@ -21,7 +21,6 @@ public class CatVision : NetworkBehaviour
     private float targetZoom = 0f;
 
     private RoleController roleController;
-    private CatVisionRoot glowRoot;
     private Movement movement;
 
     private CinemachineCamera cmCamera;
@@ -57,7 +56,7 @@ public class CatVision : NetworkBehaviour
         if (!IsOwner) return;
 
         CacheCameraReferences();
-        TryFindGlowRoot();
+        CacheVisionTargets();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -65,7 +64,20 @@ public class CatVision : NetworkBehaviour
         if (!IsOwner) return;
 
         CacheCameraReferences();
-        TryFindGlowRoot();
+        CacheVisionTargets();
+    }
+
+    private void CacheVisionTargets()
+    {
+        visionTargets = FindObjectsByType<CatVisionTarget>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
+        );
+
+        foreach (CatVisionTarget target in visionTargets)
+        {
+            target.SetVisible(false, true);
+        }
     }
 
     private void CacheCameraReferences()
@@ -96,12 +108,17 @@ public class CatVision : NetworkBehaviour
     {
         isVisionActive = active;
 
-        if (glowRoot != null)
-            glowRoot.SetTargetVisible(active);
+        if (visionTargets != null)
+        {
+            foreach (CatVisionTarget target in visionTargets)
+            {
+                if (target != null)
+                    target.SetVisible(active);
+            }
+        }
 
         targetMoveMultiplier = active ? visionMoveMultiplier : 1f;
         targetZoom = active ? zoomInAmount : 0f;
-
     }
 
     private void UpdateCameraZoom()
@@ -121,28 +138,6 @@ public class CatVision : NetworkBehaviour
         orbitalFollow.Orbits = orbits;
     }
 
-    private void TryFindGlowRoot()
-    {
-        GameObject rootObj = GameObject.Find(glowRootName);
-
-        if (rootObj == null)
-        {
-            Debug.LogWarning($"CatVision: Could not find object named '{glowRootName}'");
-            glowRoot = null;
-            return;
-        }
-
-        glowRoot = rootObj.GetComponent<CatVisionRoot>();
-
-        if (glowRoot == null)
-        {
-            Debug.LogWarning($"CatVision: '{glowRootName}' has no CatVisionRoot component.");
-            return;
-        }
-
-        glowRoot.SetTargetVisible(false);
-    }
-
     private void Update()
     {
         if (!IsOwner) return;
@@ -158,8 +153,11 @@ public class CatVision : NetworkBehaviour
         else
         {
             if (keyHeld != isVisionActive)
+            {
                 SetVisionState(keyHeld);
-                UpdateCameraZoom();
+            }
+
+            UpdateCameraZoom();
         }
 
         currentMoveMultiplier = Mathf.Lerp(

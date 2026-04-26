@@ -1,23 +1,46 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class ButtonInteractable : NetworkBehaviour, IInteractable
+public class ButtonInteractable : NetworkBehaviour, IInteractable, IActivationState
 {
-    [SerializeField] private MovingPlatform[] targets;
+    [SerializeField] private MonoBehaviour[] targets;
     [SerializeField] private KeyInteractable requiredKey;
     [SerializeField] private AudioClip buttonSound;
 
+    private IInteractCondition[] conditions;
     private AudioSource audioSource;
+
+    public bool IsActivated => isActivated.Value;
+
+    private NetworkVariable<bool> isActivated = new NetworkVariable<bool>(
+        false,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        conditions = GetComponents<IInteractCondition>();
     }
 
     public bool CanInteract(GameObject interactor)
     {
         RoleController role = interactor.GetComponent<RoleController>();
-        return role != null && role.IsHuman;
+
+        if (role == null || !role.IsHuman)
+            return false;
+
+        if (requiredKey != null && !requiredKey.IsCollected)
+            return false;
+
+        foreach (IInteractCondition condition in conditions)
+        {
+            if (!condition.IsMet(interactor))
+                return false;
+        }
+
+        return true;
     }
 
     public void Interact(GameObject interactor)
@@ -31,14 +54,18 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
     [Rpc(SendTo.Server)]
     private void PressButtonServerRpc(ulong senderClientId)
     {
-        if (requiredKey != null && !requiredKey.IsCollected)
+        NetworkObject playerObj = NetworkManager.Singleton.ConnectedClients[senderClientId].PlayerObject;
+        if (playerObj == null) return;
+
+        if (!CanInteract(playerObj.gameObject))
         {
-            Debug.Log("Button locked - missing key.");
+            Debug.Log("Button locked - conditions not met.");
             return;
         }
 
-        ActivateTargets();
+        isActivated.Value = true;
 
+        ActivateTargets();
         PlayButtonSoundClientRpc();
 
         Debug.Log($"Button pressed by client {senderClientId}");
@@ -46,12 +73,14 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
 
     private void ActivateTargets()
     {
-        foreach (var target in targets)
+        foreach (MonoBehaviour target in targets)
         {
+            if (target == null) continue;
+
             if (target is IActivatable activatable)
-            {
                 activatable.Activate();
-            }
+            else
+                Debug.LogWarning($"{target.name} does not implement IActivatable.");
         }
     }
 
@@ -65,11 +94,21 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable
         }
     }
 
+    public string GetFailText(GameObject interactor)
+    {
+        RoleController role = interactor.GetComponent<RoleController>();
+
+        foreach (IInteractCondition condition in conditions)
+        {
+            if (!condition.IsMet(interactor))
+                return condition.FailText;
+        }
+
+        return "";
+    }
+
     public string GetInteractText()
     {
-        if (requiredKey != null && !requiredKey.IsCollected)
-            return "Button Locked - Missing Key";
-
         return "Press button [E]";
     }
 }

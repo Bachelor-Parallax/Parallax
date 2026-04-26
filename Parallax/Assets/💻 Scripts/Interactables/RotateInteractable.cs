@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class RotateInteractable : NetworkBehaviour, IInteractable
+public class RotateInteractable : NetworkBehaviour, IInteractable, IActivationState
 {
     public enum RotationAxis
     {
@@ -18,10 +18,10 @@ public class RotateInteractable : NetworkBehaviour, IInteractable
 
     [Header("Interaction Text")]
     [SerializeField] private string interactText = "Rotate [E]";
-    [SerializeField] private string lockedText = "Locked - Missing Key";
 
-    [Header("Requirements")]
-    [SerializeField] private KeyInteractable requiredKey;
+    [Header("Conditions")]
+    [SerializeField] private IInteractCondition[] conditions;
+    
 
     [Header("Audio")]
     [SerializeField] private AudioClip rotateSound;
@@ -30,11 +30,13 @@ public class RotateInteractable : NetworkBehaviour, IInteractable
     private Quaternion targetRotation;
     private bool isRotating;
     private bool hasRotated;
+    public bool IsActivated => hasRotated;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         targetRotation = transform.rotation;
+        conditions = GetComponents<IInteractCondition>();
     }
 
     public bool CanInteract(GameObject interactor)
@@ -43,13 +45,14 @@ public class RotateInteractable : NetworkBehaviour, IInteractable
         if (isRotating) return false;
 
         RoleController role = interactor.GetComponent<RoleController>();
-        return role != null && role.IsHuman;
+        if (role == null || !role.IsHuman) return false;
+
+        return ConditionsAreMet(interactor);
     }
 
     public void Interact(GameObject interactor)
     {
-        if (rotateOnlyOnce && hasRotated) return;
-        if (isRotating) return;
+        if (!CanInteract(interactor)) return;
 
         NetworkObject netObj = interactor.GetComponent<NetworkObject>();
         if (netObj == null) return;
@@ -57,17 +60,25 @@ public class RotateInteractable : NetworkBehaviour, IInteractable
         RotateServerRpc(netObj.OwnerClientId);
     }
 
+    private bool ConditionsAreMet(GameObject interactor)
+    {
+        foreach (MonoBehaviour condition in conditions)
+        {
+            if (condition is IInteractCondition interactCondition)
+            {
+                if (!interactCondition.IsMet(interactor))
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
     [Rpc(SendTo.Server)]
     private void RotateServerRpc(ulong senderClientId)
     {
         if (rotateOnlyOnce && hasRotated) return;
         if (isRotating) return;
-
-        if (requiredKey != null && !requiredKey.IsCollected)
-        {
-            Debug.Log("Rotation locked - missing key.");
-            return;
-        }
 
         if (rotateOnlyOnce)
             hasRotated = true;
@@ -123,14 +134,21 @@ public class RotateInteractable : NetworkBehaviour, IInteractable
         }
     }
 
+    public string GetFailText(GameObject interactor)
+    {
+        RoleController role = interactor.GetComponent<RoleController>();
+
+        foreach (IInteractCondition condition in conditions)
+        {
+            if (!condition.IsMet(interactor))
+                return condition.FailText;
+        }
+
+        return "";
+    }
+
     public string GetInteractText()
     {
-        if (rotateOnlyOnce && hasRotated)
-            return "";
-
-        if (requiredKey != null && !requiredKey.IsCollected)
-            return lockedText;
-
         return interactText;
     }
 }
