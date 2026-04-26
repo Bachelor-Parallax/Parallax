@@ -418,7 +418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoleController
   ShowTopMostFoldoutHeaderGroup: 1
   roleSwapAction: {fileID: 7040659881675835329, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
-  human: {fileID: 8677070909867392000, guid: 68830f5e631a9a04faaf31eb4027027c, type: 3}
+  human: {fileID: 8677070909867392000, guid: 01bea78bb637f89459be046d05997378, type: 3}
   cat: {fileID: 1552940916805661148}
   role:
     UpdateTraits:
@@ -846,7 +846,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8677070909867392000, guid: 01bea78bb637f89459be046d05997378, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9159154712173273874, guid: 01bea78bb637f89459be046d05997378, type: 3}
       propertyPath: m_LocalPosition.x
@@ -996,7 +996,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7877887795871466539, guid: e7443fc28eb8d4644b7b0de9db205fc2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8842548947483439872, guid: e7443fc28eb8d4644b7b0de9db205fc2, type: 3}
       propertyPath: m_Enabled
