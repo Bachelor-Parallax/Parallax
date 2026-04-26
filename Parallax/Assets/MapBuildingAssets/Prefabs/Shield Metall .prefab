@@ -3800,7 +3800,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1373799461635366958}
   - component: {fileID: 2597783882667617701}
-  - component: {fileID: 1034408559392145444}
   - component: {fileID: 7054525883512255381}
   - component: {fileID: 7788676379989506698}
   m_Layer: 3
@@ -3851,27 +3850,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &1034408559392145444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7861792991249251832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 163cae1ad80aaf94da42ec660be55527, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RotateInteractable
-  ShowTopMostFoldoutHeaderGroup: 1
-  rotationAxis: 1
-  rotateAmount: 90
-  rotateSpeed: 5
-  rotateOnlyOnce: 1
-  interactText: 'Rotate [E]'
-  lockedText: Locked - Missing Key
-  requiredKey: {fileID: 0}
-  rotateSound: {fileID: 0}
 --- !u!114 &7054525883512255381
 MonoBehaviour:
   m_ObjectHideFlags: 0
