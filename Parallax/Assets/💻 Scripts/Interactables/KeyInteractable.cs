@@ -2,14 +2,20 @@ using UnityEngine;
 using Unity.Netcode;
 
 [RequireComponent(typeof(Rigidbody))]
-public class KeyInteractable : NetworkBehaviour, IInteractable
+public class KeyInteractable : NetworkBehaviour, IInteractable, IActivationState
 {
     [SerializeField] private string keyId = "ButtonKey";
     [SerializeField] private AudioClip keySound;
     [SerializeField] private float interactCooldown = 0.2f;
     
     private float _nextInteractTime;
-    public bool IsCollected { get; private set; }
+    private NetworkVariable<bool> isCollected = new NetworkVariable<bool>(
+    false,
+    NetworkVariableReadPermission.Everyone,
+    NetworkVariableWritePermission.Server
+    );
+    public bool IsCollected => isCollected.Value;
+    public bool IsActivated => isCollected.Value;
 
     private AudioSource _audioSource;
     private Rigidbody _rb;
@@ -19,6 +25,7 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
     
     private Collider _keyCollider;
     private Collider[] _playerColliders;
+    private IInteractCondition[] conditions;
 
     private bool _isHeld;
 
@@ -28,10 +35,17 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
         _audioSource = GetComponent<AudioSource>();
         _keyCollider = GetComponent<Collider>();
         _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+        conditions = GetComponents<IInteractCondition>();
     }
 
     public bool CanInteract(GameObject interactor)
     {
+        foreach (var condition in conditions)
+        {
+            if (!condition.IsMet(interactor))
+                return false;
+        }
+
         return true;
     }
 
@@ -155,8 +169,8 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
     #region Human Interaction
     private void CollectKey(ulong senderClientId)
     {
-        IsCollected = true;
-        
+        isCollected.Value = true;
+
         if (keySound != null && _audioSource != null)
         {
             _audioSource.pitch = Random.Range(0.9f, 1.1f);
@@ -165,7 +179,19 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
 
         Debug.Log($"Picked up key: {keyId} by client {senderClientId}");
 
-        NetworkObject.Despawn();
+        HideKeyClientRpc();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void HideKeyClientRpc()
+    {
+        if (_keyCollider != null)
+            _keyCollider.enabled = false;
+
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+
+        foreach (Renderer renderer in renderers)
+            renderer.enabled = false;
     }
     #endregion
 
@@ -175,6 +201,19 @@ public class KeyInteractable : NetworkBehaviour, IInteractable
 
         transform.position = _holdPoint.position;
         transform.rotation = _holdPoint.rotation;
+    }
+
+    public string GetFailText(GameObject interactor)
+    {
+        RoleController role = interactor.GetComponent<RoleController>();
+
+        foreach (IInteractCondition condition in conditions)
+        {
+            if (!condition.IsMet(interactor))
+                return condition.FailText;
+        }
+
+        return "";
     }
 
     public string GetInteractText()

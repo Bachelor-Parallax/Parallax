@@ -66,15 +66,29 @@ public class Interactor : NetworkBehaviour
     {
         if (interactOrigin == null) return null;
 
-        Ray ray = new Ray(interactOrigin.position, interactOrigin.forward);
+        Vector3 origin = interactOrigin.position;
+        Vector3 direction = interactOrigin.forward;
 
-        if (Physics.SphereCast(ray, interactRadius, out RaycastHit hit, interactDistance, interactLayer))
+        if (Physics.SphereCast(
+                origin,
+                interactRadius,
+                direction,
+                out RaycastHit hit,
+                interactDistance,
+                interactLayer,
+                QueryTriggerInteraction.Collide))
         {
             return hit.collider.GetComponent<IInteractable>()
-                   ?? hit.collider.GetComponentInParent<IInteractable>();
+                ?? hit.collider.GetComponentInParent<IInteractable>();
         }
 
-        Collider[] nearby = Physics.OverlapSphere(interactOrigin.position, interactRadius, interactLayer);
+        Vector3 fallbackCenter = origin + direction * (interactDistance * 0.5f);
+
+        Collider[] nearby = Physics.OverlapSphere(
+            fallbackCenter,
+            interactDistance * 0.5f + interactRadius,
+            interactLayer,
+            QueryTriggerInteraction.Collide);
 
         foreach (Collider col in nearby)
         {
