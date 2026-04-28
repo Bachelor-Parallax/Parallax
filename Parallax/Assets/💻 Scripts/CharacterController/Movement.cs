@@ -2,6 +2,12 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
 
+public enum CameraMode
+{
+    AutoFollow,
+    FreeLook
+}
+
 public class Movement : NetworkBehaviour, IMovement, ISprint
 {
     [Header("Movement")]
@@ -9,42 +15,108 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     [SerializeField] private float sprintSpeed = 9f;
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float jumpHeight = 2f;
-    [SerializeField] private float rotationSpeed = 10f;
 
+    [Header("Audio")]
     [SerializeField] private AudioClip stepSound;
+
+    [Header("Strafe Turning")]
+    [SerializeField] private float strafeTurnSpeed = 10f;
+    [SerializeField] private float strafeTurnAngle = 18f;
+
+    [Header("Box Drag")]
+    [SerializeField] private float dragMoveSpeed = 2.5f;
+    [SerializeField] private float dragTurnSpeed = 120f;
+    [SerializeField] private float dragSnapSpeed = 10f;
+
+    [Header("Camera")]
+    [SerializeField] private CameraMode cameraMode = CameraMode.AutoFollow;
+    
+    [Header("Input Action References")]
+    [SerializeField] private InputActionReference moveAction;
+    [SerializeField] private InputActionReference sprintAction;
+    [SerializeField] private InputActionReference cameraRotateAction;
+
     private AudioSource audioSource;
-    [SerializeField] private float stepInterval = 0.5f;
     private float stepTimer;
 
     public float Gravity => gravity;
     public float JumpHeight => jumpHeight;
-
-    public bool MovementLocked { get; set; }
+    
     public float SpeedMultiplier { get; set; } = 1f;
+    
+    public Vector2 CurrentMoveInput { get; private set; }
 
     private CharacterController controller;
-    private JumpAbility jumpAbility;
-    private BoxInteraction boxInteraction;
-    private PlayerInteraction playerInteraction;
     private Transform cameraTransform;
 
     private float verticalVelocity;
+    private float freeLookYaw;
+    
     private bool isSprinting;
+    private Vector2 lookInput;
+    private Vector2 moveInput;
+    public bool IsCarryingObject;
 
     void Awake()
     {
         controller = GetComponent<CharacterController>();
-        jumpAbility = GetComponent<JumpAbility>();
-        boxInteraction = GetComponent<BoxInteraction>();
-        playerInteraction = GetComponent<PlayerInteraction>();
         audioSource = GetComponent<AudioSource>();
     }
-
+    
+    #region Network Events
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
+
+        CursorManager.Lock();
         TryAssignCamera();
+        freeLookYaw = transform.eulerAngles.y;
+
+        moveAction.action.Enable();
+        sprintAction.action.Enable();
+        cameraRotateAction.action.Enable();
+
+        moveAction.action.performed += OnMove;
+        moveAction.action.canceled += OnMove;
+
+        sprintAction.action.performed += OnSprint;
+        sprintAction.action.canceled += OnSprint;
+
+        cameraRotateAction.action.performed += OnCameraRotate;
+        cameraRotateAction.action.canceled += OnCameraRotate;
     }
+    
+    public override void OnNetworkDespawn()
+    {
+        if (!IsOwner) return;
+
+        moveAction.action.performed -= OnMove;
+        moveAction.action.canceled -= OnMove;
+
+        sprintAction.action.performed -= OnSprint;
+        sprintAction.action.canceled -= OnSprint;
+
+        cameraRotateAction.action.performed -= OnCameraRotate;
+        cameraRotateAction.action.canceled -= OnCameraRotate;
+    }
+    #endregion
+    
+    #region Event Handlers
+    private void OnMove(InputAction.CallbackContext ctx)
+    {
+        moveInput = Vector2.ClampMagnitude(ctx.ReadValue<Vector2>(), 1f);
+    }
+
+    private void OnSprint(InputAction.CallbackContext ctx)
+    {
+        isSprinting = ctx.ReadValueAsButton();
+    }
+
+    private void OnCameraRotate(InputAction.CallbackContext ctx)
+    {
+        lookInput = ctx.ReadValue<Vector2>();
+    }
+    #endregion
 
     void Update()
     {
@@ -53,28 +125,21 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         if (cameraTransform == null)
             TryAssignCamera();
 
-        if (MovementLocked)
-        {
-            ApplyGravityOnly();
-            return;
-        }
-
-        if (boxInteraction != null && boxInteraction.enabled && boxInteraction.IsDraggingLargeBox)
-        {
-            ApplyGravityOnly();
-            return;
-        }
-
         HandleSprintInput();
-        HandleStepSound();
 
-        Vector2 input = GetMovementInput();
-        Move(input);
-        Rotate();
+        CurrentMoveInput = moveInput;
+
+        Move(moveInput);
+        Rotate(moveInput);
+
+        HandleStepSound();
     }
 
+    #region Sound
     private void HandleStepSound()
     {
+        if (audioSource == null || stepSound == null) return;
+
         if (controller.isGrounded && controller.velocity.magnitude > 0.1f)
         {
             stepTimer -= Time.deltaTime;
@@ -85,7 +150,6 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
                 audioSource.PlayOneShot(stepSound);
 
                 float speed = controller.velocity.magnitude;
-
                 stepTimer = Mathf.Lerp(0.6f, 0.3f, speed / sprintSpeed);
             }
         }
@@ -94,13 +158,13 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
             stepTimer = 0f;
         }
     }
+    #endregion
 
     private void HandleSprintInput()
     {
-        if (Keyboard.current == null) return;
+        if (sprintAction == null) return;
 
-        bool sprinting = Keyboard.current.leftShiftKey.isPressed;
-        SetSprinting(sprinting);
+        SetSprinting(sprintAction.action.IsPressed());
     }
 
     public void SetSprinting(bool sprinting)
@@ -128,48 +192,110 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         verticalVelocity = value;
     }
 
-    private void Rotate()
+    #region Rotation
+    private void Rotate(Vector2 input)
     {
         if (cameraTransform == null) return;
-
-        Vector3 camForwardFlat = cameraTransform.forward;
-        camForwardFlat.y = 0f;
-        camForwardFlat.Normalize();
-
-        if (camForwardFlat.sqrMagnitude > 0.01f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(camForwardFlat);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                rotationSpeed * Time.deltaTime
-            );
-        }
-    }
-
-    public void Move(Vector2 input)
-    {
-        if (cameraTransform == null)
-        {
-            ApplyGravityOnly();
-            return;
-        }
 
         Vector3 camForward = cameraTransform.forward;
         Vector3 camRight = cameraTransform.right;
 
-        camForward.y = 0;
-        camRight.y = 0;
+        camForward.y = 0f;
+        camRight.y = 0f;
 
         camForward.Normalize();
         camRight.Normalize();
 
-        Vector3 direction = (camForward * input.y + camRight * input.x).normalized;
+        Quaternion targetRotation = transform.rotation;
 
-        if (controller.isGrounded && verticalVelocity < 0)
+        // AUTO FOLLOW MODE
+        if (cameraMode == CameraMode.AutoFollow)
+        {
+            if (input.y > 0.1f) // kun fremad
+            {
+                Vector3 moveDir = (camForward * input.y + camRight * input.x).normalized;
+                targetRotation = Quaternion.LookRotation(moveDir);
+                freeLookYaw = targetRotation.eulerAngles.y;
+            }
+        }
+        // FREE LOOK MODE
+        else
+        {
+            if (lookInput.sqrMagnitude > 0.01f)
+            {
+                Vector3 targetDirection = Vector3.zero;
+
+                if (input.sqrMagnitude > 0.01f)
+                    targetDirection = (camForward * input.y + camRight * input.x).normalized;
+                else
+                    targetDirection = camForward;
+
+                if (targetDirection.sqrMagnitude > 0.01f)
+                {
+                    targetRotation = Quaternion.LookRotation(targetDirection);
+                    freeLookYaw = targetRotation.eulerAngles.y;
+                }
+            }
+            else
+            {
+                float sideAngle = 0f;
+
+                if (Mathf.Abs(input.x) > 0.01f)
+                    sideAngle = input.x * strafeTurnAngle;
+
+                targetRotation = Quaternion.Euler(0f, freeLookYaw + sideAngle, 0f);
+            }
+        }
+
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRotation,
+            strafeTurnSpeed * Time.deltaTime
+        );
+    }
+
+    public void SetCameraMode(CameraMode mode)
+    {
+        cameraMode = mode;
+
+        Debug.Log("Camera mode set to: " + mode);
+
+        if (cameraTransform != null)
+            freeLookYaw = transform.eulerAngles.y;
+    }
+    #endregion
+
+    #region Movement
+    public void Move(Vector2 input)
+    {
+        if (controller.isGrounded && verticalVelocity < 0f)
             verticalVelocity = -2f;
 
         verticalVelocity += gravity * Time.deltaTime;
+
+        Vector3 forward;
+        Vector3 right;
+
+        if ((cameraMode == CameraMode.AutoFollow && cameraTransform != null) ||
+            (lookInput.sqrMagnitude > 0.01f && cameraTransform != null))
+        {
+            forward = cameraTransform.forward;
+            right = cameraTransform.right;
+        }
+        else
+        {
+            Quaternion moveBasis = Quaternion.Euler(0f, freeLookYaw, 0f);
+            forward = moveBasis * Vector3.forward;
+            right = moveBasis * Vector3.right;
+        }
+
+        forward.y = 0f;
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 direction = (forward * input.y + right * input.x).normalized;
 
         float currentSpeed = isSprinting ? sprintSpeed : baseSpeed;
 
@@ -179,20 +305,12 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
         controller.Move(move * Time.deltaTime);
     }
 
-    Vector2 GetMovementInput()
+    public void SetBoxDragMode(bool enabled)
     {
-        if (Keyboard.current == null)
-            return Vector2.zero;
-
-        Vector2 input = Vector2.zero;
-
-        if (Keyboard.current.wKey.isPressed) input.y += 1;
-        if (Keyboard.current.sKey.isPressed) input.y -= 1;
-        if (Keyboard.current.aKey.isPressed) input.x -= 1;
-        if (Keyboard.current.dKey.isPressed) input.x += 1;
-
-        return input;
+        IsCarryingObject = enabled;
     }
+    
+    #endregion
 
     public void ResetVerticalVelocity()
     {
@@ -224,11 +342,5 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
                 jumpHeight = 2f;
                 break;
         }
-
-        if (boxInteraction != null)
-            boxInteraction.enabled = role == CharacterRole.Human;
-
-        if (playerInteraction != null)
-            playerInteraction.enabled = role == CharacterRole.Human;
     }
 }

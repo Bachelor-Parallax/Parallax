@@ -8,12 +8,6 @@ public class LevelData : ScriptableObject
     public string levelName;
     public string levelDescription;
     public string sceneName;
-    public string devTime;
+    public float devTime;
     public Sprite levelImage;
-    
-    [Header("Player data")]
-    public string bestTime;
-    public bool catTrophy;
-    public bool humanTrophy;
-    public bool beatDevTrophy;
 }

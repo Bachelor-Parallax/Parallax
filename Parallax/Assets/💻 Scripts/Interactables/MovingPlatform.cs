@@ -18,8 +18,7 @@ public class MovingPlatform : NetworkBehaviour, IActivatable
 
     private void Update()
     {
-        if (!IsServer) return; 
-
+        if (!IsServer) return;
         if (!isMoving) return;
 
         transform.position = Vector3.MoveTowards(
@@ -27,16 +26,18 @@ public class MovingPlatform : NetworkBehaviour, IActivatable
             targetPosition,
             speed * Time.deltaTime
         );
+
+        if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+        {
+            transform.position = targetPosition;
+            isMoving = false;
+        }
     }
 
     public void Activate()
     {
-        ActivateServerRpc();
-    }
+        if (!IsServer) return;
 
-    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
-    private void ActivateServerRpc()
-    {
         Debug.Log("Platform activated on server");
         isMoving = true;
     }

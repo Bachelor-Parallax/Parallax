@@ -1,31 +1,12 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public class SceneLoader : PersistentSingleton<SceneLoader>
 {
-    public static SceneLoader Instance { get; private set; }
-    
-    private void Awake()
-    {
-        InitializeSingleton();
-    }
-
-    private void InitializeSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
     public void LoadGameScene(string sceneName)
     {
-        Debug.Log("SceneLoader - SceneManager: " + NetworkManager.Singleton.SceneManager);
         NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 

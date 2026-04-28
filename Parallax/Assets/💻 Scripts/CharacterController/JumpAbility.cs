@@ -1,12 +1,18 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 public class JumpAbility : MonoBehaviour
 {
     private Movement movement;
     private CharacterController controller;
+    
     [SerializeField] private AudioClip[] jumpSounds;
+    [SerializeField] private InputActionReference jumpAction;
+    
     private AudioSource audioSource;
+    
     void Awake()
     {
         movement = GetComponent<Movement>();
@@ -14,22 +20,66 @@ public class JumpAbility : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    void Update()
+    private void Start()
     {
-        if (!enabled) return;
-        if (Keyboard.current == null) return;
-        if (movement == null || controller == null) return;
+        if (!movement.IsOwner) return;
 
-        if (Keyboard.current.spaceKey.wasPressedThisFrame && controller.isGrounded)
+        if (jumpAction != null)
         {
-            movement.SetVerticalVelocity(Mathf.Sqrt(movement.JumpHeight * -2f * movement.Gravity));
+            jumpAction.action.Enable();
+            jumpAction.action.performed += HandleJump;
+        }
+    }
 
-            if (jumpSounds.Length > 0)
-            {
-                int index = Random.Range(0, jumpSounds.Length);
-                audioSource.pitch = Random.Range(0.9f, 1.1f);
-                audioSource.PlayOneShot(jumpSounds[index]);
-            }
+    // void OnEnable()
+    // {
+    //     if (jumpAction != null)
+    //     {
+    //         jumpAction.action.Enable();
+    //         jumpAction.action.performed += HandleJump;
+    //     }
+    // }
+
+    void OnDisable()
+    {
+        if (jumpAction != null)
+        {
+            jumpAction.action.performed -= HandleJump;
+            jumpAction.action.Disable();
+        }
+    }
+
+    // void Update()
+    // {
+    //     if (!enabled) return;
+    //     if (movement == null || controller == null) return;
+    //     if (jumpAction == null) return;
+    //
+    //     if (jumpAction.action.WasPressedThisFrame() && controller.isGrounded)
+    //     {
+    //         movement.SetVerticalVelocity(Mathf.Sqrt(movement.JumpHeight * -2f * movement.Gravity));
+    //
+    //         if (jumpSounds.Length > 0)
+    //         {
+    //             int index = Random.Range(0, jumpSounds.Length);
+    //             audioSource.pitch = Random.Range(0.9f, 1.1f);
+    //             audioSource.PlayOneShot(jumpSounds[index]);
+    //         }
+    //     }
+    // }
+    
+    private void HandleJump(InputAction.CallbackContext ctx)
+    {
+        if (!movement.IsOwner) return;
+        if (!controller.isGrounded) return;
+
+        movement.SetVerticalVelocity(Mathf.Sqrt(movement.JumpHeight * -2f * movement.Gravity));
+
+        if (jumpSounds.Length > 0)
+        {
+            int index = Random.Range(0, jumpSounds.Length);
+            audioSource.pitch = Random.Range(0.9f, 1.1f);
+            audioSource.PlayOneShot(jumpSounds[index]);
         }
     }
 }

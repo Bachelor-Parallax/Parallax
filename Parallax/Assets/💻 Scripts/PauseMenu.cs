@@ -9,7 +9,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            canvas.active = !canvas.active;
+            canvas.SetActive(!canvas.activeSelf);
         }
     }
 }

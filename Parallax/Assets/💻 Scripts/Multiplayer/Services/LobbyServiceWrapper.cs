@@ -9,10 +9,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utilities;
 
-public class LobbyServiceWrapper : MonoBehaviour
+public class LobbyServiceWrapper : PersistentSingleton<LobbyServiceWrapper>
 {
-    public static LobbyServiceWrapper Instance { get; private set; }
-
     [SerializeField] private string lobbyName;
 
     public Lobby currentLobby { get; private set; }
@@ -21,25 +19,19 @@ public class LobbyServiceWrapper : MonoBehaviour
     private const string k_keyJoinCode = "RelayJoinCode";
 
     private const float k_lobbyHeartbeatInterval = 20f;
-    private const float k_lobbyPollInterval = 65f;
+    private const float k_lobbyPollInterval = 10f;
     private string relayJoinCode;
     
-    private void Awake()
+    protected override void Awake()
     {
-        InitializeSingleton();
+        base.Awake();
         ConfigureTimers();
     }
 
-    private void InitializeSingleton()
+    private void Update()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        heartbeatTimer.Tick(Time.deltaTime);
+        pollTimer.Tick(Time.deltaTime);
     }
     
     private void ConfigureTimers()
@@ -57,16 +49,19 @@ public class LobbyServiceWrapper : MonoBehaviour
         };
     }
     
+    #region Handlers
     private async Task HandleHeartbeatAsync()
     {
+        if (currentLobby == null) return;
+        
         try
         {
             await LobbyService.Instance.SendHeartbeatPingAsync(currentLobby.Id);
-            Debug.Log("Sent heartbeat ping to lobby: " + currentLobby.Name);
         }
         catch (LobbyServiceException e)
         {
             Debug.LogError("Failed to heartbeat lobby: " + e.Message);
+            heartbeatTimer.Stop();
         }
     }
 
@@ -82,7 +77,8 @@ public class LobbyServiceWrapper : MonoBehaviour
             Debug.LogError("Failed to poll for updates on lobby: " + e.Message);
         }
     }
-
+    #endregion
+    
     public async Task<Lobby> CreateLobby(bool isPrivate, int maxPlayers)
     {
         try
@@ -172,18 +168,11 @@ public class LobbyServiceWrapper : MonoBehaviour
 
             currentLobby = joinedLobby;
 
-            Debug.Log("Lobby data keys:");
-            foreach (var key in currentLobby.Data.Keys)
-            {
-                Debug.Log(key);
-            }
-
             pollTimer.Start();
 
             string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
 
             JoinAllocation joinAllocation = await RelayServiceWrapper.Instance.JoinRelay(relayJoinCode);
-            Debug.Log("Joined relay successfully");
 
             RelayServiceWrapper.Instance.ConfigureClientRelay(joinAllocation);
 
@@ -260,6 +249,4 @@ public class LobbyServiceWrapper : MonoBehaviour
 
         return result;
     }
-    
-    
 }

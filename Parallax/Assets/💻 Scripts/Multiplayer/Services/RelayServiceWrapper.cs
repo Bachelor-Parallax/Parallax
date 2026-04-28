@@ -6,28 +6,9 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
 
-public class RelayServiceWrapper : MonoBehaviour
+public class RelayServiceWrapper : PersistentSingleton<RelayServiceWrapper>
 {
-    public static RelayServiceWrapper Instance { get; private set; }
-
     [SerializeField] private bool dtlsSecureMode = true;
-    
-    private void Awake()
-    {
-        InitializeSingleton();
-    }
-
-    private void InitializeSingleton()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
 
     public async Task<Allocation> AllocateRelay(int maxPlayers)
     {
