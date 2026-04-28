@@ -953,6 +953,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelTile10
       objectReference: {fileID: 0}
+    - target: {fileID: 6390765247282269448, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
+      propertyPath: levelData
+      value: 
+      objectReference: {fileID: 11400000, guid: dc40043005407324ca9faf11e5ad5375, type: 2}
     - target: {fileID: 7443534319947677913, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17.26
@@ -1034,7 +1038,7 @@ PrefabInstance:
     - target: {fileID: 6390765247282269448, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
       propertyPath: levelData
       value: 
-      objectReference: {fileID: 11400000, guid: 025b41ca0ed3492469fcb5ec7c0565bd, type: 2}
+      objectReference: {fileID: 11400000, guid: dc40043005407324ca9faf11e5ad5375, type: 2}
     - target: {fileID: 7443534319947677913, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17.35
