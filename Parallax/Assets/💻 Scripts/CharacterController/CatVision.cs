@@ -19,6 +19,9 @@ public class CatVision : NetworkBehaviour
 
     private float currentZoom = 0f;
     private float targetZoom = 0f;
+    
+    private bool hasCachedCamera;
+
 
     private RoleController roleController;
     private Movement movement;
@@ -115,8 +118,8 @@ private void OnEnable()
 
         if (cmCamera == null)
         {
-            Debug.LogWarning("CatVision: No CinemachineCamera found.");
             orbitalFollow = null;
+            hasCachedCamera = false;
             return;
         }
 
@@ -124,13 +127,15 @@ private void OnEnable()
 
         if (orbitalFollow == null)
         {
-            Debug.LogWarning("CatVision: No CinemachineOrbitalFollow found.");
+            hasCachedCamera = false;
             return;
         }
 
         baseTopRadius = orbitalFollow.Orbits.Top.Radius;
         baseCenterRadius = orbitalFollow.Orbits.Center.Radius;
         baseBottomRadius = orbitalFollow.Orbits.Bottom.Radius;
+
+        hasCachedCamera = true;
     }
 
     private void SetVisionState(bool active)
@@ -152,7 +157,11 @@ private void OnEnable()
 
     private void UpdateCameraZoom()
     {
-        if (orbitalFollow == null) return;
+        if (!hasCachedCamera || orbitalFollow == null)
+        {
+            CacheCameraReferences();
+            return;
+        }
 
         currentZoom = Mathf.Lerp(
             currentZoom,
