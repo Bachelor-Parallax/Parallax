@@ -1,9 +1,10 @@
 @startuml asymmetrical property CD
 package "Asymmetrical Properties" {
+
     ' Base class for all asymmetrical properties
     abstract class "BaseAsymProperty<MonoBehaviour>" as base
     {
-        + abstract void ApplyPerspectiveProfile(PerspectiveProfile profile)
+        + abstract void ApplyPerspectiveProfile(CharacterRole role)
     }
 
     abstract class "BaseAsymProperty <<T>>\nwhere T : Component" as baseT
@@ -13,42 +14,38 @@ package "Asymmetrical Properties" {
 
 
     ' concrete implementations of asymmetrical properties
-    class AsymCollider
-    {
-        - PerspectiveProfile _profile
-        + override void ApplyPerspectiveProfile(PerspectiveProfile profile)
-    }
-
     class AsymGeometry 
     {
         - Mesh _humanMesh
         - Mesh _catMesh
-        + override void ApplyPerspectiveProfile(PerspectiveProfile profile)
+        + override void ApplyPerspectiveProfile(CharacterRole role)
     }
 
     class AsymVisibility
     {
-        - PerspectiveProfile _profile
-        + override void ApplyPerspectiveProfile(PerspectiveProfile profile)
+        - CharacterRole _activeRole
+        + override void ApplyPerspectiveProfile(CharacterRole role)
     }
 
     class AsymMaterial
     {
         - Material _humanMaterial
         - Material _catMaterial
-        + override void ApplyPerspectiveProfile(PerspectiveProfile profile)
+        + override void ApplyPerspectiveProfile(CharacterRole role)
     }
 
     class AsymLight
     {
-        - PerspectiveProfile _profile
-        + override void ApplyPerspectiveProfile(PerspectiveProfile profile)
+        - Color _lightColorHuman
+        - Color _lightColorCat
+        - float _intensityHuman
+        - float _intensityCat
+        + override void ApplyPerspectiveProfile(CharacterRole role)
     }
 
     ' relationships
     base <|-- baseT
 
-    baseT <|-- AsymCollider: T::Collider
     baseT <|-- AsymGeometry: T::MeshFilter
     baseT <|- AsymMaterial: T::Renderer
     baseT <|-- AsymVisibility: T::Renderer
