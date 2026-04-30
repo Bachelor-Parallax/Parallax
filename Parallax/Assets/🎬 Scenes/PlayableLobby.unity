@@ -9954,8 +9954,8 @@ MonoBehaviour:
   <PanelSettingsOverride>k__BackingField: {fileID: 0}
   <Position>k__BackingField:
     <OverridePosition>k__BackingField: 1
-    m_PositionLeftToRight: 0
-    m_PositionTopToBottom: 0
+    m_PositionLeftToRight: 0.9
+    m_PositionTopToBottom: 0.9
   <Configuration>k__BackingField: {fileID: 11400000, guid: 8f1b4e3792d8446399527749cfb591a2, type: 2}
 --- !u!1001 &1725378086
 PrefabInstance:
