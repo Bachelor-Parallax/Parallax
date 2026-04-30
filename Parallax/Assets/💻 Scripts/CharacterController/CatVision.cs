@@ -7,7 +7,7 @@ using Unity.Cinemachine;
 public class CatVision : NetworkBehaviour
 {
     private CatVisionTarget[] visionTargets;
-    [SerializeField] private Key visionKey = Key.Q;
+    [SerializeField] private InputActionReference catVisionAction;
 
     [Header("Movement")]
     [SerializeField] private float visionMoveMultiplier = 0.35f;
@@ -41,14 +41,43 @@ public class CatVision : NetworkBehaviour
         movement = GetComponent<Movement>();
     }
 
-    private void OnEnable()
+private void OnEnable()
+{
+    SceneManager.sceneLoaded += OnSceneLoaded;
+
+    if (catVisionAction != null)
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        catVisionAction.action.performed += OnVisionStarted;
+        catVisionAction.action.canceled += OnVisionCanceled;
+        catVisionAction.action.Enable();
     }
+}
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        if (catVisionAction != null)
+        {
+            catVisionAction.action.performed -= OnVisionStarted;
+            catVisionAction.action.canceled -= OnVisionCanceled;
+            catVisionAction.action.Disable();
+        }
+    }
+
+    private void OnVisionStarted(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+        if (roleController == null || !roleController.IsCat) return;
+
+        SetVisionState(true);
+    }
+
+    private void OnVisionCanceled(InputAction.CallbackContext context)
+    {
+        if (!IsOwner) return;
+
+        SetVisionState(false);
     }
 
     public override void OnNetworkSpawn()
@@ -143,8 +172,6 @@ public class CatVision : NetworkBehaviour
         if (!IsOwner) return;
         if (roleController == null) return;
 
-        bool keyHeld = Keyboard.current != null && Keyboard.current[visionKey].isPressed;
-
         if (!roleController.IsCat)
         {
             if (isVisionActive)
@@ -152,11 +179,6 @@ public class CatVision : NetworkBehaviour
         }
         else
         {
-            if (keyHeld != isVisionActive)
-            {
-                SetVisionState(keyHeld);
-            }
-
             UpdateCameraZoom();
         }
 
