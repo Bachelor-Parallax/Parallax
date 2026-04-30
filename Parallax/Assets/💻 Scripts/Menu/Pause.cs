@@ -23,5 +23,12 @@ public class Pause : MonoBehaviour
     {
         bool isActive = !pauseMenu.activeSelf;
         pauseMenu.SetActive(isActive);
+        Cursor.visible = isActive;
+    }
+
+    public void Resume()
+    {
+        Cursor.visible = false;
+        pauseMenu.SetActive(false);
     }
 }
