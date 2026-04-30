@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Debug = UnityEngine.Debug;
 
 public class LevelManager : MonoBehaviour
 {
@@ -32,6 +33,11 @@ public class LevelManager : MonoBehaviour
         _levelData = Resources.
             LoadAll<LevelData>("LevelData")
             .FirstOrDefault(ld => ld.sceneName == SceneManager.GetActiveScene().name);
+        if (_levelData == null)
+        {
+            Debug.LogError("Could not find level data for current scene");
+            return;
+        }
 
         if (_instance != null && _instance != this) Destroy(gameObject);
         else _instance = this;
