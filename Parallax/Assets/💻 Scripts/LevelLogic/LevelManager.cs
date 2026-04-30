@@ -7,15 +7,14 @@ public class LevelManager : MonoBehaviour
 {
     #region Inspector Values
 
-    [Header("Level Data")]
-    [SerializeField] private LevelData levelData;
-    
     [Header("Spawn Positions")]
     [SerializeField] private GameObject humanSpawnPos;
 
     [SerializeField] private GameObject catSpawnPos;
 
     #endregion Inspector Values
+
+    private LevelData levelData;
 
     private Stopwatch _stopWatch;
     private GameObject _human, _cat;
