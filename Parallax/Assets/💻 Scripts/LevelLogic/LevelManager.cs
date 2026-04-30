@@ -1,7 +1,9 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class LevelManager : MonoBehaviour
 
     #endregion Inspector Values
 
-    private LevelData levelData;
+    private LevelData _levelData;
 
     private Stopwatch _stopWatch;
     private GameObject _human, _cat;
@@ -27,6 +29,10 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
+        _levelData = Resources.
+            LoadAll<LevelData>("LevelData")
+            .FirstOrDefault(ld => ld.sceneName == SceneManager.GetActiveScene().name);
+
         if (_instance != null && _instance != this) Destroy(gameObject);
         else _instance = this;
 
@@ -73,10 +79,10 @@ public class LevelManager : MonoBehaviour
     {
         _stopWatch.Stop();
         ProgressManager.RegisterLevelCompletion(
-            levelData.levelName,
+            _levelData.levelName,
             DetermineLocalRole(),
             (float)_stopWatch.Elapsed.TotalSeconds,
-            levelData.devTime
+            _levelData.devTime
         );
 
         // TODO: Move this to GUI, open said GUI here
