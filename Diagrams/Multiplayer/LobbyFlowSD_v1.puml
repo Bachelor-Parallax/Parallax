@@ -1,0 +1,114 @@
+@startuml
+title Lobby & Relay Connection Flow (Parallax)
+
+actor Player
+participant "MultiplayerManager" as MM
+participant "AuthenticationServiceWrapper" as Auth
+participant "LobbyServiceWrapper" as LobbyWrapper
+participant "RelayServiceWrapper" as RelayWrapper
+participant "Unity Lobby Service" as LobbyService
+participant "Unity Relay Service" as RelayService
+participant "NetworkManager" as Netcode
+
+== Authentication ==
+
+Player -> MM : Start()
+MM -> Auth : Authenticate()
+activate Auth
+Auth -> Auth : Initialize Unity Services
+Auth -> Auth : SignInAnonymouslyAsync()
+Auth --> MM : PlayerId
+deactivate Auth
+
+== Host Flow ==
+
+alt Player chooses Host
+
+    Player -> MM : CreateLobby()
+    MM -> LobbyWrapper : CreateLobby()
+
+    activate LobbyWrapper
+
+    LobbyWrapper -> RelayWrapper : AllocateRelay(maxPlayers)
+    activate RelayWrapper
+    RelayWrapper -> RelayService : CreateAllocationAsync()
+    RelayService --> RelayWrapper : Allocation
+    deactivate RelayWrapper
+
+    LobbyWrapper -> RelayWrapper : GetRelayJoinCode(allocation)
+    activate RelayWrapper
+    RelayWrapper -> RelayService : GetJoinCodeAsync()
+    RelayService --> RelayWrapper : JoinCode
+    deactivate RelayWrapper
+
+    LobbyWrapper -> LobbyService : CreateLobbyAsync()
+    LobbyService --> LobbyWrapper : Lobby
+
+    LobbyWrapper -> LobbyService : UpdateLobbyAsync(joinCode)
+    LobbyService --> LobbyWrapper : OK
+
+    LobbyWrapper -> RelayWrapper : ConfigureHostRelay()
+    RelayWrapper -> Netcode : SetRelayServerData()
+
+    LobbyWrapper -> Netcode : StartHost()
+    activate Netcode
+    Netcode --> LobbyWrapper : OnServerStarted
+    deactivate Netcode
+
+    LobbyWrapper --> MM : Lobby
+    deactivate LobbyWrapper
+
+end
+
+== Client Flow ==
+
+alt Player chooses Client
+
+    Player -> MM : JoinLobby()
+    MM -> LobbyWrapper : JoinLobby(code/null)
+
+    activate LobbyWrapper
+
+    alt Quick Join
+        LobbyWrapper -> LobbyService : QuickJoinLobbyAsync()
+    else Join by Code
+        LobbyWrapper -> LobbyService : JoinLobbyByCodeAsync()
+    end
+
+    LobbyService --> LobbyWrapper : Lobby
+
+    LobbyWrapper -> LobbyWrapper : Extract Relay Join Code
+
+    LobbyWrapper -> RelayWrapper : JoinRelay(joinCode)
+    activate RelayWrapper
+    RelayWrapper -> RelayService : JoinAllocationAsync()
+    RelayService --> RelayWrapper : JoinAllocation
+    deactivate RelayWrapper
+
+    LobbyWrapper -> RelayWrapper : ConfigureClientRelay()
+    RelayWrapper -> Netcode : SetRelayServerData()
+
+    LobbyWrapper -> Netcode : StartClient()
+    activate Netcode
+    Netcode --> LobbyWrapper : OnClientConnected
+    deactivate Netcode
+
+    LobbyWrapper --> MM : Lobby
+    deactivate LobbyWrapper
+
+end
+
+== Gameplay ==
+
+Netcode <--> RelayService : Network traffic (Relay)
+note over Netcode, RelayService
+Unity Netcode handles synchronization.
+Relay acts as transport intermediary.
+end note
+
+note right of LobbyWrapper
+Uses TaskCompletionSource
+to await Netcode startup events
+end note
+
+@enduml
