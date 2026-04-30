@@ -1,14 +1,27 @@
-using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Pause : MonoBehaviour
 {
-    [SerializeField] private GameObject _gameObject;
-    private void Update()
+    [SerializeField] private GameObject pauseMenu;
+
+    private InputAction pauseAction;
+
+    private void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            _gameObject.SetActive(!_gameObject.activeSelf);
-        }
+        pauseAction = new InputAction("Pause");
+        pauseAction.AddBinding("<Keyboard>/escape");
+        pauseAction.AddBinding("<Gamepad>/start");
+        pauseAction.AddBinding("<Gamepad>/select"); // FallBack if controller dont have start
+        pauseAction.performed += OnPause;
+    }
+
+    private void OnEnable() => pauseAction.Enable();
+    private void OnDisable() => pauseAction.Disable();
+
+    private void OnPause(InputAction.CallbackContext context)
+    {
+        bool isActive = !pauseMenu.activeSelf;
+        pauseMenu.SetActive(isActive);
     }
 }
