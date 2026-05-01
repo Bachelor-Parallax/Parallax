@@ -1,14 +1,65 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Pause : MonoBehaviour
 {
-    [SerializeField] private GameObject _gameObject;
-    private void Update()
+    [SerializeField] private GameObject pauseMenuContainer;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private List<GameObject> gameObjects;
+    
+    private InputAction pauseAction;
+
+    private void Awake()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        pauseAction = new InputAction("Pause");
+        pauseAction.AddBinding("<Keyboard>/escape");
+        pauseAction.AddBinding("<Gamepad>/start");
+        pauseAction.AddBinding("<Gamepad>/select"); // FallBack if controller dont have start
+        pauseAction.performed += OnPause;
+    }
+
+    private void OnEnable() => pauseAction.Enable();
+    private void OnDisable() => pauseAction.Disable();
+
+    private void OnPause(InputAction.CallbackContext context)
+    {
+        bool isActive = !pauseMenuContainer.activeSelf;
+        pauseMenuContainer.SetActive(isActive);
+        Cursor.visible = isActive;
+
+        if (isActive) // Makes sure that the PauseMenu is the first menu showen each time
         {
-            _gameObject.SetActive(!_gameObject.activeSelf);
+            foreach (GameObject obj in gameObjects)
+            {
+                obj.SetActive(false);
+            }
+        }
+        else pauseMenu.gameObject.SetActive(true);
+    }
+
+    public void Resume()
+    {
+        Cursor.visible = false;
+        pauseMenuContainer.SetActive(false);
+        
+        foreach (GameObject obj in gameObjects)
+        {
+            obj.SetActive(false);
         }
     }
+
+    public void Disconnect()
+    {
+        if (MultiplayerManager.Instance == null) return;
+        
+        _ = MultiplayerManager.Instance.Disconnect();
+    }
+
+    public void Retry()
+    {
+        if (SceneLoader.Instance == null) return;
+        SceneLoader.Instance.ReloadCurrentScene();
+    }
+    
 }
