@@ -31,11 +31,11 @@ public class CatSound : NetworkBehaviour
         catSoundAction.action.Disable();
     }
 
-    private void OnCatSound(InputAction.CallbackContext context)
-    {
-        if (!IsLocalPlayer) return;
-        PlayRandomCatSound();
-    }
+    // private void OnCatSound(InputAction.CallbackContext context)
+    // {
+    //     if (!IsLocalPlayer) return;
+    //     PlayRandomCatSound();
+    // }
 
     public void PlayRandomCatSound()
     {
@@ -47,5 +47,25 @@ public class CatSound : NetworkBehaviour
 
         int randomIndex = Random.Range(0, catSounds.Length);
         audioSource.PlayOneShot(catSounds[randomIndex]);
+    }
+    
+    private void OnCatSound(InputAction.CallbackContext context)
+    {
+        if (!IsLocalPlayer) return;
+
+        int randomIndex = Random.Range(0, catSounds.Length);
+        PlayCatSoundServerRpc(randomIndex);
+    }
+
+    [ServerRpc]
+    private void PlayCatSoundServerRpc(int index)
+    {
+        PlayCatSoundClientRpc(index);
+    }
+
+    [ClientRpc]
+    private void PlayCatSoundClientRpc(int index)
+    {
+        audioSource.PlayOneShot(catSounds[index]);
     }
 }
