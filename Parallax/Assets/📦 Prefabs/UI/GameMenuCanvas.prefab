@@ -6397,7 +6397,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5671d194c20f140980eef7e65bd23d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pause
+  pauseMenuContainer: {fileID: 0}
   pauseMenu: {fileID: 7065593258890833028}
+  gameObjects: []
 --- !u!1 &4790255445535075574
 GameObject:
   m_ObjectHideFlags: 0
@@ -9664,7 +9666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7940045813635993233
 Transform:
   m_ObjectHideFlags: 0

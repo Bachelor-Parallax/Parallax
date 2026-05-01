@@ -20728,6 +20728,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameMenuCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7065593258890833028, guid: 43e8df5c08b43c64a82efa9df894635d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7519654493214194753, guid: 43e8df5c08b43c64a82efa9df894635d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
