@@ -9,10 +9,12 @@ public class CatSound : NetworkBehaviour
     [SerializeField] private InputActionReference catSoundAction;
 
     private AudioSource audioSource;
+    private CharacterRole characterRole;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        characterRole = GetComponent<RoleController>().role.Value;
     }
 
     private void OnEnable()
@@ -52,6 +54,7 @@ public class CatSound : NetworkBehaviour
     private void OnCatSound(InputAction.CallbackContext context)
     {
         if (!IsLocalPlayer) return;
+        if (characterRole != CharacterRole.Cat) return;
 
         int randomIndex = Random.Range(0, catSounds.Length);
         PlayCatSoundServerRpc(randomIndex);
