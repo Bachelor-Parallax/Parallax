@@ -135,7 +135,7 @@ public class RoleController : NetworkBehaviour
     void ApplyRoleSpecificPhysics(CharacterRole r)
     {
         CharacterController controller = GetComponent<CharacterController>();
-        CatSound catSound = GetComponent<CatSound>();
+        //CatSound catSound = GetComponent<CatSound>();
         Debug.Log($"Before physics apply | Role: {r} | Pos: {transform.position} | Height: {controller.height} | Center: {controller.center}");
 
         if (controller == null)
@@ -148,14 +148,14 @@ public class RoleController : NetworkBehaviour
                 controller.center = new Vector3(0, 0f, 0);
                 controller.stepOffset = 0.4f;
                 controller.slopeLimit = 45f;
-                catSound.enabled = false;
+                //catSound.enabled = false;
                 break;
             case CharacterRole.Cat:
                 controller.height = 1f;
                 controller.center = new Vector3(0, 0f, 0);
                 controller.stepOffset = 0.2f;
                 controller.slopeLimit = 60f;
-                catSound.enabled = true;
+                //catSound.enabled = true;
                 break;
             default:
                 controller.height = 1.8f;
