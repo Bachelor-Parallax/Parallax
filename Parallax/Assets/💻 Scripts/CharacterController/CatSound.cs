@@ -1,8 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(AudioSource))]
-public class CatSound : MonoBehaviour
+public class CatSound : NetworkBehaviour
 {
     [SerializeField] private AudioClip[] catSounds;
     [SerializeField] private InputActionReference catSoundAction;
@@ -32,6 +33,7 @@ public class CatSound : MonoBehaviour
 
     private void OnCatSound(InputAction.CallbackContext context)
     {
+        if (!IsLocalPlayer) return;
         PlayRandomCatSound();
     }
 
