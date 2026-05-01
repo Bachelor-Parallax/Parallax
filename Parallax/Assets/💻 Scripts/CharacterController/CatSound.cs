@@ -11,7 +11,7 @@ public class CatSound : NetworkBehaviour
     private AudioSource audioSource;
     private bool isCat;
 
-    private void Awake()
+    private void Start()
     {
         audioSource = GetComponent<AudioSource>();
         isCat = GetComponent<RoleController>().IsCat;
