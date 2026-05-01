@@ -6400,8 +6400,8 @@ MonoBehaviour:
   pauseMenuContainer: {fileID: 7065593258890833028}
   pauseMenu: {fileID: 8491033083971638311}
   gameObjects:
-  - {fileID: 1049521913133644543}
-  - {fileID: 4318101447737610809}
+  - {fileID: 2208639771011203462}
+  - {fileID: 8987188036121069048}
 --- !u!1 &4790255445535075574
 GameObject:
   m_ObjectHideFlags: 0
