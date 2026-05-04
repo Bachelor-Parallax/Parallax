@@ -1,0 +1,18 @@
+@startuml
+
+participant "LevelManager" as LevelManager
+participant "PerspectiveManager" as PerspectiveManager
+participant "Concrete Asymmetry Components" as Asymmetry
+
+== Awake ==
+
+LevelManager -> LevelManager: Fetch PerspectiveManager\nand NetworkManager
+PerspectiveManager -> PerspectiveManager: Query scene for\nBaseAsymProperty instances
+
+== Start ==
+
+LevelManager -> LevelManager: Determine local player role
+LevelManager -> PerspectiveManager: Apply local perspective
+PerspectiveManager -> Asymmetry: Configure role-specific state
+
+@enduml
