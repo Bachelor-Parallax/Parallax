@@ -21,6 +21,7 @@ public class SettingsManager : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         LoadAll();
     }
 
