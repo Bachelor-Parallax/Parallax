@@ -10635,7 +10635,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7437297886292025117, guid: 5b78efb618513a44580c9ada32e3d5ca, type: 3}
       propertyPath: requireTwoPlayers
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7437297886292025117, guid: 5b78efb618513a44580c9ada32e3d5ca, type: 3}
       propertyPath: targets.Array.size
