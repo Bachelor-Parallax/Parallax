@@ -12,9 +12,17 @@ public class SettingsManager : MonoBehaviour
     public event Action<bool> OnMuteChanged;
     public event Action<float> OnCamaraSensitivityChanged;
     public event Action<bool> OnConfineMouseChanged;
+    public event Action<float> OnSFXVolumeChanged;
+    public event Action<float> OnDialogueVolumeChanged;
+    public event Action<float> OnMusicVolumeChanged;
+    
 
     // PlayerPrefs keys
     private const string MasterVolumeKey = "master_volume";
+    private const string MusicVolumeKey = "music_volume";
+    private const string SFXVolumeKey = "sfx_volume";
+    private const string DialogueVolumeKey = "dialogue_volume";
+
     private const string MuteKey = "mute_all";
     private const string SensitivityKey = "camara_sensitivity";
     private const string ConfineMouseKey = "confine_mouse";
@@ -43,6 +51,27 @@ public class SettingsManager : MonoBehaviour
 
         ApplyVolume();
     }
+    
+    public void SetMusicVolume(Slider sliderValue)
+    { 
+        PlayerPrefs.SetFloat(MusicVolumeKey, sliderValue.value);
+        PlayerPrefs.Save();
+        ApplyVolume();
+    }
+
+    public void SetSFXVolume(Slider sliderValue)
+    {
+        PlayerPrefs.SetFloat(SFXVolumeKey, sliderValue.value);
+        PlayerPrefs.Save();
+        ApplyVolume();
+    }
+
+    public void SetDialogueVolume(Slider sliderValue)
+    {
+        PlayerPrefs.SetFloat(DialogueVolumeKey, sliderValue.value);
+        PlayerPrefs.Save();
+        ApplyVolume();
+    }
 
     public void SetMouseSensitivity(Slider sliderValue)
     {
@@ -64,18 +93,20 @@ public class SettingsManager : MonoBehaviour
 
     // -------------------------
     // APPLY METHODS
-    // -------------------------
+    // ------------------------
+    
     private void ApplyVolume()
     {
-        float volume = GetMasterVolume();
         bool muted = GetMute();
-
-        AudioListener.volume = muted ? 0f : volume;
-
-        OnMasterVolumeChanged?.Invoke(volume);
-        OnMuteChanged?.Invoke(muted);
+        OnMasterVolumeChanged?.Invoke(GetMasterVolume());
+        OnMuteChanged?.Invoke(GetMute());
+        
+        OnMusicVolumeChanged?.Invoke(GetMusicVolume());
+        OnSFXVolumeChanged?.Invoke(GetSFXVolume());
+        OnDialogueVolumeChanged?.Invoke(GetDialogueVolume());
     }
-
+    
+    
     private void ApplyCursor()
     {
         bool confine = GetConfineMouse();
@@ -105,6 +136,15 @@ public class SettingsManager : MonoBehaviour
 
     public bool GetMute() =>
         PlayerPrefs.GetInt(MuteKey, 0) == 1;
+    
+    public float GetMusicVolume() =>
+        PlayerPrefs.GetFloat(MusicVolumeKey, 1f);
+
+    public float GetSFXVolume() =>
+        PlayerPrefs.GetFloat(SFXVolumeKey, 1f);
+
+    public float GetDialogueVolume() =>
+        PlayerPrefs.GetFloat(DialogueVolumeKey, 1f);
 
     public float GetMouseSensitivity() =>
         PlayerPrefs.GetFloat(SensitivityKey, 1f);
