@@ -38,7 +38,8 @@ public class SettingsManager : MonoBehaviour
 	{
 		PlayerPrefs.SetFloat(MasterVolumeKey, sliderValue.value);
 		PlayerPrefs.Save();
-		ApplyVolume();
+		// ApplyVolume();
+		OnMasterVolumeChanged?.Invoke(GetMasterVolume());
 	}
 
 	public void ToggleMute()
@@ -47,29 +48,32 @@ public class SettingsManager : MonoBehaviour
 
 		PlayerPrefs.SetInt(MuteKey, muted ? 1 : 0);
 		PlayerPrefs.Save();
-
-		ApplyVolume();
+		// ApplyVolume();
+		OnMuteChanged?.Invoke(GetMute());
 	}
 	
 	public void SetMusicVolume(Slider sliderValue)
 	{ 
 		PlayerPrefs.SetFloat(MusicVolumeKey, sliderValue.value);
 		PlayerPrefs.Save();
-		ApplyVolume();
+		// ApplyVolume();
+		OnMusicVolumeChanged?.Invoke(GetMusicVolume());
 	}
 
 	public void SetSFXVolume(Slider sliderValue)
 	{
 		PlayerPrefs.SetFloat(SFXVolumeKey, sliderValue.value);
 		PlayerPrefs.Save();
-		ApplyVolume();
+		// ApplyVolume();
+		OnSFXVolumeChanged?.Invoke(GetSFXVolume());
 	}
 
 	public void SetDialogueVolume(Slider sliderValue)
 	{
 		PlayerPrefs.SetFloat(DialogueVolumeKey, sliderValue.value);
 		PlayerPrefs.Save();
-		ApplyVolume();
+		// ApplyVolume();
+		OnDialogueVolumeChanged?.Invoke(GetDialogueVolume());
 	}
 
 	public void SetMouseSensitivity(Slider sliderValue)

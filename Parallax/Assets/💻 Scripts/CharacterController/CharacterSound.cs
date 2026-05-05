@@ -18,7 +18,10 @@ public class CharacterSound : NetworkBehaviour
 	
 	private void Start()
 	{
-		audioSource = GetComponent<AudioSource>();
+		// audioSource = GetComponent<AudioSource>();
+		var sources = GetComponents<AudioSource>();
+		audioSource = sources[0];
+		
 		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
@@ -79,7 +82,7 @@ public class CharacterSound : NetworkBehaviour
 	}
 
 
-	public void SoundSetup() // The setup on now sceen load
+	private void SoundSetup() // The setup on now sceen load
 	{
 		// Gets the instance
 		_settingsManager = SettingsManager.Instance;
@@ -87,6 +90,7 @@ public class CharacterSound : NetworkBehaviour
 		// Subscribes
 		_settingsManager.OnMuteChanged += UpdateMute;
 		_settingsManager.OnDialogueVolumeChanged += UpdateDialogueVolume;
+		_settingsManager.OnMasterVolumeChanged += UpdateMasterVolume;
 		
 		// Fetches values from PlayerPrefs sync them (should only run ONCE)
 		UpdateDialogueVolume(_settingsManager.GetDialogueVolume());
@@ -95,27 +99,28 @@ public class CharacterSound : NetworkBehaviour
 
 
 	// Event handling
-	void UpdateDialogueVolume(float value) // 'value' is the value from UpdateDialogueVolume event call
+	private void UpdateMasterVolume(float value)
 	{
-		// Debug.LogWarning("UpdateMusic value = " + value);
+		UpdateDialogueVolume(_settingsManager.GetDialogueVolume());
+	}
+	
+	private void UpdateDialogueVolume(float value) // 'value' is the value from UpdateDialogueVolume event call
+	{
+		Debug.LogWarning("UpdateDialogueVolume value = " + value);
 		// Debug.LogWarning("Master volume = " + SettingsManager.Instance.GetMasterVolume());
 		double volume = Math.Round(value * _settingsManager.GetMasterVolume(), 2);
-		// Debug.LogWarning("Volume = " + volume);
+		Debug.LogWarning("UpdateDialogueVolume total = " + volume);
 		audioSource.volume = (float)volume;
 	}
 	
-	void UpdateMute(bool value)
+	private void UpdateMute(bool value)
 	{
-		// Debug.LogWarning("UpdateMute" + audioSource.mute + value);
+		Debug.LogWarning("UpdateMute" + audioSource.mute + value);
 		audioSource.mute = value;
 	}
 	
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		// Unsubscribe from any old event
-		_settingsManager.OnMusicVolumeChanged -= UpdateDialogueVolume;
-		_settingsManager.OnMuteChanged -= UpdateMute;
-		
 		SoundSetup();
 	}
 }

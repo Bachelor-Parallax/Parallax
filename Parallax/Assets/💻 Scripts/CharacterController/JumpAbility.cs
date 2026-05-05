@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
+using UnityEngine.SceneManagement;
+
 public class JumpAbility : MonoBehaviour
 {
     private Movement movement;
@@ -12,12 +14,16 @@ public class JumpAbility : MonoBehaviour
     [SerializeField] private InputActionReference jumpAction;
     
     private AudioSource audioSource;
+    private SettingsManager _settingsManager;
     
     void Awake()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         movement = GetComponent<Movement>();
         controller = GetComponent<CharacterController>();
-        audioSource = GetComponent<AudioSource>();
+        // audioSource = GetComponent<AudioSource>();
+        var sources = GetComponents<AudioSource>();
+        audioSource = sources[1];
     }
 
     private void Start()
@@ -81,5 +87,47 @@ public class JumpAbility : MonoBehaviour
             audioSource.pitch = Random.Range(0.9f, 1.1f);
             audioSource.PlayOneShot(jumpSounds[index]);
         }
+    }
+    
+    
+    
+    private void SoundSetup() // The setup on now sceen load
+    {
+        // Gets the instance
+        _settingsManager = SettingsManager.Instance;
+
+        // Subscribes
+        _settingsManager.OnMuteChanged += UpdateMute;
+        _settingsManager.OnSFXVolumeChanged += UpdateSFXVolume;
+        _settingsManager.OnMasterVolumeChanged += UpdateMasterVolume;
+        
+        // Fetches values from PlayerPrefs sync them (should only run ONCE)
+        UpdateSFXVolume(_settingsManager.GetSFXVolume());
+        UpdateMute(_settingsManager.GetMute());
+    }
+    
+    // Event handling
+    private void UpdateMasterVolume(float value)
+    {
+        UpdateSFXVolume(_settingsManager.GetSFXVolume());
+    }
+    
+    private void UpdateSFXVolume(float value) // 'value' is the value from UpdateSFXVolume event call
+    {
+        Debug.LogWarning("UpdateSFXVolume value = " + value);
+        double volume = Math.Round(value * _settingsManager.GetMasterVolume(), 2);
+        Debug.LogWarning("UpdateSFXVolume total = " + volume);
+        audioSource.volume = (float)volume;
+    }
+    
+    private void UpdateMute(bool value)
+    {
+        Debug.LogWarning("UpdateMute x2" + audioSource.mute + value);
+        audioSource.mute = value;
+    }
+    
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SoundSetup();
     }
 }
