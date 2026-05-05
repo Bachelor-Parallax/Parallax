@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ActivationPad : MonoBehaviour
+public class ActivationZone : MonoBehaviour
 {
     [SerializeField] private GameObject target;
     [SerializeField] private bool catOnly = true;
@@ -10,7 +10,7 @@ public class ActivationPad : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Pad hit by: " + other.name);
+        Debug.Log("Zone entered by: " + other.name);
 
         if (activateOnlyOnce && hasActivated) return;
 
