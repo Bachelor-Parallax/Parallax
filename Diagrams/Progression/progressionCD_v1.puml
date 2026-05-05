@@ -1,0 +1,97 @@
+@startuml Progression CD
+
+package "ProgressionSystem" {
+
+    class ProgressManager
+    {
+        + Data : ProgressData {static}
+        - path : string {static}
+        - levelLookup : Dictionary<string, LevelProgress> {static}
+
+        + Save(): void
+        + Load(): void
+        + GetLevel(string): LevelProgress
+        + RegisterLevelCompletion(string, CharacterRole, float, float): void
+
+        - Encrypt(string): string
+        - Decrypt(string): string
+    }
+
+    class ProgressData
+    {
+        + levels : List<LevelProgress>
+    }
+
+    class LevelProgress
+    {
+        + levelName : string
+        + bestTime : float
+        + catTrophyAcquired : bool
+        + humanTrophyAcquired : bool
+        + devTimeTrophyAcquired : bool
+    }
+
+    class LevelData
+    {
+        + levelName : string
+        + levelDescription : string
+        + sceneName : string
+        + devTime : float
+        + levelImage : Sprite
+    }
+}
+
+package "Gameplay" {
+
+    class LevelManager
+    {
+        - levelData : LevelData
+        - _stopWatch : Stopwatch
+
+        + CompleteLevel(): void
+        + ExitLevel(): void
+        - DetermineLocalRole(): CharacterRole
+    }
+
+    class EndZone
+    {
+        - _levelData : LevelData
+        # OnTimerElapsed(): void
+    }
+}
+
+package "UI" {
+
+    class LevelTile
+    {
+        - levelData : LevelData
+
+        + Initialize(): void
+        - FormatTime(float): string
+    }
+}
+
+'======================
+' Relationships
+'======================
+
+' Data relationships
+ProgressData "1" -- "*" LevelProgress
+
+' Manager usage
+ProgressManager --> ProgressData
+ProgressManager --> LevelProgress
+
+' Gameplay integration
+LevelManager --> ProgressManager
+LevelManager --> LevelData
+
+EndZone --> LevelManager
+EndZone --> LevelData
+
+' UI integration
+LevelTile --> ProgressManager
+LevelTile --> LevelData
+LevelTile --> LevelProgress
+
+@enduml

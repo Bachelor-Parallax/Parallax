@@ -1,0 +1,91 @@
+@startuml Progression CD (Improved)
+
+package "ProgressionSystem" {
+
+    class ProgressManager
+    {
+        + Data : ProgressData {static}
+        - path : string {static}
+        - levelLookup : Dictionary<string, LevelProgress> {static}
+
+        + Save(): void
+        + Load(): void
+        + GetLevel(string): LevelProgress
+        + RegisterLevelCompletion(string, CharacterRole, float, float): void
+        + GetLevelViewData(LevelData): LevelProgressViewData
+
+        - Encrypt(string): string
+        - Decrypt(string): string
+        - FormatTime(float): string
+    }
+
+    class ProgressData
+    {
+        + levels : List<LevelProgress>
+    }
+
+    class LevelProgress
+    {
+        + levelName : string
+        + bestTime : float
+        + catTrophyAcquired : bool
+        + humanTrophyAcquired : bool
+        + devTimeTrophyAcquired : bool
+    }
+
+    class LevelProgressViewData
+    {
+        + levelName : string
+        + bestTimeFormatted : string
+        + devTimeFormatted : string
+        + catTrophy : bool
+        + humanTrophy : bool
+        + devTimeTrophy : bool
+    }
+
+    class LevelData
+    {
+        + levelName : string
+        + levelDescription : string
+        + sceneName : string
+        + devTime : float
+        + levelImage : Sprite
+    }
+}
+
+package "Gameplay" {
+
+    class LevelManager
+    {
+        - levelData : LevelData
+        - _stopWatch : Stopwatch
+
+        + CompleteLevel(): void
+    }
+}
+
+package "UI" {
+
+    class LevelTile
+    {
+        - levelData : LevelData
+        + Initialize(): void
+    }
+}
+
+' Relationships
+
+ProgressData "1" -- "*" LevelProgress
+
+ProgressManager --down> ProgressData
+ProgressManager --down> LevelProgress
+ProgressManager --down> LevelProgressViewData
+
+LevelManager --down> ProgressManager
+LevelManager --right> LevelData
+
+LevelTile --down> ProgressManager
+LevelTile --right> LevelData
+LevelTile ..> LevelProgressViewData
+
+@enduml
