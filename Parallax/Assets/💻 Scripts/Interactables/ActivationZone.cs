@@ -1,45 +1,84 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ActivationZone : MonoBehaviour
+public class ActivationPad : MonoBehaviour
 {
-    [SerializeField] private GameObject target;
-    [SerializeField] private bool catOnly = true;
+    [Header("Targets")]
+    [SerializeField] private GameObject[] targets;
+
+    [Header("Rules")]
+    [SerializeField] private bool catOnly = false;
+    [SerializeField] private bool requireTwoPlayers = false;
     [SerializeField] private bool activateOnlyOnce = true;
 
     private bool hasActivated;
 
+    private HashSet<GameObject> playersOnPad = new HashSet<GameObject>();
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Zone entered by: " + other.name);
-
-        if (activateOnlyOnce && hasActivated) return;
-
         RoleController role = other.GetComponentInParent<RoleController>();
+        if (role == null) return;
 
-        if (role == null)
+        if (catOnly && !role.IsCat) return;
+
+        GameObject player = role.gameObject;
+
+        if (!playersOnPad.Contains(player))
         {
-            Debug.Log("No RoleController found on " + other.name);
+            playersOnPad.Add(player);
+            Debug.Log("Player entered pad. Count: " + playersOnPad.Count);
+        }
+
+        TryActivate();
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        RoleController role = other.GetComponentInParent<RoleController>();
+        if (role == null) return;
+
+        GameObject player = role.gameObject;
+
+        if (playersOnPad.Contains(player))
+        {
+            playersOnPad.Remove(player);
+            Debug.Log("Player left pad. Count: " + playersOnPad.Count);
+        }
+    }
+
+    private void TryActivate()
+    {
+        if (activateOnlyOnce && hasActivated)
+            return;
+
+        if (requireTwoPlayers && playersOnPad.Count < 2)
+        {
+            Debug.Log("Not enough players on pad");
             return;
         }
 
-        Debug.Log("Role: " + role.CurrentRole);
+        bool activatedSomething = false;
 
-        if (catOnly && !role.IsCat)
+        foreach (GameObject target in targets)
         {
-            Debug.Log("Not cat");
-            return;
+            if (target == null)
+                continue;
+
+            IActivatable activatable = target.GetComponent<IActivatable>();
+
+            if (activatable == null)
+            {
+                Debug.LogWarning($"{target.name} has no IActivatable component");
+                continue;
+            }
+
+            Debug.Log("Activating: " + target.name);
+            activatable.Activate();
+            activatedSomething = true;
         }
 
-        IActivatable activatable = target.GetComponent<IActivatable>();
-
-        if (activatable == null)
-        {
-            Debug.LogWarning($"{target.name} has no IActivatable component");
-            return;
-        }
-
-        Debug.Log("Activating: " + target.name);
-        activatable.Activate();
-        hasActivated = true;
+        if (activatedSomething)
+            hasActivated = true;
     }
 }
