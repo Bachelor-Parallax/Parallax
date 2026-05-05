@@ -802,6 +802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee91809f55dc384b8c451528c7b8b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CatSound
+  ShowTopMostFoldoutHeaderGroup: 1
   catSounds:
   - {fileID: 8300000, guid: 66f2d533c1ef8ce4d91fedf7df317c85, type: 3}
   - {fileID: 8300000, guid: 9bf96302469c1b342b55bbebc1a0fc2d, type: 3}
@@ -810,7 +811,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7e1481705b1aac0408445fe43dc7dd89, type: 3}
   - {fileID: 8300000, guid: f68fe0b897a29cc4bbbdc40b08365646, type: 3}
   - {fileID: 8300000, guid: 38152f72a24634d4d81138232f6b338c, type: 3}
-  catSoundAction: {fileID: -2480265816854938826, guid: cbced1aec47fb5b49be3d06671431c14, type: 3}
+  humanSounds: []
+  soundAction: {fileID: -2480265816854938826, guid: cbced1aec47fb5b49be3d06671431c14, type: 3}
 --- !u!1 &8223599332400213611
 GameObject:
   m_ObjectHideFlags: 0
