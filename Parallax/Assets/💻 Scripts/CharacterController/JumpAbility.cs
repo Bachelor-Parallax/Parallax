@@ -114,15 +114,15 @@ public class JumpAbility : MonoBehaviour
     
     private void UpdateSFXVolume(float value) // 'value' is the value from UpdateSFXVolume event call
     {
-        Debug.LogWarning("UpdateSFXVolume value = " + value);
+        Debug.LogWarning("UpdateSFXVolume - Jump value = " + value);
         double volume = Math.Round(value * _settingsManager.GetMasterVolume(), 2);
-        Debug.LogWarning("UpdateSFXVolume total = " + volume);
+        Debug.LogWarning("UpdateSFXVolume - Jump total = " + volume);
         audioSource.volume = (float)volume;
     }
     
     private void UpdateMute(bool value)
     {
-        Debug.LogWarning("UpdateMute x2" + audioSource.mute + value);
+        Debug.LogWarning("UpdateMute - Jump = " + audioSource.mute + value);
         audioSource.mute = value;
     }
     

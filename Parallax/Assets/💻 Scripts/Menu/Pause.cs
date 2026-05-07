@@ -60,6 +60,7 @@ public class Pause : MonoBehaviour
     {
         if (SceneLoader.Instance == null) return;
         SceneLoader.Instance.ReloadCurrentScene();
+        Cursor.visible = false;
     }
     
 }
