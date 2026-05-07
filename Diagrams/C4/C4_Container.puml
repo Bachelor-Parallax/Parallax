@@ -1,0 +1,58 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include DEVICONS/msql_server.puml
+!include FONTAWESOME/users.puml
+SHOW_PERSON_OUTLINE()
+title [Container] Parallax
+
+'skinparam Linetype ortho
+'skinparam linetype polyline
+
+' ------- Containers ------- '
+Person(player, "Player", "A person playing Parallax")
+
+System(computer, "Computer", "Facilitates Hardware/Storage")
+
+System_Boundary(parallax, "Parallax", "system") {
+    ' Containers '
+    Container(ui, "User Interface", "Lets the user navigate the game client")
+    Container(multiplayer, "Multiplayer System", "Manages lobbies and multiplayer sessions")
+    Container(character, "Character System", "Manages the players input and interactions")
+    Container(perspective, "Asymmetrical Perspective System", "Manages asymmetrical perspectives")
+    Container(progress, "Progress System", "Manages players game progress")
+    Container(gamestate, "Level Manager", "Manages the level setup and flow")
+    Container(settings, "Settings System", "Manages local player settings")
+}
+
+' External Containers '
+System_Ext(relay, "Unity Relay", "Network Traffic Relay/NAT Traversal")
+System_Ext(lobby, "Unity Lobby", "Matchmaking/Session Discovery")
+
+' ------- Relations ------- '
+' Player Relations '
+Rel_D(player, ui, "Navigates menus")
+Rel_D(player, character, "Uses", "Unity Input Manager")
+
+' UI Relations '
+Rel(ui, multiplayer, "Launches Network Client")
+Rel(ui, settings, "Uses")
+
+' Multiplayer Relations '
+BiRel_L(multiplayer, relay, "Uses")
+BiRel_L(multiplayer, lobby, "Uses")
+Rel_U(multiplayer, character, "Creates player prefab for")
+
+' Settings Relations '
+Rel_R(settings, computer, "Stores and Loads Settings")
+Rel(settings, gamestate, "Applies settings to sound and camera")
+
+' Gamestate Relations '
+Rel(gamestate, perspective, "Launches")
+Rel_R(gamestate, progress, "Verifies progress")
+
+' Progress Relations '
+Rel_R(progress, computer, "Saves/Loads progress")
+
+@enduml
