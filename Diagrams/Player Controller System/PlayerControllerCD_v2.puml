@@ -1,0 +1,176 @@
+@startuml PlayerControllerCD
+
+package "Player Controller System" {
+
+    package "Interfaces" {
+        interface IJump {
+            + Jump(): void
+        }
+
+        interface ISprint {
+            + SetSprinting(bool sprinting): void
+        }
+
+        ' interface IBoxMover {
+        '     + CanMoveBoxes : bool
+        ' }
+
+        interface IInteractor {
+            + Interact(): void
+        }
+
+        interface IMovement {
+            + Move(Vector2 input): void
+            + SetVerticalVelocity(float value): void
+        }
+
+        interface IInteractable {
+            + Interact(GameObject interactor): void
+            + GetInteractText(): string
+        }
+    }
+
+    package "Core Components" {
+        class Movement {
+            - baseSpeed : float
+            - sprintSpeed : float
+            - gravity : float
+            - jumpHeight : float
+            - SpeedMultiplier : float
+            - CurrentMoveInput : Vector2
+            - isSprinting : bool
+            - verticalVelocity : float
+            - cameraMode : CameraMode
+
+            + Move(Vector2 input): void
+            + SetSprinting(bool sprinting): void
+            + SetVerticalVelocity(float value): void
+            + ResetVerticalVelocity(): void
+            + SetCameraMode(CameraMode mode): void
+            + SetBoxDragMode(bool enabled): void
+            + Teleport(Vector3 pos): void
+            + ApplyRole(CharacterRole role): void
+            - OnMove(InputAction.CallbackContext ctx): void
+            - OnSprint(InputAction.CallbackContext ctx): void
+            - OnCameraRotate(InputAction.CallbackContext ctx): void
+            - HandleStepSounds(): void
+            - HandleSprintInput(): void
+            - TryAssignCamera(): void
+            - ApplyGravityOnly(): void
+            - Rotate(Vector2 input): void
+            - OnSceneLoaded(Scene scene, LoadSceneMode mode): void
+
+        }
+
+        class RoleController {
+            - roleSwapAction : InputActionReference
+            - human : GameObject
+            - cat : GameObject
+            - humanRenderers : Renderer[]
+            - catRenderers : Renderer[]
+            + role : NetworkVariable<CharacterRole>
+
+            + CurrentRole : CharacterRole
+            + IsHuman : bool
+            + IsCat : bool
+            - <i>OnNetworkSpawn()</i>: void
+            - <i>OnNetworkDespawn()</i>: void
+            - UpdateRole(CharacterRole r): void
+            - ApplyRoleSpecificPhysics(CharacterRole r): void
+            - OnRoleSwap(InputAction.CallbackContext ctx): void
+        }
+
+        class JumpAbility {
+            - movement : Movement
+            - controller : CharacterController
+            - jumpSounds : AudioClip[]
+            - jumpAction : InputActionReference
+            - audioSource : AudioSource
+            - settingsManager : SettingsManager
+
+            - HandleJump(InputAction.CallbackContext ctx): void
+        }
+
+        class CatVision {
+            - catVisionAction : InputActionReference
+            - visionTargets : CatVisionTarget[]
+            - roleController : RoleController
+            - movement : Movement
+            - cmCamera : CinemachineCamera
+            - orbitalFollow : CinemachineOrbitalFollow
+            - isVisionActive : bool
+            - visionMoveMultiplier : float
+            - movementBlendSpeed : float
+            - zoomInAmount : float
+            - zoomSmoothSpeed : float
+            - currentZoom : float
+            - targetZoom : float
+            - hasCachedCamera : bool
+            - currentMoveMultiplier : float
+            - targetMoveMultiplier : float
+            - baseTopRadius : float
+            - baseCenterRadius : float
+            - baseBottomRadius : float
+
+            + <i>OnNetworkSpawn()</i>: void
+            - OnEnable(): void
+            - OnDisable(): void
+            - OnVisionStarted(InputAction.CallbackContext ctx): void
+            - OnVisionCanceled(InputAction.CallbackContext ctx): void
+            - OnSceneLoaded(Scene scene, LoadSceneMode mode): void
+            - CacheVisionTargets(): void
+            - CacheCameraReferences(): void
+            - SetVisionState(bool active): void
+            - UpdateCameraZoom(): void
+            - Update(): void
+        }
+    }
+
+    package "Feedback Components" {
+        class InteractionPromptUI {
+            - canvasGroup : CanvasGroup
+            - promptText : TMP_Text
+
+            + Show(string message): void
+            + Hide(): void
+        }
+
+        class CharacterSound {
+            - catSounds : AudioClip[]
+            - humanSounds : AudioClip[]
+            - soundAction : InputActionReference
+            - audioSource : AudioSource
+            - settingsManager : SettingsManager
+
+            - PlaySoundServerRpc(): void
+            - PlaySoundClientRpc(): void
+        }
+
+        class CharacterFade {
+            - renderers : Renderer[]
+            - fadeDistance : float
+            - minAlpha : float
+            - fadeSpeed : float
+            - cameraTransform : Transform
+            - currentAlpha : float
+
+            + OnNetworkSpawn(): void
+        }
+    }
+}
+
+Movement ..|> IMovement
+Movement ..|> ISprint
+
+JumpAbility ..|> IJump
+JumpAbility --> Movement : sets vertical velocity
+
+CatVision --> RoleController : checks Cat role
+CatVision --> Movement : modifies SpeedMultiplier
+
+CharacterSound --> RoleController : checks role
+
+RoleController --> Movement : applies role movement values
+
+
+@enduml
