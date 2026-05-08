@@ -1,0 +1,28 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include DEVICONS/msql_server.puml
+!include FONTAWESOME/users.puml
+title [System Context] Parallax
+
+SHOW_PERSON_OUTLINE()
+
+'Entities'
+Person(client, "Player", "A person playing Parallax")
+
+System(parallax, "Parallax", "Game instance (Unity + C#)")
+System(pc, "Computer", "Contains the hardware required for running the game, as well as storage for the progression system")
+
+System_Ext(relay, "Unity Relay", "Network traffic relay / NAT traversal")
+System_Ext(lobby, "Unity Lobby Service", "Matchmaking/Session discovery")
+
+
+'Relations'
+Rel(client, parallax, "plays through game client")
+
+BiRel_L(parallax, pc, "Utilizes hardware and storage")
+
+BiRel(parallax, lobby, "Matches players")
+BiRel(parallax, relay, "Relays network traffic")
+@enduml

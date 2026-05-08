@@ -1,32 +1,37 @@
+using System;
+using Unity.Cinemachine;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
+
+using UnityEngine.SceneManagement;
 
 public enum CameraMode
 {
-    AutoFollow,
-    FreeLook
+	AutoFollow,
+	FreeLook
 }
 
 public class Movement : NetworkBehaviour, IMovement, ISprint
 {
-    [Header("Movement")]
-    [SerializeField] private float baseSpeed = 5f;
-    [SerializeField] private float sprintSpeed = 9f;
-    [SerializeField] private float gravity = -9.81f;
-    [SerializeField] private float jumpHeight = 2f;
+	[Header("Movement")]
+	[SerializeField] private float baseSpeed = 5f;
+	[SerializeField] private float sprintSpeed = 9f;
+	[SerializeField] private float gravity = -9.81f;
+	[SerializeField] private float jumpHeight = 2f;
 
-    [Header("Audio")]
-    [SerializeField] private AudioClip stepSound;
+	[Header("Audio")]
+	[SerializeField] private AudioClip stepSound;
 
-    [Header("Strafe Turning")]
-    [SerializeField] private float strafeTurnSpeed = 10f;
-    [SerializeField] private float strafeTurnAngle = 18f;
+	[Header("Strafe Turning")]
+	[SerializeField] private float strafeTurnSpeed = 10f;
+	[SerializeField] private float strafeTurnAngle = 18f;
 
-    [Header("Box Drag")]
-    [SerializeField] private float dragMoveSpeed = 2.5f;
-    [SerializeField] private float dragTurnSpeed = 120f;
-    [SerializeField] private float dragSnapSpeed = 10f;
+	[Header("Box Drag")]
+	[SerializeField] private float dragMoveSpeed = 2.5f;
+	[SerializeField] private float dragTurnSpeed = 120f;
+	[SerializeField] private float dragSnapSpeed = 10f;
 
     [Header("Camera")]
     [SerializeField] private CameraMode cameraMode = CameraMode.AutoFollow;
@@ -40,242 +45,251 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     [SerializeField] private float fallMultiplier = 2.5f;
     [SerializeField] private float lowJumpMultiplier = 2f;
 
-    private AudioSource audioSource;
-    private float stepTimer;
+	private AudioSource audioSource;
+	private SettingsManager _settingsManager;
+	private float stepTimer;
+	private CinemachineInputAxisController axisController;
 
-    public float Gravity => gravity;
-    public float JumpHeight => jumpHeight;
-    
-    public float SpeedMultiplier { get; set; } = 1f;
-    
-    public Vector2 CurrentMoveInput { get; private set; }
+	public float Gravity => gravity;
+	public float JumpHeight => jumpHeight;
+	
+	public float SpeedMultiplier { get; set; } = 1f;
+	
+	public Vector2 CurrentMoveInput { get; private set; }
 
     private CharacterController controller;
     private JumpAbility jumpAbility;
     private Transform cameraTransform;
 
-    private float verticalVelocity;
-    private float freeLookYaw;
-    
-    private bool isSprinting;
-    private Vector2 lookInput;
-    private Vector2 moveInput;
-    public bool IsCarryingObject;
+	private float verticalVelocity;
+	private float freeLookYaw;
+	
+	private bool isSprinting;
+	private Vector2 lookInput;
+	private Vector2 moveInput;
+	public bool IsCarryingObject;
 
-    void Awake()
-    {
-        controller = GetComponent<CharacterController>();
-        audioSource = GetComponent<AudioSource>();
-        jumpAbility = GetComponent<JumpAbility>();
-    }
-    
-    #region Network Events
-    public override void OnNetworkSpawn()
-    {
-        if (!IsOwner) return;
+	void Awake()
+	{
+		SceneManager.sceneLoaded += OnSceneLoaded;
+		controller = GetComponent<CharacterController>();
+		var sources = GetComponents<AudioSource>();
+		audioSource = sources[1];
+		jumpAbility = GetComponent<JumpAbility>();
+	}
 
-        CursorManager.Lock();
-        TryAssignCamera();
-        freeLookYaw = transform.eulerAngles.y;
+	private void Start()
+	{
+		SoundSetup();
+	}
 
-        moveAction.action.Enable();
-        sprintAction.action.Enable();
-        cameraRotateAction.action.Enable();
+	#region Network Events
+	public override void OnNetworkSpawn()
+	{
+		if (!IsOwner) return;
 
-        moveAction.action.performed += OnMove;
-        moveAction.action.canceled += OnMove;
+		CursorManager.Lock();
+		TryAssignCamera();
+		freeLookYaw = transform.eulerAngles.y;
 
-        sprintAction.action.performed += OnSprint;
-        sprintAction.action.canceled += OnSprint;
+		moveAction.action.Enable();
+		sprintAction.action.Enable();
+		cameraRotateAction.action.Enable();
 
-        cameraRotateAction.action.performed += OnCameraRotate;
-        cameraRotateAction.action.canceled += OnCameraRotate;
-    }
-    
-    public override void OnNetworkDespawn()
-    {
-        if (!IsOwner) return;
+		moveAction.action.performed += OnMove;
+		moveAction.action.canceled += OnMove;
 
-        moveAction.action.performed -= OnMove;
-        moveAction.action.canceled -= OnMove;
+		sprintAction.action.performed += OnSprint;
+		sprintAction.action.canceled += OnSprint;
 
-        sprintAction.action.performed -= OnSprint;
-        sprintAction.action.canceled -= OnSprint;
+		cameraRotateAction.action.performed += OnCameraRotate;
+		cameraRotateAction.action.canceled += OnCameraRotate;
+	}
+	
+	public override void OnNetworkDespawn()
+	{
+		if (!IsOwner) return;
 
-        cameraRotateAction.action.performed -= OnCameraRotate;
-        cameraRotateAction.action.canceled -= OnCameraRotate;
-    }
-    #endregion
-    
-    #region Event Handlers
-    private void OnMove(InputAction.CallbackContext ctx)
-    {
-        moveInput = Vector2.ClampMagnitude(ctx.ReadValue<Vector2>(), 1f);
-    }
+		moveAction.action.performed -= OnMove;
+		moveAction.action.canceled -= OnMove;
 
-    private void OnSprint(InputAction.CallbackContext ctx)
-    {
-        isSprinting = ctx.ReadValueAsButton();
-    }
+		sprintAction.action.performed -= OnSprint;
+		sprintAction.action.canceled -= OnSprint;
 
-    private void OnCameraRotate(InputAction.CallbackContext ctx)
-    {
-        lookInput = ctx.ReadValue<Vector2>();
-    }
-    #endregion
+		cameraRotateAction.action.performed -= OnCameraRotate;
+		cameraRotateAction.action.canceled -= OnCameraRotate;
+	}
+	#endregion
+	
+	#region Event Handlers
+	private void OnMove(InputAction.CallbackContext ctx)
+	{
+		moveInput = Vector2.ClampMagnitude(ctx.ReadValue<Vector2>(), 1f);
+	}
 
-    void Update()
-    {
-        if (!IsOwner) return;
+	private void OnSprint(InputAction.CallbackContext ctx)
+	{
+		isSprinting = ctx.ReadValueAsButton();
+	}
 
-        if (cameraTransform == null)
-            TryAssignCamera();
+	private void OnCameraRotate(InputAction.CallbackContext ctx)
+	{
+		lookInput = ctx.ReadValue<Vector2>();
+	}
+	#endregion
 
-        HandleSprintInput();
+	void Update()
+	{
+		if (!IsOwner) return;
 
-        CurrentMoveInput = moveInput;
+		if (cameraTransform == null)
+			TryAssignCamera();
 
-        Move(moveInput);
-        Rotate(moveInput);
+		HandleSprintInput();
 
-        HandleStepSound();
-    }
+		CurrentMoveInput = moveInput;
 
-    #region Sound
-    private void HandleStepSound()
-    {
-        if (audioSource == null || stepSound == null) return;
+		Move(moveInput);
+		Rotate(moveInput);
 
-        if (controller.isGrounded && controller.velocity.magnitude > 0.1f)
-        {
-            stepTimer -= Time.deltaTime;
+		HandleStepSound();
+	}
 
-            if (stepTimer <= 0f)
-            {
-                audioSource.pitch = Random.Range(0.9f, 1.1f);
-                audioSource.PlayOneShot(stepSound);
+	#region Sound
+	private void HandleStepSound()
+	{
+		if (audioSource == null || stepSound == null) return;
 
-                float speed = controller.velocity.magnitude;
-                stepTimer = Mathf.Lerp(0.6f, 0.3f, speed / sprintSpeed);
-            }
-        }
-        else
-        {
-            stepTimer = 0f;
-        }
-    }
-    #endregion
+		if (controller.isGrounded && controller.velocity.magnitude > 0.1f)
+		{
+			stepTimer -= Time.deltaTime;
 
-    private void HandleSprintInput()
-    {
-        if (sprintAction == null) return;
+			if (stepTimer <= 0f)
+			{
+				audioSource.pitch = Random.Range(0.9f, 1.1f);
+				audioSource.PlayOneShot(stepSound);
 
-        SetSprinting(sprintAction.action.IsPressed());
-    }
+				float speed = controller.velocity.magnitude;
+				stepTimer = Mathf.Lerp(0.6f, 0.3f, speed / sprintSpeed);
+			}
+		}
+		else
+		{
+			stepTimer = 0f;
+		}
+	}
+	#endregion
 
-    public void SetSprinting(bool sprinting)
-    {
-        isSprinting = sprinting;
-    }
+	private void HandleSprintInput()
+	{
+		if (sprintAction == null) return;
 
-    private void TryAssignCamera()
-    {
-        if (Camera.main != null)
-            cameraTransform = Camera.main.transform;
-    }
+		SetSprinting(sprintAction.action.IsPressed());
+	}
 
-    private void ApplyGravityOnly()
-    {
-        if (controller.isGrounded && verticalVelocity < 0f)
-            verticalVelocity = -2f;
+	public void SetSprinting(bool sprinting)
+	{
+		isSprinting = sprinting;
+	}
 
-        verticalVelocity += gravity * Time.deltaTime;
-        controller.Move(new Vector3(0f, verticalVelocity, 0f) * Time.deltaTime);
-    }
+	private void TryAssignCamera()
+	{
+		if (Camera.main != null)
+			cameraTransform = Camera.main.transform;
+	}
 
-    public void SetVerticalVelocity(float value)
-    {
-        verticalVelocity = value;
-    }
+	private void ApplyGravityOnly()
+	{
+		if (controller.isGrounded && verticalVelocity < 0f)
+			verticalVelocity = -2f;
 
-    #region Rotation
-    private void Rotate(Vector2 input)
-    {
-        if (cameraTransform == null) return;
+		verticalVelocity += gravity * Time.deltaTime;
+		controller.Move(new Vector3(0f, verticalVelocity, 0f) * Time.deltaTime);
+	}
 
-        Vector3 camForward = cameraTransform.forward;
-        Vector3 camRight = cameraTransform.right;
+	public void SetVerticalVelocity(float value)
+	{
+		verticalVelocity = value;
+	}
 
-        camForward.y = 0f;
-        camRight.y = 0f;
+	#region Rotation
+	private void Rotate(Vector2 input)
+	{
+		if (cameraTransform == null) return;
 
-        camForward.Normalize();
-        camRight.Normalize();
+		Vector3 camForward = cameraTransform.forward;
+		Vector3 camRight = cameraTransform.right;
 
-        Quaternion targetRotation = transform.rotation;
+		camForward.y = 0f;
+		camRight.y = 0f;
 
-        // AUTO FOLLOW MODE
-        if (cameraMode == CameraMode.AutoFollow)
-        {
-            if (input.y > 0.1f) // kun fremad
-            {
-                Vector3 moveDir = (camForward * input.y + camRight * input.x).normalized;
-                targetRotation = Quaternion.LookRotation(moveDir);
-                freeLookYaw = targetRotation.eulerAngles.y;
-            }
-        }
-        // FREE LOOK MODE
-        else
-        {
-            if (lookInput.sqrMagnitude > 0.01f)
-            {
-                Vector3 targetDirection = Vector3.zero;
+		camForward.Normalize();
+		camRight.Normalize();
 
-                if (input.sqrMagnitude > 0.01f)
-                    targetDirection = (camForward * input.y + camRight * input.x).normalized;
-                else
-                    targetDirection = camForward;
+		Quaternion targetRotation = transform.rotation;
 
-                if (targetDirection.sqrMagnitude > 0.01f)
-                {
-                    targetRotation = Quaternion.LookRotation(targetDirection);
-                    freeLookYaw = targetRotation.eulerAngles.y;
-                }
-            }
-            else
-            {
-                float sideAngle = 0f;
+		// AUTO FOLLOW MODE
+		if (cameraMode == CameraMode.AutoFollow)
+		{
+			if (input.y > 0.1f) // kun fremad
+			{
+				Vector3 moveDir = (camForward * input.y + camRight * input.x).normalized;
+				targetRotation = Quaternion.LookRotation(moveDir);
+				freeLookYaw = targetRotation.eulerAngles.y;
+			}
+		}
+		// FREE LOOK MODE
+		else
+		{
+			if (lookInput.sqrMagnitude > 0.01f)
+			{
+				Vector3 targetDirection = Vector3.zero;
 
-                if (Mathf.Abs(input.x) > 0.01f)
-                    sideAngle = input.x * strafeTurnAngle;
+				if (input.sqrMagnitude > 0.01f)
+					targetDirection = (camForward * input.y + camRight * input.x).normalized;
+				else
+					targetDirection = camForward;
 
-                targetRotation = Quaternion.Euler(0f, freeLookYaw + sideAngle, 0f);
-            }
-        }
+				if (targetDirection.sqrMagnitude > 0.01f)
+				{
+					targetRotation = Quaternion.LookRotation(targetDirection);
+					freeLookYaw = targetRotation.eulerAngles.y;
+				}
+			}
+			else
+			{
+				float sideAngle = 0f;
 
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            targetRotation,
-            strafeTurnSpeed * Time.deltaTime
-        );
-    }
+				if (Mathf.Abs(input.x) > 0.01f)
+					sideAngle = input.x * strafeTurnAngle;
 
-    public void SetCameraMode(CameraMode mode)
-    {
-        cameraMode = mode;
+				targetRotation = Quaternion.Euler(0f, freeLookYaw + sideAngle, 0f);
+			}
+		}
 
-        Debug.Log("Camera mode set to: " + mode);
+		transform.rotation = Quaternion.Slerp(
+			transform.rotation,
+			targetRotation,
+			strafeTurnSpeed * Time.deltaTime
+		);
+	}
 
-        if (cameraTransform != null)
-            freeLookYaw = transform.eulerAngles.y;
-    }
-    #endregion
+	public void SetCameraMode(CameraMode mode)
+	{
+		cameraMode = mode;
 
-    #region Movement
-    public void Move(Vector2 input)
-    {
-        if (controller.isGrounded && verticalVelocity < 0f)
-            verticalVelocity = -2f;
+		Debug.Log("Camera mode set to: " + mode);
+
+		if (cameraTransform != null)
+			freeLookYaw = transform.eulerAngles.y;
+	}
+	#endregion
+
+	#region Movement
+	public void Move(Vector2 input)
+	{
+		if (controller.isGrounded && verticalVelocity < 0f)
+			verticalVelocity = -2f;
 
         if (verticalVelocity < 0)
         {
@@ -290,56 +304,56 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
             verticalVelocity += gravity * Time.deltaTime;
         }
 
-        Vector3 forward;
-        Vector3 right;
+		Vector3 forward;
+		Vector3 right;
 
-        if ((cameraMode == CameraMode.AutoFollow && cameraTransform != null) ||
-            (lookInput.sqrMagnitude > 0.01f && cameraTransform != null))
-        {
-            forward = cameraTransform.forward;
-            right = cameraTransform.right;
-        }
-        else
-        {
-            Quaternion moveBasis = Quaternion.Euler(0f, freeLookYaw, 0f);
-            forward = moveBasis * Vector3.forward;
-            right = moveBasis * Vector3.right;
-        }
+		if ((cameraMode == CameraMode.AutoFollow && cameraTransform != null) ||
+			(lookInput.sqrMagnitude > 0.01f && cameraTransform != null))
+		{
+			forward = cameraTransform.forward;
+			right = cameraTransform.right;
+		}
+		else
+		{
+			Quaternion moveBasis = Quaternion.Euler(0f, freeLookYaw, 0f);
+			forward = moveBasis * Vector3.forward;
+			right = moveBasis * Vector3.right;
+		}
 
-        forward.y = 0f;
-        right.y = 0f;
+		forward.y = 0f;
+		right.y = 0f;
 
-        forward.Normalize();
-        right.Normalize();
+		forward.Normalize();
+		right.Normalize();
 
-        Vector3 direction = (forward * input.y + right * input.x).normalized;
+		Vector3 direction = (forward * input.y + right * input.x).normalized;
 
-        float currentSpeed = isSprinting ? sprintSpeed : baseSpeed;
+		float currentSpeed = isSprinting ? sprintSpeed : baseSpeed;
 
-        Vector3 move = direction * (currentSpeed * SpeedMultiplier);
-        move.y = verticalVelocity;
+		Vector3 move = direction * (currentSpeed * SpeedMultiplier);
+		move.y = verticalVelocity;
 
-        controller.Move(move * Time.deltaTime);
-    }
+		controller.Move(move * Time.deltaTime);
+	}
 
-    public void SetBoxDragMode(bool enabled)
-    {
-        IsCarryingObject = enabled;
-    }
-    
-    #endregion
+	public void SetBoxDragMode(bool enabled)
+	{
+		IsCarryingObject = enabled;
+	}
+	
+	#endregion
 
-    public void ResetVerticalVelocity()
-    {
-        verticalVelocity = 0f;
-    }
+	public void ResetVerticalVelocity()
+	{
+		verticalVelocity = 0f;
+	}
 
-    public void Teleport(Vector3 pos)
-    {
-        if (controller) controller.enabled = false;
-        transform.position = pos;
-        if (controller) controller.enabled = true;
-    }
+	public void Teleport(Vector3 pos)
+	{
+		if (controller) controller.enabled = false;
+		transform.position = pos;
+		if (controller) controller.enabled = true;
+	}
 
     public void ApplyRole(CharacterRole role)
     {
@@ -352,12 +366,75 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
                 jumpHeight = 0.8f;
                 break;
 
-            case CharacterRole.Cat:
-                baseSpeed = 8f;
-                sprintSpeed = 12f;
-                gravity = -14f;
-                jumpHeight = 1.8f;
-                break;
-        }
-    }
+			case CharacterRole.Cat:
+				baseSpeed = 8f;
+				sprintSpeed = 12f;
+				gravity = -14f;
+				jumpHeight = 1.8f;
+				break;
+		}
+	}
+	
+	
+	
+	private void SoundSetup() // The setup on now sceen load
+	{
+		
+		axisController = FindFirstObjectByType<CinemachineInputAxisController>();
+		// Gets the instance
+		_settingsManager = SettingsManager.Instance;
+
+	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
+	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
+	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
+		
+		// Subscribes
+		// _settingsManager.OnMuteChanged += UpdateMute;
+		// _settingsManager.OnSFXVolumeChanged += UpdateSFXVolume;
+		// _settingsManager.OnMasterVolumeChanged += UpdateMasterVolume;
+		_settingsManager.OnCamaraSensitivityChanged += UpdateCamaraSensitivity;
+		
+	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
+	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
+	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
+		
+		// Fetches values from PlayerPrefs sync them (should only run ONCE)
+		// UpdateSFXVolume(_settingsManager.GetSFXVolume());
+		// UpdateMute(_settingsManager.GetMute());
+		UpdateCamaraSensitivity(_settingsManager.GetMouseSensitivity());
+	}
+
+	private void UpdateCamaraSensitivity(float value)
+	{
+		axisController.Controllers[0].Input.Gain = value; //horizontalSensitivity
+		axisController.Controllers[1].Input.Gain = -value; //verticalSensitivity
+	}
+	
+	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
+	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
+	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
+	
+	// private void UpdateMasterVolume(float value)
+	// {
+	// 	UpdateSFXVolume(_settingsManager.GetSFXVolume());
+	// }
+	
+	// private void UpdateSFXVolume(float value) // 'value' is the value from UpdateSFXVolume event call
+	// {
+	// 	Debug.LogWarning("UpdateSFXVolume - Movement value = " + value);
+	// 	double volume = Math.Round(value * _settingsManager.GetMasterVolume(), 2);
+	// 	Debug.LogWarning("UpdateSFXVolume - Movement total = " + volume);
+	// 	audioSource.volume = (float)volume;
+	// }
+	
+	// private void UpdateMute(bool value)
+	// {
+	// 	Debug.LogWarning("UpdateMute - movement = " + audioSource.mute + value);
+	// 	audioSource.mute = value;
+	// }
+	
+	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		SoundSetup();
+	}
 }

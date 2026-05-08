@@ -1,6 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
 [CustomPropertyDrawer(typeof(InfoBoxAttribute))]
 public class InfoBoxDrawer : DecoratorDrawer
 {
@@ -17,3 +19,5 @@ public class InfoBoxDrawer : DecoratorDrawer
         EditorGUI.HelpBox(position, infoBox.Message, infoBox.Type);
     }
 }
+
+#endif

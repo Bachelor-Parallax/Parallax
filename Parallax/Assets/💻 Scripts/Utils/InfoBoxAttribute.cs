@@ -1,6 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
 public class InfoBoxAttribute : PropertyAttribute
 {
     public readonly string Message;
@@ -12,3 +14,5 @@ public class InfoBoxAttribute : PropertyAttribute
         Type = type;
     }
 }
+
+#endif

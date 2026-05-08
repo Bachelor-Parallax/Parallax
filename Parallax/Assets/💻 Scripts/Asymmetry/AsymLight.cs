@@ -4,7 +4,9 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class AsymLight : BaseAsymProperty<Light>
 {
+#if UNITY_EDITOR
     [InfoBox("Attached light component required!\nThe attached light component will be updated at runtime to match configured settings")]
+#endif
     [Header("Cat Settings")]
     [SerializeField] private Color _lightColorCat;
     [SerializeField] private float _intensityCat;
