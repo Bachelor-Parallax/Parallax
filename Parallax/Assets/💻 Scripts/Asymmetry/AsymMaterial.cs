@@ -4,7 +4,9 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class AsymMaterial : BaseAsymProperty<Renderer>
 {
+#if UNITY_EDITOR
     [InfoBox("Attached Renderer component required!")]
+#endif
     [SerializeField] private Material _humanMaterial;
     [SerializeField] private Material _catMaterial;
 
