@@ -8,8 +8,9 @@ public class MusicManager : MonoBehaviour
     private AudioSource audioSource;
     private SettingsManager _settingsManager;
 
-    private void Awake()
+    private void Start()
     {
+
         audioSource = GetComponent<AudioSource>();
         _settingsManager = SettingsManager.Instance;
         
@@ -17,10 +18,6 @@ public class MusicManager : MonoBehaviour
         _settingsManager.OnMuteChanged += UpdateMute;
         _settingsManager.OnMusicVolumeChanged += UpdateMusicVolume;
         _settingsManager.OnMasterVolumeChanged += UpdateMasterVolume;
-    }
-
-    private void Start()
-    {
         // Fetches values from PlayerPrefs sync them (should only run ONCE)
         UpdateMusicVolume(_settingsManager.GetMusicVolume());
         UpdateMute(_settingsManager.GetMute());
