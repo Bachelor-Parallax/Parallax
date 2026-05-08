@@ -35,6 +35,9 @@ public class CharacterSound : NetworkBehaviour
 		soundAction.action.performed += OnSound;
 		soundAction.action.Enable();
 		
+		SceneManager.sceneLoaded += OnSceneLoaded;
+		SoundSetup();
+		
 		// SceneManager.sceneLoaded += OnSceneLoaded;
 		//
 		// // Subscribe

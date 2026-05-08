@@ -61,25 +61,4 @@ public class MusicManager : MonoBehaviour
         Debug.LogWarning("UpdateMute x3" + audioSource.mute + value);
         audioSource.mute = value;
     }
-
-    // private void FixedUpdate()
-    // {
-    //     if (!audioSource.isPlaying)
-    //     {
-    //         PlayRandomSong();
-    //     }
-    // }
-    //
-    // public void PlayRandomSong()
-    // {
-    //     if (songs.Length == 0)
-    //     {
-    //         Debug.LogWarning("No songs assigned!");
-    //         return;
-    //     }
-    //
-    //     int randomIndex = Random.Range(0, songs.Length);
-    //     audioSource.clip = songs[randomIndex];
-    //     audioSource.Play();
-    // }
 }
