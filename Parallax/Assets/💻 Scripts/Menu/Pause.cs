@@ -30,12 +30,17 @@ public class Pause : MonoBehaviour
 
         if (isActive) // Makes sure that the PauseMenu is the first menu showen each time
         {
+            Debug.LogWarning("Pause - " + isActive);
             foreach (GameObject obj in gameObjects)
             {
                 obj.SetActive(false);
             }
         }
-        else pauseMenu.gameObject.SetActive(true);
+        else
+        {
+            Debug.LogWarning("Pause - " + isActive);
+            pauseMenu.gameObject.SetActive(true);
+        }
     }
 
     public void Resume()
@@ -51,6 +56,7 @@ public class Pause : MonoBehaviour
 
     public void Disconnect()
     {
+        Cursor.visible = true;
         if (MultiplayerManager.Instance == null) return;
         
         _ = MultiplayerManager.Instance.Disconnect();
