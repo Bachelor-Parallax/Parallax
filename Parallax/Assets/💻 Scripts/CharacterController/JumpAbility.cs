@@ -28,6 +28,7 @@ public class JumpAbility : MonoBehaviour
 
     private void Start()
     {
+        SoundSetup();
         if (!movement.IsOwner) return;
 
         if (jumpAction != null)

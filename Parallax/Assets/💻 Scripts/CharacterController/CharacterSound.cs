@@ -16,6 +16,8 @@ public class CharacterSound : NetworkBehaviour
 	private AudioSource audioSource;
 	private SettingsManager _settingsManager;
 	
+	
+	
 	private void Start()
 	{
 		// audioSource = GetComponent<AudioSource>();
@@ -23,6 +25,7 @@ public class CharacterSound : NetworkBehaviour
 		audioSource = sources[0];
 		
 		SceneManager.sceneLoaded += OnSceneLoaded;
+		SoundSetup();
 	}
 
 	private void OnEnable()

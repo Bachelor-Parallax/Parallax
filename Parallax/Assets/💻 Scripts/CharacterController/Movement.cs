@@ -71,7 +71,12 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 		var sources = GetComponents<AudioSource>();
 		audioSource = sources[1];
 	}
-	
+
+	private void Start()
+	{
+		SoundSetup();
+	}
+
 	#region Network Events
 	public override void OnNetworkSpawn()
 	{
