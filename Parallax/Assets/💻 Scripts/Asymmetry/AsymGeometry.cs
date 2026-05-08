@@ -4,7 +4,6 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class AsymGeometry : BaseAsymProperty<MeshFilter>
 {
-    [InfoBox("Attached Mesh Filter component required!")]
     [SerializeField] private Mesh _humanMesh;
     [SerializeField] private Mesh _catMesh;
 
