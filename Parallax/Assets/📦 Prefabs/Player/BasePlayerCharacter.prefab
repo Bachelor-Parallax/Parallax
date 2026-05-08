@@ -174,6 +174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8012080598372070786}
+  - component: {fileID: 2186290967837914661}
   m_Layer: 0
   m_Name: CarryPoint
   m_TagString: Untagged
@@ -196,6 +197,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 394539271386624076}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2186290967837914661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815516160374600768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0243e808bdb4fc04e90e2a89cecf81bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MouthCarryPoint
+  mouthPoint: {fileID: 8012080598372070786}
 --- !u!1 &2649727767639558501
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,6 +570,8 @@ MonoBehaviour:
   moveAction: {fileID: -1680190386980627800, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
   sprintAction: {fileID: -7471211009204490832, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
   cameraRotateAction: {fileID: -5630151704836100654, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
+  fallMultiplier: 2.5
+  lowJumpMultiplier: 2
   IsCarryingObject: 0
 --- !u!114 &1850633733994081567
 MonoBehaviour:
@@ -574,6 +590,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9f040c4ffb8419549813b299dd25b7f5, type: 3}
   - {fileID: 8300000, guid: 3a81bb9a02801614fa4670c9d847779d, type: 3}
   jumpAction: {fileID: -2099379676528639254, guid: 524cd402754fa534c9b6d8719905e3ed, type: 3}
+  coyoteTime: 0.15
+  jumpBufferTime: 0.15
 --- !u!114 &-6443368751576764120
 MonoBehaviour:
   m_ObjectHideFlags: 0
