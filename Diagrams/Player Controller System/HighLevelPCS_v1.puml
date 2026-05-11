@@ -1,0 +1,65 @@
+@startuml PCS_HighLevel_Architecture
+
+title High-Level Player Controller System Architecture
+
+package "Player Controller System (PCS)" {
+
+    component "PlayerObject" as PlayerObject
+
+    component "Movement" as Movement
+    component "JumpAbility" as JumpAbility
+    component "Interactor" as Interactor
+    component "RoleController" as Role
+    component "Camera System" as Camera
+    component "CatVision" as CatVision
+    component "CharacterSound" as Audio
+    component "CharacterFade" as Visual
+    component "InteractionPromptUI" as PromptUI
+
+    interface "IMovement" as IMovement
+    interface "ISprint" as ISprint
+    interface "IInteractable" as IInteractable
+
+    PlayerObject --> Movement
+    PlayerObject --> JumpAbility
+    PlayerObject --> Interactor
+    PlayerObject --> Camera
+    PlayerObject --> Role
+    PlayerObject --> CatVision
+    PlayerObject --> Audio
+    PlayerObject --> Visual
+
+    Movement ..|> IMovement
+    Movement ..|> ISprint
+
+    JumpAbility --> Movement : sets vertical velocity
+
+    Interactor ..> IInteractable : detects / invokes
+    Interactor --> PromptUI : shows prompts
+
+    Role --> Movement : applies role stats
+    Role --> CatVision : restricts ability by role
+
+    CatVision --> Movement : modifies speed
+    CatVision --> Camera : modifies zoom
+}
+
+package "Gameplay Objects" {
+
+    component "Buttons, Keys, Movable Boxes, Rotatable Objects, Activation Pads, Moving Platforms" as InteractableObject
+
+    interface "IActivatable" as IActivatable
+    interface "IActivationState" as IActivationState
+    interface "IInteractCondition" as IInteractCondition
+
+    InteractableObject ..|> IInteractable
+
+    InteractableObject ..|> IActivationState
+
+    InteractableObject ..> IActivatable : activates targets
+    IInteractCondition ..> IActivationState : checks state
+}
+
+Interactor ..> InteractableObject
+
+@enduml
