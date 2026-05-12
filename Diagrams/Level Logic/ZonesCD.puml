@@ -1,0 +1,57 @@
+@startuml
+
+
+class VoteZone
+{
+    - LevelData _levelData
+    + void SetLevel(LevelData data)
+    # override void OnTimerElapsed()
+}
+
+class KillZone 
+{
+    - string _contactMessage
+    - Role _activeRoles
+    # override void OnPlayerEnter(GameObject player)
+}
+
+
+abstract class GroupActivationZone 
+{
+    - int countdownSeconds
+    - TMPro.TMP_Text voteText
+    - readonly HashSet<ulong> _players
+    - Coroutine _countdownCoroutine
+    
+    # abstract void OnTimerElapsed()
+    # override void OnPlayerEnter(GameObject player)
+    # override void OnPlayerExit(GameObject player)
+    - void OnTimedEvent(object source, ElapsedEventArgs e)
+    - void EnterZoneServerRpc(RpcParams rpcParams = default)
+    - void ExitZoneServerRpc(RpcParams rpcParams = default)
+    - void StartCountdownClientRpc(int seconds)
+    - void StopCountdownClientRpc()
+    - IEnumerator ClientCountdown(int seconds)
+    - IEnumerator StartCountdown()
+    - void UpdateUIClientRpc(int count)
+}
+
+abstract class BaseZone<NetworkBehaviour>
+{
+    protected virtual void OnPlayerEnter(GameObject player)
+    protected virtual void OnPlayerExit(GameObject player)
+    private bool IsValidPlayer(GameObject obj)
+}
+
+class EndZone 
+{
+    # override void OnTimerElapsed()
+}
+
+BaseZone <|-- GroupActivationZone
+GroupActivationZone <|-- VoteZone
+GroupActivationZone <|-- EndZone
+BaseZone <|-- KillZone
+
+
+@enduml

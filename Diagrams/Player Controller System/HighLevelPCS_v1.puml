@@ -16,7 +16,8 @@ package "Player Controller System (PCS)" {
     component "CharacterFade" as Visual
     component "InteractionPromptUI" as PromptUI
 
-    interface "IMovement" as IMovement
+    interface IMovement {
+        + Move(Vector2): void}
     interface "ISprint" as ISprint
     interface "IInteractable" as IInteractable
 

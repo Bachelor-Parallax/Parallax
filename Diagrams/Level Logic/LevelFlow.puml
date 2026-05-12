@@ -1,0 +1,22 @@
+@startuml
+
+start
+if (Other instance exists?) then (yes)
+    :destroy this instance;
+    end
+else (no)
+
+:Fetch PerspectiveManager\nand NetworkManager references;
+
+if (Determine local player role) then (human)
+    :Apply human perspective\nvia PerspectiveManager;
+else (cat)
+    :Apply cat perspective\nvia PerspectiveManager;
+endif
+
+:Fetch player GameObjects;
+:Move players to spawn positions;
+:Start level timer;
+end
+
+@enduml
