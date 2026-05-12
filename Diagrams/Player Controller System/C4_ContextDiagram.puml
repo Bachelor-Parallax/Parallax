@@ -1,0 +1,54 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include DEVICONS/msql_server.puml
+!include FONTAWESOME/users.puml
+SHOW_PERSON_OUTLINE()
+
+'skinparam Linetype ortho
+'skinparam linetype polyline
+
+title [Component] Player Controller System
+
+Container_Boundary(pcs, "Player Controller System") {
+
+    Component(roleController, "Role Controller", "Unity Component", "Handles player role assignment and role specific behaviour")
+
+    Component(movement, "Movement", "Unity Component", "Handles movement, sprinting, gravity and movement physics")
+
+    Component(jumpAbility, "Jump Ability", "Unity Component", "Handles jumping behaviour and jump buffering")
+
+    Component(interactor, "Interactor", "Unity Component", "Detects and invokes interactable objects")
+
+    Component(catVision, "Cat Vision", "Unity Component", "Handles cat-specific vision ability and visual highlighting")
+
+    Component(soundManager, "Sound Manager", "Unity Component", "Handles in-scene sound playback")
+
+    Component(characterSound, "Character Sound", "Unity Component", "Selects sound effects based on player action and role")
+
+    Component(promptUI, "Interaction Prompt UI", "Unity UI", "Displays interaction prompts")
+
+    Component(interactables, "Interactables", "Gameplay Components", "Buttons, keys, draggable boxes, rotating objects and activation pads")
+}
+
+
+Rel(roleController, movement, "Applies role movement values")
+Rel(roleController, catVision, "Enables cat ability")
+Rel(roleController, interactor, "Validates role interactions")
+Rel(roleController, characterSound, "Provides current role")
+
+
+Rel(interactor, interactables, "Interacts with")
+Rel(interactor, promptUI, "Updates interaction prompts")
+
+Rel(jumpAbility, soundManager, "Requests jump sounds")
+Rel(interactor, soundManager, "Requests interaction sounds")
+Rel(characterSound, soundManager, "Requests playback")
+
+Rel(movement, jumpAbility, "Provides movement state / vertical velocity")
+Rel(catVision, movement, "Applies movement slow")
+
+
+
+@enduml
