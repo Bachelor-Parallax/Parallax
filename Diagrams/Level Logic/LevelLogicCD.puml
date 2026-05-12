@@ -4,24 +4,23 @@ package "Level Logic" {
 
     class LevelManager<MonoBehaviour>
     {
-
-        - LevelData levelData
-        - GameObject humanSpawnPos
-        - GameObject catSpawnPos
-        - Stopwatch _stopWatch
-        - GameObject _human
-        - GameObject _cat
-        - PerspectiveManager _perspectiveManager
-        - NetworkManager _networkManager
-        + static LevelManager Instance 
-        - static LevelManager _instance
-
-        + void RestartLevel()
-        + void CompleteLevel()
-        + void ExitLevel()
-        - CharacterRole DetermineLocalRole()
-        - void FetchPlayers()
-        - void PositionPlayers()
+    + static LevelManager Instance
+    - static LevelManager _instance
+    - LevelData levelData
+    - GameObject humanSpawnPos
+    - GameObject catSpawnPos
+    - Stopwatch _stopWatch
+    - GameObject _human
+    - GameObject _cat
+    - PerspectiveManager _perspectiveManager
+    - NetworkManager _networkManager
+  
+    + void RestartLevel()
+    + void CompleteLevel()
+    + void ExitLevel()
+    - CharacterRole DetermineLocalRole()
+    - void FetchPlayers()
+    - void PositionPlayers()
     }
 }
 @enduml

@@ -1,0 +1,18 @@
+@startuml
+
+start
+partition "Awake" {
+    :Ensure only one instance\nof LevelManager exists;
+    :Fetch PerspectiveManager\nand NetworkManager references;
+}
+
+partition "Start" {
+    :Determine local player role;
+    :Apply local perspective\nvia PerspectiveManager;
+    :Fetch player GameObjects;
+    :Move players to spawn positions;
+    :Start level timer;
+}
+end
+
+@enduml
