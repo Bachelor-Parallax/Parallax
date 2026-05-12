@@ -5,7 +5,7 @@ package "Asymmetrical Perspective" {
     class PerspectiveManager<MonoBehaviour>
     {
         - BaseAsymProperty[] _asymProperties
-        - INetworkManager _networkManager
+        + void ApplyPerspective(CharacterRole role)
     }
 
     !include AsymmetricalPropertyCD.puml
