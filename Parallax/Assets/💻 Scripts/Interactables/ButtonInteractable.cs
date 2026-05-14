@@ -6,9 +6,10 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable, IActivationSt
     [SerializeField] private MonoBehaviour[] targets;
     [SerializeField] private KeyInteractable requiredKey;
     [SerializeField] private AudioClip buttonSound;
-
     private IInteractCondition[] conditions;
-    private AudioSource audioSource;
+
+    [Header("Audio")]
+    [SerializeField] private ObjectSound objectSound;
 
     public bool IsActivated => isActivated.Value;
 
@@ -20,7 +21,7 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable, IActivationSt
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        objectSound = GetComponent<ObjectSound>();
         conditions = GetComponents<IInteractCondition>();
     }
 
@@ -87,10 +88,9 @@ public class ButtonInteractable : NetworkBehaviour, IInteractable, IActivationSt
     [Rpc(SendTo.ClientsAndHost)]
     private void PlayButtonSoundClientRpc()
     {
-        if (buttonSound != null && audioSource != null)
+        if (objectSound != null)
         {
-            audioSource.pitch = Random.Range(0.9f, 1.1f);
-            audioSource.PlayOneShot(buttonSound);
+            objectSound.PlayRandomPitch();
         }
     }
 

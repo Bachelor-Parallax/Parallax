@@ -40,6 +40,7 @@ public class CharacterSoundInput : NetworkBehaviour
 
     private void OnSound(InputAction.CallbackContext ctx)
     {
+        Debug.Log("Sound input pressed");
         playerAudioEvents?.CharacterSound();
     }
 }

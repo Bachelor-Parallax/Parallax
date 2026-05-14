@@ -28,10 +28,11 @@ public class ObjectSound : MonoBehaviour
         settingsManager.OnMasterVolumeChanged -= UpdateMasterVolume;
     }
 
-    public void KeyCollected()
+    public void PlayRandomPitch()
     {
         if (audioClip == null) return;
 
+        audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
         audioSource.PlayOneShot(audioClip);
     }
 

@@ -98,7 +98,7 @@ public class KeyInteractable : NetworkBehaviour, IInteractable, IActivationState
     [Rpc(SendTo.ClientsAndHost)]
     private void PlayKeySoundClientRpc()
     {
-        objectSound?.KeyCollected();
+        objectSound?.PlayRandomPitch();
     }
 
     #region Cat Interaction

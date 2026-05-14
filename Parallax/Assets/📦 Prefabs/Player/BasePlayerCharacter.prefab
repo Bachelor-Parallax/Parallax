@@ -730,7 +730,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7e1481705b1aac0408445fe43dc7dd89, type: 3}
   - {fileID: 8300000, guid: f68fe0b897a29cc4bbbdc40b08365646, type: 3}
   - {fileID: 8300000, guid: 38152f72a24634d4d81138232f6b338c, type: 3}
-  humanSounds: []
+  humanSounds:
+  - {fileID: 8300000, guid: 1a16294140903804d894af76cf2666d1, type: 3}
+  - {fileID: 8300000, guid: b4e3ca7c0f917244fa13a2bc7001ddb0, type: 3}
+  - {fileID: 8300000, guid: 7dd16316938a326469de379607e4e155, type: 3}
+  - {fileID: 8300000, guid: c5243de2513c90343a32c221d0c84fef, type: 3}
+  - {fileID: 8300000, guid: dafc535076aab4245826073c0c2c47b0, type: 3}
+  - {fileID: 8300000, guid: 20ef5f6b269ae9b45aeb1a2e92d3d9a4, type: 3}
   jumpSounds:
   - {fileID: 8300000, guid: aad445955b81eb24f854320abb0a2eda, type: 3}
   - {fileID: 8300000, guid: 9f040c4ffb8419549813b299dd25b7f5, type: 3}

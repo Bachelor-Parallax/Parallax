@@ -61,19 +61,19 @@ public class CharacterSound : NetworkBehaviour
 
 	private void RequestCharacterSound()
 	{
-		if (!IsLocalPlayer) return;
+		if (!IsOwner) return;
 		PlaySoundServerRpc();
 	}
 
 	private void RequestJumpSound()
 	{
-		if (!IsLocalPlayer) return;
+		if (!IsOwner) return;
 		PlayJumpServerRpc();
 	}
 
 	private void RequestFootstepSound()
 	{
-		if (!IsLocalPlayer) return;
+		if (!IsOwner) return;
 		PlayFootstepServerRpc();
 	}
 
@@ -86,12 +86,14 @@ public class CharacterSound : NetworkBehaviour
 	[ClientRpc]
 	private void PlayJumpClientRpc()
 	{
+		sfxAudioSource.pitch = Random.Range(0.95f, 1.05f);
 		sfxAudioSource.PlayOneShot(jumpSounds[Random.Range(0, jumpSounds.Length)]);
 	}
 
 	[ClientRpc]
 	private void PlayFootstepClientRpc()
 	{
+		sfxAudioSource.pitch = Random.Range(0.95f, 1.05f);
 		sfxAudioSource.PlayOneShot(footstepSounds[Random.Range(0, footstepSounds.Length)]);
 	}
 
@@ -113,9 +115,11 @@ public class CharacterSound : NetworkBehaviour
 		switch (GetComponent<RoleController>().role.Value)
 		{
 			case CharacterRole.Human:
+				dialogueAudioSource.pitch = Random.Range(0.95f, 1.05f);
 				dialogueAudioSource.PlayOneShot(humanSounds[Random.Range(0, humanSounds.Length)]);
 				break;
 			case CharacterRole.Cat:
+				dialogueAudioSource.pitch = Random.Range(0.95f, 1.05f);
 				dialogueAudioSource.PlayOneShot(catSounds[Random.Range(0, catSounds.Length)]);
 				break;
 		}

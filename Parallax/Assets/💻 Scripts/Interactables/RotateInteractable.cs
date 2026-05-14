@@ -24,9 +24,7 @@ public class RotateInteractable : NetworkBehaviour, IInteractable, IActivationSt
     
 
     [Header("Audio")]
-    [SerializeField] private AudioClip rotateSound;
-
-    private AudioSource audioSource;
+    [SerializeField] private ObjectSound objectSound;
     private Quaternion targetRotation;
     private bool isRotating;
     private bool hasRotated;
@@ -34,7 +32,7 @@ public class RotateInteractable : NetworkBehaviour, IInteractable, IActivationSt
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        objectSound = GetComponent<ObjectSound>();
         targetRotation = transform.rotation;
         conditions = GetComponents<IInteractCondition>();
     }
@@ -99,10 +97,9 @@ public class RotateInteractable : NetworkBehaviour, IInteractable, IActivationSt
         if (rotateOnlyOnce)
             hasRotated = true;
 
-        if (rotateSound != null && audioSource != null)
+        if (objectSound != null)
         {
-            audioSource.pitch = Random.Range(0.9f, 1.1f);
-            audioSource.PlayOneShot(rotateSound);
+            objectSound.PlayRandomPitch();
         }
     }
 
