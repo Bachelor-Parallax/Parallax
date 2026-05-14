@@ -4,7 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Pause : MonoBehaviour
+public class Pause : NetworkBehaviour
 {
     [SerializeField] private GameObject pauseMenuContainer;
     [SerializeField] private GameObject pauseMenu;
@@ -68,7 +68,7 @@ public class Pause : MonoBehaviour
     
     private async Task LeaveGame()
     {
-        if (!NetworkManager.Singleton.IsServer)
+        if (!IsServer)
             await MultiplayerManager.Instance.Disconnect();
         else
             SceneLoader.Instance.LoadGameScene("PlayableLobby");
