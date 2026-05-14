@@ -4,6 +4,7 @@ using Unity.Netcode;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MultiplayerManager : PersistentSingleton<MultiplayerManager>
 {
@@ -117,9 +118,10 @@ public class MultiplayerManager : PersistentSingleton<MultiplayerManager>
     private async void OnClientDisconnected(ulong clientId)
     {
         if (currentLobby == null) return;
-
+        
         if (!NetworkManager.Singleton.IsHost) return;
-
+        if (NetworkManager.Singleton.LocalClientId == clientId)
+            SceneManager.LoadScene("MainMenu");
         try
         {
             foreach (var player in currentLobby.Players)
