@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -59,7 +61,17 @@ public class Pause : MonoBehaviour
         Cursor.visible = true;
         if (MultiplayerManager.Instance == null) return;
         
-        _ = MultiplayerManager.Instance.Disconnect();
+        //_ = MultiplayerManager.Instance.Disconnect();
+
+        _ = LeaveGame();
+    }
+    
+    private async Task LeaveGame()
+    {
+        if (!NetworkManager.Singleton.IsServer)
+            await MultiplayerManager.Instance.Disconnect();
+        else
+            SceneLoader.Instance.LoadGameScene("PlayableLobby");
     }
 
     public void Retry()
