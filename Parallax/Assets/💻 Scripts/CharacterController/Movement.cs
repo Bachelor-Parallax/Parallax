@@ -50,6 +50,7 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 	public float JumpHeight => jumpHeight;
 	
 	public float SpeedMultiplier { get; set; } = 1f;
+	public bool MovementLocked { get; set; }
 	
 	public Vector2 CurrentMoveInput { get; private set; }
 
@@ -136,6 +137,13 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 	void Update()
 	{
 		if (!IsOwner) return;
+
+		if (MovementLocked)
+		{
+			moveInput = Vector2.zero;
+			verticalVelocity = 0f;
+			return;
+		}
 
 		if (cameraTransform == null)
 			TryAssignCamera();

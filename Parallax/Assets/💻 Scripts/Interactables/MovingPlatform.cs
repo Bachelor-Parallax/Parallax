@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,9 +7,19 @@ public class MovingPlatform : NetworkBehaviour, IActivatable
     [SerializeField] private Vector3 moveOffset = new Vector3(0, -5, 0);
     [SerializeField] private float speed = 2f;
 
+    [SerializeField] private ElevatorTrigger elevatorTrigger;
     private Vector3 startPosition;
     private Vector3 targetPosition;
+
     private bool isMoving;
+
+    private readonly List<Transform> passengers = new();
+
+    private void Awake()
+    {
+        if (elevatorTrigger == null)
+            elevatorTrigger = GetComponentInChildren<ElevatorTrigger>();
+    }
 
     private void Start()
     {
@@ -16,10 +27,18 @@ public class MovingPlatform : NetworkBehaviour, IActivatable
         targetPosition = startPosition + moveOffset;
     }
 
-    private void Update()
+    public void Activate()
     {
         if (!IsServer) return;
-        if (!isMoving) return;
+
+        AttachPlayers();
+
+        isMoving = true;
+    }
+
+    private void Update()
+    {
+        if (!IsServer || !isMoving) return;
 
         transform.position = Vector3.MoveTowards(
             transform.position,
@@ -31,14 +50,53 @@ public class MovingPlatform : NetworkBehaviour, IActivatable
         {
             transform.position = targetPosition;
             isMoving = false;
+
+            DetachPlayers();
         }
     }
 
-    public void Activate()
+    private void AttachPlayers()
     {
-        if (!IsServer) return;
+        passengers.Clear();
 
-        Debug.Log("Platform activated on server");
-        isMoving = true;
+        if (elevatorTrigger == null)
+            return;
+
+        foreach (Transform player in elevatorTrigger.PlayersOnElevator)
+        {
+            if (player == null) continue;
+
+            Movement movement = player.GetComponent<Movement>();
+            if (movement != null)
+                movement.MovementLocked = true;
+
+            NetworkObject netObj = player.GetComponent<NetworkObject>();
+            if (netObj != null)
+                netObj.TrySetParent(transform, true);
+
+            passengers.Add(player);
+
+            Debug.Log("Attached player: " + player.name);
+        }
+    }
+
+    private void DetachPlayers()
+    {
+        foreach (Transform passenger in passengers)
+        {
+            if (passenger == null) continue;
+
+            Movement movement = passenger.GetComponent<Movement>();
+            if (movement != null)
+                movement.MovementLocked = false;
+
+            NetworkObject netObj = passenger.GetComponent<NetworkObject>();
+            if (netObj != null)
+                netObj.TryRemoveParent(true);
+            else
+                passenger.SetParent(null, true);
+        }
+
+        passengers.Clear();
     }
 }
