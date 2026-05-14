@@ -11,60 +11,94 @@ public class CharacterSound : NetworkBehaviour
 {
 	[SerializeField] private AudioClip[] catSounds;
 	[SerializeField] private AudioClip[] humanSounds;
-	[SerializeField] private InputActionReference soundAction;
+	[SerializeField] private AudioClip[] jumpSounds;
+	[SerializeField] private AudioClip[] footstepSounds;
+	[SerializeField] private AudioSource dialogueAudioSource;
+	[SerializeField] private AudioSource sfxAudioSource;	
 
-	private AudioSource audioSource;
+	private PlayerAudioEvents playerAudioEvents;
 	private SettingsManager _settingsManager;
 	
 	
 	
-	private void Start()
+	private void Awake()
 	{
-		// audioSource = GetComponent<AudioSource>();
-		var sources = GetComponents<AudioSource>();
-		audioSource = sources[0];
-		
-		SceneManager.sceneLoaded += OnSceneLoaded;
-		SoundSetup();
+		playerAudioEvents = GetComponent<PlayerAudioEvents>();
 	}
 
 	private void OnEnable()
 	{
-		if (soundAction == null) return;
-		
-		soundAction.action.performed += OnSound;
-		soundAction.action.Enable();
-		
+		if (playerAudioEvents != null)
+		{
+			playerAudioEvents.OnCharacterSound += RequestCharacterSound;
+			playerAudioEvents.OnJump += RequestJumpSound;
+			playerAudioEvents.OnFootstep += RequestFootstepSound;
+		}
+
 		SceneManager.sceneLoaded += OnSceneLoaded;
 		SoundSetup();
-		
-		// SceneManager.sceneLoaded += OnSceneLoaded;
-		//
-		// // Subscribe
-		// _settingsManager.OnMusicVolumeChanged += UpdateDialogueVolume;
-		// _settingsManager.OnMuteChanged += UpdateMute;
 	}
 
 	private void OnDisable()
 	{
-		if (soundAction == null) return;
+		if (playerAudioEvents != null)
+		{
+			playerAudioEvents.OnCharacterSound -= RequestCharacterSound;
+			playerAudioEvents.OnJump -= RequestJumpSound;
+			playerAudioEvents.OnFootstep -= RequestFootstepSound;
+		}
 
-		soundAction.action.performed -= OnSound;
-		soundAction.action.Disable();
-		
-		// SceneManager.sceneLoaded -= OnSceneLoaded;
-		//
-		// // Unsubscribe
-		// _settingsManager.OnMusicVolumeChanged -= UpdateDialogueVolume;
-		// _settingsManager.OnMuteChanged -= UpdateMute;
-		
+		if (_settingsManager != null)
+		{
+			_settingsManager.OnMuteChanged -= UpdateMute;
+			_settingsManager.OnDialogueVolumeChanged -= UpdateDialogueVolume;
+			_settingsManager.OnSFXVolumeChanged -= UpdateSFXVolume;
+			_settingsManager.OnMasterVolumeChanged -= UpdateMasterVolume;
+		}
+
+    SceneManager.sceneLoaded -= OnSceneLoaded;
 	}
-	
-	private void OnSound(InputAction.CallbackContext context)
+
+	private void RequestCharacterSound()
 	{
 		if (!IsLocalPlayer) return;
-
 		PlaySoundServerRpc();
+	}
+
+	private void RequestJumpSound()
+	{
+		if (!IsLocalPlayer) return;
+		PlayJumpServerRpc();
+	}
+
+	private void RequestFootstepSound()
+	{
+		if (!IsLocalPlayer) return;
+		PlayFootstepServerRpc();
+	}
+
+	[ServerRpc]
+	private void PlayJumpServerRpc()
+	{
+		PlayJumpClientRpc();
+	}
+
+	[ClientRpc]
+	private void PlayJumpClientRpc()
+	{
+		sfxAudioSource.PlayOneShot(jumpSounds[Random.Range(0, jumpSounds.Length)]);
+	}
+
+	[ClientRpc]
+	private void PlayFootstepClientRpc()
+	{
+		sfxAudioSource.PlayOneShot(footstepSounds[Random.Range(0, footstepSounds.Length)]);
+	}
+
+	[ServerRpc]
+	private void PlayFootstepServerRpc()
+	{
+		PlayFootstepClientRpc();
 	}
 
 	[ServerRpc]
@@ -79,27 +113,36 @@ public class CharacterSound : NetworkBehaviour
 		switch (GetComponent<RoleController>().role.Value)
 		{
 			case CharacterRole.Human:
-				audioSource.PlayOneShot(humanSounds[Random.Range(0, humanSounds.Length)]);
+				dialogueAudioSource.PlayOneShot(humanSounds[Random.Range(0, humanSounds.Length)]);
 				break;
 			case CharacterRole.Cat:
-				audioSource.PlayOneShot(catSounds[Random.Range(0, catSounds.Length)]);
+				dialogueAudioSource.PlayOneShot(catSounds[Random.Range(0, catSounds.Length)]);
 				break;
 		}
 	}
 
 
-	private void SoundSetup() // The setup on now sceen load
+	private void SoundSetup()
 	{
-		// Gets the instance
+		if (_settingsManager != null)
+		{
+			_settingsManager.OnMuteChanged -= UpdateMute;
+			_settingsManager.OnDialogueVolumeChanged -= UpdateDialogueVolume;
+			_settingsManager.OnSFXVolumeChanged -= UpdateSFXVolume;
+			_settingsManager.OnMasterVolumeChanged -= UpdateMasterVolume;
+		}
+
 		_settingsManager = SettingsManager.Instance;
 
-		// Subscribes
+		if (_settingsManager == null) return;
+
 		_settingsManager.OnMuteChanged += UpdateMute;
 		_settingsManager.OnDialogueVolumeChanged += UpdateDialogueVolume;
+		_settingsManager.OnSFXVolumeChanged += UpdateSFXVolume;
 		_settingsManager.OnMasterVolumeChanged += UpdateMasterVolume;
-		
-		// Fetches values from PlayerPrefs sync them (should only run ONCE)
+
 		UpdateDialogueVolume(_settingsManager.GetDialogueVolume());
+		UpdateSFXVolume(_settingsManager.GetSFXVolume());
 		UpdateMute(_settingsManager.GetMute());
 	}
 
@@ -108,6 +151,7 @@ public class CharacterSound : NetworkBehaviour
 	private void UpdateMasterVolume(float value)
 	{
 		UpdateDialogueVolume(_settingsManager.GetDialogueVolume());
+		UpdateSFXVolume(_settingsManager.GetSFXVolume());
 	}
 	
 	private void UpdateDialogueVolume(float value) // 'value' is the value from UpdateDialogueVolume event call
@@ -116,13 +160,23 @@ public class CharacterSound : NetworkBehaviour
 		// Debug.LogWarning("Master volume = " + SettingsManager.Instance.GetMasterVolume());
 		double volume = Math.Round(value * _settingsManager.GetMasterVolume(), 2);
 		Debug.LogWarning("UpdateDialogueVolume total = " + volume);
-		audioSource.volume = (float)volume;
+		dialogueAudioSource.volume = (float)volume;
+	}
+
+	private void UpdateSFXVolume(float value) // 'value' is the value from UpdateSFXVolume event call
+	{
+		Debug.LogWarning("UpdateSFXVolume value = " + value);
+		double volume = Math.Round(value * _settingsManager.GetMasterVolume(), 2);
+		Debug.LogWarning("UpdateSFXVolume total = " + volume);
+		sfxAudioSource.volume = (float)volume;
 	}
 	
 	private void UpdateMute(bool value)
 	{
-		Debug.LogWarning("UpdateMute" + audioSource.mute + value);
-		audioSource.mute = value;
+		Debug.LogWarning("UpdateMute" + dialogueAudioSource.mute + value);
+		dialogueAudioSource.mute = value;
+		Debug.LogWarning("UpdateMute" + sfxAudioSource.mute + value);
+		sfxAudioSource.mute = value;
 	}
 	
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

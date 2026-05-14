@@ -17,7 +17,7 @@ public class KeyInteractable : NetworkBehaviour, IInteractable, IActivationState
     public bool IsCollected => isCollected.Value;
     public bool IsActivated => isCollected.Value;
 
-    private AudioSource _audioSource;
+    [SerializeField] private ObjectSound objectSound;
     private Rigidbody _rb;
 
     private Transform _holder;
@@ -32,10 +32,10 @@ public class KeyInteractable : NetworkBehaviour, IInteractable, IActivationState
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _audioSource = GetComponent<AudioSource>();
         _keyCollider = GetComponent<Collider>();
         _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
         conditions = GetComponents<IInteractCondition>();
+        objectSound = GetComponent<ObjectSound>();
     }
 
     public bool CanInteract(GameObject interactor)
@@ -87,6 +87,20 @@ public class KeyInteractable : NetworkBehaviour, IInteractable, IActivationState
         }
     }
 
+    private void keyCollected()
+    {
+        isCollected.Value = true;
+        PlayKeySoundClientRpc();
+
+        Debug.Log($"Picked up key: {keyId}");
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void PlayKeySoundClientRpc()
+    {
+        objectSound?.KeyCollected();
+    }
+
     #region Cat Interaction
     
     private void Pickup(GameObject player)
@@ -105,8 +119,7 @@ public class KeyInteractable : NetworkBehaviour, IInteractable, IActivationState
         foreach (Collider col in _playerColliders)
             Physics.IgnoreCollision(_keyCollider, col, true);
 
-        if (keySound && _audioSource)
-            _audioSource.PlayOneShot(keySound);
+        keyCollected();
         
         SyncPickupClientRpc(player.GetComponent<NetworkObject>().OwnerClientId);
     }
@@ -171,11 +184,7 @@ public class KeyInteractable : NetworkBehaviour, IInteractable, IActivationState
     {
         isCollected.Value = true;
 
-        if (keySound != null && _audioSource != null)
-        {
-            _audioSource.pitch = Random.Range(0.9f, 1.1f);
-            _audioSource.PlayOneShot(keySound);
-        }
+        keyCollected();
 
         Debug.Log($"Picked up key: {keyId} by client {senderClientId}");
 

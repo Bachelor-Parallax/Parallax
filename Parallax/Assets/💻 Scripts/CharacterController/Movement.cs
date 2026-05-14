@@ -21,9 +21,6 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 	[SerializeField] private float gravity = -9.81f;
 	[SerializeField] private float jumpHeight = 2f;
 
-	[Header("Audio")]
-	[SerializeField] private AudioClip stepSound;
-
 	[Header("Strafe Turning")]
 	[SerializeField] private float strafeTurnSpeed = 10f;
 	[SerializeField] private float strafeTurnAngle = 18f;
@@ -44,11 +41,10 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
     [Header("Jump Tuning")]
     [SerializeField] private float fallMultiplier = 2.5f;
     [SerializeField] private float lowJumpMultiplier = 2f;
-
-	private AudioSource audioSource;
 	private SettingsManager _settingsManager;
 	private float stepTimer;
 	private CinemachineInputAxisController axisController;
+	private PlayerAudioEvents playerAudioEvents;
 
 	public float Gravity => gravity;
 	public float JumpHeight => jumpHeight;
@@ -73,14 +69,13 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 	{
 		SceneManager.sceneLoaded += OnSceneLoaded;
 		controller = GetComponent<CharacterController>();
-		var sources = GetComponents<AudioSource>();
-		audioSource = sources[1];
+		playerAudioEvents = GetComponent<PlayerAudioEvents>();
 		jumpAbility = GetComponent<JumpAbility>();
 	}
 
 	private void Start()
 	{
-		SoundSetup();
+		SensitivitySetup();
 	}
 
 	#region Network Events
@@ -158,16 +153,13 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 	#region Sound
 	private void HandleStepSound()
 	{
-		if (audioSource == null || stepSound == null) return;
-
 		if (controller.isGrounded && controller.velocity.magnitude > 0.1f)
 		{
 			stepTimer -= Time.deltaTime;
 
 			if (stepTimer <= 0f)
 			{
-				audioSource.pitch = Random.Range(0.9f, 1.1f);
-				audioSource.PlayOneShot(stepSound);
+				playerAudioEvents?.Footstep();
 
 				float speed = controller.velocity.magnitude;
 				stepTimer = Mathf.Lerp(0.6f, 0.3f, speed / sprintSpeed);
@@ -375,32 +367,11 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 		}
 	}
 	
-	
-	
-	private void SoundSetup() // The setup on now sceen load
+	private void SensitivitySetup()
 	{
-		
 		axisController = FindFirstObjectByType<CinemachineInputAxisController>();
-		// Gets the instance
 		_settingsManager = SettingsManager.Instance;
-
-	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
-	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
-	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
-		
-		// Subscribes
-		// _settingsManager.OnMuteChanged += UpdateMute;
-		// _settingsManager.OnSFXVolumeChanged += UpdateSFXVolume;
-		// _settingsManager.OnMasterVolumeChanged += UpdateMasterVolume;
 		_settingsManager.OnCamaraSensitivityChanged += UpdateCamaraSensitivity;
-		
-	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
-	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
-	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
-		
-		// Fetches values from PlayerPrefs sync them (should only run ONCE)
-		// UpdateSFXVolume(_settingsManager.GetSFXVolume());
-		// UpdateMute(_settingsManager.GetMute());
 		UpdateCamaraSensitivity(_settingsManager.GetMouseSensitivity());
 	}
 
@@ -410,31 +381,8 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 		axisController.Controllers[1].Input.Gain = -value; //verticalSensitivity
 	}
 	
-	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
-	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
-	// REDUNDENT AS IT SHARES AUDIO SOUCE WITH JUMPABILITY SCRIPT DOING THE SAME
-	
-	// private void UpdateMasterVolume(float value)
-	// {
-	// 	UpdateSFXVolume(_settingsManager.GetSFXVolume());
-	// }
-	
-	// private void UpdateSFXVolume(float value) // 'value' is the value from UpdateSFXVolume event call
-	// {
-	// 	Debug.LogWarning("UpdateSFXVolume - Movement value = " + value);
-	// 	double volume = Math.Round(value * _settingsManager.GetMasterVolume(), 2);
-	// 	Debug.LogWarning("UpdateSFXVolume - Movement total = " + volume);
-	// 	audioSource.volume = (float)volume;
-	// }
-	
-	// private void UpdateMute(bool value)
-	// {
-	// 	Debug.LogWarning("UpdateMute - movement = " + audioSource.mute + value);
-	// 	audioSource.mute = value;
-	// }
-	
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		SoundSetup();
+		SensitivitySetup();
 	}
 }

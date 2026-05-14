@@ -97,7 +97,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "CatSoundAction",
+                    "name": "CharacterSoundAction",
                     "type": "Button",
                     "id": "e92020a5-a4c7-4afb-8382-7152dfb4516d",
                     "expectedControlType": "",
@@ -519,7 +519,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "CatSoundAction",
+                    "action": "CharacterSoundAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -530,7 +530,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "CatSoundAction",
+                    "action": "CharacterSoundAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
