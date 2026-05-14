@@ -222,17 +222,20 @@ public class LobbyServiceWrapper : PersistentSingleton<LobbyServiceWrapper>
                 {
                     await LobbyService.Instance.DeleteLobbyAsync(currentLobby.Id);
                     result = "Host left - Lobby has been deleted";
+                    Debug.Log(result);
                 }
                 else
                 {
                     await LobbyService.Instance.RemovePlayerAsync(currentLobby.Id, playerId);
                     result = $"Client: {playerId} - left the lobby";
+                    Debug.Log(result);
                 }
             }
             catch (Exception e)
             {
-                Debug.LogWarning("Lobby cleanup failed: " + e.Message);
                 result = "Lobby cleanup failed";
+
+                Debug.LogWarning(result + ": " + e.Message);
             }
 
             currentLobby = null;
@@ -241,11 +244,19 @@ public class LobbyServiceWrapper : PersistentSingleton<LobbyServiceWrapper>
         heartbeatTimer.Stop();
         pollTimer.Stop();
 
+        Debug.Log("Timers Stopped.");
+
         NetworkManager.Singleton.Shutdown();
+        
+        Debug.Log("NetworkManager has been shutdown");
 
         await Task.Yield();
         
+        Debug.Log("Loading MainMenu scene");
+        
         SceneManager.LoadScene("MainMenu");
+        
+        Debug.Log("MainMenu scene has been loaded");
 
         return result;
     }
