@@ -119,7 +119,7 @@ public class MultiplayerManager : PersistentSingleton<MultiplayerManager>
     {
         if (currentLobby == null) return;
         
-        if (NetworkManager.Singleton.LocalClientId == clientId)
+        if (!NetworkManager.Singleton.IsHost && NetworkManager.Singleton.LocalClientId == clientId)
             SceneManager.LoadScene("MainMenu");
         
         if (!NetworkManager.Singleton.IsHost) return;
