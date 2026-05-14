@@ -213,6 +213,12 @@ public class LobbyServiceWrapper : PersistentSingleton<LobbyServiceWrapper>
     public async Task<string> Disconnect(string playerId)
     {
         string result = "";
+        
+        if (SceneManager.GetActiveScene().name != "PlayableLobby")
+        {
+            SceneLoader.Instance.LoadGameScene("PlayableLobby");
+            return result;
+        }
 
         if (currentLobby != null)
         {
