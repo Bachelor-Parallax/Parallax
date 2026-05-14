@@ -117,14 +117,27 @@ public class MultiplayerManager : PersistentSingleton<MultiplayerManager>
 
     private async void OnClientDisconnected(ulong clientId)
     {
-        if (currentLobby == null) return;
+        if (SceneManager.GetActiveScene().name != LobbySceneName)
+            SceneLoader.Instance.LoadGameScene(LobbySceneName);
         
-        if (!NetworkManager.Singleton.IsHost && NetworkManager.Singleton.LocalClientId == clientId)
+        Debug.Log($"Client disconnected: {clientId}");
+
+        // CLIENT: Host disconnected us
+        if (!NetworkManager.Singleton.IsHost &&
+            clientId == NetworkManager.Singleton.LocalClientId)
+        {
+            Debug.Log("Disconnected from host. Returning to menu.");
+
+            NetworkManager.Singleton.Shutdown();
+
             SceneManager.LoadScene("MainMenu");
+            return;
+        }
         
         if (!NetworkManager.Singleton.IsHost) return;
 
-        
+        if (currentLobby == null) return;
+
         try
         {
             foreach (var player in currentLobby.Players)
