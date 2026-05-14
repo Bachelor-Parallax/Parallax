@@ -7,6 +7,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip[] songs;
     private AudioSource audioSource;
     private SettingsManager _settingsManager;
+    private bool isPaused;
 
     private void Start()
     {
@@ -25,6 +26,14 @@ public class MusicManager : MonoBehaviour
         PlayRandomSong();
     }
     
+    private void Update()
+    {
+        if (!audioSource.isPlaying && !isPaused)
+        {
+            PlayRandomSong();
+        }
+    }
+    
     public void PlayRandomSong()
     {
         if (songs.Length == 0)
@@ -39,7 +48,21 @@ public class MusicManager : MonoBehaviour
         audioSource.clip = clip;
         audioSource.Play();
 
-        Invoke(nameof(PlayRandomSong), clip.length); // Free from pooling (no constant checking)
+        // Invoke(nameof(PlayRandomSong), clip.length); // Free from pooling (no constant checking)
+    }
+
+    public void TogglePause()
+    {
+        if (audioSource.isPlaying)
+        {
+            audioSource.Pause();
+            isPaused = true;
+        }
+        else if (isPaused)
+        {
+            audioSource.UnPause();
+            isPaused = false;
+        }
     }
     
     // Event handling
