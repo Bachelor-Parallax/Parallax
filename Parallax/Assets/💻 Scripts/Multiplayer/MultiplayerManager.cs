@@ -118,8 +118,11 @@ public class MultiplayerManager : PersistentSingleton<MultiplayerManager>
     private async void OnClientDisconnected(ulong clientId)
     {
         if (SceneManager.GetActiveScene().name != LobbySceneName)
+        {
             SceneLoader.Instance.LoadGameScene(LobbySceneName);
-        
+            return;
+        }
+
         Debug.Log($"Client disconnected: {clientId}");
 
         // CLIENT: Host disconnected us
