@@ -6760,6 +6760,8 @@ GameObject:
   - component: {fileID: 603683173}
   - component: {fileID: 603683172}
   - component: {fileID: 603683174}
+  - component: {fileID: 603683176}
+  - component: {fileID: 603683175}
   m_Layer: 0
   m_Name: Crane
   m_TagString: Untagged
@@ -6882,7 +6884,7 @@ MonoBehaviour:
   rotateSpeed: 0.7
   rotateOnlyOnce: 0
   interactText: 'Rotate [E]'
-  rotateSound: {fileID: 0}
+  objectSound: {fileID: 603683175}
 --- !u!114 &603683173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6954,6 +6956,116 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &603683175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603683167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae3b5459fd5e1c49b9923f5d6eb2c44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectSound
+  audioClip: {fileID: 8300000, guid: 24d28af6c712fd34facdee590120886b, type: 3}
+--- !u!82 &603683176
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603683167}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &604055819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12512,6 +12624,7 @@ GameObject:
   - component: {fileID: 1307317634}
   - component: {fileID: 1307317632}
   - component: {fileID: 1307317631}
+  - component: {fileID: 1307317637}
   m_Layer: 3
   m_Name: Button
   m_TagString: Untagged
@@ -12694,6 +12807,7 @@ MonoBehaviour:
   - {fileID: 177112073}
   requiredKey: {fileID: 1680994970}
   buttonSound: {fileID: 8300000, guid: cd45b2248694b67498097b5a730967b9, type: 3}
+  objectSound: {fileID: 1307317637}
 --- !u!23 &1307317635
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12751,6 +12865,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1307317629}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1307317637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307317629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae3b5459fd5e1c49b9923f5d6eb2c44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectSound
+  audioClip: {fileID: 8300000, guid: 6d664de5714d9444685f190cca14a2d9, type: 3}
 --- !u!1001 &1317566061
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17060,6 +17187,10 @@ PrefabInstance:
       propertyPath: keySound
       value: 
       objectReference: {fileID: 8300000, guid: 983fdd12d6575534d8549961d47a8ce0, type: 3}
+    - target: {fileID: -355946198582617117, guid: 5dd5a1ab6047d4848b7668734815016f, type: 3}
+      propertyPath: objectSound
+      value: 
+      objectReference: {fileID: 1680994971}
     - target: {fileID: 2498504952586042402, guid: 5dd5a1ab6047d4848b7668734815016f, type: 3}
       propertyPath: m_LocalScale.x
       value: 10
@@ -17145,6 +17276,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3019568617730713240, guid: 5dd5a1ab6047d4848b7668734815016f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1680994967}
+    - targetCorrespondingSourceObject: {fileID: 3019568617730713240, guid: 5dd5a1ab6047d4848b7668734815016f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1680994971}
   m_SourcePrefab: {fileID: 100100000, guid: 5dd5a1ab6047d4848b7668734815016f, type: 3}
 --- !u!1 &1680994966 stripped
 GameObject:
@@ -17311,6 +17445,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eb8ecc3f132e5d4f8615583292e72ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KeyInteractable
+--- !u!114 &1680994971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680994966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae3b5459fd5e1c49b9923f5d6eb2c44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectSound
+  audioClip: {fileID: 8300000, guid: 983fdd12d6575534d8549961d47a8ce0, type: 3}
 --- !u!1 &1681181976
 GameObject:
   m_ObjectHideFlags: 0
@@ -18353,6 +18500,7 @@ GameObject:
   - component: {fileID: 1794012039}
   - component: {fileID: 1794012038}
   - component: {fileID: 1794012037}
+  - component: {fileID: 1794012043}
   m_Layer: 3
   m_Name: Button
   m_TagString: Untagged
@@ -18510,6 +18658,7 @@ MonoBehaviour:
   - {fileID: 603683172}
   requiredKey: {fileID: 0}
   buttonSound: {fileID: 8300000, guid: cd45b2248694b67498097b5a730967b9, type: 3}
+  objectSound: {fileID: 1794012043}
 --- !u!114 &1794012040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18592,6 +18741,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1794012035}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1794012043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794012035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae3b5459fd5e1c49b9923f5d6eb2c44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectSound
+  audioClip: {fileID: 8300000, guid: fc8c09335c7f12a4db1a93a45e01b1ae, type: 3}
 --- !u!1001 &1801043733
 PrefabInstance:
   m_ObjectHideFlags: 0
