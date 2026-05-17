@@ -1,0 +1,31 @@
+@startuml
+
+actor Player
+
+participant "ProgressManager" as PM
+participant "JsonUtility" as JSON
+participant "Encrypt()" as ENC
+participant "File" as FILE
+
+Player -> PM : Save()
+
+activate PM
+
+PM -> JSON : ToJson(Data, true)
+activate JSON
+JSON --> PM : json
+deactivate JSON
+
+PM -> ENC : Encrypt(json)
+activate ENC
+ENC --> PM : encrypted
+deactivate ENC
+
+PM -> FILE : WriteAllText(path, encrypted)
+activate FILE
+FILE --> PM : success
+deactivate FILE
+
+deactivate PM
+
+@enduml

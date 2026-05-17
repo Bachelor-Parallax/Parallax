@@ -1,0 +1,27 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include DEVICONS/msql_server.puml
+!include FONTAWESOME/users.puml
+SHOW_PERSON_OUTLINE()
+title [Container] Parallax
+
+'skinparam Linetype ortho
+'skinparam linetype polyline
+
+' ------- Containers ------- '
+System(computer, "Computer", "Facilitates Hardware/Storage")
+
+System_Boundary(parallax, "Parallax", "system") {
+    ' Containers '
+    Container(progress, "Progress System", "Manages players game progress")
+    Container(gamestate, "Level Manager", "Manages the level setup and flow")
+}
+
+' ------- Relations ------- '
+' Progress Relations '
+Rel_R(gamestate, progress, "Verifies progress")
+Rel_R(progress, computer, "Saves/Loads progress")
+
+@enduml
