@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: "Assets/\U0001F3AC Scenes/Stecher.unity"
     guid: 3c51b3de0103f8041842f0dfd7bd9fe2
   - enabled: 1
-    path: "Assets/\U0001F3AC Scenes/Thea.unity"
+    path: "Assets/\U0001F3AC Scenes/LevelOne.unity"
     guid: e21254a9b5200e243b91049789fa79d0
   - enabled: 1
     path: "Assets/\U0001F3AC Scenes/PlayableLobby.unity"
