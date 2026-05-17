@@ -136,7 +136,11 @@ public class Movement : NetworkBehaviour, IMovement, ISprint
 
 	void Update()
 	{
-		if (!IsOwner) return;
+		if (!IsOwner)
+		{
+			Debug.Log($"{gameObject.name} does not have network ownership.\nReturning...");
+			return;
+		}
 
 		if (MovementLocked)
 		{
