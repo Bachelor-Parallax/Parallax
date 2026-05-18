@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CharacterSoundInput : NetworkBehaviour
+public class PlayerDialogueInput : NetworkBehaviour
 {
     [SerializeField] private InputActionReference soundAction;
 
@@ -19,7 +19,7 @@ public class CharacterSoundInput : NetworkBehaviour
 
         if (soundAction == null || soundAction.action == null)
         {
-            Debug.LogWarning("CharacterSoundInput: soundAction is missing.");
+            Debug.LogWarning("PlayerDialogueInput: soundAction is missing.");
             return;
         }
 
@@ -40,7 +40,7 @@ public class CharacterSoundInput : NetworkBehaviour
 
     private void OnSound(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Sound input pressed");
-        playerAudioEvents?.CharacterSound();
+        Debug.Log("PlayerDialogueInput: Sound input pressed");
+        playerAudioEvents?.Dialogue();
     }
 }

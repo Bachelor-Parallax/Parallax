@@ -66,7 +66,7 @@ public class MovingPlatform : NetworkBehaviour, IActivatable
         {
             if (player == null) continue;
 
-            Movement movement = player.GetComponent<Movement>();
+            PlayerMovement movement = player.GetComponent<PlayerMovement>();
             if (movement != null)
                 movement.MovementLocked = true;
 
@@ -86,7 +86,7 @@ public class MovingPlatform : NetworkBehaviour, IActivatable
         {
             if (passenger == null) continue;
 
-            Movement movement = passenger.GetComponent<Movement>();
+            PlayerMovement movement = passenger.GetComponent<PlayerMovement>();
             if (movement != null)
                 movement.MovementLocked = false;
 

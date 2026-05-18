@@ -2,7 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Linq;
 
-public class CharacterFade : NetworkBehaviour
+public class PlayerCamFade : NetworkBehaviour
 {
     [SerializeField] private Renderer[] renderers;
     [SerializeField] private float fadeDistance = 1.2f;

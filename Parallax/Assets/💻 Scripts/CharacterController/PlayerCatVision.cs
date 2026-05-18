@@ -1,13 +1,11 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using Unity.Cinemachine;
 
-public class CatVision : NetworkBehaviour
+public class PlayerCatVision : NetworkBehaviour
 {
     private CatVisionTarget[] visionTargets;
-    [SerializeField] private InputActionReference catVisionAction;
 
     [Header("Movement")]
     [SerializeField] private float visionMoveMultiplier = 0.35f;
@@ -24,7 +22,7 @@ public class CatVision : NetworkBehaviour
 
 
     private RoleController roleController;
-    private Movement movement;
+    private PlayerMovement movement;
 
     private CinemachineCamera cmCamera;
     private CinemachineOrbitalFollow orbitalFollow;
@@ -41,57 +39,10 @@ public class CatVision : NetworkBehaviour
     private void Awake()
     {
         roleController = GetComponent<RoleController>();
-        movement = GetComponent<Movement>();
-    }
-
-private void OnEnable()
-{
-    SceneManager.sceneLoaded += OnSceneLoaded;
-
-    if (catVisionAction != null)
-    {
-        catVisionAction.action.performed += OnVisionStarted;
-        catVisionAction.action.canceled += OnVisionCanceled;
-        catVisionAction.action.Enable();
-    }
-}
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-
-        if (catVisionAction != null)
-        {
-            catVisionAction.action.performed -= OnVisionStarted;
-            catVisionAction.action.canceled -= OnVisionCanceled;
-            catVisionAction.action.Disable();
-        }
-    }
-
-    private void OnVisionStarted(InputAction.CallbackContext context)
-    {
-        if (!IsOwner) return;
-        if (roleController == null || !roleController.IsCat) return;
-
-        SetVisionState(true);
-    }
-
-    private void OnVisionCanceled(InputAction.CallbackContext context)
-    {
-        if (!IsOwner) return;
-
-        SetVisionState(false);
+        movement = GetComponent<PlayerMovement>();
     }
 
     public override void OnNetworkSpawn()
-    {
-        if (!IsOwner) return;
-
-        CacheCameraReferences();
-        CacheVisionTargets();
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (!IsOwner) return;
 
@@ -138,7 +89,7 @@ private void OnEnable()
         hasCachedCamera = true;
     }
 
-    private void SetVisionState(bool active)
+    public void SetVisionState(bool active)
     {
         isVisionActive = active;
 

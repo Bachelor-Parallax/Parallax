@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(AudioSource))]
-public class CharacterSound : NetworkBehaviour
+public class PlayerAudioController : NetworkBehaviour
 {
 	[SerializeField] private AudioClip[] catSounds;
 	[SerializeField] private AudioClip[] humanSounds;
@@ -30,7 +30,7 @@ public class CharacterSound : NetworkBehaviour
 	{
 		if (playerAudioEvents != null)
 		{
-			playerAudioEvents.OnCharacterSound += RequestCharacterSound;
+			playerAudioEvents.OnDialogue += RequestDialogue;
 			playerAudioEvents.OnJump += RequestJumpSound;
 			playerAudioEvents.OnFootstep += RequestFootstepSound;
 		}
@@ -43,7 +43,7 @@ public class CharacterSound : NetworkBehaviour
 	{
 		if (playerAudioEvents != null)
 		{
-			playerAudioEvents.OnCharacterSound -= RequestCharacterSound;
+			playerAudioEvents.OnDialogue -= RequestDialogue;
 			playerAudioEvents.OnJump -= RequestJumpSound;
 			playerAudioEvents.OnFootstep -= RequestFootstepSound;
 		}
@@ -59,7 +59,7 @@ public class CharacterSound : NetworkBehaviour
     SceneManager.sceneLoaded -= OnSceneLoaded;
 	}
 
-	private void RequestCharacterSound()
+	private void RequestDialogue()
 	{
 		if (!IsOwner) return;
 		PlaySoundServerRpc();

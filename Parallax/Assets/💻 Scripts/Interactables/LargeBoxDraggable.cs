@@ -14,8 +14,9 @@ public class LargeBoxDraggable : MonoBehaviour, IInteractable
     private Collider boxCollider;
 
     private Transform holder;
-    private Movement holderMovement;
+    private PlayerBoxDragState holderMovement;
     private CharacterController holderController;
+    private PlayerMovementController holderPlayerMovement;
 
     private Collider[] ignoredColliders;
 
@@ -67,7 +68,7 @@ public class LargeBoxDraggable : MonoBehaviour, IInteractable
     private void Attach(GameObject interactor)
     {
         holder = interactor.transform;
-        holderMovement = interactor.GetComponent<Movement>();
+        holderMovement = interactor.GetComponent<PlayerBoxDragState>();
         holderController = interactor.GetComponent<CharacterController>();
 
         dragDirection = holder.position - transform.position;
@@ -85,7 +86,7 @@ public class LargeBoxDraggable : MonoBehaviour, IInteractable
         foreach (Collider col in ignoredColliders)
             Physics.IgnoreCollision(boxCollider, col, true);
 
-        holderMovement?.SetBoxDragMode(true);
+        holderMovement?.SetDraggingBox(true);
 
         Interactor playerInteractor = interactor.GetComponent<Interactor>();
         playerInteractor?.SetActiveInteractable(this);
@@ -101,7 +102,7 @@ public class LargeBoxDraggable : MonoBehaviour, IInteractable
                 Physics.IgnoreCollision(boxCollider, col, false);
         }
 
-        holderMovement?.SetBoxDragMode(false);
+        holderMovement?.SetDraggingBox(false);
 
         rb.linearVelocity = Vector3.zero;
 
@@ -125,7 +126,7 @@ public class LargeBoxDraggable : MonoBehaviour, IInteractable
         if (dragDirection.sqrMagnitude > 0.001f)
             dragDirection.Normalize();
 
-        Vector2 input = holderMovement.CurrentMoveInput;
+        Vector2 input = holderPlayerMovement.CurrentMoveInput;
 
         Vector3 forward = -dragDirection;
         Vector3 right = Vector3.Cross(Vector3.up, forward);

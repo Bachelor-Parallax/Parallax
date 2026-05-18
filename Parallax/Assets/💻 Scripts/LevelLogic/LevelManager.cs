@@ -137,7 +137,7 @@ public class LevelManager : MonoBehaviour
         // local helper function to position players
         void SetPlayerPosition(GameObject player, Vector3 pos)
         {
-            if (player.TryGetComponent<Movement>(out var movement))
+            if (player.TryGetComponent<PlayerMovement>(out var movement))
             {
                 movement.Teleport(pos);
                 movement.ResetVerticalVelocity();

@@ -2,7 +2,8 @@ using UnityEngine;
 
 public interface IJump
 {
-    void Jump();
+    void RequestJump();
+    void ReleaseJump();
 }
 
 public interface ISprint
@@ -17,5 +18,5 @@ public interface IBoxMover
 
 public interface IInteractor
 {
-    void Interact();
+    void Interact(IInteractable target);
 }

@@ -92,7 +92,7 @@ public class RoleController : NetworkBehaviour
             r2.enabled = r == CharacterRole.Cat;
         
         ApplyRoleSpecificPhysics(r);
-        GetComponent<Movement>().ApplyRole(r);
+        GetComponent<PlayerRoleStats>().ApplyRole(r);
     }
     
     // private void OnRoleSwap(InputAction.CallbackContext ctx)
