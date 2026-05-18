@@ -20490,6 +20490,14 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 4269592279
       objectReference: {fileID: 0}
+    - target: {fileID: 3034640113727420682, guid: d14349e69423255428fef042018faa82, type: 3}
+      propertyPath: targets.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3034640113727420682, guid: d14349e69423255428fef042018faa82, type: 3}
+      propertyPath: 'targets.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2228005765617587107}
     - target: {fileID: 4829344645383274564, guid: d14349e69423255428fef042018faa82, type: 3}
       propertyPath: m_Name
       value: DoorBlock
