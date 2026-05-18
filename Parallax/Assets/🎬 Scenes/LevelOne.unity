@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 283ea857f86a30e4fb9547c6b639686a, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 68ec58e2349c04a4c94e4640ccd5505a, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -1674,7 +1674,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.91349256, b: 0.8132075, a: 1}
   m_Intensity: 1
-  m_Range: 20
+  m_Range: 3
   m_SpotAngle: 102.7
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -1715,7 +1715,7 @@ Light:
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 0
+  m_BounceIntensity: 2
   m_ColorTemperature: 6500
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -3620,6 +3620,7 @@ GameObject:
   - component: {fileID: 404903619}
   - component: {fileID: 404903621}
   - component: {fileID: 404903620}
+  - component: {fileID: 404903622}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -3669,7 +3670,7 @@ Light:
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 0, g: 1, b: 0.9558611, a: 1}
-  m_Intensity: 1.5
+  m_Intensity: 100
   m_Range: 200
   m_SpotAngle: 19.3
   m_InnerSpotAngle: 1
@@ -3723,6 +3724,35 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &404903622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404903618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &434220204
 GameObject:
   m_ObjectHideFlags: 0
@@ -3883,7 +3913,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.91349256, b: 0.8132075, a: 1}
   m_Intensity: 1
-  m_Range: 20
+  m_Range: 3
   m_SpotAngle: 102.7
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -3924,7 +3954,7 @@ Light:
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 0
+  m_BounceIntensity: 2
   m_ColorTemperature: 6500
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -3949,7 +3979,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightActivatable
   ShowTopMostFoldoutHeaderGroup: 1
-  lights: []
+  lights:
+  - {fileID: 446189225}
   startOn: 0
 --- !u!114 &446189227
 MonoBehaviour:
@@ -3991,6 +4022,7 @@ GameObject:
   - component: {fileID: 477292194}
   - component: {fileID: 477292196}
   - component: {fileID: 477292195}
+  - component: {fileID: 477292197}
   m_Layer: 0
   m_Name: Directional Light (Secondary)
   m_TagString: Untagged
@@ -4094,6 +4126,35 @@ MonoBehaviour:
   _intensityCat: 0.4
   _lightColorHuman: {r: 0.9811321, g: 0.58775365, b: 0.58775365, a: 0}
   _intensityHuman: 0.4
+--- !u!114 &477292197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477292193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &484969341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9200,7 +9261,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
+  m_StaticShadowCaster: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -10714,7 +10775,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.91349256, b: 0.8132075, a: 1}
   m_Intensity: 1
-  m_Range: 20
+  m_Range: 3
   m_SpotAngle: 102.7
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -10755,7 +10816,7 @@ Light:
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 0
+  m_BounceIntensity: 2
   m_ColorTemperature: 6500
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -13552,6 +13613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1339696244}
   - component: {fileID: 1339696243}
+  - component: {fileID: 1339696245}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -13639,6 +13701,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1575728868}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &1339696245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339696242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &1361346150
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14885,6 +14976,7 @@ GameObject:
   - component: {fileID: 1467317898}
   - component: {fileID: 1467317900}
   - component: {fileID: 1467317899}
+  - component: {fileID: 1467317901}
   m_Layer: 0
   m_Name: Directional Light (Primary)
   m_TagString: Untagged
@@ -14988,6 +15080,35 @@ MonoBehaviour:
   _intensityCat: 0.5
   _lightColorHuman: {r: 0.9150943, g: 0.6517889, b: 0.6517889, a: 0}
   _intensityHuman: 0.5
+--- !u!114 &1467317901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467317897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1001 &1476126940
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15410,6 +15531,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1513636470}
   - component: {fileID: 1513636471}
+  - component: {fileID: 1513636472}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -15497,6 +15619,35 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &1513636472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513636469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &1513809669
 GameObject:
   m_ObjectHideFlags: 0
@@ -19294,7 +19445,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.91349256, b: 0.8132075, a: 1}
   m_Intensity: 1
-  m_Range: 20
+  m_Range: 3
   m_SpotAngle: 102.7
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -19335,7 +19486,7 @@ Light:
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 0
+  m_BounceIntensity: 2
   m_ColorTemperature: 6500
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
