@@ -2048,6 +2048,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelTile4
       objectReference: {fileID: 0}
+    - target: {fileID: 6390765247282269448, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
+      propertyPath: levelData
+      value: 
+      objectReference: {fileID: 11400000, guid: d3b2cb0bcf6e73a41a0654f4b44498d7, type: 2}
     - target: {fileID: 7443534319947677913, guid: 0db1eaca58ccba045ad70fc43d3c0cec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.15
