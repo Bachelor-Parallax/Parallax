@@ -16,4 +16,4 @@ MonoBehaviour:
   levelDescription: Fun in pipes
   sceneName: LevelTwo
   devTime: 120
-  levelImage: {fileID: 21300000, guid: 8424eadf00eedfd4282c049a872be724, type: 3}
+  levelImage: {fileID: 21300000, guid: e5211886f35418f409d0d0fdfcb2dadd, type: 3}
