@@ -19,19 +19,7 @@ public class GuidePageNavigation : MonoBehaviour
             }
         }
     }
-
-    // void OnEnable() // Re-check active page each time, when enabled. Replace Start() if this dont use, DONT DESTORY ON LOAD
-    // {
-    //     for (int i = 0; i < pages.Count; i++)
-    //     {
-    //         if (pages[i].activeSelf)
-    //         {
-    //             currentPage = i;
-    //             break;
-    //         }
-    //     }
-    // }
-
+    
     public void Next()
     {
         pages[currentPage].SetActive(false);
