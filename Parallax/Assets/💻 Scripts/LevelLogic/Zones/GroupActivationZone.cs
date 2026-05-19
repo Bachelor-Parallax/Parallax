@@ -43,6 +43,9 @@ public abstract class GroupActivationZone : BaseZone
     {
         ulong clientId = rpcParams.Receive.SenderClientId;
         _players.Add(clientId);
+        
+        if (voteText != null)
+            UpdateUIClientRpc(_players.Count);
 
         // check if countdown may start
         if (!IsServer) return;
@@ -53,8 +56,6 @@ public abstract class GroupActivationZone : BaseZone
         Debug.Log("Countdown start");
         _countdownCoroutine = StartCoroutine(StartCountdown());
         StartCountdownClientRpc(countdownSeconds);
-        if (voteText != null)
-            UpdateUIClientRpc(_players.Count);
     }
 
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
@@ -62,6 +63,9 @@ public abstract class GroupActivationZone : BaseZone
     {
         ulong clientId = rpcParams.Receive.SenderClientId;
         _players.Remove(clientId);
+        
+        if (voteText != null)
+            UpdateUIClientRpc(_players.Count);
 
         // check cancel conditions
         if (!IsServer) return;
@@ -71,8 +75,6 @@ public abstract class GroupActivationZone : BaseZone
         Debug.Log("Countdown cancel");
         StopCoroutine(_countdownCoroutine);
         _countdownCoroutine = null;
-        if (voteText != null)
-            UpdateUIClientRpc(_players.Count);
         StopCountdownClientRpc();
     }
     
