@@ -213,12 +213,6 @@ public class LobbyServiceWrapper : PersistentSingleton<LobbyServiceWrapper>
     public async Task<string> Disconnect(string playerId)
     {
         string result = "";
-        
-        if (SceneManager.GetActiveScene().name != "PlayableLobby")
-        {
-            SceneLoader.Instance.LoadGameScene("PlayableLobby");
-            return result;
-        }
 
         if (currentLobby != null)
         {
@@ -226,6 +220,11 @@ public class LobbyServiceWrapper : PersistentSingleton<LobbyServiceWrapper>
             {
                 if (NetworkManager.Singleton.IsHost)
                 {
+                    if (SceneManager.GetActiveScene().name != "PlayableLobby")
+                    {
+                        SceneLoader.Instance.LoadGameScene("PlayableLobby");
+                        return result;
+                    }
                     await LobbyService.Instance.DeleteLobbyAsync(currentLobby.Id);
                     result = "Host left - Lobby has been deleted";
                     Debug.Log(result);
