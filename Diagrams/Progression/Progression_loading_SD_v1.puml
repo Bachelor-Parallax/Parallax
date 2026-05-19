@@ -1,0 +1,54 @@
+@startuml
+
+actor Game
+
+participant "ProgressManager" as PM
+participant "File" as FILE
+participant "Decrypt()" as DEC
+participant "JsonUtility" as JSON
+participant "Dictionary" as DICT
+
+Game -> PM : Load()
+
+activate PM
+
+PM -> FILE : Exists(path)
+activate FILE
+
+alt Save file does not exist
+
+    FILE --> PM : false
+    deactivate FILE
+
+    PM -> PM : Data = new ProgressData()
+    PM -> DICT : Create new Dictionary
+
+else Save file exists
+
+    FILE --> PM : true
+
+    PM -> FILE : ReadAllText(path)
+    FILE --> PM : encrypted
+    deactivate FILE
+
+    PM -> DEC : Decrypt(encrypted)
+    activate DEC
+    DEC --> PM : json
+    deactivate DEC
+
+    PM -> JSON : FromJson<ProgressData>(json)
+    activate JSON
+    JSON --> PM : ProgressData
+    deactivate JSON
+
+    PM -> DICT : Create new Dictionary
+
+    loop foreach level in Data.levels
+        PM -> DICT : Add(level.levelName, level)
+    end
+
+end
+
+deactivate PM
+
+@enduml

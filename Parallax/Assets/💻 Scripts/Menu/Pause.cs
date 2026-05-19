@@ -25,14 +25,15 @@ public class Pause : MonoBehaviour
 
     private void OnEnable()
     {
-        pauseAction.Enable();
+        pauseAction?.Enable();
+        
         if (!NetworkManager.Singleton.IsHost)
         {
             retryButton.interactable = false;
         }
     }
 
-    private void OnDisable() => pauseAction.Disable();
+    private void OnDisable() => pauseAction?.Disable();
 
     private void OnPause(InputAction.CallbackContext context)
     {
@@ -42,6 +43,7 @@ public class Pause : MonoBehaviour
 
         if (isActive) // Makes sure that the PauseMenu is the first menu showen each time
         {
+            Cursor.lockState = CursorLockMode.None;
             Debug.Log("Pause - " + isActive);
             foreach (GameObject obj in gameObjects)
             {
@@ -50,6 +52,7 @@ public class Pause : MonoBehaviour
         }
         else
         {
+            Cursor.lockState = CursorLockMode.Locked;
             Debug.Log("Pause - " + isActive);
             pauseMenu.gameObject.SetActive(true);
         }

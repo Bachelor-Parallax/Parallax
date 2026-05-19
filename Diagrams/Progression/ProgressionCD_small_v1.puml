@@ -1,0 +1,40 @@
+@startuml
+
+class LevelProgress
+{
+    + levelName: string
+    + bestTime: float
+    + catTrophyAcquired: bool
+    + humanTrophyAcquired: bool
+    + devTimeTrophyAcquired: bool
+}
+
+class ProgressData
+{
+    + levels: List<LevelProgress>
+}
+
+class ProgressManager <<static>> {
+    - path: string
+    - levelLookup: Dictionary<string, LevelProgress>
+    + data: ProgressData
+
+    - Encrypt(string): string
+    - Decrypt(string): string
+    + Save(): void
+    + Load(): void
+    + GetLevel(string): LevelProgress
+    + RegisterLevelCompletion(string, CharacterRole, float, float): void
+}
+
+enum CharacterRole {
+    Cat
+    Human
+}
+
+ProgressManager --> ProgressData : manages
+ProgressManager --> LevelProgress : accesses
+ProgressData *-- "0..*" LevelProgress : contains
+ProgressManager ..> CharacterRole
+
+@enduml

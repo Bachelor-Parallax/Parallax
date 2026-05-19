@@ -330,7 +330,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _profile: 1
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!1 &228500198
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,7 +444,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _profile: 0
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!1 &328812925
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +558,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _profile: 0
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!1 &391275285
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,7 +677,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -745,7 +754,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _profile: 0
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!108 &463637268
 Light:
   m_ObjectHideFlags: 0
@@ -892,7 +904,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1005,7 +1017,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1259,7 +1271,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1350,7 +1362,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1569,8 +1581,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 297dfd64825e3eb438fab796962c0284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  _humanSpawnPos: {x: 5, y: 6, z: 0}
-  _catSpawnPos: {x: 0, y: 4, z: 3}
+  levelData: {fileID: 0}
+  humanSpawnPos: {fileID: 0}
+  catSpawnPos: {fileID: 0}
 --- !u!4 &883990763
 Transform:
   m_ObjectHideFlags: 0
@@ -1786,7 +1799,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2005,7 +2018,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _profile: 1
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!108 &1380701947
 Light:
   m_ObjectHideFlags: 0
@@ -2116,7 +2132,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e697dc7de210894d983f47dc20ddb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
-  _profile: 1
+  _lightColorCat: {r: 0, g: 0, b: 0, a: 0}
+  _intensityCat: 0
+  _lightColorHuman: {r: 0, g: 0, b: 0, a: 0}
+  _intensityHuman: 0
 --- !u!108 &1394188299
 Light:
   m_ObjectHideFlags: 0
@@ -2301,7 +2320,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2345,7 +2364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _profile: 0
+  _activeRole: 0
 --- !u!1 &2010012787
 GameObject:
   m_ObjectHideFlags: 0
@@ -2427,7 +2446,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
