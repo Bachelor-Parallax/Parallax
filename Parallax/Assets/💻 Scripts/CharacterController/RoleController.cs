@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public enum CharacterRole
 {
@@ -114,6 +115,11 @@ public class RoleController : NetworkBehaviour
     private void OnRoleSwap(InputAction.CallbackContext ctx)
     {
         if (!IsOwner) return;
+        
+        #if !UNITY_EDITOR
+        if (SceneManager.GetActiveScene().name != GameConstants.LOBBY_SCENE_NAME)
+            return;
+        #endif
 
         RoleController other = null;
 

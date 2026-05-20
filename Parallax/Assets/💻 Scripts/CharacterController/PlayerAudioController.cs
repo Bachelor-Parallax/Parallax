@@ -160,26 +160,26 @@ public class PlayerAudioController : NetworkBehaviour
 	
 	private void UpdateDialogueVolume(float value) // 'value' is the value from UpdateDialogueVolume event call
 	{
-		Debug.LogWarning("UpdateDialogueVolume value = " + value);
+		//Debug.LogWarning("UpdateDialogueVolume value = " + value);
 		// Debug.LogWarning("Master volume = " + SettingsManager.Instance.GetMasterVolume());
 		double volume = Math.Round(value * _settingsManager.GetMasterVolume(), 2);
-		Debug.LogWarning("UpdateDialogueVolume total = " + volume);
+		//Debug.LogWarning("UpdateDialogueVolume total = " + volume);
 		dialogueAudioSource.volume = (float)volume;
 	}
 
 	private void UpdateSFXVolume(float value) // 'value' is the value from UpdateSFXVolume event call
 	{
-		Debug.LogWarning("UpdateSFXVolume value = " + value);
+		//Debug.LogWarning("UpdateSFXVolume value = " + value);
 		double volume = Math.Round(value * _settingsManager.GetMasterVolume(), 2);
-		Debug.LogWarning("UpdateSFXVolume total = " + volume);
+		//Debug.LogWarning("UpdateSFXVolume total = " + volume);
 		sfxAudioSource.volume = (float)volume;
 	}
 	
 	private void UpdateMute(bool value)
 	{
-		Debug.LogWarning("UpdateMute" + dialogueAudioSource.mute + value);
+		//Debug.LogWarning("UpdateMute" + dialogueAudioSource.mute + value);
 		dialogueAudioSource.mute = value;
-		Debug.LogWarning("UpdateMute" + sfxAudioSource.mute + value);
+		//Debug.LogWarning("UpdateMute" + sfxAudioSource.mute + value);
 		sfxAudioSource.mute = value;
 	}
 	

@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Pause : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenuContainer;
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private List<GameObject> gameObjects;
+    [SerializeField] private Button retryButton;
     
     private InputAction pauseAction;
 
@@ -21,8 +23,17 @@ public class Pause : MonoBehaviour
         pauseAction.performed += OnPause;
     }
 
-    private void OnEnable() => pauseAction.Enable();
-    private void OnDisable() => pauseAction.Disable();
+    private void OnEnable()
+    {
+        pauseAction?.Enable();
+        
+        if (!NetworkManager.Singleton.IsHost)
+        {
+            retryButton.interactable = false;
+        }
+    }
+
+    private void OnDisable() => pauseAction?.Disable();
 
     private void OnPause(InputAction.CallbackContext context)
     {
@@ -33,7 +44,7 @@ public class Pause : MonoBehaviour
         if (isActive) // Makes sure that the PauseMenu is the first menu showen each time
         {
             Cursor.lockState = CursorLockMode.None;
-            Debug.LogWarning("Pause - " + isActive);
+            Debug.Log("Pause - " + isActive);
             foreach (GameObject obj in gameObjects)
             {
                 obj.SetActive(false);
@@ -42,7 +53,7 @@ public class Pause : MonoBehaviour
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
-            Debug.LogWarning("Pause - " + isActive);
+            Debug.Log("Pause - " + isActive);
             pauseMenu.gameObject.SetActive(true);
         }
     }

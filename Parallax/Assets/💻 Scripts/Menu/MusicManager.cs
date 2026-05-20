@@ -73,15 +73,15 @@ public class MusicManager : MonoBehaviour
     
     private void UpdateMusicVolume(float value) // 'value' is the value from UpdateMusicVolume event call
     {
-        Debug.LogWarning("UpdateMusicVolume value = " + value);
+        //Debug.Log("UpdateMusicVolume value = " + value);
         double volume = Math.Round(value * _settingsManager.GetMasterVolume(), 2);
-        Debug.LogWarning("UpdateMusicVolume total = " + volume);
+        //Debug.Log("UpdateMusicVolume total = " + volume);
         audioSource.volume = (float)volume;
     }
     
     private void UpdateMute(bool value)
     {
-        Debug.LogWarning("UpdateMute x3" + audioSource.mute + value);
+        //Debug.Log("UpdateMute x3" + audioSource.mute + value);
         audioSource.mute = value;
     }
 }
