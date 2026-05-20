@@ -34,6 +34,8 @@ public class PlayerMovementController : NetworkBehaviour
     {
         Debug.Log($"PlayerMovementController OnNetworkSpawn | IsOwner: {IsOwner} | OwnerClientId: {OwnerClientId}");
         if (!IsOwner) return;
+        
+        Cursor.visible = false;
 
         TryAssignCamera();
 
