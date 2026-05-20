@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_MatchWidthOrHeight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5519583133388493496, guid: 89e34f855754e4e4485ff4115fb31ae8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6399719339208939467, guid: 89e34f855754e4e4485ff4115fb31ae8, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -213,6 +217,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6399719339208939467, guid: 89e34f855754e4e4485ff4115fb31ae8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8958594455892354799, guid: 89e34f855754e4e4485ff4115fb31ae8, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

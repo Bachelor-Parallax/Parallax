@@ -4,10 +4,10 @@ using UnityEngine;
 public class PlayerAudioEvents : MonoBehaviour
 {
     public event Action OnJump;
-    public event Action OnCharacterSound;
+    public event Action OnDialogue;
     public event Action OnFootstep;
 
     public void Jump() => OnJump?.Invoke();
-    public void CharacterSound() => OnCharacterSound?.Invoke();
+    public void Dialogue() => OnDialogue?.Invoke();
     public void Footstep() => OnFootstep?.Invoke();
 }
