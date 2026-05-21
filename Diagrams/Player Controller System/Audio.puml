@@ -5,15 +5,33 @@ SHOW_PERSON_OUTLINE()
 
 Container_Boundary(audio, "Audio System") {
 
-    Component(footstepAudio, "PlayerFootstepAudio", "Unity Component", "Triggers footstep feedback based on movement state")
+    Component(audioEvents, "PlayerAudioEvents", "Unity Component", "Exposes shared player audio events")
 
-    Component(audioEvents, "PlayerAudioEvents", "Unity Component", "Exposes player audio events")
+    Component(audioController, "PlayerAudioController", "Unity Component", "Handles playback of gameplay audio feedback")
 
-    Component(characterSound, "CharacterSound", "Unity Component", "Handles playback of player sound effects and character audio")
+    Component(footstepAudio, "PlayerFootstepAudio", "Unity Component", "Triggers footstep audio events")
+
+    Component(jumpAbility, "PlayerJumpAbility", "Gameplay Component", "Triggers jump audio events")
+
+    Component(interactor, "Interactor", "Gameplay Component", "Triggers interaction audio events")
+
+    Component(dialogueInput, "PlayerDialogueInput", "Unity Component", "Triggers character dialogue audio events")
+
+    Component(objectSound, "ObjectSound", "Unity Component", "Handles playback of environmental and interaction sound effects")
+
 }
+    Component(settingsManager, "SettingsManager", "Manager Component", "Provides shared audio settings and volume configuration")
 
 Rel(footstepAudio, audioEvents, "Triggers footstep events")
 
-Rel(audioEvents, characterSound, "Provides audio events")
+Rel(jumpAbility, audioEvents, "Triggers jump events")
+
+Rel(interactor, audioEvents, "Triggers interaction events")
+
+Rel(dialogueInput, audioEvents, "Triggers dialogue events")
+
+Rel(audioEvents, audioController, "Provides audio events")
+
+Rel(objectSound, settingsManager, "Reads audio settings")
 
 @enduml

@@ -1,0 +1,153 @@
+@startuml InteractionSystem
+
+title Interaction System - Class Diagram
+
+package "Interaction System" {
+
+    package "Interfaces" {
+        interface IInteractable {
+            + CanInteract(GameObject interactor) : bool
+            + Interact(GameObject interactor) : void
+            + GetInteractText() : string
+        }
+
+        interface IInteractCondition {
+            + IsMet(GameObject interactor) : bool
+            + FailText : string
+        }
+
+        interface IActivatable {
+            + Activate() : void
+        }
+
+        interface IActivationState {
+            + IsActivated : bool
+        }
+    }
+
+    class Interactor {
+        - currentInteractable : IInteractable
+        - activeInteractable : IInteractable
+        - promptUI : InteractionPromptUI
+
+        + SetActiveInteractable(IInteractable) : void
+        + ClearActiveInteractable(IInteractable) : void
+    }
+
+    class InteractionPromptUI {
+        + Show(string) : void
+        + Hide() : void
+    }
+
+    abstract class ConditionalInteractable {
+        - conditions : IInteractCondition[]
+
+        + CanInteract(GameObject interactor) : bool
+        + Interact(GameObject interactor) : void
+        # OnInteract(GameObject interactor) : void
+    }
+
+    class ButtonInteractable {
+        - targets : MonoBehaviour[]
+        - requiredKey : KeyInteractable
+        - objectSound : ObjectSound
+
+        + CanInteract(GameObject interactor) : bool
+        + Interact(GameObject interactor) : void
+        + GetInteractText() : string
+    }
+
+    class KeyInteractable {
+        - isCollected : NetworkVariable<bool>
+        - objectSound : ObjectSound
+
+        + CanInteract(GameObject interactor) : bool
+        + Interact(GameObject interactor) : void
+        + GetInteractText() : string
+    }
+
+    class RotateInteractable {
+        - rotateOnlyOnce : bool
+        - hasRotated : bool
+        - objectSound : ObjectSound
+
+        + CanInteract(GameObject interactor) : bool
+        + Interact(GameObject interactor) : void
+        + Activate() : void
+        + GetInteractText() : string
+    }
+
+    class LargeBoxDraggable {
+        - isDragging : bool
+
+        + CanInteract(GameObject interactor) : bool
+        + Interact(GameObject interactor) : void
+        + GetInteractText() : string
+    }
+
+    class SmallBoxCarryable {
+        - isHeld : bool
+
+        + CanInteract(GameObject interactor) : bool
+        + Interact(GameObject interactor) : void
+        + GetInteractText() : string
+    }
+
+    class RequiresActivatedCondition {
+        - requiredObject : GameObject
+        - failText : string
+
+        + IsMet(GameObject interactor) : bool
+        + FailText : string
+    }
+
+    class ActivationPad {
+        - targets : GameObject[]
+        - playersOnPad : HashSet<GameObject>
+    }
+
+    class LightActivatable {
+        - lights : Light[]
+        + Activate() : void
+    }
+
+    class MovingPlatform {
+        - elevatorTrigger : ElevatorTrigger
+        + Activate() : void
+    }
+}
+
+Interactor --> IInteractable : detects / invokes
+Interactor --> InteractionPromptUI : updates
+
+ConditionalInteractable ..|> IInteractable
+
+ButtonInteractable ..|> IInteractable
+KeyInteractable ..|> IInteractable
+RotateInteractable ..|> IInteractable
+LargeBoxDraggable ..|> IInteractable
+SmallBoxCarryable ..|> IInteractable
+
+ButtonInteractable --> IActivatable : activates targets
+ActivationPad --> IActivatable : activates targets
+
+RotateInteractable ..|> IActivatable
+LightActivatable ..|> IActivatable
+MovingPlatform ..|> IActivatable
+
+ButtonInteractable ..|> IActivationState
+KeyInteractable ..|> IActivationState
+RotateInteractable ..|> IActivationState
+
+ButtonInteractable --> IInteractCondition : checks
+KeyInteractable --> IInteractCondition : checks
+RotateInteractable --> IInteractCondition : checks
+ConditionalInteractable --> IInteractCondition : checks
+
+RequiresActivatedCondition ..|> IInteractCondition
+RequiresActivatedCondition --> IActivationState : requires
+
+LargeBoxDraggable --> Interactor : sets active interactable
+SmallBoxCarryable --> Interactor : sets active interactable
+
+@enduml

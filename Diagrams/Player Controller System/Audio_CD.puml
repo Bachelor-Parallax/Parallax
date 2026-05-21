@@ -1,0 +1,40 @@
+@startuml AudioSystem
+
+title Audio System - Class Diagram
+
+package "Audio System" {
+
+    class PlayerAudioEvents {
+        + TriggerFootstep() : void
+        + TriggerJump() : void
+        + TriggerRoleAudio(Role) : void
+    }
+
+    class PlayerAudioController {
+        - audioSource : AudioSource
+        - footstepClips : List<AudioClip>
+        - jumpClip : AudioClip
+        - roleAudioClips : Dictionary<Role, List<AudioClip>>
+
+        + PlayFootstep() : void
+        + PlayJump() : void
+        + PlayRoleAudio(Role) : void
+    }
+
+    class PlayerFootstepAudio {
+        - audioController : PlayerAudioController
+
+        + HandleFootstep() : void
+    }
+
+    class PlayerDialogueInput {
+        + HandleDialogueInput() : void
+    }
+
+}
+
+PlayerFootstepAudio --> PlayerAudioController : triggers
+PlayerDialogueInput --> PlayerAudioEvents : invokes
+PlayerAudioEvents --> PlayerAudioController : notifies
+
+@enduml
