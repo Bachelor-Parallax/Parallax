@@ -1,0 +1,25 @@
+@startuml
+actor Player
+participant UI
+participant SettingsManager
+database PlayerPrefs
+participant EventListeners as "Other Systems / Listeners"
+
+== Change Setting ==
+
+Player -> UI : Change setting
+UI -> SettingsManager : UpdateSetting(key, value)
+
+SettingsManager -> PlayerPrefs : Save value
+SettingsManager -> EventListeners : Raise SettingChanged event
+
+
+== Next Application Launch ==
+
+Player -> SettingsManager : Application starts
+SettingsManager -> PlayerPrefs : Load saved value
+PlayerPrefs --> SettingsManager : Return saved value
+
+SettingsManager -> EventListeners : Propagate restored setting
+SettingsManager -> UI : Update UI state
+@enduml

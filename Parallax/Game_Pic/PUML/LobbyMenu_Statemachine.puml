@@ -1,0 +1,49 @@
+@startuml
+title LobbyMenu UI Flow
+
+[*] --> LobbyMenu
+
+state LobbyMenu {
+    LobbyMenu : In-game pause/lobby menu
+}
+
+state MainMenu {
+    MainMenu : Main menu screen
+}
+
+state Guide {
+    [*] --> GuidePage1
+
+    GuidePage1 --> GuidePage2 : Next
+    GuidePage2 --> GuidePage3 : Next
+    GuidePage3 --> GuidePage4 : Next
+    GuidePage4 --> GuidePage1 : Next
+
+    GuidePage1 --> GuidePage4 : Previous
+    GuidePage2 --> GuidePage1 : Previous
+    GuidePage3 --> GuidePage2 : Previous
+    GuidePage4 --> GuidePage3 : Previous
+}
+
+state SettingsMenu {
+    SettingsMenu : Audio / Controls
+}
+
+state LeaveGame {
+    LeaveGame : Return to Main Menu
+}
+
+state ResumeGame {
+    ResumeGame : Return to Gameplay Closing the Menu
+}
+
+LobbyMenu --> ResumeGame : Resume Button
+LobbyMenu --> Guide : Open Guide
+LobbyMenu --> SettingsMenu : Open Settings
+LobbyMenu --> LeaveGame : Leave Game Button
+
+Guide --> LobbyMenu : Close
+SettingsMenu --> LobbyMenu : Close
+LeaveGame --> MainMenu : Change sceen to MainMenu
+
+@enduml
