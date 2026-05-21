@@ -1,0 +1,24 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+SHOW_PERSON_OUTLINE()
+
+Container_Boundary(interaction, "Interaction System") {
+
+    Component(interactor, "Interactor", "Unity Component", "Detects and invokes interactable objects")
+
+    Component(promptUI, "InteractionPromptUI", "Unity UI", "Displays contextual interaction prompts")
+
+    Component(interactables, "Interactables", "Gameplay Components", "Buttons, keys, doors, boxes, lights and activation pads")
+}
+
+Component(roleController, "RoleController", "NetworkBehaviour", "Exposes role-specific state")
+Component(audioEvents, "PlayerAudioEvents", "Unity Component", "Exposes player audio events")
+
+Rel(roleController, interactor, "Provides role state")
+
+Rel(interactor, interactables, "Invokes interaction")
+Rel(interactor, promptUI, "Updates prompt")
+Rel(interactor, audioEvents, "Triggers audio event")
+
+@enduml

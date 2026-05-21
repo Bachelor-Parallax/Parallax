@@ -1,0 +1,29 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+SHOW_PERSON_OUTLINE()
+
+Container_Boundary(cameraVision, "Camera & Vision System") {
+
+    Component(catVision, "PlayerCatVision", "Unity Component", "Handles cat-specific vision mode")
+
+    Component(cameraBinder, "SceneCameraBinder", "Unity Component", "Binds the scene camera to the locally owned player")
+
+    Component(camFade, "PlayerCamFade", "Unity Component", "Fades player visuals when the camera is too close")
+
+    Component(cameraTarget, "CameraTarget", "Transform", "Provides the target point followed by the camera")
+
+    Component(cinemachine, "Cinemachine Camera", "Unity / Cinemachine", "Controls third-person camera behaviour")
+}
+
+Rel(cameraBinder, cameraTarget, "Finds local player target")
+Rel(cameraBinder, cinemachine, "Assigns tracking target")
+
+Rel(cinemachine, cameraTarget, "Follows target")
+Rel(camFade, cinemachine, "Uses camera distance")
+Rel(camFade, cameraTarget, "Fades visuals near camera")
+
+Rel(catVision, cinemachine, "Adjusts camera during vision mode")
+Rel(catVision, camFade, "Affects visibility feedback")
+
+@enduml

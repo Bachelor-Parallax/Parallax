@@ -1,0 +1,32 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+SHOW_PERSON_OUTLINE()
+
+'skinparam Linetype ortho
+
+
+
+Container_Boundary(movement, "Movement System") {
+    Component(movementController, "PlayerMovementController", "Unity Component", "Coordinates movement input")
+
+    Component(playerMovement, "PlayerMovement", "Unity Component", "Handles movement, sprinting, gravity and movement locking")
+
+    Component(playerRotation, "PlayerRotation", "Unity Component", "Handles player rotation based on camera and movement direction")
+
+    Component(jumpAbility, "PlayerJumpAbility", "Unity Component", "Handles role-restricted jumping")
+    }
+    Component(audioController, "PlayerAudioController", "Unity Component", "Routes player audio feedback")               
+
+
+Rel(movementController, playerMovement, "Forwards movement input")
+Rel(movementController, jumpAbility, "Jump input")
+Rel(movementController, playerRotation, "Coordinates movement direction")
+
+Rel(playerMovement, playerRotation, "Uses rotation for movement direction")
+Rel(playerMovement, audioController, "Triggers audio events")
+
+Rel(jumpAbility, playerMovement, "Uses grounded state")
+Rel(jumpAbility, audioController, "Triggers jump audio event")
+
+@enduml
