@@ -14,13 +14,14 @@ public class CatVisionTarget : MonoBehaviour
     private float currentIntensity;
     private float targetIntensity;
 
-    private void Awake()
-    {
-        if (renderers == null || renderers.Length == 0)
-            renderers = GetComponentsInChildren<Renderer>(true);
+private void Awake()
+{
+    renderers = GetComponentsInChildren<Renderer>(true);
 
-        SetVisible(false, true);
-    }
+    Debug.Log($"{name} renderers found: {renderers.Length}");
+
+    SetVisible(false, true);
+}
 
     private void Update()
     {

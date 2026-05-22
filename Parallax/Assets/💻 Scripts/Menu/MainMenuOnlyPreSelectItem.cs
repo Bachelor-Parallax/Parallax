@@ -7,6 +7,7 @@ public class MainMenuOnlyPreSelectItem : MonoBehaviour
     private void Start() // Just used for the main menu (first menu, as that does not get enabled)
     {
         EventSystem.current.SetSelectedGameObject(defaultSelected.gameObject);
+        Cursor.visible = true;
     }
     void OnEnable()
     {

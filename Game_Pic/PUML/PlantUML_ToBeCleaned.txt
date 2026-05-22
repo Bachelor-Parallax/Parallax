@@ -1,0 +1,336 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+package "UI" {
+
+    class MainMenuOnlyPreSelectItem {
+        - GameObject defaultSelected
+        + Start()
+        + OnEnable()
+    }
+
+    class PreSelectMenuItem {
+        - GameObject defaultSelected
+        + OnEnable()
+    }
+
+    class GuidePageNavigation {
+        - List~GameObject~ pages
+        - int currentPage
+        + Start()
+        + Next()
+        + Previous()
+    }
+
+    class FlipActiveState {
+        - List~GameObject~ objectsToFlip
+        + Flip()
+    }
+
+    class InGameUI {
+        + OnResumePressed()
+        + OnSettingsPressed()
+        + OnGuidePressed()
+        + OnRetryPressed()
+        + OnLeaveGamePressed()
+        - LeaveGame()
+    }
+
+    class Pause {
+        - GameObject pauseMenuContainer
+        - GameObject pauseMenu
+        - List~GameObject~ gameObjects
+        - InputAction pauseAction
+        + Resume()
+        - Awake()
+        - OnEnable()
+        - OnDisable()
+        - OnPause(context)
+    }
+
+    class QuitGame {
+        + Quit()
+    }
+
+    class SettingsUIBinderV2 {
+        + Slider masterVolumeSlider
+        + Toggle muteToggle
+        + Slider musicVolumeSlider
+        + Slider sfxVolumeSlider
+        + Slider dialogueVolumeSlider
+        + Slider sensitivitySlider
+        + Toggle confineMouseToggle
+
+        + OnEnable()
+        + OnDisable()
+
+        - SyncAll()
+
+        - UpdateVolume(value)
+        - UpdateMute(value)
+        - UpdateSensitivity(value)
+        - UpdateConfineMouse(value)
+        - UpdateMusicVolume(value)
+        - UpdateSFXVolume(value)
+        - UpdateDialogueVolume(value)
+    }
+}
+
+package "Gameplay" {
+    class Movement {
+        - float baseSpeed
+        - float sprintSpeed
+        - float gravity
+        - float jumpHeight
+
+        - AudioClip stepSound
+
+        - float strafeTurnSpeed
+        - float strafeTurnAngle
+
+        - float dragMoveSpeed
+        - float dragTurnSpeed
+        - float dragSnapSpeed
+
+        - CameraMode cameraMode
+
+        - InputActionReference moveAction
+        - InputActionReference sprintAction
+        - InputActionReference cameraRotateAction
+
+        - float fallMultiplier
+        - float lowJumpMultiplier
+
+        - AudioSource audioSource
+        - SettingsManager _settingsManager
+
+        - float stepTimer
+    }
+
+    class JumpAbility {
+        - Movement movement
+        - CharacterController controller
+
+        + bool jumpHeld
+
+        - float coyoteCounter
+        - float jumpBufferCounter
+
+        - AudioClip[] jumpSounds
+
+        - InputActionReference jumpAction
+
+        - float coyoteTime
+        - float jumpBufferTime
+
+        - AudioSource audioSource
+        - SettingsManager _settingsManager
+
+        + Awake()
+        + Start()
+        + Update()
+
+        - HandleJump(context)
+        - HandleJumpRelease(context)
+
+        - SoundSetup()
+        - OnSceneLoaded(scene, mode)
+    }
+}
+
+package "Audio" {
+
+    class MusicManager {
+        - AudioClip[] songs
+        - AudioSource audioSource
+        - SettingsManager _settingsManager
+
+        + PlayRandomSong()
+
+        - Start()
+
+        - UpdateMasterVolume(volume)
+        - UpdateMusicVolume(value)
+        - UpdateMute(value)
+    }
+
+    class CharacterSound {
+        - AudioClip[] catSounds
+        - AudioClip[] humanSounds
+
+        - InputActionReference soundAction
+
+        - AudioSource audioSource
+        - SettingsManager _settingsManager
+
+        - Start()
+        - OnEnable()
+        - OnDisable()
+
+        - OnSound(context)
+
+        - SoundSetup()
+        - OnSceneLoaded(scene, mode)
+    }
+
+    class AudioClip {
+        <<Sound File>>
+    }
+
+    class AudioSource {
+        <<Audio Player>>
+    }
+}
+
+package "Core" {
+
+    class SettingsManager {
+
+        + Instance : SettingsManager
+
+        + OnMasterVolumeChanged
+        + OnMuteChanged
+        + OnCamaraSensitivityChanged
+        + OnConfineMouseChanged
+        + OnSFXVolumeChanged
+        + OnDialogueVolumeChanged
+        + OnMusicVolumeChanged
+
+        + SetMasterVolume(sliderValue)
+        + ToggleMute()
+
+        + SetMusicVolume(sliderValue)
+        + SetSFXVolume(sliderValue)
+        + SetDialogueVolume(sliderValue)
+
+        + SetMouseSensitivity(sliderValue)
+        + ToggleConfineMouse()
+
+        + GetMasterVolume()
+        + GetMusicVolume()
+        + GetSFXVolume()
+        + GetDialogueVolume()
+
+        + GetMute()
+        + GetMouseSensitivity()
+        + GetConfineMouse()
+
+        - Awake()
+        - LoadAll()
+    }
+}
+
+package "Unity Services" {
+
+    class EventSystem {
+        <<Central Event Dispatcher>>
+    }
+
+    class Button
+    class Slider
+    class Toggle
+
+    class InputAction
+    class InputActionReference
+
+    class SceneLoader {
+        + Instance
+        + ReloadCurrentScene()
+        + LoadGameScene(sceneName)
+    }
+
+    class MultiplayerManager {
+        + Instance
+        + Disconnect()
+    }
+
+    class CharacterController
+    class GameObject
+}
+
+' =========================
+' Gameplay Relations
+' =========================
+
+JumpAbility --> Movement
+JumpAbility --> CharacterController
+
+' =========================
+' Audio Relationships
+' =========================
+
+MusicManager *-- "many" AudioClip : music tracks
+CharacterSound *-- "many" AudioClip : voice/sfx clips
+JumpAbility *-- "many" AudioClip : jump sounds
+Movement *-- AudioClip : footstep sound
+
+MusicManager --> AudioSource
+CharacterSound --> AudioSource
+JumpAbility --> AudioSource
+Movement --> AudioSource
+
+note right of AudioClip
+Represents actual sound assets:
+- Music
+- Character sounds
+- Jump sounds
+- Footsteps
+- UI sounds
+end note
+
+note right of AudioSource
+Unity component responsible for
+playing AudioClip assets.
+end note
+
+' =========================
+' Settings Relationships
+' =========================
+
+MusicManager --> SettingsManager
+CharacterSound --> SettingsManager
+Movement --> SettingsManager
+JumpAbility --> SettingsManager
+
+SettingsUIBinderV2 --> SettingsManager
+
+SettingsManager ..> SettingsUIBinderV2 : events
+SettingsManager ..> MusicManager : volume events
+SettingsManager ..> CharacterSound : volume events
+
+' =========================
+' Event System Relationships
+' =========================
+
+Button --> EventSystem : click events
+Slider --> EventSystem : value changed
+Toggle --> EventSystem : toggle changed
+
+InputAction --> EventSystem : input events
+InputActionReference --> EventSystem : routed actions
+
+EventSystem --> InGameUI
+EventSystem --> Pause
+EventSystem --> QuitGame
+EventSystem --> GuidePageNavigation
+EventSystem --> FlipActiveState
+EventSystem --> SettingsUIBinderV2
+EventSystem --> CharacterSound
+EventSystem --> Movement
+EventSystem --> JumpAbility
+
+' =========================
+' UI Relationships
+' =========================
+
+MainMenuOnlyPreSelectItem --> GameObject
+PreSelectMenuItem --> GameObject
+GuidePageNavigation --> "*" GameObject
+FlipActiveState --> "*" GameObject
+Pause --> "*" GameObject
+
+InGameUI --> SceneLoader
+InGameUI --> MultiplayerManager
+
+@enduml

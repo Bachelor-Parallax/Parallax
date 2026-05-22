@@ -109,8 +109,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -509.5, y: 89.259}
-  m_SizeDelta: {x: 700, y: 781.48}
+  m_AnchoredPosition: {x: -509.5, y: 55.423}
+  m_SizeDelta: {x: 700, y: 830}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1359066594963840321
 CanvasRenderer:
@@ -1350,8 +1350,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 550, y: -150.74}
-  m_SizeDelta: {x: 630, y: 301.4825}
+  m_AnchoredPosition: {x: 550, y: -168.0352}
+  m_SizeDelta: {x: 630, y: 336.0729}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2966827231054232098
 CanvasRenderer:
@@ -1390,7 +1390,11 @@ MonoBehaviour:
 
     Use ''S'' to move Backwards
 
-'
+
+    Hold ''Shift'' to sprint
+
+    Press
+    ''Space'' to jump'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1417,7 +1421,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.55
+  m_fontSize: 41.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1571,8 +1575,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 550, y: 79.99997}
-  m_SizeDelta: {x: 700, y: 781.48}
+  m_AnchoredPosition: {x: 550, y: 55.423}
+  m_SizeDelta: {x: 700, y: 830}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2702473288185119994
 CanvasRenderer:

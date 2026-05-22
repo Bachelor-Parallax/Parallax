@@ -1,0 +1,37 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+SHOW_PERSON_OUTLINE()
+
+Container_Boundary(audio, "Audio System") {
+
+    Component(audioEvents, "PlayerAudioEvents", "Unity Component", "Exposes shared player audio events")
+
+    Component(audioController, "PlayerAudioController", "Unity Component", "Handles playback of gameplay audio feedback")
+
+    Component(footstepAudio, "PlayerFootstepAudio", "Unity Component", "Triggers footstep audio events")
+
+    Component(jumpAbility, "PlayerJumpAbility", "Gameplay Component", "Triggers jump audio events")
+
+    Component(interactor, "Interactor", "Gameplay Component", "Triggers interaction audio events")
+
+    Component(dialogueInput, "PlayerDialogueInput", "Unity Component", "Triggers character dialogue audio events")
+
+    Component(objectSound, "ObjectSound", "Unity Component", "Handles playback of environmental and interaction sound effects")
+
+}
+    Component(settingsManager, "SettingsManager", "Manager Component", "Provides shared audio settings and volume configuration")
+
+Rel(footstepAudio, audioEvents, "Triggers footstep events")
+
+Rel(jumpAbility, audioEvents, "Triggers jump events")
+
+Rel(interactor, audioEvents, "Triggers interaction events")
+
+Rel(dialogueInput, audioEvents, "Triggers dialogue events")
+
+Rel(audioEvents, audioController, "Provides audio events")
+
+Rel(objectSound, settingsManager, "Reads audio settings")
+
+@enduml

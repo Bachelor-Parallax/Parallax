@@ -57,6 +57,8 @@ public class PlayerCatVision : NetworkBehaviour
             FindObjectsSortMode.None
         );
 
+        Debug.Log($"Cached CatVisionTargets: {visionTargets.Length}");
+
         foreach (CatVisionTarget target in visionTargets)
         {
             target.SetVisible(false, true);
@@ -91,15 +93,17 @@ public class PlayerCatVision : NetworkBehaviour
 
     public void SetVisionState(bool active)
     {
+        if (visionTargets == null || visionTargets.Length == 0)
+            CacheVisionTargets();
+
+        Debug.Log($"CatVision active: {active}, targets: {visionTargets?.Length}");
+
         isVisionActive = active;
 
-        if (visionTargets != null)
+        foreach (CatVisionTarget target in visionTargets)
         {
-            foreach (CatVisionTarget target in visionTargets)
-            {
-                if (target != null)
-                    target.SetVisible(active);
-            }
+            if (target != null)
+                target.SetVisible(active);
         }
 
         targetMoveMultiplier = active ? visionMoveMultiplier : 1f;

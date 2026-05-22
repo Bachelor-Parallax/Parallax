@@ -1,0 +1,47 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+SHOW_PERSON_OUTLINE()
+
+title Player Controller System - Component Overview
+
+Container_Boundary(pcs, "Player Controller System") {
+
+    Component(input, "Player Input", "Unity Input System", "Receives player input actions")
+    Component(role, "RoleController", "NetworkBehaviour", "Tracks player role and exposes role-specific state")
+
+    Component(movementSystem, "Movement System", "Subsystem", "Handles walking, sprinting, jumping, gravity, and rotation")
+    Component(interactionSystem, "Interaction System", "Subsystem", "Detects and performs player interactions")
+    Component(cameraVisionSystem, "Camera & Vision System", "Subsystem", "Handles camera binding, obstruction, fading, and CatVision")
+    Component(audioSystem, "Audio System", "Subsystem", "Handles footsteps, character sounds, dialogue, and gameplay audio feedback")
+
+    Component(multiplayer, "Multiplayer Synchronization", "Unity Netcode", "Synchronizes ownership, roles, and gameplay state")
+}
+
+System_Ext(gameWorld, "Game World", "Interactable objects, level geometry, puzzles, and environment")
+System_Ext(cinemachine, "Cinemachine", "Third-person camera system")
+System_Ext(audioMixer, "Unity Audio System", "Audio playback and mixing")
+
+Rel(input, movementSystem, "Provides movement, sprint, jump, and look input")
+Rel(input, interactionSystem, "Provides interaction input")
+Rel(input, cameraVisionSystem, "Provides camera and CatVision input")
+Rel(input, audioSystem, "Provides dialogue/audio input")
+
+Rel(role, movementSystem, "Controls role-specific movement and abilities")
+Rel(role, interactionSystem, "Restricts role-specific interactions")
+Rel(role, cameraVisionSystem, "Enables CatVision for Cat role")
+Rel(role, audioSystem, "Determines role-specific sounds")
+
+Rel(movementSystem, audioSystem, "Triggers footsteps and jump audio events")
+Rel(interactionSystem, audioSystem, "Triggers interaction feedback")
+Rel(cameraVisionSystem, movementSystem, "Can modify movement during CatVision")
+
+Rel(interactionSystem, gameWorld, "Detects and interacts with objects")
+Rel(cameraVisionSystem, cinemachine, "Binds and controls camera behavior")
+Rel(audioSystem, audioMixer, "Plays audio feedback")
+
+Rel(multiplayer, role, "Synchronizes assigned roles")
+Rel(multiplayer, interactionSystem, "Synchronizes interaction state")
+Rel(multiplayer, gameWorld, "Synchronizes gameplay object state")
+
+@enduml
