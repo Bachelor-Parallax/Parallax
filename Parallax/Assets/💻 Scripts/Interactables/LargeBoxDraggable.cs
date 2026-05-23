@@ -70,6 +70,7 @@ public class LargeBoxDraggable : MonoBehaviour, IInteractable
         holder = interactor.transform;
         holderMovement = interactor.GetComponent<PlayerBoxDragState>();
         holderController = interactor.GetComponent<CharacterController>();
+        holderPlayerMovement = interactor.GetComponent<PlayerMovementController>();
 
         dragDirection = holder.position - transform.position;
         dragDirection.y = 0f;
