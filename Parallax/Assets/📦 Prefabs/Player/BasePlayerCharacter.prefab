@@ -241,8 +241,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4549787756952647920}
   - {fileID: 731248094239749591}
+  - {fileID: 4549787756952647920}
   m_Father: {fileID: 394539271386624076}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1021,7 +1021,7 @@ GameObject:
   - component: {fileID: 8734357818108745492}
   - component: {fileID: 6105162496441581830}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: GameTimer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
