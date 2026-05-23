@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -83,5 +82,4 @@ public class Pause : MonoBehaviour
         SceneLoader.Instance.ReloadCurrentScene();
         Cursor.visible = false;
     }
-    
 }

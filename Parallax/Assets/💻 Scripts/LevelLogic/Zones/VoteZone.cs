@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class VoteZoneTrigger : GroupActivationZone
 {
     private LevelData _levelData;
