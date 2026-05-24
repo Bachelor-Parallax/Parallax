@@ -37,9 +37,8 @@ public class LightActivatable : NetworkBehaviour, IActivatable
     {
         if (!IsServer) return;
 
-        isOn.Value = true;
+        isOn.Value = !isOn.Value;
     }
-
     private void OnLightStateChanged(bool oldValue, bool newValue)
     {
         ApplyLightState(newValue);
