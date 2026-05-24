@@ -4475,9 +4475,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsymmetricalLight
   _lightColorCat: {r: 0.70354223, g: 0.90271485, b: 0.9622642, a: 0}
-  _intensityCat: 0.4
+  _intensityCat: 0.5
   _lightColorHuman: {r: 0.9811321, g: 0.58775365, b: 0.58775365, a: 0}
-  _intensityHuman: 0.1
+  _intensityHuman: 0.01
 --- !u!114 &477292197
 MonoBehaviour:
   m_ObjectHideFlags: 0
