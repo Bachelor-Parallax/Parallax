@@ -48,7 +48,7 @@ public class MusicManager : MonoBehaviour
         audioSource.clip = clip;
         audioSource.Play();
 
-        // Invoke(nameof(PlayRandomSong), clip.length); // Free from pooling (no constant checking)
+        Invoke(nameof(PlayRandomSong), clip.length);
     }
 
     public void TogglePause()

@@ -1,72 +1,45 @@
-@startuml
+@startuml PCS_HighLevel_Component
+
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-SHOW_PERSON_OUTLINE()
-
-title [Component] Player Controller System
+title Player Controller System - High-Level Component Diagram
 
 Container_Boundary(pcs, "Player Controller System") {
 
-    Component(roleController, "RoleController", "NetworkBehaviour", "Assigns player roles and exposes role-specific state")
+    Component(input, "Input Handling", "Unity Input System", "Reads player input and forwards actions to gameplay systems")
 
-    Component(movementController, "PlayerMovementController", "Unity Component", "Coordinates movement input and forwards it to movement-related systems")
+    Component(movement, "Movement System", "Unity Component", "Handles movement, sprinting, jumping, gravity, and movement states")
 
-    Component(playerMovement, "PlayerMovement", "Unity Component", "Handles movement, sprinting, gravity, rotation and movement locking")
+    Component(interaction, "Interaction System", "Unity Component", "Detects and invokes interactable objects in the environment")
 
-    Component(jumpAbility, "PlayerJumpAbility", "Unity Component", "Handles jump input and role-restricted jumping behaviour")
+    Component(camera, "Camera & Vision System", "Cinemachine / Unity Component", "Binds camera to the local player and handles camera-related behaviour")
 
-    Component(catVisionInput, "PlayerCatVisionInput", "Unity Component", "Receives CatVision input from the local player")
+    Component(abilities, "Ability System", "Unity Component", "Handles role-specific abilities such as Cat Vision")
 
-    Component(catVision, "PlayerCatVision", "Unity Component", "Handles cat-specific vision mode, highlighting, movement slow and camera adjustments")
+    Component(audio, "Audio Feedback System", "Unity Component", "Plays footsteps, jumps, dialogue, and interaction feedback")
 
-    Component(interactor, "Interactor", "Unity Component", "Detects nearby interactable objects and invokes interaction logic")
+    Component(role, "Role Handling", "NetworkBehaviour", "Assigns and exposes player role state such as Human or Cat")
 
-    Component(promptUI, "InteractionPromptUI", "Unity UI", "Displays contextual interaction prompts")
+    Component(visual, "Visual Feedback System", "Unity Component", "Handles model visibility, fading, and role-based visual feedback")
 
-    Component(audioEvents, "PlayerAudioEvents", "Unity Component", "Exposes player audio events such as jump, footsteps and character sounds")
-
-    Component(audioController, "PlayerAudioController", "Unity Component", "Routes player audio events to the correct audio sources")
-
-    Component(footstepAudio, "PlayerFootstepAudio", "Unity Component", "Triggers footstep feedback based on movement state")
-
-    Component(rotation, "PlayerRotation", "Unity Component", "Handles player rotation based on movement and camera direction")
-
-    Component(cameraBinder, "SceneCameraBinder", "Unity Component", "Binds the scene camera to the locally owned player object")
-
-    Component(camFade, "PlayerCamFade", "Unity Component", "Fades player visuals when the camera is too close")
-
-    Component(interactables, "Interactables", "Gameplay Components", "Buttons, keys, doors, boxes, rotating objects, lights and activation pads")
+    Component(network, "Multiplayer Synchronization", "Unity Netcode", "Synchronizes player state and role-specific behaviour across clients")
 }
 
-Rel(roleController, playerMovement, "Applies role-specific movement values")
-Rel(roleController, jumpAbility, "Enables or restricts role-specific jumping")
-Rel(roleController, catVision, "Enables cat-specific ability")
-Rel(roleController, interactor, "Supports role-based interaction checks")
-Rel(roleController, audioController, "Provides current role for sound selection")
+Rel(input, movement, "Triggers movement actions")
+Rel(input, interaction, "Triggers interaction input")
+Rel(input, abilities, "Triggers ability input")
 
-Rel(movementController, playerMovement, "Forwards movement and sprint input")
-Rel(movementController, jumpAbility, "Forwards jump input")
-Rel(movementController, rotation, "Coordinates movement-facing direction")
+Rel(role, abilities, "Determines available abilities")
+Rel(role, visual, "Controls role-based visuals")
+Rel(role, interaction, "Restricts role-specific interactions")
 
-Rel(playerMovement, rotation, "Uses rotation for movement direction")
-Rel(playerMovement, footstepAudio, "Provides movement state for footsteps")
-Rel(playerMovement, audioEvents, "Triggers movement-related audio events")
+Rel(movement, audio, "Raises movement feedback events")
+Rel(interaction, audio, "Raises interaction feedback events")
+Rel(abilities, visual, "Updates ability visual effects")
 
-Rel(jumpAbility, playerMovement, "Uses grounded state and vertical velocity")
-Rel(jumpAbility, audioEvents, "Triggers jump audio event")
-
-Rel(catVisionInput, catVision, "Toggles vision mode")
-Rel(catVision, playerMovement, "Applies movement slow during vision mode")
-Rel(catVision, cameraBinder, "Modifies camera behaviour during vision mode")
-Rel(catVision, interactables, "Highlights vision targets")
-
-Rel(interactor, interactables, "Detects and interacts with")
-Rel(interactor, promptUI, "Updates interaction prompt")
-
-Rel(footstepAudio, audioEvents, "Triggers footstep audio events")
-Rel(audioEvents, audioController, "Notifies audio controller")
-Rel(audioController, characterSound, "Selects and plays role-based sounds")
-
-Rel(cameraBinder, camFade, "Supports local camera visibility handling")
+Rel(camera, movement, "Supports camera-relative movement")
+Rel(network, role, "Synchronizes role state")
+Rel(network, movement, "Synchronizes player transform/state")
+Rel(network, interaction, "Synchronizes interaction results")
 
 @enduml
