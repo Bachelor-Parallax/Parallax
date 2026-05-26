@@ -8729,7 +8729,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   moveOffset: {x: 0, y: 14, z: 0}
   speed: 2
-  elevatorTrigger: {fileID: 0}
+  elevatorTrigger: {fileID: 37559926}
 --- !u!4 &1327793060 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 49359795023082427, guid: 5ce7d41224f3d3d47a0740f29f0061b3, type: 3}
