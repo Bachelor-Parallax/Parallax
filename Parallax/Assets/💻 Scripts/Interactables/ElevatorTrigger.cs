@@ -7,8 +7,6 @@ public class ElevatorTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger hit: " + other.name);
-
         CharacterController controller =
             other.GetComponentInParent<CharacterController>();
 
@@ -25,21 +23,26 @@ public class ElevatorTrigger : MonoBehaviour
             PlayersOnElevator.Add(player);
             Debug.Log("Player entered elevator: " + player.name);
         }
+
+        Debug.Log("Players on elevator: " + PlayersOnElevator.Count);
     }
 
     private void OnTriggerExit(Collider other)
     {
         CharacterController controller =
-            other.GetComponent<CharacterController>();
-
-        if (controller == null)
-            controller = other.GetComponentInParent<CharacterController>();
+            other.GetComponentInParent<CharacterController>();
 
         if (controller == null)
             return;
 
-        PlayersOnElevator.Remove(controller.transform);
+        Transform player = controller.transform;
 
-        Debug.Log("Player left elevator");
+        if (PlayersOnElevator.Contains(player))
+        {
+            PlayersOnElevator.Remove(player);
+            Debug.Log("Player left elevator: " + player.name);
+        }
+
+        Debug.Log("Players on elevator: " + PlayersOnElevator.Count);
     }
 }
