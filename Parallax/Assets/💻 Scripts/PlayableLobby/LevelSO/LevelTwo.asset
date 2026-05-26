@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa3ed207db9d3a94ca081e7de642dc98, type: 3}
   m_Name: LevelTwo
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
-  levelName: Playground
+  levelName: 'Lvl 2: Playground'
   levelDescription: Fun in pipes
   sceneName: LevelTwo
   devTime: 120
