@@ -1,0 +1,33 @@
+@startuml MovementSystem
+
+title Movement System - Class Diagram
+
+package "Movement System" {
+
+    interface IMovement {
+        + Move(Vector2 input) : void
+        + SetVerticalVelocity(float velocity) : void
+    }
+
+    class PlayerMovement {
+        - controller : CharacterController
+        - moveSpeed : float
+        - sprintSpeed : float
+        - gravity : float
+        - jumpHeight : float
+        - verticalVelocity : float
+        - movementInput : Vector2
+        - isSprinting : bool
+
+        + Move(Vector2 input) : void
+        + SetVerticalVelocity(float velocity) : void
+        + SetSprinting(bool sprinting) : void
+    }
+
+    class CharacterController
+}
+
+PlayerMovement ..|> IMovement
+PlayerMovement --> CharacterController : uses
+
+@enduml

@@ -5,36 +5,73 @@ title Audio System - Class Diagram
 package "Audio System" {
 
     class PlayerAudioEvents {
-        + TriggerFootstep() : void
-        + TriggerJump() : void
-        + TriggerRoleAudio(Role) : void
+        + OnJump : event Action
+        + OnDialogue : event Action
+        + OnFootstep : event Action
+
+        + Jump() : void
+        + Dialogue() : void
+        + Footstep() : void
     }
 
     class PlayerAudioController {
-        - audioSource : AudioSource
-        - footstepClips : List<AudioClip>
-        - jumpClip : AudioClip
-        - roleAudioClips : Dictionary<Role, List<AudioClip>>
+        - catSounds : AudioClip[]
+        - humanSounds : AudioClip[]
+        - jumpSounds : AudioClip[]
+        - footstepSounds : AudioClip[]
+        - dialogueAudioSource : AudioSource
+        - sfxAudioSource : AudioSource
+        - playerAudioEvents : PlayerAudioEvents
+        - _settingsManager : SettingsManager
 
-        + PlayFootstep() : void
-        + PlayJump() : void
-        + PlayRoleAudio(Role) : void
+        - RequestDialogue() : void
+        - RequestJumpSound() : void
+        - RequestFootstepSound() : void
+
+        - PlaySoundServerRpc() : void
+        - PlaySoundClientRpc() : void
+        - PlayJumpServerRpc() : void
+        - PlayJumpClientRpc() : void
+        - PlayFootstepServerRpc() : void
+        - PlayFootstepClientRpc() : void
+
+        - SoundSetup() : void
+        - UpdateMasterVolume(float) : void
+        - UpdateDialogueVolume(float) : void
+        - UpdateSFXVolume(float) : void
+        - UpdateMute(bool) : void
     }
 
     class PlayerFootstepAudio {
-        - audioController : PlayerAudioController
+        - walkStepInterval : float
+        - sprintStepInterval : float
+        - sprintSpeed : float
+        - controller : CharacterController
+        - playerAudioEvents : PlayerAudioEvents
+        - movement : PlayerMovement
+        - stepTimer : float
 
-        + HandleFootstep() : void
+        - HandleFootsteps() : void
     }
 
     class PlayerDialogueInput {
-        + HandleDialogueInput() : void
+        - soundAction : InputActionReference
+        - playerAudioEvents : PlayerAudioEvents
+
+        - OnSound(InputAction.CallbackContext) : void
     }
 
+    class SettingsManager
+    class RoleController
+    class PlayerMovement
 }
 
-PlayerFootstepAudio --> PlayerAudioController : triggers
-PlayerDialogueInput --> PlayerAudioEvents : invokes
-PlayerAudioEvents --> PlayerAudioController : notifies
+PlayerDialogueInput --> PlayerAudioEvents : invokes Dialogue()
+PlayerFootstepAudio --> PlayerAudioEvents : invokes Footstep()
+
+PlayerAudioController --> PlayerAudioEvents : subscribes to events
+PlayerAudioController --> SettingsManager : reads volume settings
+PlayerAudioController --> RoleController : checks player role
+PlayerFootstepAudio --> PlayerMovement : references movement
 
 @enduml
