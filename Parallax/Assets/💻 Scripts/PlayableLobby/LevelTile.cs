@@ -30,8 +30,8 @@ public class LevelTile : MonoBehaviour
 
         LevelProgress progress = ProgressManager.GetLevel(levelData.levelName);
         
-        bestTimeText.text = FormatTime(progress.bestTime);
-        devTimeText.text = FormatTime(levelData.devTime);
+        bestTimeText.text = "Best Time: " + FormatTime(progress.bestTime);
+        devTimeText.text = "Trial Time: " + FormatTime(levelData.devTime);
         
         image.sprite = levelData.levelImage;
         
