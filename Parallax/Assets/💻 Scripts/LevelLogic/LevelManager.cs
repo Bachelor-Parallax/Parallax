@@ -69,7 +69,7 @@ public class LevelManager : NetworkBehaviour
     /// <summary>
     /// Saves level data and loads the lobby
     /// </summary>
-    [ClientRpc]
+    [Rpc(SendTo.ClientsAndHost, InvokePermission = RpcInvokePermission.Server)]
     public void CompleteLevel()
     {
         _stopWatch.Stop();
