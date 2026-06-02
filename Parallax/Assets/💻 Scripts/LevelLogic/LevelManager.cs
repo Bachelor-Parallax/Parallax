@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Unity.Netcode;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : NetworkBehaviour
 {
     #region Inspector Values
 
