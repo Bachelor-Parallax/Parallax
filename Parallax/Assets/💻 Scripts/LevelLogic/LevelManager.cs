@@ -70,7 +70,7 @@ public class LevelManager : NetworkBehaviour
     /// Saves level data and loads the lobby
     /// </summary>
     [Rpc(SendTo.ClientsAndHost, InvokePermission = RpcInvokePermission.Server)]
-    public void CompleteLevel()
+    public void CompleteLevelRpc()
     {
         _stopWatch.Stop();
         ProgressManager.RegisterLevelCompletion(
