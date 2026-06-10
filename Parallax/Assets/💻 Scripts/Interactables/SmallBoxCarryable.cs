@@ -1,8 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class SmallBoxCarryable : MonoBehaviour, IInteractable
+public class SmallBoxCarryable : NetworkBehaviour, IInteractable
 {
     [Header("Carry")]
     [SerializeField] private Vector3 holdOffset = new Vector3(0f, 0f, 0f);
@@ -29,6 +30,15 @@ public class SmallBoxCarryable : MonoBehaviour, IInteractable
             return;
 
         Vector3 target = holdPoint.position + holdOffset;
+
+        HandleSmallBoxPositionRpc(target);
+    }
+    
+    
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void HandleSmallBoxPositionRpc(Vector3 target)
+    {
+        Debug.Log($"SERVER RPC: {transform.position}");
         
         transform.position = target;
         transform.rotation = holdPoint.rotation;
