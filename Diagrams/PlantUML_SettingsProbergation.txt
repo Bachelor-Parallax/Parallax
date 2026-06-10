@@ -1,0 +1,35 @@
+@startuml
+title Settings Propagation (Publisher-Subscriber)
+
+actor Player
+participant UI
+participant SettingsManager
+database PlayerPrefs
+
+participant AudioManager
+participant MouseManager
+participant SettingsUIBinderV2
+
+Player -> UI : Change setting
+
+UI -> SettingsManager : SetSetting(...)
+
+activate SettingsManager
+
+SettingsManager -> PlayerPrefs : Save value
+PlayerPrefs --> SettingsManager : Saved
+
+group Publish Events
+    SettingsManager -> AudioManager : OnMusicVolumeChanged(...)
+    SettingsManager -> AudioManager : OnSFXVolumeChanged(...)
+    SettingsManager -> MouseManager : OnCamaraSensitivityChanged(...)
+    SettingsManager -> MouseManager : OnConfineMouseChanged(...)
+    SettingsManager -> SettingsUIBinderV2 : On...Changed(...)
+end
+
+deactivate SettingsManager
+
+AudioManager -> AudioManager : Apply audio settings
+MouseManager -> MouseManager : Apply mouse settings
+SettingsUIBinderV2 -> SettingsUIBinderV2 : Refresh UI
+@enduml
