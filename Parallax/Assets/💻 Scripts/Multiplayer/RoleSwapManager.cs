@@ -15,18 +15,21 @@ public class RoleSwapManager : NetworkBehaviour
         if (playerA == null)
             return;
         Debug.Log("Swap Requested");
-        int playerCount = NetworkManager.Singleton.ConnectedClients.Count;
-
-        if (playerCount == 1)
-        {
-            Debug.Log("One player on server");
-            if (IsServer)
-                ToggleRole(playerA);
-            else
-                ToggleRoleServerRpc(playerA.NetworkObjectId);
-
-            return;
-        }
+        
+// #if UNITY_EDITOR
+//         int playerCount = NetworkManager.Singleton.ConnectedClients.Count;
+//
+//         if (playerCount == 1)
+//         {
+//             Debug.Log("One player on server");
+//             if (IsServer)
+//                 ToggleRole(playerA);
+//             else
+//                 ToggleRoleServerRpc(playerA.NetworkObjectId);
+//
+//             return;
+//         }
+// #endif
 
         if (playerB == null)
             return;
