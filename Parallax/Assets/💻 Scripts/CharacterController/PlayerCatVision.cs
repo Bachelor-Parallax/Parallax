@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 using Unity.Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class PlayerCatVision : NetworkBehaviour
 {
@@ -39,6 +40,7 @@ public class PlayerCatVision : NetworkBehaviour
     {
         roleController = GetComponent<RoleController>();
         movement = GetComponent<PlayerMovement>();
+
     }
 
     public override void OnNetworkSpawn()
@@ -46,7 +48,8 @@ public class PlayerCatVision : NetworkBehaviour
         if (!IsOwner) return;
 
         CacheCameraReferences();
-        CacheVisionTargets();
+        // CacheVisionTargets();
+        
     }
 
     private void CacheVisionTargets()
@@ -128,6 +131,25 @@ public class PlayerCatVision : NetworkBehaviour
         orbits.Center.Radius = Mathf.Max(0.5f, baseCenterRadius - currentZoom);
         orbits.Bottom.Radius = Mathf.Max(0.5f, baseBottomRadius - currentZoom);
         orbitalFollow.Orbits = orbits;
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"Scene loaded: {scene.name}");
+
+        CacheVisionTargets();
+
+        Debug.Log($"After reload found {visionTargets.Length} targets");
     }
 
     private void Update()
