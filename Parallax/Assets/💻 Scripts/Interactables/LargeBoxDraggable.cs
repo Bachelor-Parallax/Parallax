@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -134,6 +135,12 @@ public class LargeBoxDraggable : MonoBehaviour, IInteractable
 
         Vector3 moveDir = (forward * input.y + right * input.x).normalized;
 
+        HandleBoxVelocityRpc(moveDir);
+    }
+
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    private void HandleBoxVelocityRpc(Vector3 moveDir)
+    {
         rb.linearVelocity = new Vector3(
             moveDir.x * dragMoveSpeed,
             rb.linearVelocity.y,
