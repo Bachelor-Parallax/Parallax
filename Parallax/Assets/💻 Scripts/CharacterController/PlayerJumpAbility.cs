@@ -12,6 +12,9 @@ public class PlayerJumpAbility : MonoBehaviour, IJump
     [SerializeField] private float coyoteTime = 0.15f;
     [SerializeField] private float jumpBufferTime = 0.15f;
 
+    [Header("Variable Jump")]
+    [SerializeField] private float jumpCutMultiplier = 0.5f;
+
     private PlayerMovement movement;
     private CharacterController controller;
     private PlayerAudioEvents playerAudioEvents;
@@ -53,6 +56,13 @@ public class PlayerJumpAbility : MonoBehaviour, IJump
     public void ReleaseJump()
     {
         JumpHeld = false;
+
+        if (!movement.IsOwner) return;
+
+        if (movement.VerticalVelocity > 0f)
+        {
+            movement.SetVerticalVelocity(movement.VerticalVelocity * jumpCutMultiplier);
+        }
     }
 
     private void UpdateCoyoteTime()

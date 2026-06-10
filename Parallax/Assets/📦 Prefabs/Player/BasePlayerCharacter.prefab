@@ -811,8 +811,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::JumpAbility
   jumpHeight: 2
   gravity: -9.81
-  coyoteTime: 0.15
-  jumpBufferTime: 0.15
+  coyoteTime: 0.8
+  jumpBufferTime: 0.8
 --- !u!114 &-6443368751576764120
 MonoBehaviour:
   m_ObjectHideFlags: 0

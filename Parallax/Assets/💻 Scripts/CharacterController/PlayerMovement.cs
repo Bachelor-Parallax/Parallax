@@ -15,6 +15,8 @@ public class PlayerMovement : NetworkBehaviour, IMovement, ISprint
     public float SpeedMultiplier { get; set; } = 1f;
     public bool MovementLocked { get; set; }
 
+    public float VerticalVelocity => verticalVelocity;
+
     public bool IsGrounded => controller != null && controller.isGrounded;
 
     private void Awake()
