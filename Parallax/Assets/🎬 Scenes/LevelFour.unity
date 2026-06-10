@@ -1289,13 +1289,11 @@ PrefabInstance:
       propertyPath: _activeRoles
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6541423994151782506, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 80306891}
     - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 80306890}
@@ -1323,19 +1321,6 @@ MonoBehaviour:
   visibleIntensity: 2
   fadeSpeed: 5
   hideWhenInactive: 1
---- !u!114 &80306891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 80306889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _activeRole: 0
 --- !u!4 &80306892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2594812251875268612, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
@@ -1802,13 +1787,11 @@ PrefabInstance:
       propertyPath: _activeRoles
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6541423994151782506, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 165232447}
     - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 165232446}
@@ -1836,19 +1819,6 @@ MonoBehaviour:
   visibleIntensity: 2
   fadeSpeed: 5
   hideWhenInactive: 1
---- !u!114 &165232447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165232445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _activeRole: 0
 --- !u!4 &165232448 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2594812251875268612, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
@@ -5090,13 +5060,11 @@ PrefabInstance:
       propertyPath: _activeRoles
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6541423994151782506, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 471979872}
     - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 471979871}
@@ -5124,19 +5092,6 @@ MonoBehaviour:
   visibleIntensity: 2
   fadeSpeed: 5
   hideWhenInactive: 1
---- !u!114 &471979872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 471979870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _activeRole: 0
 --- !u!4 &471979873 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2594812251875268612, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
@@ -5226,13 +5181,11 @@ PrefabInstance:
       propertyPath: _activeRoles
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6541423994151782506, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 476487128}
     - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 476487127}
@@ -5260,19 +5213,6 @@ MonoBehaviour:
   visibleIntensity: 2
   fadeSpeed: 5
   hideWhenInactive: 1
---- !u!114 &476487128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476487126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _activeRole: 0
 --- !u!4 &476487129 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2594812251875268612, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
@@ -6021,13 +5961,11 @@ PrefabInstance:
       propertyPath: _activeRoles
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6541423994151782506, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 513316413}
     - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 513316412}
@@ -6055,19 +5993,6 @@ MonoBehaviour:
   visibleIntensity: 2
   fadeSpeed: 5
   hideWhenInactive: 1
---- !u!114 &513316413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 513316411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _activeRole: 0
 --- !u!4 &513316414 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2594812251875268612, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
@@ -8592,13 +8517,11 @@ PrefabInstance:
       propertyPath: _activeRoles
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6541423994151782506, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 671812002}
     - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 671812003}
@@ -8608,19 +8531,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
   m_PrefabInstance: {fileID: 671812000}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &671812002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 671812001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _activeRole: 0
 --- !u!114 &671812003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9756,13 +9666,11 @@ PrefabInstance:
       propertyPath: _activeRoles
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6541423994151782506, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 762848090}
     - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 762848089}
@@ -9795,19 +9703,6 @@ MonoBehaviour:
   visibleIntensity: 2
   fadeSpeed: 5
   hideWhenInactive: 1
---- !u!114 &762848090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 762848088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _activeRole: 0
 --- !u!1 &766172550
 GameObject:
   m_ObjectHideFlags: 0
@@ -14051,13 +13946,11 @@ PrefabInstance:
       propertyPath: _activeRoles
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6541423994151782506, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1180762302}
     - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1180762301}
@@ -14085,19 +13978,6 @@ MonoBehaviour:
   visibleIntensity: 2
   fadeSpeed: 5
   hideWhenInactive: 1
---- !u!114 &1180762302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1180762300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _activeRole: 0
 --- !u!4 &1180762303 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2594812251875268612, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
@@ -15754,13 +15634,11 @@ PrefabInstance:
       propertyPath: _activeRoles
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6541423994151782506, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1256886263}
     - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1256886262}
@@ -15788,19 +15666,6 @@ MonoBehaviour:
   visibleIntensity: 2
   fadeSpeed: 5
   hideWhenInactive: 1
---- !u!114 &1256886263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1256886261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _activeRole: 0
 --- !u!4 &1256886264 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2594812251875268612, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
@@ -18178,13 +18043,11 @@ PrefabInstance:
       propertyPath: _activeRoles
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6541423994151782506, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1532288516}
     - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1532288515}
@@ -18212,19 +18075,6 @@ MonoBehaviour:
   visibleIntensity: 2
   fadeSpeed: 5
   hideWhenInactive: 1
---- !u!114 &1532288516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1532288514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _activeRole: 0
 --- !u!4 &1532288517 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2594812251875268612, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
@@ -18990,13 +18840,11 @@ PrefabInstance:
       propertyPath: _activeRoles
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6541423994151782506, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1612166310}
     - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1612166309}
@@ -19024,19 +18872,6 @@ MonoBehaviour:
   visibleIntensity: 2
   fadeSpeed: 5
   hideWhenInactive: 1
---- !u!114 &1612166310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612166308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _activeRole: 0
 --- !u!4 &1612166311 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2594812251875268612, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
@@ -21726,13 +21561,11 @@ PrefabInstance:
       propertyPath: _activeRoles
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6541423994151782506, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1886985039}
     - targetCorrespondingSourceObject: {fileID: 281097901688489460, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1886985038}
@@ -21760,19 +21593,6 @@ MonoBehaviour:
   visibleIntensity: 2
   fadeSpeed: 5
   hideWhenInactive: 1
---- !u!114 &1886985039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1886985037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ff1087b5fc8dba4da366936be54110a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AsymVisibility
-  _activeRole: 0
 --- !u!4 &1886985040 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2594812251875268612, guid: 1d5721153900cc34087fb27ce14527da, type: 3}
