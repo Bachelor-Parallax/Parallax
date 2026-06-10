@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class LargeBoxDraggable : MonoBehaviour, IInteractable
+public class LargeBoxDraggable : NetworkBehaviour, IInteractable
 {
     [Header("Drag")]
     [SerializeField] private float dragDistance = 1.2f;
@@ -141,6 +141,8 @@ public class LargeBoxDraggable : MonoBehaviour, IInteractable
     [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
     private void HandleBoxVelocityRpc(Vector3 moveDir)
     {
+        Debug.Log($"SERVER RPC: {moveDir}");
+        
         rb.linearVelocity = new Vector3(
             moveDir.x * dragMoveSpeed,
             rb.linearVelocity.y,
