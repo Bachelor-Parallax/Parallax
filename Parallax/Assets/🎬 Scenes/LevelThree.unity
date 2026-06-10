@@ -2042,8 +2042,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 177112080}
-  - component: {fileID: 177112079}
   - component: {fileID: 177112078}
+  - component: {fileID: 177112079}
   - component: {fileID: 177112077}
   - component: {fileID: 177112076}
   - component: {fileID: 177112075}
@@ -14239,7 +14239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonInteractable
   ShowTopMostFoldoutHeaderGroup: 1
   targets:
-  - {fileID: 177112079}
+  - {fileID: 177112078}
   requiredKey: {fileID: 1680994970}
   buttonSound: {fileID: 8300000, guid: cd45b2248694b67498097b5a730967b9, type: 3}
   objectSound: {fileID: 1307317637}
