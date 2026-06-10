@@ -9,7 +9,7 @@ public class LevelManager : NetworkBehaviour
 
     [Header("Level Data")]
     [SerializeField] private LevelData levelData;
-    
+
     [Header("Spawn Positions")]
     [SerializeField] private GameObject humanSpawnPos;
 
@@ -61,7 +61,8 @@ public class LevelManager : NetworkBehaviour
     /// Reloads the current scene, causing a complete reset of the level.
     /// Player's will be repositioned as the level manager re-runs the setup in start
     /// </summary>
-    public void RestartLevel()
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    public void RestartLevelRPC()
     {
         SceneLoader.Instance.ReloadCurrentScene();
     }
@@ -81,13 +82,14 @@ public class LevelManager : NetworkBehaviour
         );
 
         // TODO: Move this to GUI, open said GUI here
-        ExitLevel();
+        ExitLevelRPC();
     }
 
     /// <summary>
     /// Exits the level by loading the lobby scene
     /// </summary>
-    public void ExitLevel()
+    [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+    public void ExitLevelRPC()
     {
         SceneLoader.Instance.LoadGameScene(GameConstants.LOBBY_SCENE_NAME);
     }

@@ -30,7 +30,7 @@ public class KillZone : BaseZone
             {
                 // TODO: display GUI for all players with cause of death, and prompt to restart or quit
                 GetComponent<Collider>().enabled = false;
-                LevelManager.Instance.RestartLevel();
+                LevelManager.Instance.RestartLevelRPC();
             }
         }
     }
